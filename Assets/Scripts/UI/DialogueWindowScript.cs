@@ -52,7 +52,6 @@ public class DialogueWindowScript : MonoBehaviour
 
     private void SetSentence(int i)
     {
-        Debug.Log("Sentence: " + i);
         _currentSentence = _currentDialogue.GetSentence(i);
         foreach (string flag in _currentSentence.Flags)
         {
