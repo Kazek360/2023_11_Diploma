@@ -37,7 +37,12 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ModifyHealth(int amount)
     {
+        Debug.Log("HP CHANGED BY " + amount);
         _currentHealth = _currentHealth + amount;
+        if (_currentHealth <= 0)
+        {
+            OnHealthDepleted();
+        }
     }
 
     public int GetCurrentPsyche()
@@ -52,12 +57,18 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ModifyPsyche(int amount)
     {
+        Debug.Log("PP CHANGED BY " + amount);
         _currentPsyche = _currentPsyche + amount;
+        if (_currentPsyche <= 0)
+        {
+            OnPsycheDepleted();
+        }
     }
 
     public void OnHealthDepleted()
     {
         Debug.Log( "Wit has lost all health");
+        gameObject.SetActive(false);
     }
 
     public void OnPsycheDepleted()

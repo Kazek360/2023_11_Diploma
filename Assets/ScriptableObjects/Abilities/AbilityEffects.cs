@@ -41,6 +41,11 @@ public class AbilityEffects : MonoBehaviour
         target.ModifyPsyche(Math.Min(amount, target.GetMaxPsyche() - target.GetCurrentPsyche()));
     }
 
+    public static void PsycheDamageOverTime(IHittable target, int damage, int duration)
+    {
+        
+    }
+
     public static void AAAAAAA()
     {
         Debug.Log("AAAAAAA");
