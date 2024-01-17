@@ -3,22 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
- * TODO: if such a thing shall be done, make sure to change everything private in here to protected
- */
-public class EnemyScript : MonoBehaviour, IHittable
+public class PlayerScript : MonoBehaviour, IHittable
 {
-    [SerializeField] private EnemyStats stats;
+    [SerializeField] private int maxHealthPoints;
+    [SerializeField] private int maxPsychePoints;
 
     private int _currentHealth;
     private int _currentPsyche;
+    private int _armor;
     
     // Start is called before the first frame update
     void Start()
     {
-        _currentHealth = stats.MaxHealthPoints;
-        _currentPsyche = stats.MaxPsychePoints;
+        _currentHealth = maxHealthPoints;
+        _currentPsyche = maxPsychePoints;
     }
 
     // Update is called once per frame
@@ -35,12 +33,13 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public int GetMaxHealth()
     {
-        return stats.MaxHealthPoints;
+        return maxHealthPoints;
     }
 
     public void DamageHP(int dmg)
     {
-        _currentHealth = Math.Max(_currentHealth - dmg, 0);
+        var reducedDmg = (int)(dmg * Math.Pow(0.8f, _armor));  //Reducing damage received 
+        _currentHealth = Math.Max(_currentHealth - reducedDmg, 0);
     }
 
     public int GetCurrentPsyche()
@@ -50,7 +49,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public int GetMaxPsyche()
     {
-        return stats.MaxPsychePoints;
+        return maxPsychePoints;
     }
 
     public void DamagePsyche(int dmg)
@@ -60,11 +59,11 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void OnHealthDepleted()
     {
-        Debug.Log(stats.Name + " has lost all health");
+        Debug.Log( "Wit has lost all health");
     }
 
     public void OnPsycheDepleted()
     {
-        Debug.Log(stats.Name + " has lost all psyche");
+        Debug.Log("Wit has lost all psyche");
     }
 }
