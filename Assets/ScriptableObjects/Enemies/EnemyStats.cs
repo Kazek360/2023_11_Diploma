@@ -14,7 +14,6 @@ public class EnemyStats : ScriptableObject
     [SerializeField] private int maxPsychePoints;
     [SerializeField] private int dexterity;
     [SerializeField] private int strength;
-    [SerializeField] private int armor;
     [SerializeField] private List<DialogueScriptableObject> dialogues;  //TODO: Add abilities
 
 
@@ -23,5 +22,4 @@ public class EnemyStats : ScriptableObject
     public int MaxPsychePoints => maxPsychePoints;
     public int Dexterity => dexterity;
     public int Strength => strength;
-    public int Armor => armor;
 }

@@ -38,10 +38,9 @@ public class EnemyScript : MonoBehaviour, IHittable
         return stats.MaxHealthPoints;
     }
 
-    public void DamageHP(int dmg)
+    public void ModifyHealth(int amount)
     {
-        var reducedDmg = (int)(dmg * Math.Pow(0.8f, stats.Armor));  //Reducing damage received 
-        _currentHealth = Math.Max(_currentHealth - reducedDmg, 0);
+        _currentHealth = _currentHealth + amount;
     }
 
     public int GetCurrentPsyche()
@@ -54,9 +53,9 @@ public class EnemyScript : MonoBehaviour, IHittable
         return stats.MaxPsychePoints;
     }
 
-    public void DamagePsyche(int dmg)
+    public void ModifyPsyche(int amount)
     {
-        _currentPsyche = Math.Max(_currentPsyche - dmg, 0);
+        _currentPsyche = _currentPsyche + amount;
     }
 
     public void OnHealthDepleted()

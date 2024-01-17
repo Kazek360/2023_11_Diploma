@@ -18,9 +18,9 @@ public interface IHittable
      */
     public int GetMaxHealth();
     /**
-     * Lowers health of an entity by a desired amount
+     * Modifies health of an entity by a desired amount
      */
-    public void DamageHP(int dmg);
+    public void ModifyHealth(int amount);
     /**
      * Gets the current psyche of an entity
      */
@@ -32,9 +32,9 @@ public interface IHittable
      */
     public int GetMaxPsyche();
     /**
-     * Lowers psyche of an entity by a desired amount
+     * Modifies psyche of an entity by a desired amount
      */
-    public void DamagePsyche(int dmg);
+    public void ModifyPsyche(int amount);
     /**
      * Action to be performed when health of an entity runs out
      */
