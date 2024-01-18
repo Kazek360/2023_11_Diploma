@@ -12,7 +12,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(fileName = "MeleeAbilityScriptableObject", menuName = "ScriptableObjects/Abilities/Ability")]
 public class AbilityScriptableObject : ScriptableObject
 {
-    enum AnimType
+    public enum AnimType
     {
         Ranged1,
         Ranged2,
@@ -22,7 +22,7 @@ public class AbilityScriptableObject : ScriptableObject
         Self2
     }
 
-    enum TargetTypes
+    public enum TargetTypes
     {
         Enemy,
         Ally,
@@ -47,6 +47,7 @@ public class AbilityScriptableObject : ScriptableObject
     [SerializeField] private int numberOfTargets;
     [Tooltip("What this ability can target")] [SerializeField] 
     private List<TargetTypes> viableTargets;
+    [SerializeField] private int enemyAiUseWeight;
 
 
     [Header("Inflicted on the target")]
@@ -99,6 +100,18 @@ public class AbilityScriptableObject : ScriptableObject
     // [Space(8)]
     // [SerializeField] private bool stunsTargetSelf;
     // [SerializeField][Min(0)] private int stunDurationSelf;
+
+
+    public List<TargetTypes> ViableTargets => viableTargets;
+    public string Name => name;
+    public string Description => description;
+    public Sprite Sprite => sprite;
+    public AnimType Animtype => animType;
+    public int Cooldown => cooldown;
+    public int Range => range;
+    public int NumberOfTargets => numberOfTargets;
+    public int EnemyAiUseWeight => enemyAiUseWeight;
+    
 
     public void CastAbility(IHittable target, IHittable caster)
     {

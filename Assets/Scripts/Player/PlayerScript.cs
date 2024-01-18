@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour, IHittable
 {
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
+    [SerializeField] private List<AbilityScriptableObject> abilities;
 
     private int _currentHealth;
     private int _currentPsyche;
@@ -22,6 +23,11 @@ public class PlayerScript : MonoBehaviour, IHittable
     void Update()
     {
         
+    }
+
+    public void ProcessTurn()
+    {
+        throw new NotImplementedException();
     }
 
 

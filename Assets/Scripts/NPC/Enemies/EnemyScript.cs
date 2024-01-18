@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 /**
  * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
@@ -11,8 +12,8 @@ public class EnemyScript : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyStats stats;
     [SerializeField] private GameObject target;
-    [SerializeField] private AbilityScriptableObject ability;
-    private IHittable _target;
+    [SerializeField] private List<AbilityScriptableObject> abilities;
+    private List<int> _cooldowns;
 
     private int _currentHealth;
     private int _currentPsyche;
@@ -22,12 +23,15 @@ public class EnemyScript : MonoBehaviour, IHittable
     {
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
-        _target = target.GetComponent<IHittable>();
+        _cooldowns = new List<int>();
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            _cooldowns.Add(0);
+        }
     }
 
     private void OnEnable()
     {
-        StartCoroutine(HitThePlayer());
     }
 
     // Update is called once per frame
@@ -36,14 +40,70 @@ public class EnemyScript : MonoBehaviour, IHittable
         
     }
 
-    private IEnumerator HitThePlayer()
+    public void ProcessTurn()
     {
-        Debug.Log("SLAP READY");
-        yield return new WaitForSeconds(2f);
-        Debug.Log("SLAP INCOMING");
-        ability.CastAbility(_target, this);
-        StartCoroutine(HitThePlayer());
+        int chosenAbility = ChoosePossibleAbility();
+        CastAbility(chosenAbility);
+
+        for (int i = 0; i < _cooldowns.Count; i++)
+        {
+            _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
+        }
+        //TODO: Throw end of turn
     }
+
+    /**
+     * Returns a random ability from among those possible to be cast according to cooldown
+     *
+     * TODO: Add distance check when hextiles added
+     */
+    private int ChoosePossibleAbility()
+    {
+        int maxWeight = 0;
+        List<AbilityScriptableObject> candidates = new List<AbilityScriptableObject>();
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            if (_cooldowns[i] > 0) continue;
+            maxWeight += abilities[i].EnemyAiUseWeight;
+            candidates.Add(abilities[i]);
+        }
+
+        int result = candidates.Count - 1;
+        int weightChosen = new Random().NextInt(maxWeight);
+        int weightCurrent = 0;
+        for (int i = 0; i < candidates.Count; i++)
+        {
+            weightCurrent += candidates[i].EnemyAiUseWeight;
+            if (weightCurrent > weightChosen)
+            {
+                result = i - 1;
+                break;
+            }
+        }
+        return abilities.IndexOf(candidates[result]);
+    }
+    
+    
+    /**
+     * Casts an ability to a random target from among viable ones
+     *
+     * i - index of the chosen ability
+     */
+    private void CastAbility(int i)
+    {
+        var ability = abilities[i];
+        List<IHittable> possibleTargets = new List<IHittable>();
+        foreach (var targetType in ability.ViableTargets)
+        {
+            //TODO: CALL TO UPPER MANAGEMENT TO GET TARGETS OF TYPE
+            possibleTargets.Add(this);
+        }
+
+        int chosenTarget = new Random().NextInt(possibleTargets.Count);
+        _cooldowns[i] = ability.Cooldown;
+        ability.CastAbility(possibleTargets[chosenTarget], this);
+    }
+    
 
     public int GetCurrentHealth()
     {

@@ -43,4 +43,8 @@ public interface IHittable
      * Action to be performed when psyche of an entity runs out
      */
     public void OnPsycheDepleted();
+    /**
+     * Actions performed when the turn of entity has begun
+     */
+    public void ProcessTurn();
 }
