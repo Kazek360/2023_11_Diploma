@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
+using Random = UnityEngine.Random;
 
 /**
  * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
@@ -26,8 +26,10 @@ public class EnemyScript : MonoBehaviour, IHittable
         _cooldowns = new List<int>();
         for (int i = 0; i < abilities.Count; i++)
         {
+            Debug.Log("ADDED");
             _cooldowns.Add(0);
         }
+        ProcessTurn();
     }
 
     private void OnEnable()
@@ -43,6 +45,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         int chosenAbility = ChoosePossibleAbility();
+        Debug.Log("CHOSEN: " + chosenAbility);
         CastAbility(chosenAbility);
 
         for (int i = 0; i < _cooldowns.Count; i++)
@@ -68,18 +71,20 @@ public class EnemyScript : MonoBehaviour, IHittable
             candidates.Add(abilities[i]);
         }
 
+        
         int result = candidates.Count - 1;
-        int weightChosen = new Random().NextInt(maxWeight);
+        int weightChosen = Random.Range(1, maxWeight + 1);
         int weightCurrent = 0;
         for (int i = 0; i < candidates.Count; i++)
         {
-            weightCurrent += candidates[i].EnemyAiUseWeight;
             if (weightCurrent > weightChosen)
             {
                 result = i - 1;
                 break;
             }
+            weightCurrent += candidates[i].EnemyAiUseWeight;
         }
+        Debug.Log(abilities.IndexOf(candidates[result]));
         return abilities.IndexOf(candidates[result]);
     }
     
@@ -99,9 +104,11 @@ public class EnemyScript : MonoBehaviour, IHittable
             possibleTargets.Add(this);
         }
 
-        int chosenTarget = new Random().NextInt(possibleTargets.Count);
+        int chosenTarget = Random.Range(0, possibleTargets.Count);
+        Debug.Log("SIZE: " + possibleTargets.Count + " CHOSEN: " + chosenTarget);
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(possibleTargets[chosenTarget], this);
+        Debug.Log("ENEMY CAST " + ability.Name + " ON ITSELF");
     }
     
 
