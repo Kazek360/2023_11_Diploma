@@ -461,8 +461,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dc82486642ae74cbe98c6f72043ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 5
-  maxPsychePoints: 5
+  maxHealthPoints: 100
+  maxPsychePoints: 100
+  entityName: Player
+  strength: 0
+  agility: 0
+  luck: 0
+  imagination: 0
   abilities: []
 --- !u!212 &695253165
 SpriteRenderer:
@@ -919,13 +924,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b678418fd299a6d449711b818572f84e, type: 2}
     - target: {fileID: 9182913053722766761, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
+      propertyPath: entityName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182913053722766761, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
       propertyPath: abilities.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9182913053722766761, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
       propertyPath: abilities.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: b678418fd299a6d449711b818572f84e, type: 2}
+      objectReference: {fileID: 11400000, guid: f87a5104d055e05478a4aa6619b20828, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

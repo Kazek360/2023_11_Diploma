@@ -67,6 +67,7 @@ public class AbilityScriptableObject : ScriptableObject
 
     public virtual void CastAbility(IHittable target, IHittable caster)
     {
+        Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
         //TODO: Play anim here
     }
 

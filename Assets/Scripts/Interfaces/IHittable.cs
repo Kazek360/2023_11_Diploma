@@ -8,6 +8,10 @@ using UnityEngine;
 public interface IHittable
 {
     /**
+    * Gets the name of an entity
+    */
+    public string GetEntityName();
+    /**
      * Gets the current health of an entity
      */
     public int GetCurrentHealth();

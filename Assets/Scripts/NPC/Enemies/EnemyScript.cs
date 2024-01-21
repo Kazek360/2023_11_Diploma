@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -51,7 +52,6 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         int chosenAbility = ChoosePossibleAbility();
-        Debug.Log("CHOSEN: " + chosenAbility);
         CastAbility(chosenAbility);
 
         for (int i = 0; i < _cooldowns.Count; i++)
@@ -90,7 +90,6 @@ public class EnemyScript : MonoBehaviour, IHittable
             }
             weightCurrent += candidates[i].GetAbilityWeight(this);
         }
-        Debug.Log(abilities.IndexOf(candidates[result]));
         return abilities.IndexOf(candidates[result]);
     }
     
@@ -107,14 +106,12 @@ public class EnemyScript : MonoBehaviour, IHittable
         foreach (var targetType in ability.ViableTargets)
         {
             //TODO: CALL TO UPPER MANAGEMENT TO GET TARGETS OF TYPE
-            possibleTargets.Add(this);
+            possibleTargets.Add(target.GameObject().GetComponent<IHittable>());
         }
 
         int chosenTarget = Random.Range(0, possibleTargets.Count);
-        Debug.Log("SIZE: " + possibleTargets.Count + " CHOSEN: " + chosenTarget);
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(possibleTargets[chosenTarget], this);
-        Debug.Log("ENEMY CAST " + ability.AbilityName + " ON ITSELF");
     }
     
 
@@ -184,5 +181,10 @@ public class EnemyScript : MonoBehaviour, IHittable
     public int GetImagination()
     {
         return imagination;
+    }
+    
+    public string GetEntityName()
+    {
+        return stats.Name;
     }
 }

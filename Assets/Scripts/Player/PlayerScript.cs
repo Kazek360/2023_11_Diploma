@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
 
+    [SerializeField] private string entityName;
     [SerializeField] private int strength;
     [SerializeField] private int agility;
     [SerializeField] private int luck;
@@ -106,5 +107,10 @@ public class PlayerScript : MonoBehaviour, IHittable
     public int GetImagination()
     {
         return imagination;
+    }
+
+    public string GetEntityName()
+    {
+        return entityName;
     }
 }
