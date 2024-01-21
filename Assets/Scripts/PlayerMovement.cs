@@ -5,12 +5,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody2D _rigidbody; 
     
-    void Awake()
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
     
-    void Update()
+    private void Update()
     {
         MovePlayer();
     }
