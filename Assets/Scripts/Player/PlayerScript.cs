@@ -7,8 +7,14 @@ public class PlayerScript : MonoBehaviour, IHittable
 {
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
-    [SerializeField] private List<AbilityScriptableObject> abilities;
 
+    [SerializeField] private int strength;
+    [SerializeField] private int agility;
+    [SerializeField] private int luck;
+    [SerializeField] private int imagination;
+    
+    [SerializeField] private List<AbilityScriptableObject> abilities;
+    
     private int _currentHealth;
     private int _currentPsyche;
     
@@ -80,5 +86,25 @@ public class PlayerScript : MonoBehaviour, IHittable
     public void OnPsycheDepleted()
     {
         Debug.Log("Wit has lost all psyche");
+    }
+
+    public int GetStrength()
+    {
+        return strength;
+    }
+
+    public int GetAgility()
+    {
+        return agility;
+    }
+
+    public int GetLuck()
+    {
+        return luck;
+    }
+
+    public int GetImagination()
+    {
+        return imagination;
     }
 }

@@ -12,6 +12,12 @@ public class EnemyScript : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyStats stats;
     [SerializeField] private GameObject target;
+    
+    [SerializeField] private int strength;
+    [SerializeField] private int agility;
+    [SerializeField] private int luck;
+    [SerializeField] private int imagination;
+    
     [SerializeField] private List<AbilityScriptableObject> abilities;
     private List<int> _cooldowns;
 
@@ -67,7 +73,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         for (int i = 0; i < abilities.Count; i++)
         {
             if (_cooldowns[i] > 0) continue;
-            maxWeight += abilities[i].EnemyAiUseWeight;
+            maxWeight += abilities[i].GetAbilityWeight(this);
             candidates.Add(abilities[i]);
         }
 
@@ -82,7 +88,7 @@ public class EnemyScript : MonoBehaviour, IHittable
                 result = i - 1;
                 break;
             }
-            weightCurrent += candidates[i].EnemyAiUseWeight;
+            weightCurrent += candidates[i].GetAbilityWeight(this);
         }
         Debug.Log(abilities.IndexOf(candidates[result]));
         return abilities.IndexOf(candidates[result]);
@@ -108,7 +114,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         Debug.Log("SIZE: " + possibleTargets.Count + " CHOSEN: " + chosenTarget);
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(possibleTargets[chosenTarget], this);
-        Debug.Log("ENEMY CAST " + ability.Name + " ON ITSELF");
+        Debug.Log("ENEMY CAST " + ability.AbilityName + " ON ITSELF");
     }
     
 
@@ -158,5 +164,25 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void OnPsycheDepleted()
     {
         Debug.Log(stats.Name + " has lost all psyche");
+    }
+    
+    public int GetStrength()
+    {
+        return strength;
+    }
+
+    public int GetAgility()
+    {
+        return agility;
+    }
+
+    public int GetLuck()
+    {
+        return luck;
+    }
+
+    public int GetImagination()
+    {
+        return imagination;
     }
 }

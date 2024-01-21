@@ -47,4 +47,9 @@ public interface IHittable
      * Actions performed when the turn of entity has begun
      */
     public void ProcessTurn();
+
+    public int GetStrength();
+    public int GetAgility();
+    public int GetLuck();
+    public int GetImagination();
 }
