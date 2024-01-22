@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UnitCombat : MonoBehaviour
 {
-    private enum State
+    public enum State
     {
         Idling,
         Moving
@@ -13,7 +13,7 @@ public class UnitCombat : MonoBehaviour
     
     [SerializeField] private float speed;
     private Rigidbody2D _rigidbody;
-    private State _currentState;
+    public State currentState;
     private Vector3 _currentDestination;
     
     private void Awake()
@@ -23,11 +23,11 @@ public class UnitCombat : MonoBehaviour
     
     private void Start()
     {
-        _currentState = State.Idling;
+        currentState = State.Idling;
     }
     private void Update()
     {
-        switch (_currentState)
+        switch (currentState)
         {
             case State.Idling:
                 break;
@@ -38,10 +38,10 @@ public class UnitCombat : MonoBehaviour
     }
     public void StartMoving(Vector3 movePosition)
     {
-        if (_currentState == State.Idling)
+        if (currentState == State.Idling)
         {
             _currentDestination = movePosition; 
-            _currentState = State.Moving;
+            currentState = State.Moving;
         }
     }
     private void MoveTo()
@@ -49,7 +49,7 @@ public class UnitCombat : MonoBehaviour
         if (Vector2.Distance(transform.position, _currentDestination) < .2f)
         {
             _rigidbody.position = _currentDestination;
-            _currentState = State.Idling;
+            currentState = State.Idling;
         }
         else
         {
