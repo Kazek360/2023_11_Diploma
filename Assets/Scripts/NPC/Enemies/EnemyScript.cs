@@ -114,9 +114,17 @@ public class EnemyScript : MonoBehaviour, IHittable
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            //TODO: CALL TO UPPER MANAGEMENT TO GET TARGETS OF TYPE
-            possibleTargets.Add(target.GameObject().GetComponent<IHittable>());
+            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
+            {
+                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetEnemies());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
+            {
+                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetPlayers());
+            }
         }
+        
 
         int chosenTarget = Random.Range(0, possibleTargets.Count);
         _cooldowns[i] = ability.Cooldown;

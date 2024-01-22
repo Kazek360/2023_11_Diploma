@@ -39,4 +39,32 @@ public class EntityManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         _turnOrder[_currentEntity].ProcessTurn();
     }
+
+    public List<IHittable> GetPlayers()
+    {
+        List<IHittable> playerEntities = new List<IHittable>();
+        foreach (var entity in turnOrder)
+        {
+            if (entity.CompareTag("Player"))
+            {
+                playerEntities.Add(entity.GetComponent<IHittable>());
+            }
+        }
+
+        return playerEntities;
+    }
+
+    public List<IHittable> GetEnemies()
+    {
+        List<IHittable> enemyEntities = new List<IHittable>();
+        foreach (var entity in turnOrder)
+        {
+            if (entity.CompareTag("Enemy"))
+            {
+                enemyEntities.Add(entity.GetComponent<IHittable>());
+            }
+        }
+
+        return enemyEntities;
+    } 
 }
