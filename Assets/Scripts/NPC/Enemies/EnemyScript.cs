@@ -12,14 +12,13 @@ using Random = UnityEngine.Random;
 public class EnemyScript : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyStats stats;
-    [SerializeField] private GameObject target;
     
     [SerializeField] private int strength;
     [SerializeField] private int agility;
     [SerializeField] private int luck;
     [SerializeField] private int imagination;
     
-    [SerializeField] private List<AbilityScriptableObject> abilities;
+    private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
 
     private int _currentHealth;
@@ -30,8 +29,9 @@ public class EnemyScript : MonoBehaviour, IHittable
     {
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
+        _abilities = stats.Abilities;
         _cooldowns = new List<int>();
-        for (int i = 0; i < abilities.Count; i++)
+        for (int i = 0; i < _abilities.Count; i++)
         {
             //Debug.Log("ADDED");
             _cooldowns.Add(0);
@@ -73,11 +73,11 @@ public class EnemyScript : MonoBehaviour, IHittable
     {
         int maxWeight = 0;
         List<AbilityScriptableObject> candidates = new List<AbilityScriptableObject>();
-        for (int i = 0; i < abilities.Count; i++)
+        for (int i = 0; i < _abilities.Count; i++)
         {
             if (_cooldowns[i] > 0) continue;
-            maxWeight += abilities[i].GetAbilityWeight(this);
-            candidates.Add(abilities[i]);
+            maxWeight += _abilities[i].GetAbilityWeight(this);
+            candidates.Add(_abilities[i]);
         }
 
         
@@ -99,7 +99,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         {
             return -1;
         }
-        return abilities.IndexOf(candidates[result]);
+        return _abilities.IndexOf(candidates[result]);
     }
     
     
@@ -110,7 +110,7 @@ public class EnemyScript : MonoBehaviour, IHittable
      */
     private void CastAbility(int i)
     {
-        var ability = abilities[i];
+        var ability = _abilities[i];
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
@@ -172,12 +172,12 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void OnHealthDepleted()
     {
-        Debug.Log(stats.Name + " has lost all health");
+        Debug.Log(stats.EnemyName + " has lost all health");
     }
 
     public void OnPsycheDepleted()
     {
-        Debug.Log(stats.Name + " has lost all psyche");
+        Debug.Log(stats.EnemyName + " has lost all psyche");
     }
     
     public int GetStrength()
@@ -202,16 +202,21 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     public string GetEntityName()
     {
-        return stats.Name;
+        return stats.EnemyName;
     }
     
     public List<AbilityScriptableObject> GetAbilities()
     {
-        return abilities;
+        return _abilities;
     }
 
     public List<int> GetCooldowns()
     {
         return _cooldowns;
+    }
+
+    public Sprite GetImage()
+    {
+        return stats.EnemyImage;
     }
 }

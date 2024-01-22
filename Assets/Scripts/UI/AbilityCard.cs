@@ -13,6 +13,7 @@ public class AbilityCard : MonoBehaviour
     [SerializeField] private GameObject cooldownCounter;
     [SerializeField] private GameObject cooldownPanel;
     private int _abilityOrderInEntityList;
+    private CombatUI _controllerClass;
     private void OnEnable()
     {
     }
@@ -32,10 +33,22 @@ public class AbilityCard : MonoBehaviour
         }
     }
 
-    public void OnAbilityClicked()
+    public void SetController(CombatUI newController)
     {
-        Debug.Log("[UI]: ABILITY '" + ability.AbilityName + "' SELECTED");
+        _controllerClass = newController;
     }
 
+    public void OnClicked()
+    {
+        if (!GetComponent<Toggle>().isOn)
+        {
+            return;
+        }
+        _controllerClass.OnNewAbilitySelected();
+    }
+    
+
     public int AbilityOrderInEntityList => _abilityOrderInEntityList;
+
+    public AbilityScriptableObject Ability => ability;
 }

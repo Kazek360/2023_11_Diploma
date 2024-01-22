@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
 
@@ -18,7 +19,6 @@ public class PlayerScript : MonoBehaviour, IHittable
     private List<int> _cooldowns;
 
     [SerializeField] private GameObject combatUI;
-    [SerializeField] private GameObject targetEntity;
     
     private int _currentHealth;
     private int _currentPsyche;
@@ -49,13 +49,6 @@ public class PlayerScript : MonoBehaviour, IHittable
     }
     
     
-    
-    public void CastAbility(int i)
-    {
-        var ability = abilities[i];
-        _cooldowns[i] = ability.Cooldown;
-        ability.CastAbility(targetEntity.GetComponent<IHittable>(), this);
-    }
 
     public void ProcessTurn()
     {
@@ -152,5 +145,10 @@ public class PlayerScript : MonoBehaviour, IHittable
     public List<int> GetCooldowns()
     {
         return _cooldowns;
+    }
+
+    public Sprite GetImage()
+    {
+        return playerImage;
     }
 }

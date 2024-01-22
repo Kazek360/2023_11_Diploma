@@ -62,6 +62,7 @@ public class EntityManager : MonoBehaviour
             if (entity.CompareTag("Enemy"))
             {
                 enemyEntities.Add(entity.GetComponent<IHittable>());
+                //Debug.Log(entity.name);
             }
         }
 

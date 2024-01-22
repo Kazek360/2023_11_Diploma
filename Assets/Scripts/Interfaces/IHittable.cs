@@ -58,4 +58,6 @@ public interface IHittable
     public int GetImagination();
     public List<AbilityScriptableObject> GetAbilities();
     public List<int> GetCooldowns();
+
+    public Sprite GetImage();
 }
