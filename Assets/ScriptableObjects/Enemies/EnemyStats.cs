@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 public class EnemyStats : ScriptableObject
 {
     [FormerlySerializedAs("name")] [SerializeField] private string enemyName;
-    [SerializeField] private string description;
+    [SerializeField][TextArea] private string description;
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
     [SerializeField] private int agility;
