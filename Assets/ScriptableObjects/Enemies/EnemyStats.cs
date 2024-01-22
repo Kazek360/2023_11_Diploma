@@ -13,8 +13,10 @@ public class EnemyStats : ScriptableObject
     [SerializeField] private string description;
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
-    [SerializeField] private int dexterity;
+    [SerializeField] private int agility;
     [SerializeField] private int strength;
+    [SerializeField] private int luck;
+    [SerializeField] private int imagination;
     [SerializeField] private List<AbilityScriptableObject> abilities;
     [SerializeField] private Sprite enemyImage;
 
@@ -22,8 +24,12 @@ public class EnemyStats : ScriptableObject
     public string EnemyName => enemyName;
     public int MaxHealthPoints => maxHealthPoints;
     public int MaxPsychePoints => maxPsychePoints;
-    public int Dexterity => dexterity;
+    public int Agility => agility;
     public int Strength => strength;
+
+    public int Luck => luck;
+
+    public int Imagination => imagination;
 
     public List<AbilityScriptableObject> Abilities => abilities;
 

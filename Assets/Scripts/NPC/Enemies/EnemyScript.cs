@@ -13,11 +13,6 @@ public class EnemyScript : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyStats stats;
     
-    [SerializeField] private int strength;
-    [SerializeField] private int agility;
-    [SerializeField] private int luck;
-    [SerializeField] private int imagination;
-    
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
 
@@ -182,22 +177,22 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     public int GetStrength()
     {
-        return strength;
+        return stats.Strength;
     }
 
     public int GetAgility()
     {
-        return agility;
+        return stats.Agility;
     }
 
     public int GetLuck()
     {
-        return luck;
+        return stats.Luck;
     }
 
     public int GetImagination()
     {
-        return imagination;
+        return stats.Imagination;
     }
     
     public string GetEntityName()
@@ -218,5 +213,10 @@ public class EnemyScript : MonoBehaviour, IHittable
     public Sprite GetImage()
     {
         return stats.EnemyImage;
+    }
+
+    public GameObject GetObject()
+    {
+        return gameObject;
     }
 }

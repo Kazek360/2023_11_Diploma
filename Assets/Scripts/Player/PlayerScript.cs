@@ -151,4 +151,9 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         return playerImage;
     }
+    
+    public GameObject GetObject()
+    {
+        return gameObject;
+    }
 }

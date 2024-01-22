@@ -5,8 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MeleeAbilityScriptableObject", menuName = "ScriptableObjects/Abilities/RangedAbility")]
 public class RangedAbility : AbilityScriptableObject
 {
-    [SerializeField] private GameObject projectile;     //TODO: THAT'S FOR CONTENT TEAM TO SET UP
-    [SerializeField] private int projectileSpeed;
+    [SerializeField] private GameObject projectilePrefab;
     
     [SerializeField] private bool dealingHealthDamage;
     [SerializeField][Min(0)] private int healthDamage;
@@ -25,5 +24,10 @@ public class RangedAbility : AbilityScriptableObject
         {
             AbilityEffects.DealPsycheDamage(target, psycheDamage + caster.GetImagination());
         }
+
+        var projectile = Instantiate(projectilePrefab);
+        projectile.transform.position = caster.GetObject().transform.position;
+        projectile.GetComponent<ProjectileScript>().SetTarget(target.GetObject());
+        
     }
 }

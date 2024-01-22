@@ -60,4 +60,6 @@ public interface IHittable
     public List<int> GetCooldowns();
 
     public Sprite GetImage();
+
+    public GameObject GetObject();
 }
