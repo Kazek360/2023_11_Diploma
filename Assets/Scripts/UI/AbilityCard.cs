@@ -12,17 +12,18 @@ public class AbilityCard : MonoBehaviour
     [SerializeField] private GameObject abilityImage;
     [SerializeField] private GameObject cooldownCounter;
     [SerializeField] private GameObject cooldownPanel;
-    private int _cooldown;
+    private int _abilityOrderInEntityList;
     private void OnEnable()
     {
     }
 
     // Start is called before the first frame update
-    public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown)
+    public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
         ability = abilityScriptableObject;
         abilityNameField.GetComponent<TextMeshProUGUI>().text = ability.AbilityName;
         abilityImage.GetComponent<Image>().sprite = ability.Sprite;
+        _abilityOrderInEntityList = orderNumber;
         if (cooldown > 0)
         {
             cooldownPanel.SetActive(true);
@@ -35,4 +36,6 @@ public class AbilityCard : MonoBehaviour
     {
         Debug.Log("[UI]: ABILITY '" + ability.AbilityName + "' SELECTED");
     }
+
+    public int AbilityOrderInEntityList => _abilityOrderInEntityList;
 }

@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     private List<int> _cooldowns;
 
     [SerializeField] private GameObject combatUI;
+    [SerializeField] private GameObject targetEntity;
     
     private int _currentHealth;
     private int _currentPsyche;
@@ -40,16 +41,29 @@ public class PlayerScript : MonoBehaviour, IHittable
         
     }
     
-    private void CastAbility(int i, IHittable target)
+    public void CastAbility(int i, IHittable target)
     {
         var ability = abilities[i];
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(target, this);
     }
+    
+    
+    
+    public void CastAbility(int i)
+    {
+        var ability = abilities[i];
+        _cooldowns[i] = ability.Cooldown;
+        ability.CastAbility(targetEntity.GetComponent<IHittable>(), this);
+    }
 
     public void ProcessTurn()
     {
         Debug.Log("PLAYER TURN");
+        for (int i = 0; i < _cooldowns.Count; i++)
+        {
+            _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
+        }
         combatUI.GetComponent<CombatUI>().ShowCombatUI(this);
     }
 

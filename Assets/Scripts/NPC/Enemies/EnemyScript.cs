@@ -33,7 +33,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         _cooldowns = new List<int>();
         for (int i = 0; i < abilities.Count; i++)
         {
-            Debug.Log("ADDED");
+            //Debug.Log("ADDED");
             _cooldowns.Add(0);
         }
     }
@@ -50,6 +50,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void ProcessTurn()
     {
+        Debug.Log(this.GetEntityName() + " TURN");
         int chosenAbility = ChoosePossibleAbility();
         if (chosenAbility != -1)
         {

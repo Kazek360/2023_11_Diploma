@@ -19,6 +19,7 @@ public class EntityManager : MonoBehaviour
         {
             _turnOrder.Add(entity.GetComponent<IHittable>());
         }
+        NextTurn();
     }
 
     // Update is called once per frame
@@ -29,7 +30,13 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
+        StartCoroutine(NextTurnCoroutine());
+    }
+
+    private IEnumerator NextTurnCoroutine()
+    {
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
+        yield return new WaitForSeconds(2);
         _turnOrder[_currentEntity].ProcessTurn();
     }
 }

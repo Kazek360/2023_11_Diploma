@@ -418,11 +418,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 290981746834236710, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 290981746834236710, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2197481387960451542, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_Pivot.x
@@ -506,15 +506,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3091678612562054262, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3091678612562054262, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3581602239557972537, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_Name
       value: CombatUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3581602239557972537, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7746506096366373509, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -673,6 +677,10 @@ PrefabInstance:
       propertyPath: combatUI
       value: 
       objectReference: {fileID: 2092789114}
+    - target: {fileID: 6872222869629429299, guid: 69e370331dcc3834198b88090d269db7, type: 3}
+      propertyPath: targetEntity
+      value: 
+      objectReference: {fileID: 7075450046560985031}
     - target: {fileID: 7904647406454164839, guid: 69e370331dcc3834198b88090d269db7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.94
