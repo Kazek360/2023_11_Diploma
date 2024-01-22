@@ -26,6 +26,9 @@ public class CombatUI : MonoBehaviour
         
     }
 
+    /**
+     * Called when a player turn begins(enemies don't need it)
+     */
     public void ShowCombatUI(IHittable entity)
     {
         gameObject.SetActive(true);
@@ -78,6 +81,9 @@ public class CombatUI : MonoBehaviour
         }
     }
 
+    /**
+     * After turn ends hide interface and destroy children of ability and target lists in order to prevent cloning
+     */
     public void OnEndTurn()
     {
         var toggled = abilitiesScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
@@ -99,12 +105,16 @@ public class CombatUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    /**
+     * When ability is selected, populate target list
+     */
     public void OnNewAbilitySelected()
     {
         ShowTargetsList(GetCurrentlySelectedAbility());
     }
 
 
+    
     private IHittable GetCurrentlySelectedTarget()
     {
         var toggled = targetsScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();

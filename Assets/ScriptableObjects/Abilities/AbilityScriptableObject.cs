@@ -63,12 +63,21 @@ public class AbilityScriptableObject : ScriptableObject
 
     public List<TargetTypes> ViableTargets => viableTargets;
 
+    /**
+     * A function defining behaviour of abilities
+     *
+     * Needs to extend from AbilityScriptableObject equivalent in order to work
+     */
     public virtual void CastAbility(IHittable target, IHittable caster)
     {
         Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
         //TODO: Play anim here
     }
 
+    /**
+     * Returns how likely AI is to use this ability
+     * If need arises, additional modifications may be done in inheriting classes
+     */
     public virtual int GetAbilityWeight(IHittable caster)
     {
         return baseAiUseWeight;

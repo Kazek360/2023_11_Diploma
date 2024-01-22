@@ -59,7 +59,13 @@ public interface IHittable
     public List<AbilityScriptableObject> GetAbilities();
     public List<int> GetCooldowns();
 
+    /**
+     * Returns a sprite representing this entity
+     */
     public Sprite GetImage();
 
+    /**
+     * Returns object this class is attached to
+     */
     public GameObject GetObject();
 }

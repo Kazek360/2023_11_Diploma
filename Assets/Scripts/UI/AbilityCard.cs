@@ -18,7 +18,13 @@ public class AbilityCard : MonoBehaviour
     {
     }
 
-    // Start is called before the first frame update
+    /**
+     * Sets attributes for ability card
+     *
+     * abilityScriptableObject - scriptable object containing ability information
+     * cooldown - if ability is on cooldown, how many turns are left
+     * orderNumber - what place ability takes in players ability list
+     */
     public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
         ability = abilityScriptableObject;
@@ -33,11 +39,17 @@ public class AbilityCard : MonoBehaviour
         }
     }
 
+    /**
+     * Sets 'controller' - CombatUI class within which this object is
+     */
     public void SetController(CombatUI newController)
     {
         _controllerClass = newController;
     }
 
+    /**
+     * If turned on, notifies controller about it
+     */
     public void OnClicked()
     {
         if (!GetComponent<Toggle>().isOn)
