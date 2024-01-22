@@ -15,6 +15,9 @@ public class PlayerScript : MonoBehaviour, IHittable
     [SerializeField] private int imagination;
     
     [SerializeField] private List<AbilityScriptableObject> abilities;
+    private List<int> _cooldowns;
+
+    [SerializeField] private GameObject combatUI;
     
     private int _currentHealth;
     private int _currentPsyche;
@@ -24,6 +27,11 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         _currentHealth = maxHealthPoints;
         _currentPsyche = maxPsychePoints;
+        _cooldowns = new List<int>();
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            _cooldowns.Add(0);
+        }
     }
 
     // Update is called once per frame
@@ -31,10 +39,18 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         
     }
+    
+    private void CastAbility(int i, IHittable target)
+    {
+        var ability = abilities[i];
+        _cooldowns[i] = ability.Cooldown;
+        ability.CastAbility(target, this);
+    }
 
     public void ProcessTurn()
     {
-        throw new NotImplementedException();
+        Debug.Log("PLAYER TURN");
+        combatUI.GetComponent<CombatUI>().ShowCombatUI(this);
     }
 
 
@@ -50,7 +66,7 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ModifyHealth(int amount)
     {
-        Debug.Log("HP CHANGED BY " + amount);
+        //Debug.Log("HP CHANGED BY " + amount);
         _currentHealth = _currentHealth + amount;
         if (_currentHealth <= 0)
         {
@@ -70,7 +86,7 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ModifyPsyche(int amount)
     {
-        Debug.Log("PP CHANGED BY " + amount);
+        //Debug.Log("PP CHANGED BY " + amount);
         _currentPsyche = _currentPsyche + amount;
         if (_currentPsyche <= 0)
         {
@@ -112,5 +128,15 @@ public class PlayerScript : MonoBehaviour, IHittable
     public string GetEntityName()
     {
         return entityName;
+    }
+
+    public List<AbilityScriptableObject> GetAbilities()
+    {
+        return abilities;
+    }
+    
+    public List<int> GetCooldowns()
+    {
+        return _cooldowns;
     }
 }

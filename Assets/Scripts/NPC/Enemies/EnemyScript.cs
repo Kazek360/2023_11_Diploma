@@ -26,7 +26,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     private int _currentPsyche;
     
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
@@ -36,7 +36,6 @@ public class EnemyScript : MonoBehaviour, IHittable
             Debug.Log("ADDED");
             _cooldowns.Add(0);
         }
-        ProcessTurn();
     }
 
     private void OnEnable()
@@ -52,13 +51,16 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         int chosenAbility = ChoosePossibleAbility();
-        CastAbility(chosenAbility);
+        if (chosenAbility != -1)
+        {
+            CastAbility(chosenAbility);
+        }
 
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
-        //TODO: Throw end of turn
+        gameObject.GetComponentInParent<EntityManager>().NextTurn();
     }
 
     /**
@@ -79,6 +81,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
         
         int result = candidates.Count - 1;
+        //Debug.Log(result);
         int weightChosen = Random.Range(1, maxWeight + 1);
         int weightCurrent = 0;
         for (int i = 0; i < candidates.Count; i++)
@@ -89,6 +92,11 @@ public class EnemyScript : MonoBehaviour, IHittable
                 break;
             }
             weightCurrent += candidates[i].GetAbilityWeight(this);
+        }
+        //Debug.Log(result);
+        if (result < 0)
+        {
+            return -1;
         }
         return abilities.IndexOf(candidates[result]);
     }
@@ -186,5 +194,15 @@ public class EnemyScript : MonoBehaviour, IHittable
     public string GetEntityName()
     {
         return stats.Name;
+    }
+    
+    public List<AbilityScriptableObject> GetAbilities()
+    {
+        return abilities;
+    }
+
+    public List<int> GetCooldowns()
+    {
+        return _cooldowns;
     }
 }

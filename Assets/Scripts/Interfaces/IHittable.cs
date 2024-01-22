@@ -56,4 +56,6 @@ public interface IHittable
     public int GetAgility();
     public int GetLuck();
     public int GetImagination();
+    public List<AbilityScriptableObject> GetAbilities();
+    public List<int> GetCooldowns();
 }
