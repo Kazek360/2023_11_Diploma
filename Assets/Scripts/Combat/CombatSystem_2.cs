@@ -25,11 +25,13 @@ public class CombatSystem_2 : MonoBehaviour
             public bool IsHighlighted;
             public int X;
             public int Y;
+            public bool IsOccupied;
 
             public GridObject(int x, int y)
             {
                 X = x;
                 Y = y;
+                IsOccupied = false;
             }
 
             public void Highlight()
@@ -88,11 +90,7 @@ public class CombatSystem_2 : MonoBehaviour
                 _currentGridObject.Select();
                 if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling)
                 {
-                    ClearGrid();
-                    
-                    currentUnit.StartMoving(_currentGridObject.Hex.position);
-                    currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
-                    HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+                    MoveToSelected();
                 }
             }
         }
@@ -123,7 +121,7 @@ public class CombatSystem_2 : MonoBehaviour
          */
         private void HighlightNeighborsInRadius(GridObject gridObject, int radius, int currentIter, bool highlightCenter)
         {
-            if (highlightCenter || currentIter != 0)
+            if ((highlightCenter || currentIter != 0) && !gridObject.IsOccupied)
             {
                 gridObject.Highlight();
             }
@@ -157,6 +155,7 @@ public class CombatSystem_2 : MonoBehaviour
         public void SetEntityToGrid(UnitCombat unitCombat)
         {
             var vec = unitCombat.GetGridLocation();
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = true;
             unitCombat.gameObject.transform.position = _grid.GetGridObject((int)vec[0], (int)vec[1]).Hex.position;
         }
 
@@ -170,9 +169,28 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours((int)vec[0], (int)vec[1]);
         }
 
+        public void MoveToSelected()
+        {
+            var vec = currentUnit.GetGridLocation();
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
+            ClearGrid();
+                    
+            currentUnit.StartMoving(_currentGridObject.Hex.position);
+            currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
+            _currentGridObject.IsOccupied = true;
+            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+        }
+
         public void MoveTo(int x, int y)
         {
-            currentUnit.StartMoving(_grid.GetGridObject(x, y).Hex.position);
+            var vec = currentUnit.GetGridLocation();
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
+            ClearGrid();
+
+            _currentGridObject = _grid.GetGridObject(x, y);
+            currentUnit.StartMoving(_currentGridObject.Hex.position);
+            currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
+            _currentGridObject.IsOccupied = true;
         }
 
         public void PlayerTurnStart()

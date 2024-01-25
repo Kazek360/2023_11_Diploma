@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3815446748179167621}
   - component: {fileID: 4917257802411376706}
-  - component: {fileID: 1572933916582210348}
   m_Layer: 0
   m_Name: EntityManager
   m_TagString: Untagged
@@ -49,31 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542414168a622944694981bb212ff37a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatSystem2: {fileID: 0}
   turnOrder:
   - {fileID: 471870422822089337}
   - {fileID: 7231769641306618198}
   - {fileID: 6253210053961578678}
   - {fileID: 8109245911038893947}
---- !u!114 &1572933916582210348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4375681277603676382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db5881af9c080aa4bbf6b8c0e7f40cbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hexPrefab: {fileID: 2132237892256885611, guid: edd7f0828a0b64c40ac48c06eb624abd, type: 3}
-  mainCamera: {fileID: 0}
-  unitCombat: {fileID: 2128163542704591581}
-  width: 5
-  height: 5
-  cellSize: 2
-  offset: {x: -5, y: -5}
 --- !u!1001 &5095804408022284634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -439,14 +418,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7904647406454164839, guid: 69e370331dcc3834198b88090d269db7, type: 3}
   m_PrefabInstance: {fileID: 9070537647703029482}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2128163542704591581 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6947300064825795639, guid: 69e370331dcc3834198b88090d269db7, type: 3}
-  m_PrefabInstance: {fileID: 9070537647703029482}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471870422822089337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b6a5e90673d7244ba73b670ba747a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
