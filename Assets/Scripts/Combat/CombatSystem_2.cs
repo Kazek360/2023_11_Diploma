@@ -19,18 +19,22 @@ public class CombatSystem_2 : MonoBehaviour
         private GridObject _currentGridObject;
         private List<GridObject> _currentGridObjectNeighbours;
         
-        private class GridObject
+        public class GridObject
         {
             public Transform Hex;
             public bool IsHighlighted;
             public int X;
             public int Y;
             public bool IsOccupied;
+            public Vector3 XYZCoordinates;      //Needed for A*
 
             public GridObject(int x, int y)
             {
                 X = x;
                 Y = y;
+                XYZCoordinates.y = Y;
+                XYZCoordinates.x = X - (int)(Y / 2);
+                XYZCoordinates.z = 0 - XYZCoordinates.x - XYZCoordinates.y;
                 IsOccupied = false;
             }
 
@@ -142,12 +146,26 @@ public class CombatSystem_2 : MonoBehaviour
             
         }
 
-        public int GetDistanceTo(UnitCombat to)
+        public int GetDistance(UnitCombat to)
         {
-            return 0;
+            var vec = currentUnit.GetGridLocation();
+            var coord = _grid.GetGridObject((int)vec[0], (int)vec[1]).XYZCoordinates;
+            var vec2 = to.GetGridLocation();
+            var coord2 = _grid.GetGridObject((int)vec2[0], (int)vec2[1]).XYZCoordinates;
+            return Math.Max(Math.Max((int)Math.Abs(coord.x - coord2.x), (int)Math.Abs(coord.y - coord2.y)), (int)Math.Abs(coord.z - coord2.z));
+        }
+        
+        public int GetDistance(GridObject from, GridObject to)
+        {
+            var coord = from.XYZCoordinates;
+            var coord2 = to.XYZCoordinates;
+            return Math.Max(Math.Max((int)Math.Abs(coord.x - coord2.x), (int)Math.Abs(coord.y - coord2.y)), (int)Math.Abs(coord.z - coord2.z));
         }
 
-        public int GetPathTo(UnitCombat to)
+        /**
+         * A* algorithm for finding best path between units
+         */
+        public List<GridObject> GetShortestPathTo(UnitCombat to)
         {
             throw new NotImplementedException();
         }
