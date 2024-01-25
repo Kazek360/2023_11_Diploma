@@ -69,16 +69,6 @@ public class CombatSystem_2 : MonoBehaviour
                 }
             }
 
-            currentUnit.gameObject.transform.position = _grid.GetGridObject(0, 0).Hex.position;
-            _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours(0, 0);
-            foreach (GridObject gridObject in _currentGridObjectNeighbours)
-            {
-                if (gridObject != null)
-                {
-                    gridObject.Highlight();
-                }
-            }
-
         }
     
         private void Update()
@@ -101,7 +91,7 @@ public class CombatSystem_2 : MonoBehaviour
                     ClearGrid();
                     
                     currentUnit.StartMoving(_currentGridObject.Hex.position);
-                    //_currentGridObjectNeighbours = _grid.GetGridObjectNeighbours(_currentGridObject.X, _currentGridObject.Y);
+                    currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
                     HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
                 }
             }
@@ -111,7 +101,7 @@ public class CombatSystem_2 : MonoBehaviour
         /**
          * Unselects every hex in grid
          */
-        private void ClearGrid()
+        public void ClearGrid()
         {
             for (int i = 0; i < width; i++)
             {
@@ -123,6 +113,14 @@ public class CombatSystem_2 : MonoBehaviour
             }
         }
 
+        /**
+         * Highlights every hex in a radius
+         *
+         * gridObject - center
+         * radius - highlight radius
+         * currentIter - how long has algorithm gone on(0 by default)
+         * highlight center - should we highlight center?
+         */
         private void HighlightNeighborsInRadius(GridObject gridObject, int radius, int currentIter, bool highlightCenter)
         {
             if (highlightCenter || currentIter != 0)
@@ -164,13 +162,22 @@ public class CombatSystem_2 : MonoBehaviour
 
         public void SetCurrentUnit(UnitCombat newUnit)
         {
+            ClearGrid();
             currentUnit = newUnit;
             var vec = currentUnit.GetGridLocation();
+            Debug.Log((int)vec[0] + " " + (int)vec[1]);
             _currentGridObject = _grid.GetGridObject((int)vec[0], (int)vec[1]);
+            _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours((int)vec[0], (int)vec[1]);
         }
 
         public void MoveTo(int x, int y)
         {
             currentUnit.StartMoving(_grid.GetGridObject(x, y).Hex.position);
+        }
+
+        public void PlayerTurnStart()
+        {
+            Debug.Log("PLAYER SET AS UNIT");
+            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 }

@@ -255,6 +255,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7746506096366373509, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 566664285}
+    - target: {fileID: 7746506096366373509, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextTurn
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -276,6 +284,14 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 2007891381}
+    - target: {fileID: 2128163542704591581, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
+      propertyPath: gridX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2128163542704591581, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
+      propertyPath: gridY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2503455643616579801, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
       propertyPath: combatUI
       value: 
@@ -337,6 +353,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4375681277603676382, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
   m_PrefabInstance: {fileID: 566664283}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &566664285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4917257802411376706, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
+  m_PrefabInstance: {fileID: 566664283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566664284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 542414168a622944694981bb212ff37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &566664288
 MonoBehaviour:
   m_ObjectHideFlags: 0

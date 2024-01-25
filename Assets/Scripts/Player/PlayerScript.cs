@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     
     [SerializeField] private List<AbilityScriptableObject> abilities;
     private List<int> _cooldowns;
+    private CombatSystem_2 _combatSystem2;
 
     [SerializeField] private GameObject combatUI;
     
@@ -28,6 +29,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         _currentHealth = maxHealthPoints;
         _currentPsyche = maxPsychePoints;
+        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _cooldowns = new List<int>();
         for (int i = 0; i < abilities.Count; i++)
         {
@@ -53,6 +55,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         Debug.Log("PLAYER TURN");
+        _combatSystem2.PlayerTurnStart();
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);

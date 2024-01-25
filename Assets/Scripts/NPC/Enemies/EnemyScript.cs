@@ -16,6 +16,8 @@ public class EnemyScript : MonoBehaviour, IHittable
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
 
+    private CombatSystem_2 _combatSystem2;
+
     private int _currentHealth;
     private int _currentPsyche;
     
@@ -24,6 +26,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     {
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
+        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
         for (int i = 0; i < _abilities.Count; i++)

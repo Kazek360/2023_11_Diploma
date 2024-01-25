@@ -39,6 +39,7 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
+        _combatSystem2.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
     }
 
@@ -46,8 +47,8 @@ public class EntityManager : MonoBehaviour
     {
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
         yield return new WaitForSeconds(2);
-        _turnOrder[_currentEntity].ProcessTurn();
         _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
+        _turnOrder[_currentEntity].ProcessTurn();
     }
 
     public List<IHittable> GetPlayers()
