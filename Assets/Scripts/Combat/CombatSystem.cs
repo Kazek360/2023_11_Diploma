@@ -96,13 +96,7 @@ public class CombatSystem : MonoBehaviour
                 _currentGridObject.Select();
                 if(Input.GetMouseButtonDown(0) && unitCombat.currentState == UnitCombat.State.Idling)
                 {
-                    foreach (GridObject gridObject in _currentGridObjectNeighbours)
-                    {
-                        if (gridObject != null)
-                        {
-                            gridObject.HideHighlight();
-                        }
-                    }
+                    ClearGrid();
                     
                     unitCombat.StartMoving(_currentGridObject.Hex.position);
                     _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours(_currentGridObject.X, _currentGridObject.Y);
@@ -117,4 +111,20 @@ public class CombatSystem : MonoBehaviour
                 }
             }
         }
+
+
+        /**
+         * Unselects every hex in grid
+         */
+        private void ClearGrid()
+        {
+            foreach (GridObject gridObject in _currentGridObjectNeighbours)
+            {
+                if (gridObject != null)
+                {
+                    gridObject.HideHighlight();
+                }
+            }
+        }
+
 }

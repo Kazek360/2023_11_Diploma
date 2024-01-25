@@ -6,18 +6,27 @@ using UnityEngine;
 
 public class EntityManager : MonoBehaviour
 {
+    private CombatSystem_2 _combatSystem2;
     [SerializeField] private List<GameObject> turnOrder;
+    
     private List<IHittable> _turnOrder;
+    private List<UnitCombat> _combatUnits;
 
     private int _currentEntity;
     // Start is called before the first frame update
     void Start()
     {
+        _combatSystem2 = GetComponent<CombatSystem_2>();
         _currentEntity = -1;
         _turnOrder = new List<IHittable>();
+        _combatUnits = new List<UnitCombat>();
         foreach (var entity in turnOrder)
         {
             _turnOrder.Add(entity.GetComponent<IHittable>());
+
+            var unit = entity.GetComponent<UnitCombat>();
+            _combatSystem2.SetEntityToGrid(unit);
+            _combatUnits.Add(unit);
         }
         NextTurn();
     }
@@ -38,6 +47,7 @@ public class EntityManager : MonoBehaviour
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
         yield return new WaitForSeconds(2);
         _turnOrder[_currentEntity].ProcessTurn();
+        _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
     }
 
     public List<IHittable> GetPlayers()
