@@ -68,4 +68,9 @@ public interface IHittable
      * Returns object this class is attached to
      */
     public GameObject GetObject();
+
+    /**
+     * Returns a unit combat component assigned to this object
+     */
+    public UnitCombat GetUnitCombatScript();
 }

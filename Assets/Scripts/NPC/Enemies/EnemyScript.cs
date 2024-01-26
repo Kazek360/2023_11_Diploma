@@ -15,8 +15,11 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
+    private UnitCombat _unitCombat;
 
     private CombatSystem_2 _combatSystem2;
+
+    private IHittable _currentTarget;
 
     private int _currentHealth;
     private int _currentPsyche;
@@ -24,11 +27,13 @@ public class EnemyScript : MonoBehaviour, IHittable
     // Start is called before the first frame update
     private void Start()
     {
+        _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
+        _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
             //Debug.Log("ADDED");
@@ -109,24 +114,35 @@ public class EnemyScript : MonoBehaviour, IHittable
     private void CastAbility(int i)
     {
         var ability = _abilities[i];
+        List<IHittable> targetCandidates = new List<IHittable>();
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
             if (targetType == AbilityScriptableObject.TargetTypes.Ally)
             {
-                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetEnemies());
+                targetCandidates.AddRange(gameObject.GetComponentInParent<EntityManager>().GetEnemies());
             }
             
             if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
             {
-                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetPlayers());
+                targetCandidates.AddRange(gameObject.GetComponentInParent<EntityManager>().GetPlayers());
             }
         }
-        
 
-        int chosenTarget = Random.Range(0, possibleTargets.Count);
-        _cooldowns[i] = ability.Cooldown;
-        ability.CastAbility(possibleTargets[chosenTarget], this);
+        foreach (var target in targetCandidates)
+        {
+            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            {
+                possibleTargets.Add(target);
+            }
+        }
+
+        if (possibleTargets.Count > 0)
+        {
+            int chosenTarget = Random.Range(0, possibleTargets.Count);
+            _cooldowns[i] = ability.Cooldown;
+            ability.CastAbility(possibleTargets[chosenTarget], this);
+        }
     }
     
 
@@ -221,5 +237,10 @@ public class EnemyScript : MonoBehaviour, IHittable
     public GameObject GetObject()
     {
         return gameObject;
+    }
+
+    public UnitCombat GetUnitCombatScript()
+    {
+        return _unitCombat;
     }
 }

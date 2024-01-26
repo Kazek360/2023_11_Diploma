@@ -18,6 +18,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     [SerializeField] private List<AbilityScriptableObject> abilities;
     private List<int> _cooldowns;
     private CombatSystem_2 _combatSystem2;
+    private UnitCombat _unitCombat;
 
     [SerializeField] private GameObject combatUI;
     
@@ -27,6 +28,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     // Start is called before the first frame update
     void Start()
     {
+        _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = maxHealthPoints;
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
@@ -158,5 +160,10 @@ public class PlayerScript : MonoBehaviour, IHittable
     public GameObject GetObject()
     {
         return gameObject;
+    }
+    
+    public UnitCombat GetUnitCombatScript()
+    {
+        return _unitCombat;
     }
 }

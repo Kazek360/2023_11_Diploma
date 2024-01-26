@@ -130,7 +130,7 @@ public class CombatSystem_2 : MonoBehaviour
         {
             if ((highlightCenter || currentIter != 0) && !gridObject.IsOccupied)
             {
-                //gridObject.Highlight();
+                gridObject.Highlight();
             }
             
             
@@ -261,7 +261,6 @@ public class CombatSystem_2 : MonoBehaviour
             ClearGrid();
             currentUnit = newUnit;
             var vec = currentUnit.GetGridLocation();
-            Debug.Log((int)vec[0] + " " + (int)vec[1]);
             _currentGridObject = _grid.GetGridObject((int)vec[0], (int)vec[1]);
             _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours((int)vec[0], (int)vec[1]);
         }
@@ -293,11 +292,6 @@ public class CombatSystem_2 : MonoBehaviour
         public void PlayerTurnStart()
         {
             Debug.Log("PLAYER SET AS UNIT");
-            var toHighlight = FindShortestPathTo(_grid.GetGridObject(0, 0), _grid.GetGridObject(4,3));
-            foreach (var hex in toHighlight)
-            {
-                hex.Highlight();
-            }
-            //HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 }

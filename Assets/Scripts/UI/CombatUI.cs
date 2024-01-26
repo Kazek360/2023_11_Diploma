@@ -12,12 +12,14 @@ public class CombatUI : MonoBehaviour
     [SerializeField] private GameObject targetCardPrefab;
     [SerializeField] private GameObject entityManager;
     private EntityManager _entityManager;
+    private CombatSystem_2 _combatSystem2;
 
     private PlayerScript _currentEntity;
     // Start is called before the first frame update
     void Start()
     {
         _entityManager = entityManager.GetComponent<EntityManager>();
+        _combatSystem2 = entityManager.GetComponent<CombatSystem_2>();
     }
 
     // Update is called once per frame
@@ -57,17 +59,25 @@ public class CombatUI : MonoBehaviour
         }
         
         
-        List<IHittable> targets = new List<IHittable>();
+        List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
             if (targetType == AbilityScriptableObject.TargetTypes.Ally)
             {
-                targets.AddRange(_entityManager.GetPlayers());
+                possibleTargets.AddRange(_entityManager.GetPlayers());
             }
             
             if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
             {
-                targets.AddRange(_entityManager.GetEnemies());
+                possibleTargets.AddRange(_entityManager.GetEnemies());
+            }
+        }
+        List<IHittable> targets = new List<IHittable>();
+        foreach (var target in possibleTargets)
+        {
+            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            {
+                targets.Add(target);
             }
         }
 
@@ -87,7 +97,7 @@ public class CombatUI : MonoBehaviour
     public void OnEndTurn()
     {
         var toggled = abilitiesScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
-        if (toggled is not null)
+        if (toggled is not null && GetCurrentlySelectedTarget() is not null)
         {
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
             _currentEntity.CastAbility(toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList, GetCurrentlySelectedTarget());
