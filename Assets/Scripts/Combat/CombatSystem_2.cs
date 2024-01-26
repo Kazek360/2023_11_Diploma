@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -27,6 +28,8 @@ public class CombatSystem_2 : MonoBehaviour
             public int Y;
             public bool IsOccupied;
             public Vector3 XYZCoordinates;      //Needed for A*
+
+            public int F, G, H; //For A* algorithm
 
             public GridObject(int x, int y)
             {
@@ -127,7 +130,7 @@ public class CombatSystem_2 : MonoBehaviour
         {
             if ((highlightCenter || currentIter != 0) && !gridObject.IsOccupied)
             {
-                gridObject.Highlight();
+                //gridObject.Highlight();
             }
             
             
@@ -164,10 +167,86 @@ public class CombatSystem_2 : MonoBehaviour
 
         /**
          * A* algorithm for finding best path between units
+         *
+         * startHex, finishHex - beginning and ending points of a path
+         * 
+         * WARNING: RETURNED LIST CONTAINS BOTH STARTING AND FINISH HEX
          */
-        public List<GridObject> GetShortestPathTo(UnitCombat to)
+        public List<GridObject> FindShortestPathTo(GridObject startHex, GridObject finishHex)
         {
-            throw new NotImplementedException();
+            List<GridObject> openPathHexes = new List<GridObject>();
+            List<GridObject> closedPathHexes = new List<GridObject>();
+
+            GridObject currentHex = startHex;
+
+            currentHex.G = 0;
+            currentHex.H = GetDistance(currentHex, finishHex);
+
+            openPathHexes.Add(currentHex);
+
+            while (openPathHexes.Count > 0)
+            {
+                openPathHexes = openPathHexes.OrderBy(x => x.F).ThenByDescending(x => x.G).ToList();
+                currentHex = openPathHexes[0];
+                
+                openPathHexes.Remove(currentHex);
+                closedPathHexes.Add(currentHex);
+
+                int g = currentHex.G + 1;
+
+                if (closedPathHexes.Contains(finishHex))
+                {
+                    break;
+                }
+
+                foreach (GridObject neighborHex in _grid.GetGridObjectNeighbours(currentHex.X, currentHex.Y))
+                {
+                    if (neighborHex is null)
+                    {
+                        continue;
+                    }
+                    if (neighborHex.IsOccupied && neighborHex!= finishHex)
+                    {
+                        continue;
+                    }
+
+                    if (closedPathHexes.Contains(neighborHex))
+                    {
+                        continue;
+                    }
+
+                    if (!(openPathHexes.Contains(neighborHex)))
+                    {
+                        neighborHex.G = g;
+                        neighborHex.H = GetDistance(neighborHex, finishHex);
+                        neighborHex.F = neighborHex.G + neighborHex.H;
+                        openPathHexes.Add(neighborHex);
+                    }
+                    else if (neighborHex.F > g + neighborHex.H)
+                    {
+                        neighborHex.G = g;
+                        neighborHex.F = neighborHex.G + neighborHex.H;
+                    }
+                }
+            }
+
+            List<GridObject> finalPathHexes = new List<GridObject>();
+
+            if (closedPathHexes.Contains(finishHex))
+            {
+                currentHex = finishHex;
+                finalPathHexes.Add(currentHex);
+
+                for (int i = finishHex.G - 1; i >= 0; i--)
+                {
+                    currentHex = closedPathHexes.Find(x => x.G == i && _grid.GetGridObjectNeighbours(currentHex.X, currentHex.Y).Contains(x));
+                    finalPathHexes.Add(currentHex);
+                }
+
+                finalPathHexes.Reverse();
+            }
+
+            return finalPathHexes;
         }
         
         public void SetEntityToGrid(UnitCombat unitCombat)
@@ -214,6 +293,11 @@ public class CombatSystem_2 : MonoBehaviour
         public void PlayerTurnStart()
         {
             Debug.Log("PLAYER SET AS UNIT");
-            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+            var toHighlight = FindShortestPathTo(_grid.GetGridObject(0, 0), _grid.GetGridObject(4,3));
+            foreach (var hex in toHighlight)
+            {
+                hex.Highlight();
+            }
+            //HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 }
