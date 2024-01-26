@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2914762996686331047}
   - component: {fileID: 6508188991034881442}
   - component: {fileID: 9182913053722766761}
+  - component: {fileID: -3508140640962044644}
   m_Layer: 0
   m_Name: Sanic
   m_TagString: Enemy
@@ -98,7 +99,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 47761a26146e65d47a01a648486c7ff1, type: 2}
-  strength: 0
-  agility: 0
-  luck: 0
-  imagination: 0
+--- !u!50 &-3508140640962044644
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908626592184313377}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

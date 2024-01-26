@@ -54,6 +54,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
+        _combatSystem2.MovementStage(3, stats.PreferredRange, _currentTarget.GetUnitCombatScript());
         int chosenAbility = ChoosePossibleAbility();
         if (chosenAbility != -1)
         {
