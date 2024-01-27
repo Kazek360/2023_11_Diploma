@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -11,8 +12,12 @@ public class CombatUI : MonoBehaviour
     [SerializeField] private GameObject targetsScrollContent;
     [SerializeField] private GameObject targetCardPrefab;
     [SerializeField] private GameObject entityManager;
+    [SerializeField] private GameObject movementCounter;
+    [SerializeField] private GameObject endTurnButton;
     private EntityManager _entityManager;
     private CombatSystem_2 _combatSystem2;
+
+    private TextMeshProUGUI _movementCounter;
 
     private PlayerScript _currentEntity;
     // Start is called before the first frame update
@@ -33,7 +38,11 @@ public class CombatUI : MonoBehaviour
      */
     public void ShowCombatUI(IHittable entity)
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
+        abilitiesScrollContent.SetActive(true);
+        movementCounter.SetActive(true);
+        endTurnButton.SetActive(true);
+        _movementCounter = movementCounter.GetComponent<TextMeshProUGUI>();
         _currentEntity = (PlayerScript)entity;
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
@@ -112,7 +121,10 @@ public class CombatUI : MonoBehaviour
             Transform child = targetsScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
         }
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+        abilitiesScrollContent.SetActive(false);
+        movementCounter.SetActive(false);
+        endTurnButton.SetActive(false);
     }
 
     /**
@@ -144,5 +156,10 @@ public class CombatUI : MonoBehaviour
             return toggled.gameObject.GetComponent<AbilityCard>().Ability;
         }
         return null;
+    }
+
+    public void SetMovementCounter(int i)
+    {
+        _movementCounter.text = "" + i;
     }
 }

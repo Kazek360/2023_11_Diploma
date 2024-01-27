@@ -12,6 +12,7 @@ public class CombatSystem_2 : MonoBehaviour
         [SerializeField] private Camera mainCamera;
         private Grid<GridObject> _grid;
         [SerializeField] private UnitCombat currentUnit;
+        [SerializeField] private CombatUI combatUI;
     
         [SerializeField] private int width;
         [SerializeField] private int height;
@@ -20,6 +21,7 @@ public class CombatSystem_2 : MonoBehaviour
         
         private GridObject _currentGridObject;
         private List<GridObject> _currentGridObjectNeighbours;
+        private int _movementLeft;
         
         public class GridObject
         {
@@ -268,6 +270,8 @@ public class CombatSystem_2 : MonoBehaviour
 
         public void MoveToSelected()
         {
+            _movementLeft--;
+            UpdateMovementCounter();
             var vec = currentUnit.GetGridLocation();
             _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
             ClearGrid();
@@ -275,11 +279,15 @@ public class CombatSystem_2 : MonoBehaviour
             currentUnit.StartMoving(_currentGridObject.Hex.position);
             currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
             _currentGridObject.IsOccupied = true;
-            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+            if (_movementLeft > 0)
+            {
+                HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+            }
         }
 
         public void MoveTo(int x, int y)
         {
+            _movementLeft--;
             var vec = currentUnit.GetGridLocation();
             _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
             ClearGrid();
@@ -290,20 +298,23 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObject.IsOccupied = true;
         }
 
-        public void PlayerTurnStart()
+        public void PlayerTurnStart(int movement)
         {
             Debug.Log("PLAYER SET AS UNIT");
+            _movementLeft = movement;
+            UpdateMovementCounter();
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 
         public void MovementStage(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
-            StartCoroutine(MoveAlongPath(movement, prefRange, target, movedEntity));
+            _movementLeft = movement;
+            StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
         
         
 
-        IEnumerator MoveAlongPath(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
+        IEnumerator MoveAlongPath(int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
             var vec = currentUnit.GetGridLocation();
             var currHex = _grid.GetGridObject((int)vec[0], (int)vec[1]);
@@ -315,7 +326,7 @@ public class CombatSystem_2 : MonoBehaviour
         
             for (int i = 1; i < path.Count - 1; i++)
             {
-                if (GetDistance(currHex, finishHex) <= prefRange || movement <= 0)
+                if (GetDistance(currHex, finishHex) <= prefRange || _movementLeft <= 0)
                 {
                     break;
                 }
@@ -326,8 +337,12 @@ public class CombatSystem_2 : MonoBehaviour
                     yield return new WaitForSeconds(0.3f);
                 }
                 currHex = nextHex;
-                movement--;
             }
             movedEntity.TurnAfterMovement();
+        }
+
+        private void UpdateMovementCounter()
+        {
+            combatUI.SetMovementCounter(_movementLeft);
         }
 }
