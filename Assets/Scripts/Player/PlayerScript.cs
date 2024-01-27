@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
@@ -21,7 +22,8 @@ public class PlayerScript : MonoBehaviour, IHittable
     private CombatUI _combatUI;
     private UnitCombat _unitCombat;
 
-    [SerializeField] private GameObject combatUI;
+    [SerializeField] private TargetClickArea targetClickArea;
+    [SerializeField] private TextMeshPro hpText;
     
     private int _currentHealth;
     private int _currentPsyche;
@@ -33,12 +35,13 @@ public class PlayerScript : MonoBehaviour, IHittable
         _currentHealth = maxHealthPoints;
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
-        _combatUI = combatUI.GetComponent<CombatUI>();
+        _combatUI = _combatSystem2.GetCombatUI();
         _cooldowns = new List<int>();
         for (int i = 0; i < abilities.Count; i++)
         {
             _cooldowns.Add(0);
         }
+        UpdateHpText();
     }
 
     // Update is called once per frame
@@ -82,6 +85,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         //Debug.Log("HP CHANGED BY " + amount);
         _currentHealth = _currentHealth + amount;
+        UpdateHpText();
         if (_currentHealth <= 0)
         {
             OnHealthDepleted();
@@ -167,5 +171,25 @@ public class PlayerScript : MonoBehaviour, IHittable
     public UnitCombat GetUnitCombatScript()
     {
         return _unitCombat;
+    }
+
+    public void ActivateTargetClickArea()
+    {
+        targetClickArea.EnableClick(_combatUI, this);
+    }
+
+    public void DeactivateTargetClickArea()
+    {
+        targetClickArea.DisableClick();
+    }
+    
+    public void TargetClickAreaDeselected()
+    {
+        targetClickArea.Deselect();
+    }
+    
+    private void UpdateHpText()
+    {
+        hpText.text = "" + _currentHealth;
     }
 }

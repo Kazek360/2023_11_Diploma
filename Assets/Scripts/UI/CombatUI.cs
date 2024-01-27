@@ -16,15 +16,21 @@ public class CombatUI : MonoBehaviour
     [SerializeField] private GameObject endTurnButton;
     private EntityManager _entityManager;
     private CombatSystem_2 _combatSystem2;
+    private ToggleGroup _abilitiesToggleGroup;
 
     private TextMeshProUGUI _movementCounter;
 
     private PlayerScript _currentEntity;
+
+    private List<IHittable> _possibleTargets;
+    private IHittable _currentTarget;
     // Start is called before the first frame update
     void Start()
     {
+        _possibleTargets = new List<IHittable>();
         _entityManager = entityManager.GetComponent<EntityManager>();
         _combatSystem2 = entityManager.GetComponent<CombatSystem_2>();
+        _abilitiesToggleGroup = abilitiesScrollContent.GetComponent<ToggleGroup>();
     }
 
     // Update is called once per frame
@@ -50,7 +56,7 @@ public class CombatUI : MonoBehaviour
             AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
             abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
             abilityCard.SetController(this);
-            container.GetComponent<Toggle>().group = abilitiesScrollContent.GetComponent<ToggleGroup>();
+            container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
             container.transform.SetParent(abilitiesScrollContent.transform);
         }
     }
@@ -99,18 +105,66 @@ public class CombatUI : MonoBehaviour
             container.transform.SetParent(targetsScrollContent.transform);
         }
     }
+    
+    /**
+     * After choosing an ability show possible targets
+     *
+     * 
+     */
+    public void ShowTargets(AbilityScriptableObject ability)
+    {
+        List<IHittable> candidateTargets = new List<IHittable>();
+        foreach (var targetType in ability.ViableTargets)
+        {
+            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
+            {
+                candidateTargets.AddRange(_entityManager.GetPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
+            {
+                candidateTargets.AddRange(_entityManager.GetEnemies());
+            }
+        }
+        _possibleTargets = new List<IHittable>();
+        foreach (var target in candidateTargets)
+        {
+            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            {
+                _possibleTargets.Add(target);
+            }
+        }
+
+        foreach (var target in _possibleTargets)
+        {
+            //Debug.Log("ACTIVATING");
+            target.ActivateTargetClickArea();
+        }
+    }
+
+    private void HideTargets()
+    {
+        foreach (var target in _possibleTargets)
+        {
+            target.TargetClickAreaDeselected();
+            target.DeactivateTargetClickArea();
+        }
+
+        _currentTarget = null;
+    }
 
     /**
      * After turn ends hide interface and destroy children of ability and target lists in order to prevent cloning
      */
     public void OnEndTurn()
     {
-        var toggled = abilitiesScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
+        var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
         if (toggled is not null && GetCurrentlySelectedTarget() is not null)
         {
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
-            _currentEntity.CastAbility(toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList, GetCurrentlySelectedTarget());
+            _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
         }
+        HideTargets();
         
         for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
             Transform child = abilitiesScrollContent.transform.GetChild(i);
@@ -132,25 +186,36 @@ public class CombatUI : MonoBehaviour
      */
     public void OnNewAbilitySelected()
     {
-        ShowTargetsList(GetCurrentlySelectedAbility());
+        //ShowTargetsList(GetCurrentlySelectedAbility());
+        HideTargets();
+        var ability = GetCurrentlySelectedAbility();
+        if (ability is not null)
+        {
+            ShowTargets(ability);
+        }
     }
 
 
     
+    // private IHittable GetCurrentlySelectedTarget()
+    // {
+    //     var toggled = targetsScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
+    //     if (toggled is not null)
+    //     {
+    //         return toggled.gameObject.GetComponent<TargetCard>().GetTargetScript();
+    //     }
+    //     return null;
+    // }
+    
     private IHittable GetCurrentlySelectedTarget()
     {
-        var toggled = targetsScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
-        if (toggled is not null)
-        {
-            return toggled.gameObject.GetComponent<TargetCard>().GetTargetScript();
-        }
-        return null;
+        return _currentTarget;
     }
 
 
     private AbilityScriptableObject GetCurrentlySelectedAbility()
     {
-        var toggled = abilitiesScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
+        var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
         if (toggled is not null)
         {
             return toggled.gameObject.GetComponent<AbilityCard>().Ability;
@@ -160,6 +225,18 @@ public class CombatUI : MonoBehaviour
 
     public void SetMovementCounter(int i)
     {
+        HideTargets();  //Movement deselects targets in order to avoid choosing a target and then moving beyond
+                        //the intended range
+        _abilitiesToggleGroup.SetAllTogglesOff();
         _movementCounter.text = "" + i;
+    }
+
+    public void SetTarget(IHittable target)
+    {
+        if (_currentTarget is not null)
+        {
+            _currentTarget.TargetClickAreaDeselected();
+        }
+        _currentTarget = target;
     }
 }

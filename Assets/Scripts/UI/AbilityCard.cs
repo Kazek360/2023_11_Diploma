@@ -52,10 +52,6 @@ public class AbilityCard : MonoBehaviour
      */
     public void OnClicked()
     {
-        if (!GetComponent<Toggle>().isOn)
-        {
-            return;
-        }
         _controllerClass.OnNewAbilitySelected();
     }
     

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EntityManager : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class EntityManager : MonoBehaviour
     private List<IHittable> _turnOrder;
     private List<UnitCombat> _combatUnits;
 
+    [SerializeField] private int enemiesToDefeat;
+    [SerializeField] private int sceneToOpenAfterVictory;
+    private int _enemiesDefeated;
+
     private int _currentEntity;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +25,7 @@ public class EntityManager : MonoBehaviour
         _currentEntity = -1;
         _turnOrder = new List<IHittable>();
         _combatUnits = new List<UnitCombat>();
+        _enemiesDefeated = 0;
         foreach (var entity in turnOrder)
         {
             _turnOrder.Add(entity.GetComponent<IHittable>());
@@ -78,5 +84,14 @@ public class EntityManager : MonoBehaviour
         }
 
         return enemyEntities;
-    } 
+    }
+
+    public void OnEnemyDefeated()
+    {
+        _enemiesDefeated++;
+        if (_enemiesDefeated >= enemiesToDefeat)
+        {
+            SceneManager.LoadScene(sceneToOpenAfterVictory);
+        }
+    }
 }

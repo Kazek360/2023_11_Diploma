@@ -73,4 +73,8 @@ public interface IHittable
      * Returns a unit combat component assigned to this object
      */
     public UnitCombat GetUnitCombatScript();
+
+    public void ActivateTargetClickArea();
+    public void TargetClickAreaDeselected();
+    public void DeactivateTargetClickArea();
 }

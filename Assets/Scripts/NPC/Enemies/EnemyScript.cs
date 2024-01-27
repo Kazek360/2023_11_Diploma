@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,12 +13,15 @@ using Random = UnityEngine.Random;
 public class EnemyScript : MonoBehaviour, IHittable
 {
     [SerializeField] private EnemyStats stats;
+    [SerializeField] private TargetClickArea targetClickArea;
+    [SerializeField] private TextMeshPro hpText;
     
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
 
     private CombatSystem_2 _combatSystem2;
+    private CombatUI _combatUI;
     private EntityManager _entityManager;
 
     private IHittable _currentTarget;
@@ -33,6 +37,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         _currentPsyche = stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
+        _combatUI = _combatSystem2.GetCombatUI();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetPlayers()[0];
@@ -41,6 +46,7 @@ public class EnemyScript : MonoBehaviour, IHittable
             //Debug.Log("ADDED");
             _cooldowns.Add(0);
         }
+        UpdateHpText();
     }
 
     private void OnEnable()
@@ -171,10 +177,11 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ModifyHealth(int amount)
     {
         _currentHealth = _currentHealth + amount;
-        if (_currentHealth == 0)
+        if (_currentHealth <= 0)
         {
             OnHealthDepleted();
         }
+        UpdateHpText();
     }
 
     public int GetCurrentPsyche()
@@ -198,7 +205,10 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void OnHealthDepleted()
     {
+        _entityManager.OnEnemyDefeated();
+        _combatSystem2.EnemyDefeated(_unitCombat);
         Debug.Log(stats.EnemyName + " has lost all health");
+        gameObject.SetActive(false);
     }
 
     public void OnPsycheDepleted()
@@ -254,5 +264,25 @@ public class EnemyScript : MonoBehaviour, IHittable
     public UnitCombat GetUnitCombatScript()
     {
         return _unitCombat;
+    }
+    
+    public void ActivateTargetClickArea()
+    {
+        targetClickArea.EnableClick(_combatUI, this);
+    }
+
+    public void DeactivateTargetClickArea()
+    {
+        targetClickArea.DisableClick();
+    }
+
+    public void TargetClickAreaDeselected()
+    {
+        targetClickArea.Deselect();
+    }
+
+    private void UpdateHpText()
+    {
+        hpText.text = "" + _currentHealth;
     }
 }

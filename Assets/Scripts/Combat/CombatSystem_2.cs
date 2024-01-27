@@ -345,4 +345,15 @@ public class CombatSystem_2 : MonoBehaviour
         {
             combatUI.SetMovementCounter(_movementLeft);
         }
+
+        public CombatUI GetCombatUI()
+        {
+            return combatUI;
+        }
+
+        public void EnemyDefeated(UnitCombat unitDefeated)
+        {
+            var pos = unitDefeated.GetGridLocation();
+            _grid.GetGridObject((int)pos.x, (int)pos.y).IsOccupied = false;
+        }
 }
