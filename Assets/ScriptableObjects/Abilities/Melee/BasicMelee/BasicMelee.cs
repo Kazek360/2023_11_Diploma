@@ -17,11 +17,17 @@ public class BasicMelee : AbilityScriptableObject
         base.CastAbility(target, caster);
         if (dealingHealthDamage)
         {
-            AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
+            //AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
+            AbilityEffects.DealHealthDamage(target, healthDamage);
         }
         if (dealingPsycheDamage)
         {
-            AbilityEffects.DealPsycheDamage(target, psycheDamage + caster.GetImagination());
+            //AbilityEffects.DealPsycheDamage(target, psycheDamage + caster.GetImagination());
         }
+    }
+    
+    public override string GetAbilityActionText()
+    {
+        return "DAMAGE: " + healthDamage;
     }
 }
