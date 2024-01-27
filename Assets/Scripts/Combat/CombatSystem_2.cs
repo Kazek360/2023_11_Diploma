@@ -296,75 +296,14 @@ public class CombatSystem_2 : MonoBehaviour
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 
-        public void MovementStage(int movement, int prefRange, UnitCombat target)
+        public void MovementStage(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
-            // var vec = currentUnit.GetGridLocation();
-            // var currHex = _grid.GetGridObject((int)vec[0], (int)vec[1]);
-            //
-            // var vec2 = target.GetGridLocation();
-            // var finishHex = _grid.GetGridObject((int)vec2[0], (int)vec2[1]);
-            //
-            // var path = FindShortestPathTo(currHex, finishHex);
-            //
-            // for (int i = 1; i < path.Count - 1; i++)
-            // {
-            //     if (GetDistance(currHex, finishHex) <= prefRange || movement <= 0)
-            //     {
-            //         break;
-            //     }
-            //     var nextHex = path[i];
-            //     MoveToAsync(nextHex.X, nextHex.Y);
-            //     currHex = nextHex;
-            //     movement--;
-            // }
-            
-            MoveAlongPath2(movement, prefRange, target);
-        }
-
-        async void MoveToAsync(int x, int y)
-        {
-
-            var vec = currentUnit.GetGridLocation();
-            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
-            ClearGrid();
-
-            _currentGridObject = _grid.GetGridObject(x, y);
-            currentUnit.StartMoving(_currentGridObject.Hex.position);
-            currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
-            _currentGridObject.IsOccupied = true;
-            await Task.Yield();
+            StartCoroutine(MoveAlongPath(movement, prefRange, target, movedEntity));
         }
         
         
 
-        // IEnumerator MoveAlongPath(int movement, int prefRange, UnitCombat target)
-        // {
-        //     var vec = currentUnit.GetGridLocation();
-        //     var currHex = _grid.GetGridObject((int)vec[0], (int)vec[1]);
-        //     
-        //     var vec2 = target.GetGridLocation();
-        //     var finishHex = _grid.GetGridObject((int)vec2[0], (int)vec2[1]);
-        //     
-        //     var path = FindShortestPathTo(currHex, finishHex);
-        //
-        //     for (int i = 1; i < path.Count - 1; i++)
-        //     {
-        //         if (GetDistance(currHex, finishHex) <= prefRange || movement <= 0)
-        //         {
-        //             break;
-        //         }
-        //         var nextHex = path[i];
-        //         MoveTo(nextHex.X, nextHex.Y);
-        //         while (currentUnit.currentState != UnitCombat.State.Idling)
-        //         {
-        //             yield return new WaitForSeconds(0.3f);
-        //         }
-        //         currHex = nextHex;
-        //         movement--;
-        //     }
-        // }
-        
-        async void MoveAlongPath2(int movement, int prefRange, UnitCombat target)
+        IEnumerator MoveAlongPath(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
             var vec = currentUnit.GetGridLocation();
             var currHex = _grid.GetGridObject((int)vec[0], (int)vec[1]);
@@ -373,7 +312,7 @@ public class CombatSystem_2 : MonoBehaviour
             var finishHex = _grid.GetGridObject((int)vec2[0], (int)vec2[1]);
             
             var path = FindShortestPathTo(currHex, finishHex);
-
+        
             for (int i = 1; i < path.Count - 1; i++)
             {
                 if (GetDistance(currHex, finishHex) <= prefRange || movement <= 0)
@@ -384,11 +323,11 @@ public class CombatSystem_2 : MonoBehaviour
                 MoveTo(nextHex.X, nextHex.Y);
                 while (currentUnit.currentState != UnitCombat.State.Idling)
                 {
-                    await Task.Delay(200);
+                    yield return new WaitForSeconds(0.3f);
                 }
                 currHex = nextHex;
                 movement--;
             }
-            await Task.Yield();
+            movedEntity.TurnAfterMovement();
         }
 }

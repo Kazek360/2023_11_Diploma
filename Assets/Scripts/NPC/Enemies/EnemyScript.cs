@@ -18,6 +18,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     private UnitCombat _unitCombat;
 
     private CombatSystem_2 _combatSystem2;
+    private EntityManager _entityManager;
 
     private IHittable _currentTarget;
 
@@ -31,6 +32,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
+        _entityManager = gameObject.GetComponentInParent<EntityManager>();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetPlayers()[0];
@@ -51,10 +53,19 @@ public class EnemyScript : MonoBehaviour, IHittable
         
     }
 
+    
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        _combatSystem2.MovementStage(3, stats.PreferredRange, _currentTarget.GetUnitCombatScript());
+        _combatSystem2.MovementStage(stats.Agility, stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+    }
+
+    /**
+     * For enemies ProcessTurn is split into starting movement and turn after finishing movement
+     * in order to prevent simultaneous execution of both
+     */
+    public void TurnAfterMovement()
+    {
         int chosenAbility = ChoosePossibleAbility();
         if (chosenAbility != -1)
         {
@@ -65,7 +76,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
-        gameObject.GetComponentInParent<EntityManager>().NextTurn();
+        _entityManager.NextTurn();
     }
 
     /**
@@ -121,12 +132,12 @@ public class EnemyScript : MonoBehaviour, IHittable
         {
             if (targetType == AbilityScriptableObject.TargetTypes.Ally)
             {
-                targetCandidates.AddRange(gameObject.GetComponentInParent<EntityManager>().GetEnemies());
+                targetCandidates.AddRange(_entityManager.GetEnemies());
             }
             
             if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
             {
-                targetCandidates.AddRange(gameObject.GetComponentInParent<EntityManager>().GetPlayers());
+                targetCandidates.AddRange(_entityManager.GetPlayers());
             }
         }
 
