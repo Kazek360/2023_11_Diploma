@@ -52,7 +52,7 @@ public class EntityManager : MonoBehaviour
     private IEnumerator NextTurnCoroutine()
     {
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.3f);
         _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
         _turnOrder[_currentEntity].ProcessTurn();
     }
