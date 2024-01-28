@@ -14,6 +14,7 @@ public class TestQuestDialogue3 : MonoBehaviour
     
     public void Update()
     {
+        //Debug.Log($"Lisa in range: {_playerInRange}");
         if (_playerInRange && Input.GetKeyDown(KeyCode.E) && _currentQuestState == QuestState.CanFinish)
         {
             QuestEvents.FinishQuest("EpicQuest");
@@ -48,11 +49,17 @@ public class TestQuestDialogue3 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _playerInRange = true;
+        if (other.CompareTag("Player"))
+        {
+            _playerInRange = true;
+        }
     }
     
     private void OnTriggerExit2D(Collider2D other)
     {
-        _playerInRange = false;
+        if (other.CompareTag("Player"))
+        {
+            _playerInRange = false;
+        }
     }
 }

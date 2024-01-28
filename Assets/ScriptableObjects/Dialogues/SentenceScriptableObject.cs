@@ -10,6 +10,7 @@ using UnityEngine.Events;
 public class SentenceScriptableObject : ScriptableObject
 {
     [SerializeField] private string speakerName;    //Name of the character speaking
+    [TextArea]
     [SerializeField] private string text;   //Text that should appear on screen
     [SerializeField] private List<string> flags;   //(OPTIONAL) List of flags that should be set with appearance of this sentence
     [SerializeField] private Sprite speakerPortrait;    //Portrait of the speaker
