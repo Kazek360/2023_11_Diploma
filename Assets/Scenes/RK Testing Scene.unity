@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2546b67d683401468b22184457cadaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: Test Scene
+  sceneToLoad: (copy) Test Combat
 --- !u!1 &702955018
 GameObject:
   m_ObjectHideFlags: 0
@@ -6070,11 +6070,11 @@ Transform:
   m_GameObject: {fileID: 1855478643}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0.05, y: 0.06, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1919964619}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919964614
 GameObject:
@@ -6170,7 +6170,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1919964618
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6232,10 +6232,11 @@ Transform:
   m_GameObject: {fileID: 1919964614}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.61, y: -1.03, z: 0}
+  m_LocalPosition: {x: -8.57, y: 17.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1855478647}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1933691425
@@ -18126,7 +18127,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 0
 --- !u!19719996 &1933691431
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -18167,7 +18168,6 @@ TilemapCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1855478647}
   - {fileID: 1919964619}
   - {fileID: 460990638}
   - {fileID: 1459809708}
