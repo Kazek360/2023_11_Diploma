@@ -178,7 +178,6 @@ public class CombatUI : MonoBehaviour
             _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
         }
         HideTargets();
-        Debug.Log("A");
         
         for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
             Transform child = abilitiesScrollContent.transform.GetChild(i);
@@ -193,7 +192,6 @@ public class CombatUI : MonoBehaviour
         abilitiesScrollContent.SetActive(false);
         movementCounter.SetActive(false);
         endTurnButton.SetActive(false);
-        Debug.Log("A");
     }
 
     /**

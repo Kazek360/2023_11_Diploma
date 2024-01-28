@@ -70,7 +70,6 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ProcessTurn()
     {
-        Debug.Log("PLAYER TURN");
         _combatUI.ShowCombatUI(this);
         _combatSystem2.PlayerTurnStart(agility, IsMaterial());
         for (int i = 0; i < _cooldowns.Count; i++)
@@ -132,7 +131,7 @@ public class PlayerScript : MonoBehaviour, IHittable
         //gameObject.SetActive(false);
     }
 
-    public void OnPartnerDeath()
+    public virtual void OnPartnerDeath()
     {
         _partner = null;
     }

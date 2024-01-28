@@ -24,6 +24,7 @@ public class SpiritPlayerScript : PlayerScript
     public override void OnHealthDepleted()
     {
         Debug.Log( "Nestor has lost all health");
+        OnHealthDepleted();
         _partner.OnPartnerDeath();
     }
 }

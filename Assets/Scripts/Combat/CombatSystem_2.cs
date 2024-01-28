@@ -328,7 +328,6 @@ public class CombatSystem_2 : MonoBehaviour
         public void PlayerTurnStart(int movement, bool isMaterial)
         {
             _currentIsPlayer = true;
-            Debug.Log("PLAYER SET AS UNIT");
             SetCurrentMaterial(isMaterial);
             ShowStage(isMaterial);
             _movementLeft = movement;
@@ -404,7 +403,6 @@ public class CombatSystem_2 : MonoBehaviour
             {
                 if (isMaterial)
                 {
-                    Debug.Log("MATERIAL");
                     if (_currentIsMaterial)
                     {
                         HighlightNeighborsInRadius(currPos, 1, 0, false);
@@ -417,7 +415,6 @@ public class CombatSystem_2 : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("IMMATERIAL");
                     if (!_currentIsMaterial)
                     {
                         HighlightNeighborsInRadius(currPos, 1, 0, false);
@@ -428,6 +425,5 @@ public class CombatSystem_2 : MonoBehaviour
                     }
                 }
             }
-            Debug.Log("A");
         }
 }

@@ -44,7 +44,6 @@ public class EnemyScript : MonoBehaviour, IHittable
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
         if (IsMaterial())
         {
-            Debug.Log(IsMaterial());
             _partner = partner.GetComponent<IHittable>();
             _partner.SetPartnerEntity(this);
         }
@@ -231,7 +230,10 @@ public class EnemyScript : MonoBehaviour, IHittable
     public virtual void OnHealthDepleted()
     {
         _isDead = true;
-        _partner?.OnPartnerDeath();
+        if (_partner is not null)
+        {
+            _partner.OnPartnerDeath();
+        }
         if (IsMaterial())
         {
             _entityManager.OnEnemyDefeated();
@@ -241,7 +243,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         gameObject.SetActive(false);
     }
 
-    public void OnPartnerDeath()
+    public virtual void OnPartnerDeath()
     {
         _partner = null;
     }

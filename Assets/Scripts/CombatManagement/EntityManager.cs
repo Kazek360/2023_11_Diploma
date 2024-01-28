@@ -46,7 +46,6 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
-        Debug.Log("A");
         _combatSystem2.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
     }
@@ -56,14 +55,12 @@ public class EntityManager : MonoBehaviour
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
         if (_turnOrder[_currentEntity].IsDead())
         {
-            Debug.Log("A");
             StartCoroutine(NextTurnCoroutine());
         }
         else
         {
             yield return new WaitForSeconds(0.3f);
             _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
-            Debug.Log("A");
             _turnOrder[_currentEntity].ProcessTurn();
         }
     }
