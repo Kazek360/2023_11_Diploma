@@ -298,7 +298,7 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObject.IsOccupied = true;
         }
 
-        public void PlayerTurnStart(int movement)
+        public void PlayerTurnStart(int movement, bool isMaterial)
         {
             Debug.Log("PLAYER SET AS UNIT");
             _movementLeft = movement;
@@ -355,5 +355,15 @@ public class CombatSystem_2 : MonoBehaviour
         {
             var pos = unitDefeated.GetGridLocation();
             _grid.GetGridObject((int)pos.x, (int)pos.y).IsOccupied = false;
+        }
+
+        private void ShowMaterial()
+        {
+            Debug.Log("MATERIAL");
+        }
+        
+        private void ShowImmaterial()
+        {
+            Debug.Log("IMMATERIAL");
         }
 }

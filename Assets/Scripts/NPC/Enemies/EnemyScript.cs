@@ -12,9 +12,12 @@ using Random = UnityEngine.Random;
  */
 public class EnemyScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private GameObject partner;
     [SerializeField] private EnemyStats stats;
     [SerializeField] private TargetClickArea targetClickArea;
     [SerializeField] private TextMeshPro hpText;
+    [SerializeField] private bool material;
+    private IImmaterial _partner;
     
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
@@ -37,6 +40,8 @@ public class EnemyScript : MonoBehaviour, IHittable
         _currentPsyche = stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
+        _partner = partner.GetComponent<IImmaterial>();
+        _partner.SetPartnerEntity(this);
         _combatUI = _combatSystem2.GetCombatUI();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
@@ -176,6 +181,10 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void ModifyHealth(int amount)
     {
+        if (_partner is null && amount < 0)
+        {
+            amount *= 2;
+        }
         _currentHealth = _currentHealth + amount;
         if (_currentHealth <= 0)
         {
@@ -209,6 +218,11 @@ public class EnemyScript : MonoBehaviour, IHittable
         _combatSystem2.EnemyDefeated(_unitCombat);
         Debug.Log(stats.EnemyName + " has lost all health");
         gameObject.SetActive(false);
+    }
+
+    public void OnPartnerDeath()
+    {
+        _partner = null;
     }
 
     public void OnPsycheDepleted()
@@ -284,5 +298,15 @@ public class EnemyScript : MonoBehaviour, IHittable
     private void UpdateHpText()
     {
         hpText.text = "" + _currentHealth;
+    }
+
+    public bool IsMaterial()
+    {
+        return material;
+    }
+    
+    public IImmaterial GetPartner()
+    {
+        return _partner;
     }
 }

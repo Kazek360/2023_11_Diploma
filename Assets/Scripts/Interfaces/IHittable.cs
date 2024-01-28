@@ -77,4 +77,10 @@ public interface IHittable
     public void ActivateTargetClickArea();
     public void TargetClickAreaDeselected();
     public void DeactivateTargetClickArea();
+
+    public bool IsMaterial();
+
+    public IImmaterial GetPartner();
+
+    public void OnPartnerDeath();
 }

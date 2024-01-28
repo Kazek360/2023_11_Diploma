@@ -6,9 +6,11 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private GameObject partner;
     [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
+    private IImmaterial _partner;
 
     [SerializeField] private string entityName;
     [SerializeField] private int strength;
@@ -37,6 +39,8 @@ public class PlayerScript : MonoBehaviour, IHittable
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _cooldowns = new List<int>();
+        _partner = partner.GetComponent<IImmaterial>();
+        _partner.SetPartnerEntity(this);
         for (int i = 0; i < abilities.Count; i++)
         {
             _cooldowns.Add(0);
@@ -63,7 +67,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         Debug.Log("PLAYER TURN");
         _combatUI.ShowCombatUI(this);
-        _combatSystem2.PlayerTurnStart(agility);
+        _combatSystem2.PlayerTurnStart(agility, IsMaterial());
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
@@ -84,6 +88,10 @@ public class PlayerScript : MonoBehaviour, IHittable
     public void ModifyHealth(int amount)
     {
         //Debug.Log("HP CHANGED BY " + amount);
+        if (_partner is null && amount < 0)
+        {
+            amount *= 2;
+        }
         _currentHealth = _currentHealth + amount;
         UpdateHpText();
         if (_currentHealth <= 0)
@@ -116,6 +124,11 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         Debug.Log( "Wit has lost all health");
         gameObject.SetActive(false);
+    }
+
+    public void OnPartnerDeath()
+    {
+        _partner = null;
     }
 
     public void OnPsycheDepleted()
@@ -191,5 +204,15 @@ public class PlayerScript : MonoBehaviour, IHittable
     private void UpdateHpText()
     {
         hpText.text = "" + _currentHealth;
+    }
+
+    public bool IsMaterial()
+    {
+        return true;
+    }
+
+    public IImmaterial GetPartner()
+    {
+        return _partner;
     }
 }
