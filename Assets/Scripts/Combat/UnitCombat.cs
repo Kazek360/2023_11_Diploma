@@ -15,6 +15,7 @@ public class UnitCombat : MonoBehaviour
     private Rigidbody2D _rigidbody;
     public State currentState;
     private Vector3 _currentDestination;
+    [SerializeField] private int gridX, gridY;
     
     private void Awake()
     {
@@ -55,6 +56,17 @@ public class UnitCombat : MonoBehaviour
         {
             _rigidbody.position = Vector2.MoveTowards(transform.position, _currentDestination, speed * Time.deltaTime);
         }
+    }
+
+    public Vector2 GetGridLocation()
+    {
+        return new Vector2(gridX, gridY);
+    }
+
+    public void SetGridLocation(int x, int y)
+    {
+        gridX = x;
+        gridY = y;
     }
     
 }

@@ -68,4 +68,27 @@ public interface IHittable
      * Returns object this class is attached to
      */
     public GameObject GetObject();
+
+    /**
+     * Returns a unit combat component assigned to this object
+     */
+    public UnitCombat GetUnitCombatScript();
+
+    public void ActivateTargetClickArea();
+    public void TargetClickAreaDeselected();
+    public void DeactivateTargetClickArea();
+
+    public bool IsMaterial();
+
+    public IHittable GetPartner();
+
+    public void OnPartnerDeath();
+
+    public void Activate(bool setActive);
+
+    public GameObject GetGameObject();
+
+    public void SetPartnerEntity(IHittable partner);
+
+    public bool IsDead();
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -11,26 +12,52 @@ using Random = UnityEngine.Random;
  */
 public class EnemyScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private GameObject partner;
     [SerializeField] private EnemyStats stats;
+    [SerializeField] private TargetClickArea targetClickArea;
+    [SerializeField] private TextMeshPro hpText;
+    [SerializeField] private bool material;
+    protected IHittable _partner;
     
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
+    private UnitCombat _unitCombat;
+
+    private CombatSystem_2 _combatSystem2;
+    private CombatUI _combatUI;
+    private EntityManager _entityManager;
+
+    private IHittable _currentTarget;
 
     private int _currentHealth;
     private int _currentPsyche;
+    private bool _isDead;
     
     // Start is called before the first frame update
     private void Start()
     {
+        _isDead = false;
+        _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
+        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
+        _entityManager = gameObject.GetComponentInParent<EntityManager>();
+        if (IsMaterial())
+        {
+            Debug.Log(IsMaterial());
+            _partner = partner.GetComponent<IHittable>();
+            _partner.SetPartnerEntity(this);
+        }
+        _combatUI = _combatSystem2.GetCombatUI();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
+        _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
             //Debug.Log("ADDED");
             _cooldowns.Add(0);
         }
+        UpdateHpText();
     }
 
     private void OnEnable()
@@ -43,9 +70,19 @@ public class EnemyScript : MonoBehaviour, IHittable
         
     }
 
+    
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
+        _combatSystem2.MovementStage(stats.Agility, stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+    }
+
+    /**
+     * For enemies ProcessTurn is split into starting movement and turn after finishing movement
+     * in order to prevent simultaneous execution of both
+     */
+    public void TurnAfterMovement()
+    {
         int chosenAbility = ChoosePossibleAbility();
         if (chosenAbility != -1)
         {
@@ -56,7 +93,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
-        gameObject.GetComponentInParent<EntityManager>().NextTurn();
+        _entityManager.NextTurn();
     }
 
     /**
@@ -106,24 +143,45 @@ public class EnemyScript : MonoBehaviour, IHittable
     private void CastAbility(int i)
     {
         var ability = _abilities[i];
+        List<IHittable> targetCandidates = new List<IHittable>();
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
             {
-                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetEnemies());
+                targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
             {
-                possibleTargets.AddRange(gameObject.GetComponentInParent<EntityManager>().GetPlayers());
+                targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            {
+                targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            {
+                targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
             }
         }
-        
 
-        int chosenTarget = Random.Range(0, possibleTargets.Count);
-        _cooldowns[i] = ability.Cooldown;
-        ability.CastAbility(possibleTargets[chosenTarget], this);
+        foreach (var target in targetCandidates)
+        {
+            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            {
+                possibleTargets.Add(target);
+            }
+        }
+
+        if (possibleTargets.Count > 0)
+        {
+            int chosenTarget = Random.Range(0, possibleTargets.Count);
+            _cooldowns[i] = ability.Cooldown;
+            ability.CastAbility(possibleTargets[chosenTarget], this);
+        }
     }
     
 
@@ -139,11 +197,16 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void ModifyHealth(int amount)
     {
+        if (_partner is null && amount < 0)
+        {
+            amount *= 2;
+        }
         _currentHealth = _currentHealth + amount;
-        if (_currentHealth == 0)
+        if (_currentHealth <= 0)
         {
             OnHealthDepleted();
         }
+        UpdateHpText();
     }
 
     public int GetCurrentPsyche()
@@ -165,9 +228,22 @@ public class EnemyScript : MonoBehaviour, IHittable
         }
     }
 
-    public void OnHealthDepleted()
+    public virtual void OnHealthDepleted()
     {
+        _isDead = true;
+        _partner?.OnPartnerDeath();
+        if (IsMaterial())
+        {
+            _entityManager.OnEnemyDefeated();
+        }
+        _combatSystem2.EnemyDefeated(_unitCombat, IsMaterial());
         Debug.Log(stats.EnemyName + " has lost all health");
+        gameObject.SetActive(false);
+    }
+
+    public void OnPartnerDeath()
+    {
+        _partner = null;
     }
 
     public void OnPsycheDepleted()
@@ -218,5 +294,63 @@ public class EnemyScript : MonoBehaviour, IHittable
     public GameObject GetObject()
     {
         return gameObject;
+    }
+
+    public UnitCombat GetUnitCombatScript()
+    {
+        return _unitCombat;
+    }
+    
+    public void ActivateTargetClickArea()
+    {
+        targetClickArea.EnableClick(_combatUI, this);
+    }
+
+    public void DeactivateTargetClickArea()
+    {
+        targetClickArea.DisableClick();
+    }
+
+    public void TargetClickAreaDeselected()
+    {
+        targetClickArea.Deselect();
+    }
+
+    private void UpdateHpText()
+    {
+        hpText.text = "" + _currentHealth;
+    }
+
+    public virtual bool IsMaterial()
+    {
+        return material;
+    }
+    
+    public IHittable GetPartner()
+    {
+        return _partner;
+    }
+    
+    public void Activate(bool setActive)
+    {
+        if (!setActive || !_isDead)
+        {
+            gameObject.SetActive(setActive);
+        }
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void SetPartnerEntity(IHittable partner)
+    {
+        _partner = partner;
+    }
+
+    public bool IsDead()
+    {
+        return _isDead;
     }
 }
