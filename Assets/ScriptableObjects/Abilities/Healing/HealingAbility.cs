@@ -22,4 +22,9 @@ public class HealingAbility : AbilityScriptableObject
             AbilityEffects.HealPsyche(target, psycheRestored);
         }
     }
+    
+    public override string GetAbilityActionText()
+    {
+        return "HEALING: " + healthRestored;
+    }
 }

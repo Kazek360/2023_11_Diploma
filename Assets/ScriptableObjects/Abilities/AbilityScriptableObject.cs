@@ -23,8 +23,10 @@ public class AbilityScriptableObject : ScriptableObject
 
     public enum TargetTypes
     {
-        Enemy,
-        Ally
+        EnemyMaterial,
+        AllyMaterial,
+        EnemyImmaterial,
+        AllyImmaterial
     }
     
     
@@ -82,5 +84,20 @@ public class AbilityScriptableObject : ScriptableObject
     {
         return baseAiUseWeight;
     }
+
+    public virtual string GetAbilityActionText()
+    {
+        return "";
+    }
     
+    public string GetAbilityCooldownText()
+    {
+        return "COOLDOWN: " + (cooldown - 1);
+    }
+    
+    public string GetAbilityRangeText()
+    {
+        return "RANGE: " + range;
+    }
+
 }

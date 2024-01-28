@@ -18,16 +18,22 @@ public class RangedAbility : AbilityScriptableObject
         base.CastAbility(target, caster);
         if (dealingHealthDamage)
         {
-            AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
+            //AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
+            AbilityEffects.DealHealthDamage(target, healthDamage);
         }
         if (dealingPsycheDamage)
         {
-            AbilityEffects.DealPsycheDamage(target, psycheDamage + caster.GetImagination());
+            //AbilityEffects.DealPsycheDamage(target, psycheDamage + caster.GetImagination());
         }
 
         var projectile = Instantiate(projectilePrefab);
         projectile.transform.position = caster.GetObject().transform.position;
         projectile.GetComponent<ProjectileScript>().SetTarget(target.GetObject());
         
+    }
+
+    public override string GetAbilityActionText()
+    {
+        return "DAMAGE: " + healthDamage;
     }
 }

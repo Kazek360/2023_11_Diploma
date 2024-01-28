@@ -12,6 +12,9 @@ public class AbilityCard : MonoBehaviour
     [SerializeField] private GameObject abilityImage;
     [SerializeField] private GameObject cooldownCounter;
     [SerializeField] private GameObject cooldownPanel;
+    [SerializeField] private TextMeshProUGUI actionText;
+    [SerializeField] private TextMeshProUGUI cooldownText;
+    [SerializeField] private TextMeshProUGUI rangeText;
     private int _abilityOrderInEntityList;
     private CombatUI _controllerClass;
     private void OnEnable()
@@ -28,6 +31,9 @@ public class AbilityCard : MonoBehaviour
     public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
         ability = abilityScriptableObject;
+        actionText.text = ability.GetAbilityActionText();
+        cooldownText.text = ability.GetAbilityCooldownText();
+        rangeText.text = ability.GetAbilityRangeText();
         abilityNameField.GetComponent<TextMeshProUGUI>().text = ability.AbilityName;
         abilityImage.GetComponent<Image>().sprite = ability.Sprite;
         _abilityOrderInEntityList = orderNumber;
@@ -52,10 +58,6 @@ public class AbilityCard : MonoBehaviour
      */
     public void OnClicked()
     {
-        if (!GetComponent<Toggle>().isOn)
-        {
-            return;
-        }
         _controllerClass.OnNewAbilitySelected();
     }
     
