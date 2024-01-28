@@ -9,11 +9,13 @@ public class CombatUI : MonoBehaviour
 {
     [SerializeField] private GameObject abilitiesScrollContent;
     [SerializeField] private GameObject abilityCardPrefab;
-    [SerializeField] private GameObject targetsScrollContent;
+    //[SerializeField] private GameObject targetsScrollContent;
     [SerializeField] private GameObject targetCardPrefab;
     [SerializeField] private GameObject entityManager;
     [SerializeField] private GameObject movementCounter;
     [SerializeField] private GameObject endTurnButton;
+    [SerializeField] private Toggle materialToggle;
+    [SerializeField] private Toggle immaterialToggle;
     private EntityManager _entityManager;
     private CombatSystem_2 _combatSystem2;
     private ToggleGroup _abilitiesToggleGroup;
@@ -62,49 +64,50 @@ public class CombatUI : MonoBehaviour
     }
 
     /**
+     * DEPRECATED
      * After choosing an ability show possible targets
      *
      * In the beginning deletes all existing children of the target window to avoid cloning
      */
-    public void ShowTargetsList(AbilityScriptableObject ability)
-    {
-        for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
-            Transform child = targetsScrollContent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
-        
-        
-        List<IHittable> possibleTargets = new List<IHittable>();
-        foreach (var targetType in ability.ViableTargets)
-        {
-            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
-            {
-                possibleTargets.AddRange(_entityManager.GetPlayers());
-            }
-            
-            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
-            {
-                possibleTargets.AddRange(_entityManager.GetEnemies());
-            }
-        }
-        List<IHittable> targets = new List<IHittable>();
-        foreach (var target in possibleTargets)
-        {
-            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
-            {
-                targets.Add(target);
-            }
-        }
-
-        foreach (var target in targets)
-        {
-            var container = Instantiate(targetCardPrefab);
-            TargetCard targetCard = container.gameObject.GetComponent<TargetCard>();
-            targetCard.SetTarget(target);
-            container.GetComponent<Toggle>().group = targetsScrollContent.GetComponent<ToggleGroup>();
-            container.transform.SetParent(targetsScrollContent.transform);
-        }
-    }
+    // public void ShowTargetsList(AbilityScriptableObject ability)
+    // {
+    //     for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
+    //         Transform child = targetsScrollContent.transform.GetChild(i);
+    //         Destroy(child.gameObject);
+    //     }
+    //     
+    //     
+    //     List<IHittable> possibleTargets = new List<IHittable>();
+    //     foreach (var targetType in ability.ViableTargets)
+    //     {
+    //         if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
+    //         {
+    //             possibleTargets.AddRange(_entityManager.GetMaterialPlayers());
+    //         }
+    //         
+    //         if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
+    //         {
+    //             possibleTargets.AddRange(_entityManager.GetMaterialEnemies());
+    //         }
+    //     }
+    //     List<IHittable> targets = new List<IHittable>();
+    //     foreach (var target in possibleTargets)
+    //     {
+    //         if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+    //         {
+    //             targets.Add(target);
+    //         }
+    //     }
+    //
+    //     foreach (var target in targets)
+    //     {
+    //         var container = Instantiate(targetCardPrefab);
+    //         TargetCard targetCard = container.gameObject.GetComponent<TargetCard>();
+    //         targetCard.SetTarget(target);
+    //         container.GetComponent<Toggle>().group = targetsScrollContent.GetComponent<ToggleGroup>();
+    //         container.transform.SetParent(targetsScrollContent.transform);
+    //     }
+    // }
     
     /**
      * After choosing an ability show possible targets
@@ -116,14 +119,24 @@ public class CombatUI : MonoBehaviour
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetPlayers());
+                candidateTargets.AddRange(_entityManager.GetMaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetEnemies());
+                candidateTargets.AddRange(_entityManager.GetMaterialEnemies());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            {
+                candidateTargets.AddRange(_entityManager.GetImmaterialPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            {
+                candidateTargets.AddRange(_entityManager.GetImmaterialEnemies());
             }
         }
         _possibleTargets = new List<IHittable>();
@@ -165,20 +178,22 @@ public class CombatUI : MonoBehaviour
             _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
         }
         HideTargets();
+        Debug.Log("A");
         
         for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
             Transform child = abilitiesScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
         }
         
-        for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
-            Transform child = targetsScrollContent.transform.GetChild(i);
-            Destroy(child.gameObject);
-        }
+        // for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
+        //     Transform child = targetsScrollContent.transform.GetChild(i);
+        //     Destroy(child.gameObject);
+        // }
         //gameObject.SetActive(false);
         abilitiesScrollContent.SetActive(false);
         movementCounter.SetActive(false);
         endTurnButton.SetActive(false);
+        Debug.Log("A");
     }
 
     /**
@@ -238,5 +253,21 @@ public class CombatUI : MonoBehaviour
             _currentTarget.TargetClickAreaDeselected();
         }
         _currentTarget = target;
+    }
+
+    public void ToggleMaterial()
+    {
+        _combatSystem2.ShowStage(true);
+    }
+    
+    public void ToggleImmaterial()
+    {
+        _combatSystem2.ShowStage(false);
+    }
+
+    public void SetMaterialToggle(bool isMaterial)
+    {
+        materialToggle.SetIsOnWithoutNotify(isMaterial);
+        immaterialToggle.SetIsOnWithoutNotify(!isMaterial);
     }
 }

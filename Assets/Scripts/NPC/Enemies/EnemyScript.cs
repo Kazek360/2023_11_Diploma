@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     [SerializeField] private TargetClickArea targetClickArea;
     [SerializeField] private TextMeshPro hpText;
     [SerializeField] private bool material;
-    private IImmaterial _partner;
+    protected IHittable _partner;
     
     private List<AbilityScriptableObject> _abilities;
     private List<int> _cooldowns;
@@ -31,21 +31,27 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     private int _currentHealth;
     private int _currentPsyche;
+    private bool _isDead;
     
     // Start is called before the first frame update
     private void Start()
     {
+        _isDead = false;
         _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = stats.MaxHealthPoints;
         _currentPsyche = stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
-        _partner = partner.GetComponent<IImmaterial>();
-        _partner.SetPartnerEntity(this);
+        if (IsMaterial())
+        {
+            Debug.Log(IsMaterial());
+            _partner = partner.GetComponent<IHittable>();
+            _partner.SetPartnerEntity(this);
+        }
         _combatUI = _combatSystem2.GetCombatUI();
         _abilities = stats.Abilities;
         _cooldowns = new List<int>();
-        _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetPlayers()[0];
+        _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
             //Debug.Log("ADDED");
@@ -141,14 +147,24 @@ public class EnemyScript : MonoBehaviour, IHittable
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.Ally)
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetEnemies());
+                targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.Enemy)
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetPlayers());
+                targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            {
+                targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
+            }
+            
+            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            {
+                targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
             }
         }
 
@@ -212,10 +228,15 @@ public class EnemyScript : MonoBehaviour, IHittable
         }
     }
 
-    public void OnHealthDepleted()
+    public virtual void OnHealthDepleted()
     {
-        _entityManager.OnEnemyDefeated();
-        _combatSystem2.EnemyDefeated(_unitCombat);
+        _isDead = true;
+        _partner?.OnPartnerDeath();
+        if (IsMaterial())
+        {
+            _entityManager.OnEnemyDefeated();
+        }
+        _combatSystem2.EnemyDefeated(_unitCombat, IsMaterial());
         Debug.Log(stats.EnemyName + " has lost all health");
         gameObject.SetActive(false);
     }
@@ -300,13 +321,36 @@ public class EnemyScript : MonoBehaviour, IHittable
         hpText.text = "" + _currentHealth;
     }
 
-    public bool IsMaterial()
+    public virtual bool IsMaterial()
     {
         return material;
     }
     
-    public IImmaterial GetPartner()
+    public IHittable GetPartner()
     {
         return _partner;
+    }
+    
+    public void Activate(bool setActive)
+    {
+        if (!setActive || !_isDead)
+        {
+            gameObject.SetActive(setActive);
+        }
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void SetPartnerEntity(IHittable partner)
+    {
+        _partner = partner;
+    }
+
+    public bool IsDead()
+    {
+        return _isDead;
     }
 }

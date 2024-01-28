@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ImmaterialEnemyScript : EnemyScript, IImmaterial
+public class ImmaterialEnemyScript : EnemyScript
 {
     public void SetPartnerEntity(IHittable partner)
     {
-        throw new System.NotImplementedException();
+        _partner = partner;
     }
 
-    public bool IsMaterial()
+    public override bool IsMaterial()
     {
         return false;
     }
+
 
     public void OnPartnerDeath()
     {
         Destroy(gameObject);
     }
+    
 }

@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
-    private IImmaterial _partner;
+    protected IHittable _partner;
 
     [SerializeField] private string entityName;
     [SerializeField] private int strength;
@@ -39,8 +39,12 @@ public class PlayerScript : MonoBehaviour, IHittable
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _cooldowns = new List<int>();
-        _partner = partner.GetComponent<IImmaterial>();
-        _partner.SetPartnerEntity(this);
+        if (IsMaterial())
+        {
+            Debug.Log(IsMaterial());
+            _partner = partner.GetComponent<IHittable>();
+            _partner.SetPartnerEntity(this);
+        }
         for (int i = 0; i < abilities.Count; i++)
         {
             _cooldowns.Add(0);
@@ -59,6 +63,7 @@ public class PlayerScript : MonoBehaviour, IHittable
         var ability = abilities[i];
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(target, this);
+        Debug.Log("A");
     }
     
     
@@ -120,10 +125,11 @@ public class PlayerScript : MonoBehaviour, IHittable
         }
     }
 
-    public void OnHealthDepleted()
+    public virtual void OnHealthDepleted()
     {
         Debug.Log( "Wit has lost all health");
-        gameObject.SetActive(false);
+        GetComponentInParent<EntityManager>().PlayerDied();
+        //gameObject.SetActive(false);
     }
 
     public void OnPartnerDeath()
@@ -206,13 +212,33 @@ public class PlayerScript : MonoBehaviour, IHittable
         hpText.text = "" + _currentHealth;
     }
 
-    public bool IsMaterial()
+    public virtual bool IsMaterial()
     {
         return true;
     }
 
-    public IImmaterial GetPartner()
+    public IHittable GetPartner()
     {
         return _partner;
+    }
+
+    public void Activate(bool setActive)
+    {
+        gameObject.SetActive(setActive);
+    }
+    
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public void SetPartnerEntity(IHittable partner)
+    {
+        _partner = partner;
+    }
+    
+    public virtual bool IsDead()
+    {
+        return false;
     }
 }

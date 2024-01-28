@@ -18,10 +18,13 @@ public class CombatSystem_2 : MonoBehaviour
         [SerializeField] private int height;
         [SerializeField] private float cellSize;
         [SerializeField] private Vector2 offset;
-        
+
+        private EntityManager _entityManager;
         private GridObject _currentGridObject;
         private List<GridObject> _currentGridObjectNeighbours;
         private int _movementLeft;
+        private bool _currentIsMaterial;
+        private bool _currentIsPlayer;
         
         public class GridObject
         {
@@ -29,7 +32,8 @@ public class CombatSystem_2 : MonoBehaviour
             public bool IsHighlighted;
             public int X;
             public int Y;
-            public bool IsOccupied;
+            public bool IsOccupiedMaterial;
+            public bool IsOccupiedImmaterial;
             public Vector3 XYZCoordinates;      //Needed for A*
 
             public int F, G, H; //For A* algorithm
@@ -41,7 +45,7 @@ public class CombatSystem_2 : MonoBehaviour
                 XYZCoordinates.y = Y;
                 XYZCoordinates.x = X - (int)(Y / 2);
                 XYZCoordinates.z = 0 - XYZCoordinates.x - XYZCoordinates.y;
-                IsOccupied = false;
+                IsOccupiedMaterial = false;
             }
 
             public void Highlight()
@@ -65,10 +69,33 @@ public class CombatSystem_2 : MonoBehaviour
             {
                 Hex.GetChild(2).gameObject.SetActive(false);
             }
+
+            public void SetOccupied(bool occupied, bool isMaterial)
+            {
+                if (isMaterial)
+                {
+                    IsOccupiedMaterial = occupied;
+                }
+                else
+                {
+                    IsOccupiedImmaterial = occupied;
+                }
+            }
+
+            public bool GetOccupied(bool isMaterial)
+            {
+                if (isMaterial)
+                {
+                    return IsOccupiedMaterial;
+                }
+                return IsOccupiedImmaterial;
+            }
         }
         
         private void Awake()
         {
+            _currentIsPlayer = false;
+            _entityManager = GetComponent<EntityManager>();
             _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
             for (int x = 0; x < width; x++)
             {
@@ -131,7 +158,7 @@ public class CombatSystem_2 : MonoBehaviour
          */
         private void HighlightNeighborsInRadius(GridObject gridObject, int radius, int currentIter, bool highlightCenter)
         {
-            if ((highlightCenter || currentIter != 0) && !gridObject.IsOccupied)
+            if ((highlightCenter || currentIter != 0) && !gridObject.GetOccupied(_currentIsMaterial))
             {
                 gridObject.Highlight();
             }
@@ -208,7 +235,7 @@ public class CombatSystem_2 : MonoBehaviour
                     {
                         continue;
                     }
-                    if (neighborHex.IsOccupied && neighborHex!= finishHex)
+                    if (neighborHex.GetOccupied(_currentIsMaterial) && neighborHex!= finishHex)
                     {
                         continue;
                     }
@@ -252,10 +279,10 @@ public class CombatSystem_2 : MonoBehaviour
             return finalPathHexes;
         }
         
-        public void SetEntityToGrid(UnitCombat unitCombat)
+        public void SetEntityToGrid(UnitCombat unitCombat, bool isMaterial)
         {
             var vec = unitCombat.GetGridLocation();
-            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = true;
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(true, isMaterial);
             unitCombat.gameObject.transform.position = _grid.GetGridObject((int)vec[0], (int)vec[1]).Hex.position;
         }
 
@@ -273,12 +300,12 @@ public class CombatSystem_2 : MonoBehaviour
             _movementLeft--;
             UpdateMovementCounter();
             var vec = currentUnit.GetGridLocation();
-            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(false, _currentIsMaterial);
             ClearGrid();
                     
             currentUnit.StartMoving(_currentGridObject.Hex.position);
             currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
-            _currentGridObject.IsOccupied = true;
+            _currentGridObject.SetOccupied(true, _currentIsMaterial);
             if (_movementLeft > 0)
             {
                 HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
@@ -289,18 +316,21 @@ public class CombatSystem_2 : MonoBehaviour
         {
             _movementLeft--;
             var vec = currentUnit.GetGridLocation();
-            _grid.GetGridObject((int)vec[0], (int)vec[1]).IsOccupied = false;
+            _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(false, _currentIsMaterial);
             ClearGrid();
 
             _currentGridObject = _grid.GetGridObject(x, y);
             currentUnit.StartMoving(_currentGridObject.Hex.position);
             currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
-            _currentGridObject.IsOccupied = true;
+            _currentGridObject.SetOccupied(true, _currentIsMaterial);
         }
 
         public void PlayerTurnStart(int movement, bool isMaterial)
         {
+            _currentIsPlayer = true;
             Debug.Log("PLAYER SET AS UNIT");
+            SetCurrentMaterial(isMaterial);
+            ShowStage(isMaterial);
             _movementLeft = movement;
             UpdateMovementCounter();
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
@@ -308,7 +338,10 @@ public class CombatSystem_2 : MonoBehaviour
 
         public void MovementStage(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
+            _currentIsPlayer = false;
             _movementLeft = movement;
+            SetCurrentMaterial(movedEntity.IsMaterial());
+            ShowStage(movedEntity.IsMaterial());
             StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
         
@@ -351,19 +384,50 @@ public class CombatSystem_2 : MonoBehaviour
             return combatUI;
         }
 
-        public void EnemyDefeated(UnitCombat unitDefeated)
+        public void EnemyDefeated(UnitCombat unitDefeated, bool isMaterial)
         {
             var pos = unitDefeated.GetGridLocation();
-            _grid.GetGridObject((int)pos.x, (int)pos.y).IsOccupied = false;
+            _grid.GetGridObject((int)pos.x, (int)pos.y).SetOccupied(false, isMaterial);
         }
 
-        private void ShowMaterial()
+        public void SetCurrentMaterial(bool isMaterial)
         {
-            Debug.Log("MATERIAL");
+            _currentIsMaterial = isMaterial;
+            combatUI.SetMaterialToggle(isMaterial);
         }
-        
-        private void ShowImmaterial()
+        public void ShowStage(bool isMaterial)
         {
-            Debug.Log("IMMATERIAL");
+            _entityManager.ShowEntities(isMaterial);
+            var pos = currentUnit.GetGridLocation();
+            var currPos = _grid.GetGridObject((int)pos.x, (int)pos.y);
+            if (_currentIsPlayer)
+            {
+                if (isMaterial)
+                {
+                    Debug.Log("MATERIAL");
+                    if (_currentIsMaterial)
+                    {
+                        HighlightNeighborsInRadius(currPos, 1, 0, false);
+                    }
+                    else
+                    {
+                        ClearGrid();
+                    }
+
+                }
+                else
+                {
+                    Debug.Log("IMMATERIAL");
+                    if (!_currentIsMaterial)
+                    {
+                        HighlightNeighborsInRadius(currPos, 1, 0, false);
+                    }
+                    else
+                    {
+                        ClearGrid();
+                    }
+                }
+            }
+            Debug.Log("A");
         }
 }

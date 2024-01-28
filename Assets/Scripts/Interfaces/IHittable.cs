@@ -80,7 +80,15 @@ public interface IHittable
 
     public bool IsMaterial();
 
-    public IImmaterial GetPartner();
+    public IHittable GetPartner();
 
     public void OnPartnerDeath();
+
+    public void Activate(bool setActive);
+
+    public GameObject GetGameObject();
+
+    public void SetPartnerEntity(IHittable partner);
+
+    public bool IsDead();
 }

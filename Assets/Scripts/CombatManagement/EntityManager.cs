@@ -28,10 +28,11 @@ public class EntityManager : MonoBehaviour
         _enemiesDefeated = 0;
         foreach (var entity in turnOrder)
         {
-            _turnOrder.Add(entity.GetComponent<IHittable>());
+            var hittable = entity.GetComponent<IHittable>();
+            _turnOrder.Add(hittable);
 
             var unit = entity.GetComponent<UnitCombat>();
-            _combatSystem2.SetEntityToGrid(unit);
+            _combatSystem2.SetEntityToGrid(unit, hittable.IsMaterial());
             _combatUnits.Add(unit);
         }
         NextTurn();
@@ -45,6 +46,7 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
+        Debug.Log("A");
         _combatSystem2.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
     }
@@ -52,33 +54,107 @@ public class EntityManager : MonoBehaviour
     private IEnumerator NextTurnCoroutine()
     {
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
-        yield return new WaitForSeconds(0.3f);
-        _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
-        _turnOrder[_currentEntity].ProcessTurn();
+        if (_turnOrder[_currentEntity].IsDead())
+        {
+            Debug.Log("A");
+            StartCoroutine(NextTurnCoroutine());
+        }
+        else
+        {
+            yield return new WaitForSeconds(0.3f);
+            _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
+            Debug.Log("A");
+            _turnOrder[_currentEntity].ProcessTurn();
+        }
     }
 
-    public List<IHittable> GetPlayers()
+    public List<IHittable> GetMaterialPlayers()
     {
         List<IHittable> playerEntities = new List<IHittable>();
-        foreach (var entity in turnOrder)
+        if (_turnOrder is null)
         {
-            if (entity.CompareTag("Player"))
+            _turnOrder = new List<IHittable>();
+            foreach (var entity in turnOrder)
             {
-                playerEntities.Add(entity.GetComponent<IHittable>());
+                var hittable = entity.GetComponent<IHittable>();
+                _turnOrder.Add(hittable);
+            }
+        }
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Player") && entity.IsMaterial() && !entity.IsDead())
+            {
+                playerEntities.Add(entity);
             }
         }
 
         return playerEntities;
     }
 
-    public List<IHittable> GetEnemies()
+    public List<IHittable> GetMaterialEnemies()
     {
         List<IHittable> enemyEntities = new List<IHittable>();
-        foreach (var entity in turnOrder)
+        if (_turnOrder is null)
         {
-            if (entity.CompareTag("Enemy"))
+            _turnOrder = new List<IHittable>();
+            foreach (var entity in turnOrder)
             {
-                enemyEntities.Add(entity.GetComponent<IHittable>());
+                var hittable = entity.GetComponent<IHittable>();
+                _turnOrder.Add(hittable);
+            }
+        }
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Enemy") && entity.IsMaterial() && !entity.IsDead())
+            {
+                enemyEntities.Add(entity);
+                //Debug.Log(entity.name);
+            }
+        }
+
+        return enemyEntities;
+    }
+    
+    public List<IHittable> GetImmaterialPlayers()
+    {
+        List<IHittable> playerEntities = new List<IHittable>();
+        if (_turnOrder is null)
+        {
+            _turnOrder = new List<IHittable>();
+            foreach (var entity in turnOrder)
+            {
+                var hittable = entity.GetComponent<IHittable>();
+                _turnOrder.Add(hittable);
+            }
+        }
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Player") && !entity.IsMaterial() && !entity.IsDead())
+            {
+                playerEntities.Add(entity);
+            }
+        }
+
+        return playerEntities;
+    }
+
+    public List<IHittable> GetImmaterialEnemies()
+    {
+        List<IHittable> enemyEntities = new List<IHittable>();
+        if (_turnOrder is null)
+        {
+            _turnOrder = new List<IHittable>();
+            foreach (var entity in turnOrder)
+            {
+                var hittable = entity.GetComponent<IHittable>();
+                _turnOrder.Add(hittable);
+            }
+        }
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Enemy") && !entity.IsMaterial() && !entity.IsDead())
+            {
+                enemyEntities.Add(entity);
                 //Debug.Log(entity.name);
             }
         }
@@ -93,5 +169,26 @@ public class EntityManager : MonoBehaviour
         {
             SceneManager.LoadScene(sceneToOpenAfterVictory);
         }
+    }
+
+    public void ShowEntities(bool showMaterial)
+    {
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.IsMaterial() == showMaterial)
+            {
+                entity.Activate(true);
+            }
+            else
+            {
+                entity.Activate(false);
+            }
+        }
+    }
+
+    public void PlayerDied()
+    {
+        //TODO: EXIT
+        Debug.Log("AAAAAA");
     }
 }

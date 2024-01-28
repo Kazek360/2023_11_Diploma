@@ -7,7 +7,6 @@ public interface IImmaterial
 {
     public void SetPartnerEntity(IHittable partner);
 
-    public bool IsMaterial();
 
     public void OnPartnerDeath();
 }

@@ -23,8 +23,10 @@ public class AbilityScriptableObject : ScriptableObject
 
     public enum TargetTypes
     {
-        Enemy,
-        Ally
+        EnemyMaterial,
+        AllyMaterial,
+        EnemyImmaterial,
+        AllyImmaterial
     }
     
     
