@@ -76,7 +76,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 362952979
-  m_SortingLayer: 3
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5146724397325384878
@@ -181,11 +181,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7904647406454164839}
   - component: {fileID: 1217920286163247519}
-  - component: {fileID: 6872222869629429299}
   - component: {fileID: 6947300064825795639}
   - component: {fileID: 1747876560113939686}
+  - component: {fileID: 190269571251898864}
   m_Layer: 0
-  m_Name: Player_s24817
+  m_Name: ImmaterialPlayer_s24817 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,8 +201,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.94, y: -0.51, z: 8.029425}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 753197900534660806}
   - {fileID: 8275018993314711569}
@@ -246,11 +246,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 362952979
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.49923474, g: 0, b: 0.8207547, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -260,33 +260,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6872222869629429299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8893886096949609619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07dc82486642ae74cbe98c6f72043ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerImage: {fileID: 21300000, guid: c1130f3154d1cec40816dd2c5f39e76c, type: 3}
-  maxHealthPoints: 50
-  maxPsychePoints: 50
-  entityName: Player
-  strength: 1
-  agility: 1
-  luck: 1
-  imagination: 1
-  abilities:
-  - {fileID: 11400000, guid: 9c2e44573b964b84d9e883d645ae2b62, type: 2}
-  - {fileID: 11400000, guid: 439fec42259a00a44b773070ed1446ae, type: 2}
-  - {fileID: 11400000, guid: f87a5104d055e05478a4aa6619b20828, type: 2}
-  - {fileID: 11400000, guid: aeb67c2f12ad6e849ac4f358c888afd1, type: 2}
-  targetClickArea: {fileID: 2198560703721243483}
-  hpText: {fileID: 5146724397325384878}
 --- !u!114 &6947300064825795639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +303,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &190269571251898864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8893886096949609619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3877f40b7694d0d4e8905deb9dbb240b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partner: {fileID: 0}
+  playerImage: {fileID: 21300000, guid: c1130f3154d1cec40816dd2c5f39e76c, type: 3}
+  maxHealthPoints: 20
+  maxPsychePoints: 8
+  entityName: Nestor
+  strength: 1
+  agility: 1
+  luck: 1
+  imagination: 1
+  abilities:
+  - {fileID: 11400000, guid: f0a501640c1e8974d8f8c76b73dcdab2, type: 2}
+  - {fileID: 11400000, guid: 669809dfce959064684e647e2e3f2db6, type: 2}
+  targetClickArea: {fileID: 2198560703721243483}
+  hpText: {fileID: 5146724397325384878}
 --- !u!1001 &2766975044200261967
 PrefabInstance:
   m_ObjectHideFlags: 0
