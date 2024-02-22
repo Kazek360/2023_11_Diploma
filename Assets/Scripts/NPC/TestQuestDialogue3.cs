@@ -14,7 +14,6 @@ public class TestQuestDialogue3 : MonoBehaviour
     
     public void Update()
     {
-        //Debug.Log($"Lisa in range: {_playerInRange}");
         if (_playerInRange && Input.GetKeyDown(KeyCode.E) && _currentQuestState == QuestState.CanFinish)
         {
             QuestEvents.FinishQuest("EpicQuest");

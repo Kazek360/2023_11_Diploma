@@ -14,7 +14,6 @@ public class TestQuestDialogue2 : MonoBehaviour
     
     public void Update()
     {
-        //Debug.Log($"Mona in range: {_playerInRange}");
         if (_playerInRange && Input.GetKeyDown(KeyCode.E) && _currentQuestState == QuestState.InProgress)
         {
             QuestEvents.ProgressQuest("EpicQuest");

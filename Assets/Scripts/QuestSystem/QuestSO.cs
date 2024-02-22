@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quest/Quest")]
+[CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quests/Quest")]
 public class QuestSO : ScriptableObject
 {
     public string id;
     
     [Header("General")]
     [SerializeField] public string displayName;
-    [SerializeField] public string description;
+    [TextArea][SerializeField] public string description;
     
     [Header("Requirements & steps")]
     [SerializeField] public List<QuestSO> requirements;

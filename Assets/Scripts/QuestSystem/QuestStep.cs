@@ -21,8 +21,9 @@ public abstract class QuestStep : MonoBehaviour
         if (!_isFinished)
         {
             _isFinished = true;
+            Debug.Log("Elo żelo");
             QuestEvents.ProgressQuest(_questId);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

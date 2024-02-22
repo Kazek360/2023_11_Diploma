@@ -15,7 +15,6 @@ public class TestQuestDialogue1 : MonoBehaviour
     
     public void Update()
     {
-        //Debug.Log($"Sanic in range: {_playerInRange}");
         if (_playerInRange && Input.GetKeyDown(KeyCode.E) && _currentQuestState == QuestState.CanStart)
         {
             QuestEvents.StartQuest("EpicQuest");

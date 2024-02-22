@@ -10,7 +10,7 @@ public class Quest
 
     public Quest(QuestSO info)
     {
-        this.Info = info;
+        Info = info;
         State = QuestState.RequirementsNotMet;
         _currentStepIndex = 0;
     }

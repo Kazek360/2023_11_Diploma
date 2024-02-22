@@ -57,9 +57,6 @@ public class DialogueWindowScript : MonoBehaviour
         {
             SetFlag(flag);
         }
-        {
-            
-        }
         if (_currentSentence.IsChoice)
         {
             dialogueOptionBox.SetActive(true);
