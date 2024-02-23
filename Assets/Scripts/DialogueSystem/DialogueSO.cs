@@ -10,6 +10,10 @@ public class DialogueSO : ScriptableObject
     [Header("General")]
     [SerializeField] public int priority;
     
+    [Header("Quest")]
+    [SerializeField] public QuestSO quest;
+    [SerializeField] public DialogueQuestProgress questProgress;
+    
     [Header("Requirements & sentences")]
     [SerializeField] public List<QuestSO> requirements;
     [SerializeField] public List<SentenceSO> sentences;

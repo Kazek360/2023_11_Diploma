@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dialogue : MonoBehaviour
+public class Dialogue
 {
     public DialogueSO Info;
-    private int _currentSentenceIndex;
+    public DialogueState State;
     
     public Dialogue(DialogueSO info)
     {
         Info = info;
-        _currentSentenceIndex = 0;
+        if (Info.requirements.Count == 0)
+        {
+            State = DialogueState.CanStart;
+        }
+        else
+        {
+            State = DialogueState.RequirementsNotMet;
+        }
     }
 }

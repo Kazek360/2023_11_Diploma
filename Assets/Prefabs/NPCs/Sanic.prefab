@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7935925879801887247}
   - component: {fileID: 6766658872494507238}
   - component: {fileID: 6129158603094644266}
-  - component: {fileID: 2971711863462610}
+  - component: {fileID: 6228503596277636520}
   m_Layer: 0
   m_Name: Sanic
   m_TagString: Untagged
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 2
---- !u!114 &2971711863462610
+--- !u!114 &6228503596277636520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,11 +130,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8833330891991862841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a74381f518011f14d9e21c08bc0d9a83, type: 3}
+  m_Script: {fileID: 11500000, guid: d6fbcfc6e14479a4ea0674487a41ee8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueWindow: {fileID: 0}
-  dialogueChooser: {fileID: 11400000, guid: 725834a1f209e0049a6b97bf266a1ae4, type: 2}
-  flags:
-  - MONA_LISA_ALIVE
+  locationName: DialogueTest
+  characterName: Sanic
   questInfo: {fileID: 11400000, guid: ca116015e72a74f43b047a9b1a4d28b7, type: 2}
