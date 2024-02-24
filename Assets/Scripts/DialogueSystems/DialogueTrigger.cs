@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueTrigger : MonoBehaviour
 {
-    [SerializeField] private GameObject dialogueWindow;
     [SerializeField] private string locationName;
     [SerializeField] private string characterName;
     
@@ -33,29 +32,34 @@ public class DialogueManager : MonoBehaviour
     {
         if (_playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Start)
+            DialogueEvents.StartDialogue(_currentDialogue);
+            
+            switch (_currentDialogue.Info.questProgress)
             {
-                if (_currentQuestState == QuestState.CanStart)
-                {
-                    QuestEvents.StartQuest("EpicQuest");
-                    dialogueWindow.GetComponent<DialogueWindow>().StartDialogue(_currentDialogue.Info);
-                }
-            }
-            else if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Progress)
-            {
-                if (_currentQuestState == QuestState.InProgress)
-                {
-                    QuestEvents.ProgressQuest("EpicQuest");
-                    dialogueWindow.GetComponent<DialogueWindow>().StartDialogue(_currentDialogue.Info);
-                }
-            }
-            else if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Finish)
-            {
-                if (_currentQuestState == QuestState.CanFinish)
-                {
-                    QuestEvents.FinishQuest("EpicQuest");
-                    dialogueWindow.GetComponent<DialogueWindow>().StartDialogue(_currentDialogue.Info);
-                }
+                case DialogueQuestProgress.Start:
+                    if (_currentQuestState == QuestState.CanStart)
+                    {
+                        QuestEvents.StartQuest(_currentDialogue.Info.quest.id);
+                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                        ChangeCurrentDialogue();
+                    }
+                    break;
+                case DialogueQuestProgress.Progress:
+                    if (_currentQuestState == QuestState.InProgress)
+                    {
+                        QuestEvents.ProgressQuest(_currentDialogue.Info.quest.id);
+                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                        ChangeCurrentDialogue();
+                    }
+                    break;
+                case DialogueQuestProgress.Finish:
+                    if (_currentQuestState == QuestState.CanFinish)
+                    {
+                        QuestEvents.FinishQuest(_currentDialogue.Info.quest.id);
+                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                        ChangeCurrentDialogue();
+                    }
+                    break;
             }
         }
     }
@@ -70,11 +74,15 @@ public class DialogueManager : MonoBehaviour
                 continue;
             }
 
-            if (_currentDialogue.Info.priority < dialogue.Info.priority)
+            if (dialogue.State == DialogueState.CanTrigger)
             {
-                _currentDialogue = dialogue;
+                if (dialogue.Info.priority > _currentDialogue.Info.priority ||
+                    _currentDialogue.State == DialogueState.Finished)
+                {
+                    _currentDialogue = dialogue;
+                }
             }
-        }
+        } 
     }
     
     public void ChangeQuestState(Quest quest)
@@ -127,7 +135,7 @@ public class DialogueManager : MonoBehaviour
         Dialogue dialogue = _dialogueDictionary[id];
         if (dialogue == null)
         {
-            //Debug.LogError($"There is no quest with ID: {dialogue.Info}");
+            Debug.LogError($"There is no quest with ID: {dialogue.Info}");
         }
         
         return dialogue;

@@ -1,7 +1,7 @@
 ﻿
 public enum DialogueState
 {
-    RequirementsNotMet,
-    CanStart,
+    CannotTrigger,
+    CanTrigger,
     Finished
 }

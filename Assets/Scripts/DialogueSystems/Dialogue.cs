@@ -12,11 +12,11 @@ public class Dialogue
         Info = info;
         if (Info.requirements.Count == 0)
         {
-            State = DialogueState.CanStart;
+            State = DialogueState.CanTrigger;
         }
         else
         {
-            State = DialogueState.RequirementsNotMet;
+            State = DialogueState.CannotTrigger;
         }
     }
 }
