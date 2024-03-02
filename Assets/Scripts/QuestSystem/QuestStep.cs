@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class QuestStep : MonoBehaviour
 {
-    [SerializeField] public string description;
+    [TextArea][SerializeField] public string description;
     private bool _isFinished;
     private string _questId;
     
@@ -21,7 +21,6 @@ public abstract class QuestStep : MonoBehaviour
         if (!_isFinished)
         {
             _isFinished = true;
-            Debug.Log("Elo żelo");
             QuestEvents.ProgressQuest(_questId);
             Destroy(gameObject);
         }

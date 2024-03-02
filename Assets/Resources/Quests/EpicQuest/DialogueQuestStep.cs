@@ -5,19 +5,22 @@ using UnityEngine;
 
 public class DialogueQuestStep : QuestStep
 {
-    [SerializeField] private string characterId;
+    [SerializeField] private DialogueSO dialogueInfo;
     
     private void OnEnable()
     {
-        DialogueEvents.OnDialogueFinished += FinishDialogue;
+        DialogueEvents.OnDialogueStarted += FinishStep;
     }
     private void OnDisable()
     {
-        DialogueEvents.OnDialogueFinished -= FinishDialogue;
+        DialogueEvents.OnDialogueStarted -= FinishStep;
     }
 
-    private void FinishDialogue(string id)
+    private void FinishStep(Dialogue dialogue)
     {
-        Finish();
+        if (dialogueInfo.id == dialogue.Info.id)
+        {
+            Finish();
+        } 
     }
 }

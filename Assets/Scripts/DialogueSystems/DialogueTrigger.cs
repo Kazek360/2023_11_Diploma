@@ -1,16 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] private string locationName;
-    [SerializeField] private string characterName;
+    [SerializeField] private string triggerName;
     
     private Dictionary<string, Dialogue> _dialogueDictionary;
     private Dialogue _currentDialogue;
     
-    private QuestState _currentQuestState;
     private bool _playerInRange;
     
     private void Awake()
@@ -18,7 +16,18 @@ public class DialogueTrigger : MonoBehaviour
         _dialogueDictionary = CreateDialogueDictionary();
         ChangeCurrentDialogue();
     }
-    
+    private void Start()
+    {
+        foreach (var dialogue in _dialogueDictionary.Values)
+        {
+            if (dialogue.State == DialogueState.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
+            {
+                dialogue.State = DialogueState.CanTrigger;
+            }
+        }
+        ChangeCurrentDialogue();
+    }
+
     private void OnEnable()
     {
         QuestEvents.OnQuestStateChange += ChangeQuestState;
@@ -37,28 +46,18 @@ public class DialogueTrigger : MonoBehaviour
             switch (_currentDialogue.Info.questProgress)
             {
                 case DialogueQuestProgress.Start:
-                    if (_currentQuestState == QuestState.CanStart)
-                    {
-                        QuestEvents.StartQuest(_currentDialogue.Info.quest.id);
-                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                        ChangeCurrentDialogue();
-                    }
+                    QuestEvents.StartQuest(_currentDialogue.Info.quest.id);
+                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                    ChangeCurrentDialogue();
                     break;
                 case DialogueQuestProgress.Progress:
-                    if (_currentQuestState == QuestState.InProgress)
-                    {
-                        QuestEvents.ProgressQuest(_currentDialogue.Info.quest.id);
-                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                        ChangeCurrentDialogue();
-                    }
+                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                    ChangeCurrentDialogue();
                     break;
                 case DialogueQuestProgress.Finish:
-                    if (_currentQuestState == QuestState.CanFinish)
-                    {
-                        QuestEvents.FinishQuest(_currentDialogue.Info.quest.id);
-                        _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                        ChangeCurrentDialogue();
-                    }
+                    QuestEvents.FinishQuest(_currentDialogue.Info.quest.id);
+                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                    ChangeCurrentDialogue();
                     break;
             }
         }
@@ -73,10 +72,10 @@ public class DialogueTrigger : MonoBehaviour
                 _currentDialogue = dialogue;
                 continue;
             }
-
             if (dialogue.State == DialogueState.CanTrigger)
             {
                 if (dialogue.Info.priority > _currentDialogue.Info.priority ||
+                    _currentDialogue.State == DialogueState.CannotTrigger ||
                     _currentDialogue.State == DialogueState.Finished)
                 {
                     _currentDialogue = dialogue;
@@ -87,15 +86,61 @@ public class DialogueTrigger : MonoBehaviour
     
     public void ChangeQuestState(Quest quest)
     {
-        if (_currentDialogue.Info.quest is not null)
+        foreach (var dialogue in _dialogueDictionary.Values)
         {
-            if (quest.Info.id == _currentDialogue.Info.quest.id)
+            if (dialogue.Info.quest is not null)
             {
-                _currentQuestState = quest.State;
-            }  
+                if (quest.Info.id == dialogue.Info.quest.id)
+                {
+                    if (dialogue.State == DialogueState.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
+                    {
+                        dialogue.State = DialogueState.CanTrigger;
+                    }
+                }  
+            }
         }
+        ChangeCurrentDialogue();
     }
+    
+    public bool CheckIfDialogueCanTrigger(Dialogue dialogue)
+    {
+        bool canTrigger = true;
+        foreach (var questRequirement in dialogue.Info.requirements)
+        {
+            if (QuestManager.GetQuestById(questRequirement.id).State != QuestState.Finished)
+            {
+                canTrigger = false;
+            }
+        }
 
+        if (dialogue.Info.quest is not null)
+        {
+            if (dialogue.Info.questProgress == DialogueQuestProgress.Start)
+            {
+                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.CanStart)
+                {
+                    canTrigger = false;
+                }
+            }
+            else if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
+            {
+                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.InProgress)
+                {
+                    canTrigger = false;
+                }
+            }
+            else if (dialogue.Info.questProgress == DialogueQuestProgress.Finish)
+            {
+                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.CanFinish)
+                {
+                    canTrigger = false;
+                }
+            }
+        }
+
+        return canTrigger;
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -114,7 +159,7 @@ public class DialogueTrigger : MonoBehaviour
     
     private Dictionary<string, Dialogue> CreateDialogueDictionary()
     {
-        DialogueSO[] allDialogues = Resources.LoadAll<DialogueSO>($"Dialogues/{locationName}/{characterName}");
+        DialogueSO[] allDialogues = Resources.LoadAll<DialogueSO>($"Dialogues/{locationName}/{triggerName}");
         
         Dictionary<string, Dialogue> idToMap = new Dictionary<string, Dialogue>();
         
@@ -129,18 +174,4 @@ public class DialogueTrigger : MonoBehaviour
 
         return idToMap;
     }
-
-    private Dialogue GetDialogueById(string id)
-    {
-        Dialogue dialogue = _dialogueDictionary[id];
-        if (dialogue == null)
-        {
-            Debug.LogError($"There is no quest with ID: {dialogue.Info}");
-        }
-        
-        return dialogue;
-    }
-    
-    
-    
 }

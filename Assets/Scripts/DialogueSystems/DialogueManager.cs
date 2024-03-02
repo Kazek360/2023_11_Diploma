@@ -17,12 +17,12 @@ public class DialogueManager : MonoBehaviour
     
     private void OnEnable()
     {
-        DialogueEvents.OnDialogueStart += StartDialogue;
+        DialogueEvents.OnDialogueStarted += StartDialogue;
     }
     
     private void OnDisable()
     {
-        DialogueEvents.OnDialogueStart -= StartDialogue;
+        DialogueEvents.OnDialogueStarted -= StartDialogue;
     }
     
     public void StartDialogue(Dialogue dialogue)

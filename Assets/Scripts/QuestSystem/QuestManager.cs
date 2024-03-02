@@ -1,17 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
 {
-    private Dictionary<string, Quest> _questDictionary;
+    private static Dictionary<string, Quest> _questDictionary;
     
     private void Awake()
     {
         _questDictionary = CreateQuestDictionary();
-    }
+    } 
 
     private void Start()
     {
@@ -45,7 +42,6 @@ public class QuestManager : MonoBehaviour
                 meetsRequirements = false;
             }
         }
-
         return meetsRequirements;
     }
 
@@ -73,7 +69,6 @@ public class QuestManager : MonoBehaviour
         Debug.Log($"Quest: {quest.Info.displayName} has started");
         quest.InstantiateCurrentQuestStep(transform);
         ChangeQuestState(id, QuestState.InProgress);
-        
     }
     
     private void ProgressQuest(string id)
@@ -109,18 +104,16 @@ public class QuestManager : MonoBehaviour
             }
             idToDictionary.Add(questInfo.id, new Quest(questInfo));
         }
-
         return idToDictionary;
     }
 
-    private Quest GetQuestById(string id)
+    public static Quest GetQuestById(string id)
     {
         Quest quest = _questDictionary[id];
         if (quest == null)
         {
             Debug.LogError($"There is no quest with ID: {quest.Info}");
         }
-
         return quest;
     }
 }
