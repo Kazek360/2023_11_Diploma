@@ -20,7 +20,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         foreach (var dialogue in _dialogueDictionary.Values)
         {
-            if (dialogue.State == DialogueState.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
+            if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
             {
                 dialogue.State = DialogueState.CanTrigger;
             }
@@ -30,11 +30,13 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        QuestEvents.OnQuestStateChange += ChangeQuestState;
+        QuestEvents.OnQuestStateChange += ChangeDialogueState;
+        DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
     }
     private void OnDisable()
     {
-        QuestEvents.OnQuestStateChange -= ChangeQuestState;
+        QuestEvents.OnQuestStateChange -= ChangeDialogueState;
+        DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
     }
 
     public void Update()
@@ -63,7 +65,7 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
     
-    public void ChangeCurrentDialogue()
+    private void ChangeCurrentDialogue()
     {
         foreach (var dialogue in _dialogueDictionary.Values)
         {
@@ -75,7 +77,7 @@ public class DialogueTrigger : MonoBehaviour
             if (dialogue.State == DialogueState.CanTrigger)
             {
                 if (dialogue.Info.priority > _currentDialogue.Info.priority ||
-                    _currentDialogue.State == DialogueState.CannotTrigger ||
+                    _currentDialogue.State == DialogueState.NotUnlocked ||
                     _currentDialogue.State == DialogueState.Finished)
                 {
                     _currentDialogue = dialogue;
@@ -84,7 +86,7 @@ public class DialogueTrigger : MonoBehaviour
         } 
     }
     
-    public void ChangeQuestState(Quest quest)
+    private void ChangeDialogueState(Quest quest)
     {
         foreach (var dialogue in _dialogueDictionary.Values)
         {
@@ -92,7 +94,7 @@ public class DialogueTrigger : MonoBehaviour
             {
                 if (quest.Info.id == dialogue.Info.quest.id)
                 {
-                    if (dialogue.State == DialogueState.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
+                    if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
                     {
                         dialogue.State = DialogueState.CanTrigger;
                     }
@@ -102,7 +104,7 @@ public class DialogueTrigger : MonoBehaviour
         ChangeCurrentDialogue();
     }
     
-    public bool CheckIfDialogueCanTrigger(Dialogue dialogue)
+    private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
     {
         bool canTrigger = true;
         foreach (var questRequirement in dialogue.Info.requirements)
@@ -124,10 +126,7 @@ public class DialogueTrigger : MonoBehaviour
             }
             else if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
             {
-                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.InProgress)
-                {
-                    canTrigger = false;
-                }
+                canTrigger = false;
             }
             else if (dialogue.Info.questProgress == DialogueQuestProgress.Finish)
             {
@@ -139,6 +138,15 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         return canTrigger;
+    }
+
+    private void UnlockDialogue(string id)
+    {
+        if (_dialogueDictionary.ContainsKey(id))
+        {
+            _dialogueDictionary[id].State = DialogueState.CanTrigger;
+            ChangeCurrentDialogue(); 
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other)

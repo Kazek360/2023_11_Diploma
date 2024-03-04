@@ -8,6 +8,6 @@ public class Dialogue
     public Dialogue(DialogueSO info)
     {
         Info = info;
-        State = DialogueState.CannotTrigger;
+        State = DialogueState.NotUnlocked;
     }
 }

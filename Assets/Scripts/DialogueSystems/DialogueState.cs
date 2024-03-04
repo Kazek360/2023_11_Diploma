@@ -1,7 +1,7 @@
 ﻿
 public enum DialogueState
 {
-    CannotTrigger,
+    NotUnlocked,
     CanTrigger,
     Finished
 }

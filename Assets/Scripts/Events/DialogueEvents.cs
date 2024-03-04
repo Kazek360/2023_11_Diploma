@@ -11,4 +11,11 @@ public static class DialogueEvents
     {
         OnDialogueStarted?.Invoke(dialogue);
     }
+    
+    public static event Action<string> OnDialogueUnlocked;
+    
+    public static void UnlockDialogue(string id)
+    {
+        OnDialogueUnlocked?.Invoke(id);
+    }
 }

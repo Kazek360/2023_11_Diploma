@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueQuestStep : QuestStep
@@ -10,6 +7,7 @@ public class DialogueQuestStep : QuestStep
     private void OnEnable()
     {
         DialogueEvents.OnDialogueStarted += FinishStep;
+        DialogueEvents.UnlockDialogue(dialogueInfo.id);
     }
     private void OnDisable()
     {
