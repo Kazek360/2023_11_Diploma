@@ -12,7 +12,7 @@ public class CombatUI : MonoBehaviour
     //[SerializeField] private GameObject targetsScrollContent;
     [SerializeField] private GameObject targetCardPrefab;
     [SerializeField] private GameObject entityManager;
-    [SerializeField] private GameObject movementCounter;
+    [SerializeField] private GameObject movementCounter, actionCounter;
     [SerializeField] private GameObject endTurnButton;
     [SerializeField] private Toggle materialToggle;
     [SerializeField] private Toggle immaterialToggle;
@@ -49,8 +49,10 @@ public class CombatUI : MonoBehaviour
         //gameObject.SetActive(true);
         abilitiesScrollContent.SetActive(true);
         movementCounter.SetActive(true);
+        actionCounter.SetActive(true);
         endTurnButton.SetActive(true);
         _movementCounter = movementCounter.GetComponent<TextMeshProUGUI>();
+        _actionCounter = actionCounter.GetComponent<TextMeshProUGUI>();
         _currentEntity = (PlayerScript)entity;
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
@@ -169,7 +171,7 @@ public class CombatUI : MonoBehaviour
     /**
      * After turn ends hide interface and destroy children of ability and target lists in order to prevent cloning
      */
-    public void OnEndTurn()
+    public void DisableCombatUI()
     {
         for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
             Transform child = abilitiesScrollContent.transform.GetChild(i);
@@ -183,6 +185,7 @@ public class CombatUI : MonoBehaviour
         //gameObject.SetActive(false);
         abilitiesScrollContent.SetActive(false);
         movementCounter.SetActive(false);
+        actionCounter.SetActive(false);
         endTurnButton.SetActive(false);
     }
     
@@ -194,9 +197,10 @@ public class CombatUI : MonoBehaviour
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
             _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
         }
-        HideTargets();  //Movement deselects targets in order to avoid choosing a target and then moving beyond
-        //the intended range
+        HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
+        DisableCombatUI();
+        ShowCombatUI(_currentEntity);
     }
 
     /**
