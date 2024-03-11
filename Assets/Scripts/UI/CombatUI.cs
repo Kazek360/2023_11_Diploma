@@ -20,7 +20,7 @@ public class CombatUI : MonoBehaviour
     private CombatSystem_2 _combatSystem2;
     private ToggleGroup _abilitiesToggleGroup;
 
-    private TextMeshProUGUI _movementCounter;
+    private TextMeshProUGUI _movementCounter, _actionCounter;
 
     private PlayerScript _currentEntity;
 
@@ -171,14 +171,6 @@ public class CombatUI : MonoBehaviour
      */
     public void OnEndTurn()
     {
-        var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
-        if (toggled is not null && GetCurrentlySelectedTarget() is not null)
-        {
-            int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
-            _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
-        }
-        HideTargets();
-        
         for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
             Transform child = abilitiesScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
@@ -192,6 +184,19 @@ public class CombatUI : MonoBehaviour
         abilitiesScrollContent.SetActive(false);
         movementCounter.SetActive(false);
         endTurnButton.SetActive(false);
+    }
+    
+    public void OnCastAbility()
+    {
+        var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
+        if (toggled is not null && GetCurrentlySelectedTarget() is not null)
+        {
+            int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
+            _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
+        }
+        HideTargets();  //Movement deselects targets in order to avoid choosing a target and then moving beyond
+        //the intended range
+        _abilitiesToggleGroup.SetAllTogglesOff();
     }
 
     /**
@@ -243,6 +248,11 @@ public class CombatUI : MonoBehaviour
         _abilitiesToggleGroup.SetAllTogglesOff();
         _movementCounter.text = "" + i;
     }
+    
+    public void SetActionCounter(int i)
+    {
+        _actionCounter.text = "" + i;
+    }
 
     public void SetTarget(IHittable target)
     {
@@ -251,6 +261,7 @@ public class CombatUI : MonoBehaviour
             _currentTarget.TargetClickAreaDeselected();
         }
         _currentTarget = target;
+        OnCastAbility();
     }
 
     public void ToggleMaterial()
