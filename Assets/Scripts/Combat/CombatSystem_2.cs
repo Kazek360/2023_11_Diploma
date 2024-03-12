@@ -333,6 +333,7 @@ public class CombatSystem_2 : MonoBehaviour
             _movementLeft = movement;
             _actionsLeft = actions;
             UpdateUICounters();
+            combatUI.ShowAbilities();
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 
@@ -427,5 +428,11 @@ public class CombatSystem_2 : MonoBehaviour
                     }
                 }
             }
+        }
+
+        public int ActionsLeft
+        {
+            get => _actionsLeft;
+            set => _actionsLeft = value;
         }
 }

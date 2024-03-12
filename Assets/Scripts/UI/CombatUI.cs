@@ -54,6 +54,10 @@ public class CombatUI : MonoBehaviour
         _movementCounter = movementCounter.GetComponent<TextMeshProUGUI>();
         _actionCounter = actionCounter.GetComponent<TextMeshProUGUI>();
         _currentEntity = (PlayerScript)entity;
+    }
+
+    public void ShowAbilities()
+    {
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
             var container = Instantiate(abilityCardPrefab);
@@ -62,6 +66,11 @@ public class CombatUI : MonoBehaviour
             abilityCard.SetController(this);
             container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
             container.transform.SetParent(abilitiesScrollContent.transform);
+            if (_combatSystem2.ActionsLeft <= 0)
+            {
+                Debug.Log(_combatSystem2.ActionsLeft);
+                container.GetComponent<Toggle>().interactable = false;
+            }
         }
     }
 
@@ -200,7 +209,10 @@ public class CombatUI : MonoBehaviour
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
         DisableCombatUI();
+        _combatSystem2.ActionsLeft--;
         ShowCombatUI(_currentEntity);
+        ShowAbilities();
+        SetActionCounter(_combatSystem2.ActionsLeft);
     }
 
     /**
