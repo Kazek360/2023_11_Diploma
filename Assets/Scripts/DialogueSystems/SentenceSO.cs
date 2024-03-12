@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class SentenceSO : ScriptableObject
     [SerializeField] public Sprite portrait;
     [SerializeField] public string speakerName;    
     [TextArea]
-    [SerializeField] public string text;   
-    [SerializeField] public SentenceSO nextSentence;
+    [SerializeField] public string text;
+
+    [Header("Sentences")] 
+    [SerializeField] public List<SentenceSO> nextSentences;
+    [TextArea][SerializeField] public List<string> answers;
 }
