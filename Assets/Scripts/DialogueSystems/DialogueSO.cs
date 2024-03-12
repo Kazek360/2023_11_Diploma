@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Dialogue", menuName = "ScriptableObjects/Dialogues2/Dialogue")]
+//Scriptable object storing information about dialogue.
+[CreateAssetMenu(fileName = "Dialogue", menuName = "ScriptableObjects/Dialogues/Dialogue")]
 public class DialogueSO : ScriptableObject
 {
     public string id;
@@ -10,14 +11,14 @@ public class DialogueSO : ScriptableObject
     [Header("General")]
     [SerializeField] public int priority;
     
-    [Header("Quest")]
-    [SerializeField] public QuestSO quest;
+    [Header("Quests")]
+    [SerializeField] public List<QuestSO> requiredQuests;
+    [SerializeField] public QuestSO relatedQuest;
     [SerializeField] public DialogueQuestProgress questProgress;
     
-    [Header("Requirements & sentences")]
-    [SerializeField] public List<QuestSO> requirements;
-    [SerializeField] public List<SentenceSO> sentences;
-    
+    [Header("Starting sentence")]
+    [SerializeField] public SentenceSO firstSentence;
+     
     private void OnValidate()
     {
         #if UNITY_EDITOR

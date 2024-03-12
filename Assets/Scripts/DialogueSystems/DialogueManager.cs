@@ -13,7 +13,6 @@ public class DialogueManager : MonoBehaviour
     
     private DialogueSO _currentDialogue;
     private SentenceSO _currentSentence;
-    private int _currentSentenceNumber;
     
     private void OnEnable()
     {
@@ -30,31 +29,31 @@ public class DialogueManager : MonoBehaviour
         dialogueWindow.SetActive(true);
         Time.timeScale = 0f;
         _currentDialogue = dialogue.Info;
-        _currentSentenceNumber = 0;
-        SetSentence(_currentSentenceNumber);
+        SetSentence(_currentDialogue.firstSentence);
     }
 
     public void Update()
     {
-        if (!Input.GetButtonDown("Fire1")) return;
-        
-        _currentSentenceNumber++;
-        
-        if (_currentSentenceNumber >= _currentDialogue.sentences.Count)
+        if (Input.GetButtonDown("Fire1"))
         {
-            Time.timeScale = 1f;
-            dialogueWindow.SetActive(false);
-            return;
+            if (_currentSentence.nextSentence is null)
+            {
+                Time.timeScale = 1f;
+                dialogueWindow.SetActive(false);
+            }
+            else
+            {
+                SetSentence(_currentSentence.nextSentence);
+            }
         }
-        SetSentence(_currentSentenceNumber);
     }
 
-    private void SetSentence(int i)
+    private void SetSentence(SentenceSO sentence)
     {
-        _currentSentence = _currentDialogue.sentences[i];
+        _currentSentence = sentence;
         
-        speakerPortrait.sprite = _currentSentence.Portrait;
-        speakerName.text= _currentSentence.SpeakerName;
-        sentenceText.text = _currentSentence.Text;
+        speakerPortrait.sprite = _currentSentence.portrait;
+        speakerName.text= _currentSentence.speakerName;
+        sentenceText.text = _currentSentence.text;
     }
 }

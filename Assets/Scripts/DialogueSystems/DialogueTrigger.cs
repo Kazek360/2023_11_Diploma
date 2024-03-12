@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class storing NPC dialogues and allowing for their execution in a dialogue window.
 public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] private string locationName;
@@ -45,22 +46,18 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueEvents.StartDialogue(_currentDialogue);
             
-            switch (_currentDialogue.Info.questProgress)
+            if (_currentDialogue.Info.questProgress != DialogueQuestProgress.None)
             {
-                case DialogueQuestProgress.Start:
-                    QuestEvents.StartQuest(_currentDialogue.Info.quest.id);
-                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                    ChangeCurrentDialogue();
-                    break;
-                case DialogueQuestProgress.Progress:
-                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                    ChangeCurrentDialogue();
-                    break;
-                case DialogueQuestProgress.Finish:
-                    QuestEvents.FinishQuest(_currentDialogue.Info.quest.id);
-                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
-                    ChangeCurrentDialogue();
-                    break;
+                if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Start)
+                {
+                    QuestEvents.StartQuest(_currentDialogue.Info.relatedQuest.id);
+                }
+                else if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Finish)
+                {
+                    QuestEvents.FinishQuest(_currentDialogue.Info.relatedQuest.id);
+                }
+                _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                ChangeCurrentDialogue();
             }
         }
     }
@@ -90,9 +87,9 @@ public class DialogueTrigger : MonoBehaviour
     {
         foreach (var dialogue in _dialogueDictionary.Values)
         {
-            if (dialogue.Info.quest is not null)
+            if (dialogue.Info.relatedQuest is not null)
             {
-                if (quest.Info.id == dialogue.Info.quest.id)
+                if (quest.Info.id == dialogue.Info.relatedQuest.id)
                 {
                     if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
                     {
@@ -106,38 +103,36 @@ public class DialogueTrigger : MonoBehaviour
     
     private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
     {
-        bool canTrigger = true;
-        foreach (var questRequirement in dialogue.Info.requirements)
+        foreach (var questRequirement in dialogue.Info.requiredQuests)
         {
             if (QuestManager.GetQuestById(questRequirement.id).State != QuestState.Finished)
             {
-                canTrigger = false;
+                return false;
             }
         }
 
-        if (dialogue.Info.quest is not null)
+        if (dialogue.Info.relatedQuest is not null)
         {
+            if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
+            {
+                return false;
+            }
             if (dialogue.Info.questProgress == DialogueQuestProgress.Start)
             {
-                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.CanStart)
+                if (QuestManager.GetQuestById(dialogue.Info.relatedQuest.id).State != QuestState.CanStart)
                 {
-                    canTrigger = false;
+                    return false;
                 }
-            }
-            else if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
-            {
-                canTrigger = false;
             }
             else if (dialogue.Info.questProgress == DialogueQuestProgress.Finish)
             {
-                if (QuestManager.GetQuestById(dialogue.Info.quest.id).State != QuestState.CanFinish)
+                if (QuestManager.GetQuestById(dialogue.Info.relatedQuest.id).State != QuestState.CanFinish)
                 {
-                    canTrigger = false;
+                    return false;
                 }
             }
         }
-
-        return canTrigger;
+        return true;
     }
 
     private void UnlockDialogue(string id)

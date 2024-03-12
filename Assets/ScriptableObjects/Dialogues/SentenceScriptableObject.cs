@@ -6,7 +6,7 @@ using UnityEngine.Events;
 /**
  * A scriptable object containing one part of a dialogue along with options for eventual choice
  */
-[CreateAssetMenu(fileName = "SentenceScriptableObject", menuName = "ScriptableObjects/Dialogues/Sentence")]
+[CreateAssetMenu(fileName = "SentenceScriptableObject", menuName = "ScriptableObjects/DialoguesOld/Sentence")]
 public class SentenceScriptableObject : ScriptableObject
 {
     [SerializeField] private string speakerName;    //Name of the character speaking

@@ -5,7 +5,7 @@ using UnityEngine;
 /**
  * A scriptable object containing a list of dialogues available to an NPC.
  */
-[CreateAssetMenu(fileName = "DialogueChooserScriptableObject", menuName = "ScriptableObjects/Dialogues/DialogueChooser")]
+[CreateAssetMenu(fileName = "DialogueChooserScriptableObject", menuName = "ScriptableObjects/DialoguesOld/DialogueChooser")]
 public class DialogueChooserScriptableObject : ScriptableObject
 {
     [SerializeField] private List<DialogueScriptableObject> dialogues;

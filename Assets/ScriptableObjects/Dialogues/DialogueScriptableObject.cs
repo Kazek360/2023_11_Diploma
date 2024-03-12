@@ -4,7 +4,7 @@ using UnityEngine;
 /**
  * A scriptable object containing an entire dialogue to be used when talking with an NPC
  */
-[CreateAssetMenu(fileName = "DialogueScriptableObject", menuName = "ScriptableObjects/Dialogues/Dialogue")]
+[CreateAssetMenu(fileName = "DialogueScriptableObject", menuName = "ScriptableObjects/DialoguesOld/Dialogue")]
 public class DialogueScriptableObject : ScriptableObject
 {
     [SerializeField] private List<SentenceScriptableObject> sentences;

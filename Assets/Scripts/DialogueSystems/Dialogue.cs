@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Class storing NPC dialogue info and state of dialogue.
 public class Dialogue
 {
     public DialogueSO Info;
