@@ -186,12 +186,6 @@ public class CombatUI : MonoBehaviour
             Transform child = abilitiesScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
         }
-        
-        // for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
-        //     Transform child = targetsScrollContent.transform.GetChild(i);
-        //     Destroy(child.gameObject);
-        // }
-        //gameObject.SetActive(false);
         abilitiesScrollContent.SetActive(false);
         movementCounter.SetActive(false);
         actionCounter.SetActive(false);
