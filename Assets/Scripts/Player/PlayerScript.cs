@@ -70,12 +70,12 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ProcessTurn()
     {
-        _combatUI.ShowCombatUI(this);
-        _combatSystem2.PlayerTurnStart(agility, IsMaterial());
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
+        _combatUI.ShowCombatUI(this);
+        _combatSystem2.PlayerTurnStart(agility, imagination, IsMaterial());
     }
 
 

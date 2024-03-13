@@ -22,7 +22,7 @@ public class CombatSystem_2 : MonoBehaviour
         private EntityManager _entityManager;
         private GridObject _currentGridObject;
         private List<GridObject> _currentGridObjectNeighbours;
-        private int _movementLeft;
+        private int _movementLeft, _actionsLeft;
         private bool _currentIsMaterial;
         private bool _currentIsPlayer;
         
@@ -298,7 +298,7 @@ public class CombatSystem_2 : MonoBehaviour
         public void MoveToSelected()
         {
             _movementLeft--;
-            UpdateMovementCounter();
+            UpdateUICounters();
             var vec = currentUnit.GetGridLocation();
             _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(false, _currentIsMaterial);
             ClearGrid();
@@ -325,13 +325,15 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObject.SetOccupied(true, _currentIsMaterial);
         }
 
-        public void PlayerTurnStart(int movement, bool isMaterial)
+        public void PlayerTurnStart(int movement, int actions, bool isMaterial)
         {
             _currentIsPlayer = true;
             SetCurrentMaterial(isMaterial);
             ShowStage(isMaterial);
             _movementLeft = movement;
-            UpdateMovementCounter();
+            _actionsLeft = actions;
+            UpdateUICounters();
+            combatUI.ShowAbilities();
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 
@@ -373,9 +375,10 @@ public class CombatSystem_2 : MonoBehaviour
             movedEntity.TurnAfterMovement();
         }
 
-        private void UpdateMovementCounter()
+        private void UpdateUICounters()
         {
             combatUI.SetMovementCounter(_movementLeft);
+            combatUI.SetActionCounter(_actionsLeft);
         }
 
         public CombatUI GetCombatUI()
@@ -425,5 +428,11 @@ public class CombatSystem_2 : MonoBehaviour
                     }
                 }
             }
+        }
+
+        public int ActionsLeft
+        {
+            get => _actionsLeft;
+            set => _actionsLeft = value;
         }
 }
