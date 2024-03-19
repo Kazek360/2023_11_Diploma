@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ProjectileScript : MonoBehaviour
 {
     private GameObject _target;
-    [SerializeField] private float speed;
+    [FormerlySerializedAs("speed")] [SerializeField] private float Speed;
     void Start()
     {
         
@@ -19,8 +20,8 @@ public class ProjectileScript : MonoBehaviour
             return;
         }
         Vector3 moveDir = (_target.transform.position - transform.position).normalized;
-        transform.position +=  speed * Time.deltaTime * moveDir;
-        if (Vector3.Distance(_target.transform.position, transform.position) < speed * Time.deltaTime * 2)
+        transform.position +=  Speed * Time.deltaTime * moveDir;
+        if (Vector3.Distance(_target.transform.position, transform.position) < Speed * Time.deltaTime * 2)
         {
             Destroy(gameObject);
         }

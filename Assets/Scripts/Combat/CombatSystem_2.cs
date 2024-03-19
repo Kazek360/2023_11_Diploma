@@ -8,16 +8,16 @@ using UnityEngine.Serialization;
 
 public class CombatSystem_2 : MonoBehaviour
 {
-    [SerializeField] private Transform hexPrefab;
-        [SerializeField] private Camera mainCamera;
+        [FormerlySerializedAs("hexPrefab")] [SerializeField] private Transform HexPrefab;
+        [FormerlySerializedAs("mainCamera")] [SerializeField] private Camera MainCamera;
         private Grid<GridObject> _grid;
-        [SerializeField] private UnitCombat currentUnit;
-        [SerializeField] private CombatUI combatUI;
+        [FormerlySerializedAs("currentUnit")] [SerializeField] private UnitCombat CurrentUnit;
+        [FormerlySerializedAs("combatUI")] [SerializeField] private CombatUI CombatUI;
     
-        [SerializeField] private int width;
-        [SerializeField] private int height;
-        [SerializeField] private float cellSize;
-        [SerializeField] private Vector2 offset;
+        [FormerlySerializedAs("width")] [SerializeField] private int Width;
+        [FormerlySerializedAs("height")] [SerializeField] private int Height;
+        [FormerlySerializedAs("cellSize")] [SerializeField] private float CellSize;
+        [FormerlySerializedAs("offset")] [SerializeField] private Vector2 Offset;
 
         private EntityManager _entityManager;
         private GridObject _currentGridObject;
@@ -96,12 +96,12 @@ public class CombatSystem_2 : MonoBehaviour
         {
             _currentIsPlayer = false;
             _entityManager = GetComponent<EntityManager>();
-            _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
-            for (int x = 0; x < width; x++)
+            _grid = new Grid<GridObject>(Width, Height, CellSize, Offset, (x, y) => new GridObject(x, y));
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < Height; y++)
                 {
-                    Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity);
+                    Transform visual = Instantiate(HexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity);
                     _grid.GetGridObject(x, y).Hex = visual;
                     _grid.GetGridObject(x, y).HideSelect();
                     _grid.GetGridObject(x, y).HideHighlight();
@@ -117,7 +117,7 @@ public class CombatSystem_2 : MonoBehaviour
                 _currentGridObject.HideSelect();
             }
             
-            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
             
             _currentGridObject = _grid.GetGridObject(mousePosition);
@@ -125,7 +125,7 @@ public class CombatSystem_2 : MonoBehaviour
             if (_currentGridObject != null && _currentGridObject.IsHighlighted)
             {
                 _currentGridObject.Select();
-                if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling)
+                if(Input.GetMouseButtonDown(0) && CurrentUnit.currentState == UnitCombat.State.Idling)
                 {
                     MoveToSelected();
                 }
@@ -138,9 +138,9 @@ public class CombatSystem_2 : MonoBehaviour
          */
         public void ClearGrid()
         {
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < height; j++)
+                for (int j = 0; j < Height; j++)
                 {
                     _grid.GetGridObject(i, j).HideHighlight();
                     _grid.GetGridObject(i, j).HideSelect();
@@ -181,7 +181,7 @@ public class CombatSystem_2 : MonoBehaviour
 
         public int GetDistance(UnitCombat to)
         {
-            var vec = currentUnit.GetGridLocation();
+            var vec = CurrentUnit.GetGridLocation();
             var coord = _grid.GetGridObject((int)vec[0], (int)vec[1]).XYZCoordinates;
             var vec2 = to.GetGridLocation();
             var coord2 = _grid.GetGridObject((int)vec2[0], (int)vec2[1]).XYZCoordinates;
@@ -289,8 +289,8 @@ public class CombatSystem_2 : MonoBehaviour
         public void SetCurrentUnit(UnitCombat newUnit)
         {
             ClearGrid();
-            currentUnit = newUnit;
-            var vec = currentUnit.GetGridLocation();
+            CurrentUnit = newUnit;
+            var vec = CurrentUnit.GetGridLocation();
             _currentGridObject = _grid.GetGridObject((int)vec[0], (int)vec[1]);
             _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours((int)vec[0], (int)vec[1]);
         }
@@ -299,12 +299,12 @@ public class CombatSystem_2 : MonoBehaviour
         {
             _movementLeft--;
             UpdateUICounters();
-            var vec = currentUnit.GetGridLocation();
+            var vec = CurrentUnit.GetGridLocation();
             _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(false, _currentIsMaterial);
             ClearGrid();
                     
-            currentUnit.StartMoving(_currentGridObject.Hex.position);
-            currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
+            CurrentUnit.StartMoving(_currentGridObject.Hex.position);
+            CurrentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
             _currentGridObject.SetOccupied(true, _currentIsMaterial);
             if (_movementLeft > 0)
             {
@@ -315,13 +315,13 @@ public class CombatSystem_2 : MonoBehaviour
         public void MoveTo(int x, int y)
         {
             _movementLeft--;
-            var vec = currentUnit.GetGridLocation();
+            var vec = CurrentUnit.GetGridLocation();
             _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(false, _currentIsMaterial);
             ClearGrid();
 
             _currentGridObject = _grid.GetGridObject(x, y);
-            currentUnit.StartMoving(_currentGridObject.Hex.position);
-            currentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
+            CurrentUnit.StartMoving(_currentGridObject.Hex.position);
+            CurrentUnit.SetGridLocation(_currentGridObject.X, _currentGridObject.Y);
             _currentGridObject.SetOccupied(true, _currentIsMaterial);
         }
 
@@ -333,7 +333,7 @@ public class CombatSystem_2 : MonoBehaviour
             _movementLeft = movement;
             _actionsLeft = actions;
             UpdateUICounters();
-            combatUI.ShowAbilities();
+            CombatUI.ShowAbilities();
             HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
         }
 
@@ -350,7 +350,7 @@ public class CombatSystem_2 : MonoBehaviour
 
         IEnumerator MoveAlongPath(int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
-            var vec = currentUnit.GetGridLocation();
+            var vec = CurrentUnit.GetGridLocation();
             var currHex = _grid.GetGridObject((int)vec[0], (int)vec[1]);
             
             var vec2 = target.GetGridLocation();
@@ -366,7 +366,7 @@ public class CombatSystem_2 : MonoBehaviour
                 }
                 var nextHex = path[i];
                 MoveTo(nextHex.X, nextHex.Y);
-                while (currentUnit.currentState != UnitCombat.State.Idling)
+                while (CurrentUnit.currentState != UnitCombat.State.Idling)
                 {
                     yield return new WaitForSeconds(0.3f);
                 }
@@ -377,13 +377,13 @@ public class CombatSystem_2 : MonoBehaviour
 
         private void UpdateUICounters()
         {
-            combatUI.SetMovementCounter(_movementLeft);
-            combatUI.SetActionCounter(_actionsLeft);
+            CombatUI.SetMovementCounter(_movementLeft);
+            CombatUI.SetActionCounter(_actionsLeft);
         }
 
         public CombatUI GetCombatUI()
         {
-            return combatUI;
+            return CombatUI;
         }
 
         public void EnemyDefeated(UnitCombat unitDefeated, bool isMaterial)
@@ -395,12 +395,12 @@ public class CombatSystem_2 : MonoBehaviour
         public void SetCurrentMaterial(bool isMaterial)
         {
             _currentIsMaterial = isMaterial;
-            combatUI.SetMaterialToggle(isMaterial);
+            CombatUI.SetMaterialToggle(isMaterial);
         }
         public void ShowStage(bool isMaterial)
         {
             _entityManager.ShowEntities(isMaterial);
-            var pos = currentUnit.GetGridLocation();
+            var pos = CurrentUnit.GetGridLocation();
             var currPos = _grid.GetGridObject((int)pos.x, (int)pos.y);
             if (_currentIsPlayer)
             {
@@ -432,7 +432,7 @@ public class CombatSystem_2 : MonoBehaviour
         
         public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
         {
-            combatUI.ShowCombatSummary(IsVictory, players, enemies);
+            CombatUI.ShowCombatSummary(IsVictory, players, enemies);
         }
 
         public int ActionsLeft

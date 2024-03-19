@@ -10,15 +10,14 @@ public class CombatUI : MonoBehaviour
     [SerializeField] private GameObject SummaryDisplay;
     [SerializeField] private GameObject UpperScreen;
     [SerializeField] private GameObject LowerScreen;
-    [SerializeField] private GameObject abilitiesScrollContent;
-    [SerializeField] private GameObject abilityCardPrefab;
-    //[SerializeField] private GameObject targetsScrollContent;
-    [SerializeField] private GameObject targetCardPrefab;
-    [SerializeField] private GameObject entityManager;
-    [SerializeField] private GameObject movementCounter, actionCounter;
-    [SerializeField] private GameObject endTurnButton;
-    [SerializeField] private Toggle materialToggle;
-    [SerializeField] private Toggle immaterialToggle;
+    [FormerlySerializedAs("abilitiesScrollContent")] [SerializeField] private GameObject AbilitiesScrollContent;
+    [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
+    [FormerlySerializedAs("entityManager")] [SerializeField] private GameObject EntityManager;
+    [FormerlySerializedAs("movementCounter")] [SerializeField] private GameObject MovementCounter;
+    [FormerlySerializedAs("actionCounter")] [SerializeField] private GameObject ActionCounter;
+    [FormerlySerializedAs("endTurnButton")] [SerializeField] private GameObject EndTurnButton;
+    [FormerlySerializedAs("materialToggle")] [SerializeField] private Toggle MaterialToggle;
+    [FormerlySerializedAs("immaterialToggle")] [SerializeField] private Toggle ImmaterialToggle;
     private EntityManager _entityManager;
     private CombatSystem_2 _combatSystem2;
     private ToggleGroup _abilitiesToggleGroup;
@@ -33,15 +32,9 @@ public class CombatUI : MonoBehaviour
     void Start()
     {
         _possibleTargets = new List<IHittable>();
-        _entityManager = entityManager.GetComponent<EntityManager>();
-        _combatSystem2 = entityManager.GetComponent<CombatSystem_2>();
-        _abilitiesToggleGroup = abilitiesScrollContent.GetComponent<ToggleGroup>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _entityManager = EntityManager.GetComponent<EntityManager>();
+        _combatSystem2 = EntityManager.GetComponent<CombatSystem_2>();
+        _abilitiesToggleGroup = AbilitiesScrollContent.GetComponent<ToggleGroup>();
     }
 
     /**
@@ -49,13 +42,12 @@ public class CombatUI : MonoBehaviour
      */
     public void ShowCombatUI(IHittable entity)
     {
-        //gameObject.SetActive(true);
-        abilitiesScrollContent.SetActive(true);
-        movementCounter.SetActive(true);
-        actionCounter.SetActive(true);
-        endTurnButton.SetActive(true);
-        _movementCounter = movementCounter.GetComponent<TextMeshProUGUI>();
-        _actionCounter = actionCounter.GetComponent<TextMeshProUGUI>();
+        AbilitiesScrollContent.SetActive(true);
+        MovementCounter.SetActive(true);
+        ActionCounter.SetActive(true);
+        EndTurnButton.SetActive(true);
+        _movementCounter = MovementCounter.GetComponent<TextMeshProUGUI>();
+        _actionCounter = ActionCounter.GetComponent<TextMeshProUGUI>();
         _currentEntity = (PlayerScript)entity;
     }
 
@@ -63,12 +55,12 @@ public class CombatUI : MonoBehaviour
     {
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
-            var container = Instantiate(abilityCardPrefab);
+            var container = Instantiate(AbilityCardPrefab);
             AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
             abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
             abilityCard.SetController(this);
             container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            container.transform.SetParent(abilitiesScrollContent.transform);
+            container.transform.SetParent(AbilitiesScrollContent.transform);
             if (_combatSystem2.ActionsLeft <= 0)
             {
                 Debug.Log(_combatSystem2.ActionsLeft);
@@ -77,51 +69,6 @@ public class CombatUI : MonoBehaviour
         }
     }
 
-    /**
-     * DEPRECATED
-     * After choosing an ability show possible targets
-     *
-     * In the beginning deletes all existing children of the target window to avoid cloning
-     */
-    // public void ShowTargetsList(AbilityScriptableObject ability)
-    // {
-    //     for (int i = 0; i < targetsScrollContent.transform.childCount; i++) {
-    //         Transform child = targetsScrollContent.transform.GetChild(i);
-    //         Destroy(child.gameObject);
-    //     }
-    //     
-    //     
-    //     List<IHittable> possibleTargets = new List<IHittable>();
-    //     foreach (var targetType in ability.ViableTargets)
-    //     {
-    //         if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
-    //         {
-    //             possibleTargets.AddRange(_entityManager.GetMaterialPlayers());
-    //         }
-    //         
-    //         if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
-    //         {
-    //             possibleTargets.AddRange(_entityManager.GetMaterialEnemies());
-    //         }
-    //     }
-    //     List<IHittable> targets = new List<IHittable>();
-    //     foreach (var target in possibleTargets)
-    //     {
-    //         if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
-    //         {
-    //             targets.Add(target);
-    //         }
-    //     }
-    //
-    //     foreach (var target in targets)
-    //     {
-    //         var container = Instantiate(targetCardPrefab);
-    //         TargetCard targetCard = container.gameObject.GetComponent<TargetCard>();
-    //         targetCard.SetTarget(target);
-    //         container.GetComponent<Toggle>().group = targetsScrollContent.GetComponent<ToggleGroup>();
-    //         container.transform.SetParent(targetsScrollContent.transform);
-    //     }
-    // }
     
     /**
      * After choosing an ability show possible targets
@@ -164,7 +111,6 @@ public class CombatUI : MonoBehaviour
 
         foreach (var target in _possibleTargets)
         {
-            //Debug.Log("ACTIVATING");
             target.ActivateTargetClickArea();
         }
     }
@@ -185,14 +131,14 @@ public class CombatUI : MonoBehaviour
      */
     public void DisableCombatUI()
     {
-        for (int i = 0; i < abilitiesScrollContent.transform.childCount; i++) {
-            Transform child = abilitiesScrollContent.transform.GetChild(i);
+        for (int i = 0; i < AbilitiesScrollContent.transform.childCount; i++) {
+            Transform child = AbilitiesScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
         }
-        abilitiesScrollContent.SetActive(false);
-        movementCounter.SetActive(false);
-        actionCounter.SetActive(false);
-        endTurnButton.SetActive(false);
+        AbilitiesScrollContent.SetActive(false);
+        MovementCounter.SetActive(false);
+        ActionCounter.SetActive(false);
+        EndTurnButton.SetActive(false);
     }
     
     public void OnCastAbility()
@@ -217,7 +163,6 @@ public class CombatUI : MonoBehaviour
      */
     public void OnNewAbilitySelected()
     {
-        //ShowTargetsList(GetCurrentlySelectedAbility());
         HideTargets();
         var ability = GetCurrentlySelectedAbility();
         if (ability is not null)
@@ -226,17 +171,6 @@ public class CombatUI : MonoBehaviour
         }
     }
 
-
-    
-    // private IHittable GetCurrentlySelectedTarget()
-    // {
-    //     var toggled = targetsScrollContent.GetComponent<ToggleGroup>().GetFirstActiveToggle();
-    //     if (toggled is not null)
-    //     {
-    //         return toggled.gameObject.GetComponent<TargetCard>().GetTargetScript();
-    //     }
-    //     return null;
-    // }
     
     private IHittable GetCurrentlySelectedTarget()
     {
@@ -249,15 +183,17 @@ public class CombatUI : MonoBehaviour
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
         if (toggled is not null)
         {
-            return toggled.gameObject.GetComponent<AbilityCard>().Ability;
+            return toggled.gameObject.GetComponent<AbilityCard>().GetAbility;
         }
         return null;
     }
 
     public void SetMovementCounter(int i)
     {
-        HideTargets();  //Movement deselects targets in order to avoid choosing a target and then moving beyond
-                        //the intended range
+        //Movement deselects targets in order to avoid choosing a target and then moving beyond
+        //the intended range
+        HideTargets();  
+        
         _abilitiesToggleGroup.SetAllTogglesOff();
         _movementCounter.text = "" + i;
     }
@@ -289,8 +225,8 @@ public class CombatUI : MonoBehaviour
 
     public void SetMaterialToggle(bool isMaterial)
     {
-        materialToggle.SetIsOnWithoutNotify(isMaterial);
-        immaterialToggle.SetIsOnWithoutNotify(!isMaterial);
+        MaterialToggle.SetIsOnWithoutNotify(isMaterial);
+        ImmaterialToggle.SetIsOnWithoutNotify(!isMaterial);
     }
 
     public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
