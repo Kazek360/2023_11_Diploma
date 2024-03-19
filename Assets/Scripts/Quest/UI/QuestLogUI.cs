@@ -66,10 +66,6 @@ public class QuestLogUI : MonoBehaviour
         currentStepText.text = quest.stepsDescriptions.Last();
         if (quest.stepsDescriptions.Count > 1)
         {
-            if (quest.State == QuestState.Finished)
-            {
-                currentStepText.color = stepsText.color;
-            }
             stepsText.text = quest.stepsDescriptions[0];
             for (int i = 1; i < quest.stepsDescriptions.Count - 1; i++)
             {
