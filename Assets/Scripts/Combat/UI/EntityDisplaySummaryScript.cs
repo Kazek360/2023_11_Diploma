@@ -8,12 +8,12 @@ public class EntityDisplaySummaryScript : MonoBehaviour
 {
     [SerializeField] private Image Image;
     [SerializeField] private TextMeshProUGUI Nameplate;
-    [SerializeField] private TextMeshProUGUI HPdisplay;
+    [SerializeField] private TextMeshProUGUI HPDisplay;
     
     public void SetValues(IHittable hittable)
     {
         Image.sprite = hittable.GetImage();
         Nameplate.text = hittable.GetEntityName();
-        HPdisplay.text = hittable.GetCurrentHealth() + "/" + hittable.GetMaxHealth() + " HP";
+        HPDisplay.text = hittable.GetCurrentHealth() + "/" + hittable.GetMaxHealth() + " HP";
     }
 }
