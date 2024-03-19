@@ -37,22 +37,21 @@ public class DialogueManager : MonoBehaviour
         DialogueEvents.OnDialogueStarted -= StartDialogue;
     }
     
-    public void StartDialogue(Dialogue dialogue)
+    private void StartDialogue(Dialogue dialogue)
     {
-        Time.timeScale = 0f;
         dialogueWindow.SetActive(true);
         _currentDialogue = dialogue.Info;
         SetSentence(_currentDialogue.firstSentence);
     }
-
+    
     public void Update()
     {
         if (dialogueWindow.activeSelf && Input.GetButtonDown("Fire1") && _currentSentence.nextSentences.Count < 2)
         {
             if (_currentSentence.nextSentences.Count == 0)
             {
-                Time.timeScale = 1f;
                 dialogueWindow.SetActive(false);
+                DialogueEvents.EndDialogue();
             }
             else
             {

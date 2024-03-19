@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Quest
 {
     public QuestSO Info;
     public QuestState State;
+    public List<string> stepsDescriptions = new List<string>();
     private int _currentStepIndex;
 
     public Quest(QuestSO info)
@@ -34,7 +36,7 @@ public class Quest
         {
             QuestStep questStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<QuestStep>();
             questStep.InitializeQuestStep(Info.id);
-            Debug.Log($"Current task: {questStep.description}");
+            stepsDescriptions.Add(questStep.description);
         }
         else
         {
