@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class CombatUI : MonoBehaviour
 {
+    [SerializeField] private GameObject SummaryDisplay;
+    [SerializeField] private GameObject UpperScreen;
+    [SerializeField] private GameObject LowerScreen;
     [SerializeField] private GameObject abilitiesScrollContent;
     [SerializeField] private GameObject abilityCardPrefab;
     //[SerializeField] private GameObject targetsScrollContent;
@@ -288,5 +291,13 @@ public class CombatUI : MonoBehaviour
     {
         materialToggle.SetIsOnWithoutNotify(isMaterial);
         immaterialToggle.SetIsOnWithoutNotify(!isMaterial);
+    }
+
+    public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
+    {
+        UpperScreen.SetActive(false);
+        LowerScreen.SetActive(false);
+        SummaryDisplay.GetComponent<CombatSummaryScript>().SetValues(IsVictory, players, enemies);
+        SummaryDisplay.SetActive(true);
     }
 }

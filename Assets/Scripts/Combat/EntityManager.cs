@@ -164,7 +164,7 @@ public class EntityManager : MonoBehaviour
         _enemiesDefeated++;
         if (_enemiesDefeated >= enemiesToDefeat)
         {
-            SceneManager.LoadScene(sceneToOpenAfterVictory);
+            ShowCombatSummary(true);
         }
     }
 
@@ -185,7 +185,24 @@ public class EntityManager : MonoBehaviour
 
     public void PlayerDied()
     {
+        ShowCombatSummary(false);
         //TODO: EXIT
         Debug.Log("AAAAAA");
+    }
+
+    public void OnCombatEnd()
+    {
+        SceneManager.LoadScene(sceneToOpenAfterVictory);
+    }
+
+    private void ShowCombatSummary(bool IsVictory)
+    {
+        List<IHittable> players = GetMaterialPlayers();
+        players.AddRange(GetImmaterialPlayers());
+
+        List<IHittable> enemies = GetMaterialEnemies();
+        enemies.AddRange(GetImmaterialEnemies());
+
+        _combatSystem2.ShowCombatSummary(IsVictory, players, enemies);
     }
 }

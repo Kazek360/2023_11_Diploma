@@ -429,6 +429,11 @@ public class CombatSystem_2 : MonoBehaviour
                 }
             }
         }
+        
+        public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
+        {
+            combatUI.ShowCombatSummary(IsVictory, players, enemies);
+        }
 
         public int ActionsLeft
         {

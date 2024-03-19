@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CombatSummaryScript : MonoBehaviour
 {
@@ -33,4 +34,6 @@ public class CombatSummaryScript : MonoBehaviour
             container.GetComponent<EntityDisplaySummaryScript>().SetValues(enemy);
         }
     }
+    
+    
 }
