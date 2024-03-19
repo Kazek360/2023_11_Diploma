@@ -197,11 +197,26 @@ public class EntityManager : MonoBehaviour
 
     private void ShowCombatSummary(bool IsVictory)
     {
-        List<IHittable> players = GetMaterialPlayers();
-        players.AddRange(GetImmaterialPlayers());
-
-        List<IHittable> enemies = GetMaterialEnemies();
-        enemies.AddRange(GetImmaterialEnemies());
+        
+        List<IHittable> players = new List<IHittable>();
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Player"))
+            {
+                players.Add(entity);
+            }
+        }
+        
+        List<IHittable> enemies = new List<IHittable>();
+        
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Enemy"))
+            {
+                enemies.Add(entity);
+                //Debug.Log(entity.name);
+            }
+        }
 
         _combatSystem2.ShowCombatSummary(IsVictory, players, enemies);
     }
