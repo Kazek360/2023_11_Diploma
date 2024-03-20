@@ -40,7 +40,9 @@ public class UWP_PlayerScript : MonoBehaviour
 
     void Shoot()
     {
-        var bullet = Instantiate(projectilePrefab);
-        bullet.transform.rotation = Quaternion.LookRotation(Input.mousePosition - transform.position, Vector3.up);
+        var bullet = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Debug.Log(mousePos);
+        bullet.transform.LookAt(mousePos, Vector2.up);
     }
 }
