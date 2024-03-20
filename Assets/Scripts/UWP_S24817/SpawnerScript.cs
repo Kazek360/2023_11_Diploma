@@ -6,6 +6,7 @@ public class SpawnerScript : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float reloadTime;
+    [SerializeField] private int enemiesToSpawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +21,11 @@ public class SpawnerScript : MonoBehaviour
 
     private IEnumerator SpawnCoroutine()
     {
-        while (true)
+        while (enemiesToSpawn > 0)
         {
             Instantiate(enemyPrefab, transform.position, transform.rotation);
             yield return new WaitForSeconds(reloadTime);
+            enemiesToSpawn--;
         }
     }
 }
