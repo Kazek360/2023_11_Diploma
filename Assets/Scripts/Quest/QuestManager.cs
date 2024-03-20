@@ -10,14 +10,6 @@ public class QuestManager : MonoBehaviour
         _questDictionary = CreateQuestDictionary();
     } 
 
-    private void Start()
-    {
-        foreach (var quest in _questDictionary.Values)
-        {
-            QuestEvents.ChangeQuestState(quest);
-        }
-    }
-
     private void OnEnable()
     {
         QuestEvents.OnQuestStart += StartQuest;
@@ -66,7 +58,6 @@ public class QuestManager : MonoBehaviour
     private void StartQuest(string id)
     {
         Quest quest = GetQuestById(id);
-        Debug.Log($"Quest: {quest.Info.displayName} has started");
         quest.InstantiateCurrentQuestStep(transform);
         ChangeQuestState(id, QuestState.InProgress);
     }
@@ -88,7 +79,6 @@ public class QuestManager : MonoBehaviour
     private void FinishQuest(string id)
     {
         Quest quest = GetQuestById(id);
-        Debug.Log($"Quest: {quest.Info.displayName} has been completed");
         ChangeQuestState(id, QuestState.Finished);
     }
     

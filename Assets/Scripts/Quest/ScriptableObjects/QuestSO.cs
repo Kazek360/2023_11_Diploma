@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quests/Quest")]
 public class QuestSO : ScriptableObject
@@ -20,7 +17,7 @@ public class QuestSO : ScriptableObject
     private void OnValidate()
     {
         #if UNITY_EDITOR
-            id = this.name;
+            id = name;
             UnityEditor.EditorUtility.SetDirty(this);
         #endif
     }
