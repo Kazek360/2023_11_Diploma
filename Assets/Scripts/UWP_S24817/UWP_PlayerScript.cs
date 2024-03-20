@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class UWP_PlayerScript : MonoBehaviour
 {
+    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float speed;
     private Rigidbody2D _rigidbody;
+    
     
     private void Awake()
     {
@@ -14,6 +16,10 @@ public class UWP_PlayerScript : MonoBehaviour
     private void Update()
     {
         MovePlayer();
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
     }
 
 
@@ -30,5 +36,11 @@ public class UWP_PlayerScript : MonoBehaviour
         {
             _rigidbody.velocity = Vector2.zero;
         }
+    }
+
+    void Shoot()
+    {
+        var bullet = Instantiate(projectilePrefab);
+        bullet.transform.rotation = Quaternion.LookRotation(Input.mousePosition - transform.position, Vector3.up);
     }
 }
