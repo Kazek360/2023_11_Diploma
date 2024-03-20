@@ -18,9 +18,6 @@ public class SpawnerScript : MonoBehaviour
         
     }
 
-    /**
-     * Shoots a projectile in direction that triangle is facing
-     */
     private IEnumerator SpawnCoroutine()
     {
         while (true)
