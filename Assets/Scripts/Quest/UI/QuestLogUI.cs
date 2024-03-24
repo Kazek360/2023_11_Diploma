@@ -76,5 +76,14 @@ public class QuestLogUI : MonoBehaviour
         {
             stepsText.text = "";
         }
+
+        if (quest.State == QuestState.Finished)
+        {
+            currentStepText.color = Color.gray;
+        }
+        else
+        {
+         currentStepText.color = Color.white;   
+        }
     }
 }
