@@ -12,9 +12,10 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI currentStepText;
     [SerializeField] private TextMeshProUGUI stepsText;
+    [SerializeField] private Button questNavigationButton;
+    [SerializeField] private TextMeshProUGUI questNavigationText;
 
     private Button _defaultSelectedButton;
-    private Quest _defaultDisplayedQuest;
     private void Start()
     {
         contentParent.SetActive(false);
@@ -84,7 +85,7 @@ public class QuestLogUI : MonoBehaviour
         {
             stepsText.text = "";
         }
-
         currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
+        
     }
 }
