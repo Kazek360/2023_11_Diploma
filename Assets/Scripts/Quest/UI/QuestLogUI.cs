@@ -12,8 +12,6 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI currentStepText;
     [SerializeField] private TextMeshProUGUI stepsText;
-    [SerializeField] private Button questNavigationButton;
-    [SerializeField] private TextMeshProUGUI questNavigationText;
 
     private Button _defaultSelectedButton;
     private void Start()
