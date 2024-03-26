@@ -25,11 +25,4 @@ public static class QuestEvents
     {
         OnQuestStateChange?.Invoke(quest);
     }
-
-    public static event Action<string> OnQuestStepInstantation;
-    
-    public static void SendQuestStepData(string description)
-    {
-        OnQuestStepInstantation?.Invoke(description);
-    }
 }
