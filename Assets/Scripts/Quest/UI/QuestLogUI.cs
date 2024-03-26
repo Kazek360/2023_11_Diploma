@@ -58,6 +58,14 @@ public class QuestLogUI : MonoBehaviour
 
             _defaultSelectedButton = questLogButton.button;
         }
+        else if (quest.State == QuestState.Finished)
+        {
+            QuestLogButton questLogButton = scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () =>
+            {
+                SetQuestInfo(quest);
+            });
+            _defaultSelectedButton = questLogButton.button;
+        }
     }
     private void SetQuestInfo(Quest quest)
     {
@@ -77,13 +85,6 @@ public class QuestLogUI : MonoBehaviour
             stepsText.text = "";
         }
 
-        if (quest.State == QuestState.Finished)
-        {
-            currentStepText.color = Color.gray;
-        }
-        else
-        {
-         currentStepText.color = Color.white;   
-        }
+        currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
     }
 }
