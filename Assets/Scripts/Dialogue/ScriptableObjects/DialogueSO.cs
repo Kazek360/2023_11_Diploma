@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +6,6 @@ using UnityEngine;
 public class DialogueSO : ScriptableObject
 {
     public string id;
-    
-    [Header("General")]
-    [SerializeField] public int priority;
     
     [Header("Quests")]
     [SerializeField] public List<QuestSO> requiredQuests;

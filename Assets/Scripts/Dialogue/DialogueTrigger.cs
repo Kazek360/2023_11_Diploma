@@ -73,7 +73,7 @@ public class DialogueTrigger : MonoBehaviour
             }
             if (dialogue.State == DialogueState.CanTrigger)
             {
-                if (dialogue.Info.priority > _currentDialogue.Info.priority ||
+                if (dialogue.currentPriority > _currentDialogue.currentPriority ||
                     _currentDialogue.State == DialogueState.NotUnlocked ||
                     _currentDialogue.State == DialogueState.Finished)
                 {
