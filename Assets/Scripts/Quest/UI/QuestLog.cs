@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestLogUI : MonoBehaviour
+public class QuestLog : MonoBehaviour
 {
     [Header("Components")] 
     [SerializeField] private GameObject contentParent;
