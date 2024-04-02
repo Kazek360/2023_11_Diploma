@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class QuestEvents
 {
@@ -27,12 +24,5 @@ public static class QuestEvents
     public static void ChangeQuestState(Quest quest)
     {
         OnQuestStateChange?.Invoke(quest);
-    }
-
-    public static event Action<string> OnQuestStepInstantation;
-    
-    public static void SendQuestStepData(string description)
-    {
-        OnQuestStepInstantation?.Invoke(description);
     }
 }

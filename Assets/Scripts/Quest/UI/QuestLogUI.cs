@@ -14,7 +14,6 @@ public class QuestLogUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stepsText;
 
     private Button _defaultSelectedButton;
-    private Quest _defaultDisplayedQuest;
     private void Start()
     {
         contentParent.SetActive(false);
@@ -58,6 +57,14 @@ public class QuestLogUI : MonoBehaviour
 
             _defaultSelectedButton = questLogButton.button;
         }
+        else if (quest.State == QuestState.Finished)
+        {
+            QuestLogButton questLogButton = scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () =>
+            {
+                SetQuestInfo(quest);
+            });
+            _defaultSelectedButton = questLogButton.button;
+        }
     }
     private void SetQuestInfo(Quest quest)
     {
@@ -76,5 +83,7 @@ public class QuestLogUI : MonoBehaviour
         {
             stepsText.text = "";
         }
+        currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
+        
     }
 }

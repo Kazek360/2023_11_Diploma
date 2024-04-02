@@ -8,6 +8,7 @@ public class QuestSO : ScriptableObject
     
     [Header("General")]
     [SerializeField] public string displayName;
+    [SerializeField] public QuestCategory questCategory;
     [TextArea][SerializeField] public string description;
     
     [Header("Requirements & steps")]
