@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class EntityManager : MonoBehaviour
 {
     private CombatSystem_2 _combatSystem2;
-    [SerializeField] private List<GameObject> turnOrder;
+    [FormerlySerializedAs("turnOrder")] [SerializeField] private List<GameObject> TurnOrder;
     
     private List<IHittable> _turnOrder;
     private List<UnitCombat> _combatUnits;
 
-    [SerializeField] private int enemiesToDefeat;
-    [SerializeField] private int sceneToOpenAfterVictory;
+    [FormerlySerializedAs("enemiesToDefeat")] [SerializeField] private int EnemiesToDefeat;
+    [FormerlySerializedAs("sceneToOpenAfterVictory")] [SerializeField] private int SceneToOpenAfterVictory;
     private int _enemiesDefeated;
 
     private int _currentEntity;
@@ -26,7 +27,7 @@ public class EntityManager : MonoBehaviour
         _turnOrder = new List<IHittable>();
         _combatUnits = new List<UnitCombat>();
         _enemiesDefeated = 0;
-        foreach (var entity in turnOrder)
+        foreach (var entity in TurnOrder)
         {
             var hittable = entity.GetComponent<IHittable>();
             _turnOrder.Add(hittable);
@@ -38,11 +39,7 @@ public class EntityManager : MonoBehaviour
         NextTurn();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void NextTurn()
     {
@@ -71,7 +68,7 @@ public class EntityManager : MonoBehaviour
         if (_turnOrder is null)
         {
             _turnOrder = new List<IHittable>();
-            foreach (var entity in turnOrder)
+            foreach (var entity in TurnOrder)
             {
                 var hittable = entity.GetComponent<IHittable>();
                 _turnOrder.Add(hittable);
@@ -94,7 +91,7 @@ public class EntityManager : MonoBehaviour
         if (_turnOrder is null)
         {
             _turnOrder = new List<IHittable>();
-            foreach (var entity in turnOrder)
+            foreach (var entity in TurnOrder)
             {
                 var hittable = entity.GetComponent<IHittable>();
                 _turnOrder.Add(hittable);
@@ -118,7 +115,7 @@ public class EntityManager : MonoBehaviour
         if (_turnOrder is null)
         {
             _turnOrder = new List<IHittable>();
-            foreach (var entity in turnOrder)
+            foreach (var entity in TurnOrder)
             {
                 var hittable = entity.GetComponent<IHittable>();
                 _turnOrder.Add(hittable);
@@ -141,7 +138,7 @@ public class EntityManager : MonoBehaviour
         if (_turnOrder is null)
         {
             _turnOrder = new List<IHittable>();
-            foreach (var entity in turnOrder)
+            foreach (var entity in TurnOrder)
             {
                 var hittable = entity.GetComponent<IHittable>();
                 _turnOrder.Add(hittable);
@@ -162,9 +159,9 @@ public class EntityManager : MonoBehaviour
     public void OnEnemyDefeated()
     {
         _enemiesDefeated++;
-        if (_enemiesDefeated >= enemiesToDefeat)
+        if (_enemiesDefeated >= EnemiesToDefeat)
         {
-            SceneManager.LoadScene(sceneToOpenAfterVictory);
+            ShowCombatSummary(true);
         }
     }
 
@@ -185,7 +182,39 @@ public class EntityManager : MonoBehaviour
 
     public void PlayerDied()
     {
+        ShowCombatSummary(false);
         //TODO: EXIT
         Debug.Log("AAAAAA");
+    }
+
+    public void OnCombatEnd()
+    {
+        SceneManager.LoadScene(SceneToOpenAfterVictory);
+    }
+
+    private void ShowCombatSummary(bool IsVictory)
+    {
+        
+        List<IHittable> players = new List<IHittable>();
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Player"))
+            {
+                players.Add(entity);
+            }
+        }
+        
+        List<IHittable> enemies = new List<IHittable>();
+        
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag("Enemy"))
+            {
+                enemies.Add(entity);
+                //Debug.Log(entity.name);
+            }
+        }
+
+        _combatSystem2.ShowCombatSummary(IsVictory, players, enemies);
     }
 }

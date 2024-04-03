@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 /**
@@ -12,11 +13,11 @@ using Random = UnityEngine.Random;
  */
 public class EnemyScript : MonoBehaviour, IHittable
 {
-    [SerializeField] private GameObject partner;
-    [SerializeField] private EnemyStats stats;
-    [SerializeField] private TargetClickArea targetClickArea;
-    [SerializeField] private TextMeshPro hpText;
-    [SerializeField] private bool material;
+    [FormerlySerializedAs("partner")] [SerializeField] private GameObject Partner;
+    [FormerlySerializedAs("stats")] [SerializeField] private EnemyStats Stats;
+    [FormerlySerializedAs("targetClickArea")] [SerializeField] private TargetClickArea TargetClickArea;
+    [FormerlySerializedAs("hpText")] [SerializeField] private TextMeshPro HpText;
+    [FormerlySerializedAs("material")] [SerializeField] private bool Material;
     protected IHittable _partner;
     
     private List<AbilityScriptableObject> _abilities;
@@ -38,17 +39,17 @@ public class EnemyScript : MonoBehaviour, IHittable
     {
         _isDead = false;
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = stats.MaxHealthPoints;
-        _currentPsyche = stats.MaxPsychePoints;
+        _currentHealth = Stats.MaxHealthPoints;
+        _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
         if (IsMaterial())
         {
-            _partner = partner.GetComponent<IHittable>();
+            _partner = Partner.GetComponent<IHittable>();
             _partner.SetPartnerEntity(this);
         }
         _combatUI = _combatSystem2.GetCombatUI();
-        _abilities = stats.Abilities;
+        _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
@@ -73,7 +74,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        _combatSystem2.MovementStage(stats.Agility, stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _combatSystem2.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
     }
 
     /**
@@ -191,7 +192,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public int GetMaxHealth()
     {
-        return stats.MaxHealthPoints;
+        return Stats.MaxHealthPoints;
     }
 
     public void ModifyHealth(int amount)
@@ -215,7 +216,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public int GetMaxPsyche()
     {
-        return stats.MaxPsychePoints;
+        return Stats.MaxPsychePoints;
     }
 
     public void ModifyPsyche(int amount)
@@ -239,7 +240,7 @@ public class EnemyScript : MonoBehaviour, IHittable
             _entityManager.OnEnemyDefeated();
         }
         _combatSystem2.EnemyDefeated(_unitCombat, IsMaterial());
-        Debug.Log(stats.EnemyName + " has lost all health");
+        Debug.Log(Stats.EnemyName + " has lost all health");
         gameObject.SetActive(false);
     }
 
@@ -250,32 +251,32 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void OnPsycheDepleted()
     {
-        Debug.Log(stats.EnemyName + " has lost all psyche");
+        Debug.Log(Stats.EnemyName + " has lost all psyche");
     }
     
     public int GetStrength()
     {
-        return stats.Strength;
+        return Stats.Strength;
     }
 
     public int GetAgility()
     {
-        return stats.Agility;
+        return Stats.Agility;
     }
 
     public int GetLuck()
     {
-        return stats.Luck;
+        return Stats.Luck;
     }
 
     public int GetImagination()
     {
-        return stats.Imagination;
+        return Stats.Imagination;
     }
     
     public string GetEntityName()
     {
-        return stats.EnemyName;
+        return Stats.EnemyName;
     }
     
     public List<AbilityScriptableObject> GetAbilities()
@@ -290,7 +291,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public Sprite GetImage()
     {
-        return stats.EnemyImage;
+        return Stats.EnemyImage;
     }
 
     public GameObject GetObject()
@@ -305,27 +306,27 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     public void ActivateTargetClickArea()
     {
-        targetClickArea.EnableClick(_combatUI, this);
+        TargetClickArea.EnableClick(_combatUI, this);
     }
 
     public void DeactivateTargetClickArea()
     {
-        targetClickArea.DisableClick();
+        TargetClickArea.DisableClick();
     }
 
     public void TargetClickAreaDeselected()
     {
-        targetClickArea.Deselect();
+        TargetClickArea.Deselect();
     }
 
     private void UpdateHpText()
     {
-        hpText.text = "" + _currentHealth;
+        HpText.text = "" + _currentHealth;
     }
 
     public virtual bool IsMaterial()
     {
-        return material;
+        return Material;
     }
     
     public IHittable GetPartner()

@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 
 // A scriptable object storing information about sentence in dialogue
 [CreateAssetMenu(fileName = "Sentence", menuName = "ScriptableObjects/Dialogues/Sentence")]

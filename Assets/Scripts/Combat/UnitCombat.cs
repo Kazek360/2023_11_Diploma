@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UnitCombat : MonoBehaviour
 {
@@ -11,12 +12,13 @@ public class UnitCombat : MonoBehaviour
         Moving
     }
     
-    [SerializeField] private float speed;
+    [FormerlySerializedAs("speed")] [SerializeField] private float Speed;
     private Rigidbody2D _rigidbody;
     public State currentState;
     private Vector3 _currentDestination;
-    [SerializeField] private int gridX, gridY;
-    
+    [FormerlySerializedAs("gridX")] [SerializeField] private int GridX;
+    [FormerlySerializedAs("gridY")] [SerializeField] private int GridY;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -54,19 +56,19 @@ public class UnitCombat : MonoBehaviour
         }
         else
         {
-            _rigidbody.position = Vector2.MoveTowards(transform.position, _currentDestination, speed * Time.deltaTime);
+            _rigidbody.position = Vector2.MoveTowards(transform.position, _currentDestination, Speed * Time.deltaTime);
         }
     }
 
     public Vector2 GetGridLocation()
     {
-        return new Vector2(gridX, gridY);
+        return new Vector2(GridX, GridY);
     }
 
     public void SetGridLocation(int x, int y)
     {
-        gridX = x;
-        gridY = y;
+        GridX = x;
+        GridY = y;
     }
     
 }

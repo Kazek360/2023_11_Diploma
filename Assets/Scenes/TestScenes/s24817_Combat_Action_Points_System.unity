@@ -235,6 +235,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3278236826828418864, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3581602239557972537, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_Name
       value: CombatUI
@@ -261,7 +265,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8445674811683183368, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000010251999
+      value: -0.0000122487545
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 566664289}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCombatEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EntityManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471880698710895286, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -350,7 +382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4917257802411376706, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
       propertyPath: enemiesToDefeat
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6372094905163893427, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
       propertyPath: m_IsActive
@@ -368,12 +400,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9219950572415745998, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 8422188581112105388, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 5309586319161507022, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
@@ -384,6 +410,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 0}
     - targetCorrespondingSourceObject: {fileID: 8083235703735416371, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 8417106904011636114, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 2752897082071127864, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: d7a20263c4ae03847b0707337603c7d5, type: 3}

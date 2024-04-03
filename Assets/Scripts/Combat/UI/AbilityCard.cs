@@ -3,18 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class AbilityCard : MonoBehaviour
 {
-    [SerializeField] private AbilityScriptableObject ability;
-    [SerializeField] private GameObject abilityNameField;
-    [SerializeField] private GameObject abilityImage;
-    [SerializeField] private GameObject cooldownCounter;
-    [SerializeField] private GameObject cooldownPanel;
-    [SerializeField] private TextMeshProUGUI actionText;
-    [SerializeField] private TextMeshProUGUI cooldownText;
-    [SerializeField] private TextMeshProUGUI rangeText;
+    [FormerlySerializedAs("ability")] [SerializeField] private AbilityScriptableObject Ability;
+    [FormerlySerializedAs("abilityNameField")] [SerializeField] private GameObject AbilityNameField;
+    [FormerlySerializedAs("abilityImage")] [SerializeField] private GameObject AbilityImage;
+    [FormerlySerializedAs("cooldownCounter")] [SerializeField] private GameObject CooldownCounter;
+    [FormerlySerializedAs("cooldownPanel")] [SerializeField] private GameObject CooldownPanel;
+    [FormerlySerializedAs("actionText")] [SerializeField] private TextMeshProUGUI ActionText;
+    [FormerlySerializedAs("cooldownText")] [SerializeField] private TextMeshProUGUI CooldownText;
+    [FormerlySerializedAs("rangeText")] [SerializeField] private TextMeshProUGUI RangeText;
     private int _abilityOrderInEntityList;
     private CombatUI _controllerClass;
     private void OnEnable()
@@ -30,17 +31,17 @@ public class AbilityCard : MonoBehaviour
      */
     public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
-        ability = abilityScriptableObject;
-        actionText.text = ability.GetAbilityActionText();
-        cooldownText.text = ability.GetAbilityCooldownText();
-        rangeText.text = ability.GetAbilityRangeText();
-        abilityNameField.GetComponent<TextMeshProUGUI>().text = ability.AbilityName;
-        abilityImage.GetComponent<Image>().sprite = ability.Sprite;
+        Ability = abilityScriptableObject;
+        ActionText.text = Ability.GetAbilityActionText();
+        CooldownText.text = Ability.GetAbilityCooldownText();
+        RangeText.text = Ability.GetAbilityRangeText();
+        AbilityNameField.GetComponent<TextMeshProUGUI>().text = Ability.AbilityName;
+        AbilityImage.GetComponent<Image>().sprite = Ability.Sprite;
         _abilityOrderInEntityList = orderNumber;
         if (cooldown > 0)
         {
-            cooldownPanel.SetActive(true);
-            cooldownCounter.GetComponent<TextMeshProUGUI>().text = ""+cooldown;
+            CooldownPanel.SetActive(true);
+            CooldownCounter.GetComponent<TextMeshProUGUI>().text = ""+cooldown;
             this.GetComponent<Toggle>().interactable = false;
         }
     }
@@ -64,5 +65,5 @@ public class AbilityCard : MonoBehaviour
 
     public int AbilityOrderInEntityList => _abilityOrderInEntityList;
 
-    public AbilityScriptableObject Ability => ability;
+    public AbilityScriptableObject GetAbility => Ability;
 }
