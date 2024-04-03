@@ -99,7 +99,7 @@ public class QuestManager : MonoBehaviour
 
     public static Quest GetQuestById(string id)
     {
-        Quest quest = _questDictionary[id];
+        var quest = _questDictionary[id];
         if (quest == null)
         {
             Debug.LogError($"There is no quest with ID: {quest.Info}");
