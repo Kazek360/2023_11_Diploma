@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Skill.Events;
 using UnityEngine;
 
 public class PlayerResourcesManager : MonoBehaviour
