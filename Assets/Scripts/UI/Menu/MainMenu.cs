@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement; // Potrzebne do zarządzania scenami
 
-public class LoadNewGame : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     // Metoda do wywołania po naciśnięciu przycisku
     public void Play()
