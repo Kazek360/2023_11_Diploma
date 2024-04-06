@@ -14,20 +14,40 @@ public class QuestLog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stepsText;
 
     private Button _defaultSelectedButton;
+    private bool _isAnotherInterfaceOpened;
+    
+    private void OnEnable()
+    {
+        QuestEvents.OnQuestStateChange += QuestStateChange;
+        InterfaceEvents.OnInterfaceOpened += EnableInterface;
+        InterfaceEvents.OnInterfaceClosed += DisableInterface;
+    }
+    private void OnDisable()
+    {
+        QuestEvents.OnQuestStateChange -= QuestStateChange;
+        InterfaceEvents.OnInterfaceOpened -= EnableInterface;
+        InterfaceEvents.OnInterfaceClosed -= DisableInterface;
+    }
     private void Start()
     {
         contentParent.SetActive(false);
     }
     private void Update()
     {
+        if (_isAnotherInterfaceOpened)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (contentParent.activeSelf)
             {
+                InterfaceEvents.CloseInterface(gameObject.name);
                 contentParent.SetActive(false);
             }
             else
             {
+                InterfaceEvents.OpenInterface(gameObject.name);
                 contentParent.SetActive(true);
                 if (_defaultSelectedButton is not null)
                 {
@@ -36,16 +56,20 @@ public class QuestLog : MonoBehaviour
             }
         }
     }
-
-    private void OnEnable()
+    private void EnableInterface(string interfaceName)
     {
-        QuestEvents.OnQuestStateChange += QuestStateChange;
+        if (!interfaceName.Equals(gameObject.name))
+        {
+            _isAnotherInterfaceOpened = true;
+        }
     }
-    private void OnDisable()
+    private void DisableInterface(string interfaceName)
     {
-        QuestEvents.OnQuestStateChange -= QuestStateChange;
+        if (!interfaceName.Equals(gameObject.name))
+        {
+            _isAnotherInterfaceOpened = false;
+        }
     }
-    
     private void QuestStateChange(Quest quest)
     {
         if (quest.State == QuestState.InProgress)
