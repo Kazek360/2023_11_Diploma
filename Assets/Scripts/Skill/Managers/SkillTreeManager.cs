@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
+using Skill.Events;
 using UnityEngine;
 
-namespace Skill
+namespace Skill.Managers
 {
     public class SkillTreeManager : MonoBehaviour
     {
