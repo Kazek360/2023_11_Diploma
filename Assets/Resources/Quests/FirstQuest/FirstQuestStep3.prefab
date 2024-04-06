@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8189891201974465094}
-  - component: {fileID: 443860894343071499}
+  - component: {fileID: -6636753583273979364}
   m_Layer: 0
-  m_Name: DialogueQuestStep1
+  m_Name: FirstQuestStep3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &443860894343071499
+--- !u!114 &-6636753583273979364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,8 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7410026680473412634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247c8008a5f220f488c31e473cee2c84, type: 3}
+  m_Script: {fileID: 11500000, guid: e139159f32b60ec449d17b103cdf7c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Porozmawiaj z Sanikiem
-  dialogueInfo: {fileID: 11400000, guid: 78b212e00c1b0ba4ba8cde87045835a5, type: 2}
+  description: Porozmawiaj ze Szczerba
+  dialoguesInfo:
+  - {fileID: 11400000, guid: d9174ecdc832b524d8b2d1df92c69308, type: 2}
+  - {fileID: 11400000, guid: 65f4311cd0afe194e918beb96c7b8416, type: 2}
+  - {fileID: 11400000, guid: abbb5934c77131945a1de6340607d5d1, type: 2}
+  questToStart: {fileID: 11400000, guid: d84761cf2ce973346ab9e397fabd639c, type: 2}

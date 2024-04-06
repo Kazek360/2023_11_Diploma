@@ -7,8 +7,11 @@ public class DialogueSO : ScriptableObject
 {
     public string id;
     
-    [Header("Quests")]
+    [Header("Requirements")]
+    [SerializeField] public DialogueMarkerSO requiredFlag;
     [SerializeField] public List<QuestSO> requiredQuests;
+    
+    [Header("Quest")]
     [SerializeField] public QuestSO relatedQuest;
     [SerializeField] public DialogueQuestProgress questProgress;
     
@@ -18,9 +21,8 @@ public class DialogueSO : ScriptableObject
     private void OnValidate()
     {
         #if UNITY_EDITOR
-            id = this.name;
+            id = name;
             UnityEditor.EditorUtility.SetDirty(this);
         #endif
     }
-
 }
