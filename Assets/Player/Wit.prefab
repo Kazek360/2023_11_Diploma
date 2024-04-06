@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 362952979
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 99920b9a7345f8a43ae6eb068137815c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -99,15 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25604b85897f7304fa07bef4db588c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  northSprite: {fileID: 0}
-  southSprite: {fileID: 0}
-  westSprite: {fileID: 0}
-  eastSprite: {fileID: 0}
-  northWestSprite: {fileID: 0}
-  northEastSprite: {fileID: 0}
-  southWestSprite: {fileID: 0}
-  southEastSprite: {fileID: 0}
+  speed: 3
+  northSprite: {fileID: 21300000, guid: 99a0b0bd4e8c9a94faed7dc9a4af7f84, type: 3}
+  southSprite: {fileID: 21300000, guid: 99920b9a7345f8a43ae6eb068137815c, type: 3}
+  westSprite: {fileID: 21300000, guid: 1c3d2b58469b0a847a8d5ae68e225362, type: 3}
+  eastSprite: {fileID: 21300000, guid: 0799942a17b84674fb13c062afa29c94, type: 3}
+  northWestSprite: {fileID: 21300000, guid: 44cd1b624a868c0428ac74b4e8dd3bc9, type: 3}
+  northEastSprite: {fileID: 21300000, guid: 3dbea47b04d0a7944b842f59598c4f66, type: 3}
+  southWestSprite: {fileID: 21300000, guid: 12bd213aa0fcacc4a864952677a91bfa, type: 3}
+  southEastSprite: {fileID: 21300000, guid: f23cb161554cfe247b2171c0a7d1895c, type: 3}
 --- !u!50 &3554947151251573820
 Rigidbody2D:
   serializedVersion: 4
@@ -167,6 +167,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03515625, y: 2.44}
-  m_Size: {x: 2.0541992, y: 4.885958}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 2.1784668, y: 2.1784668}
   m_Direction: 0
