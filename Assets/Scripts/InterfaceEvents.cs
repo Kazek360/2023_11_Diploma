@@ -1,16 +1,16 @@
 using System;
-using UnityEngine;
 
-public class InterfaceEvents : MonoBehaviour
+public static class InterfaceEvents
 {
     public static event Action<string> OnInterfaceOpened;
     public static void OpenInterface(string interfaceName)
     {
         OnInterfaceOpened?.Invoke(interfaceName);
     }
-    public static event Action<string> OnInterfaceClosed;
-    public static void CloseInterface(string interfaceName)
+    
+    public static event Action OnInterfaceClosed;
+    public static void CloseInterface()
     {
-        OnInterfaceClosed?.Invoke(interfaceName);
+        OnInterfaceClosed?.Invoke();
     }
 }

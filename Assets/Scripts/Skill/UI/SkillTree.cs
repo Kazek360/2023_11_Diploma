@@ -3,29 +3,26 @@ using UnityEngine;
 
 public class SkillTree : MonoBehaviour
 {
-    
-    [Header("Components")] 
-    [SerializeField] private GameObject contentParent;
     [SerializeField] private TextMeshProUGUI skillPointsValue;
-
+    [SerializeField] private GameObject contentParent;
     private bool _isAnotherInterfaceOpened;
-
+    
     public void OnEnable()
     {
         PlayerResourcesEvents.OnSkillPointsChange += ChangeSkillPointsValue;
-        InterfaceEvents.OnInterfaceOpened += EnableInterface;
-        InterfaceEvents.OnInterfaceClosed += DisableInterface;
+        InterfaceEvents.OnInterfaceOpened += DisableInterface;
+        InterfaceEvents.OnInterfaceClosed += EnableInterface;
     }
     public void OnDisable()
     {
         PlayerResourcesEvents.OnSkillPointsChange -= ChangeSkillPointsValue;
-        InterfaceEvents.OnInterfaceOpened -= EnableInterface;
-        InterfaceEvents.OnInterfaceClosed -= DisableInterface;
+        InterfaceEvents.OnInterfaceOpened -= DisableInterface;
+        InterfaceEvents.OnInterfaceClosed -= EnableInterface;
     }
     private void Start()
     {
-        _isAnotherInterfaceOpened = false;
         contentParent.SetActive(false);
+        _isAnotherInterfaceOpened = false;
     }
     private void Update()
     {
@@ -37,32 +34,28 @@ public class SkillTree : MonoBehaviour
         {
             if (contentParent.activeSelf)
             {
-                InterfaceEvents.CloseInterface(gameObject.name);
                 contentParent.SetActive(false);
+                InterfaceEvents.CloseInterface();
             }
             else
             {
+                contentParent.SetActive(true);
                 InterfaceEvents.OpenInterface(gameObject.name);
-                contentParent.SetActive(!contentParent.activeSelf);
             }
-        }
-    }
-
-    private void EnableInterface(string interfaceName)
-    {
-        if (!interfaceName.Equals(gameObject.name))
-        {
-            _isAnotherInterfaceOpened = true;
         }
     }
     private void DisableInterface(string interfaceName)
     {
         if (!interfaceName.Equals(gameObject.name))
         {
-            _isAnotherInterfaceOpened = false;
+            _isAnotherInterfaceOpened = true;
         }
     }
-    
+
+    private void EnableInterface()
+    {
+        _isAnotherInterfaceOpened = false;
+    }
     private void ChangeSkillPointsValue(int value)
     {
         skillPointsValue.text = value.ToString();
