@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class DialogueEvents
 {
@@ -10,16 +7,25 @@ public static class DialogueEvents
     {
         OnDialogueStarted?.Invoke(dialogue);
     }
-    
-    public static event Action OnDialogueEnd;
-    public static void EndDialogue()
+    public static event Action<DialogueSO> OnDialogueFinished;
+    public static void FinishDialogue(DialogueSO dialogue)
     {
-        OnDialogueEnd?.Invoke();
+        OnDialogueFinished?.Invoke(dialogue);
     }
-    
     public static event Action<string> OnDialogueUnlocked;
     public static void UnlockDialogue(string id)
     {
         OnDialogueUnlocked?.Invoke(id);
+    }
+    
+    public static event Action<string> OnDialogueMarkerTrigger;
+    public static void TriggerDialogueMarker(string id)
+    {
+        OnDialogueMarkerTrigger?.Invoke(id);
+    }
+    public static event Action<string> OnDialogueMarkerStateChange;
+    public static void ChangeDialogueMarkerState(string id)
+    {
+        OnDialogueMarkerStateChange?.Invoke(id);
     }
 }
