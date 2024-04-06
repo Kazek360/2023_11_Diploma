@@ -1,12 +1,19 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Potrzebne do zarządzania scenami
+using UnityEngine.SceneManagement; 
 
 public class MainMenu : MonoBehaviour
 {
-    // Metoda do wywołania po naciśnięciu przycisku
-    public void Play()
+     public void Play()
     {
-        // Ładuje scenę o nazwie "Las"
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void QuitGame()
+    {
+        // Zamyka aplikację
+        Application.Quit();
+
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }
