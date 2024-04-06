@@ -29,29 +29,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     
     private int _currentHealth;
     private int _currentPsyche;
-
-    public Sprite northSprite;
-    public Sprite southSprite;
-    public Sprite westSprite;
-    public Sprite eastSprite;
-    public Sprite northWestSprite;
-    public Sprite northEastSprite;
-    public Sprite southWestSprite;
-    public Sprite southEastSprite;
     
-    
-    private Direction _defoultDirection = Direction.South;
-    public enum Direction
-    {
-        North,
-        South,
-        West,
-        East,
-        NorthWest,
-        NorthEast,
-        SouthWest,
-        SouthEast
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -77,48 +55,9 @@ public class PlayerScript : MonoBehaviour, IHittable
     // Update is called once per frame
     void Update()
     {
-        // Sprawdź, które klawisze są obecnie naciśnięte
-        bool up = Input.GetKey(KeyCode.W);
-        bool down = Input.GetKey(KeyCode.S);
-        bool left = Input.GetKey(KeyCode.A);
-        bool right = Input.GetKey(KeyCode.D);
-
-        // Ustaw kierunek postaci na podstawie naciśniętych klawiszy
-        if (up && !down)
-            _defoultDirection = Direction.North;
-        else if (down && !up)
-            _defoultDirection = Direction.South;
-        else if (left && !right)
-            _defoultDirection = Direction.West;
-        else if (right && !left)
-            _defoultDirection = Direction.East;
-
-        // Ustaw odpowiednią grafikę postaci w zależności od kierunku
-        SetCharacterSprite();
+        
     }
-    
-    private void SetCharacterSprite()
-    {
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Wybierz odpowiednią grafikę na podstawie kierunku
-        switch (_defoultDirection)
-        {
-            case Direction.North:
-                spriteRenderer.sprite = northSprite;
-                break;
-            case Direction.South:
-                spriteRenderer.sprite = southSprite;
-                break;
-            case Direction.West:
-                spriteRenderer.sprite = westSprite;
-                break;
-            case Direction.East:
-                spriteRenderer.sprite = eastSprite;
-                break;
-        }
-    }
-    
     public void CastAbility(int i, IHittable target)
     {
         var ability = abilities[i];
