@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //Class managing the currently triggered dialogue.
-public class DialogueManager : MonoBehaviour
+public class DialogueWindow : MonoBehaviour
 {
-    [SerializeField] private GameObject dialogueWindow;
+    [Header("Components")]
+    [SerializeField] private GameObject contentParent;
     [SerializeField] private Image speakerPortrait;
     [SerializeField] private TextMeshProUGUI speakerName;
     [SerializeField] private TextMeshProUGUI sentenceText;
@@ -22,7 +23,7 @@ public class DialogueManager : MonoBehaviour
         _choicesText = new List<TextMeshProUGUI>();
         for (int i = 0; i < choices.Count; i++)
         {
-            dialogueWindow.SetActive(false);
+            contentParent.SetActive(false);
             _choicesText.Add(choices[i].GetComponentInChildren<TextMeshProUGUI>());
         }
     }
@@ -39,18 +40,20 @@ public class DialogueManager : MonoBehaviour
     
     private void StartDialogue(Dialogue dialogue)
     {
-        dialogueWindow.SetActive(true);
+        contentParent.SetActive(true);
+        InterfaceEvents.OpenInterface(gameObject.name);
         _currentDialogue = dialogue.Info;
         SetSentence(_currentDialogue.firstSentence);
     }
     
     public void Update()
     {
-        if (dialogueWindow.activeSelf && Input.GetButtonDown("Fire1") && _currentSentence.nextSentences.Count < 2)
+        if (contentParent.activeSelf && Input.GetButtonDown("Fire1") && _currentSentence.nextSentences.Count < 2)
         {
             if (_currentSentence.nextSentences.Count == 0)
             {
-                dialogueWindow.SetActive(false);
+                contentParent.SetActive(false);
+                InterfaceEvents.CloseInterface();
                 DialogueEvents.EndDialogue();
             }
             else

@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1491.6476, y: 428.4722, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -99,7 +99,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25604b85897f7304fa07bef4db588c1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  walkSpeed: 10
+  runSpeed: 15
+  northSprite: {fileID: 21300000, guid: 99a0b0bd4e8c9a94faed7dc9a4af7f84, type: 3}
+  southSprite: {fileID: 21300000, guid: 99920b9a7345f8a43ae6eb068137815c, type: 3}
+  westSprite: {fileID: 21300000, guid: 1c3d2b58469b0a847a8d5ae68e225362, type: 3}
+  eastSprite: {fileID: 21300000, guid: 0799942a17b84674fb13c062afa29c94, type: 3}
+  northWestSprite: {fileID: 21300000, guid: 44cd1b624a868c0428ac74b4e8dd3bc9, type: 3}
+  northEastSprite: {fileID: 21300000, guid: 3dbea47b04d0a7944b842f59598c4f66, type: 3}
+  southWestSprite: {fileID: 21300000, guid: 12bd213aa0fcacc4a864952677a91bfa, type: 3}
+  southEastSprite: {fileID: 21300000, guid: f23cb161554cfe247b2171c0a7d1895c, type: 3}
 --- !u!50 &3554947151251573820
 Rigidbody2D:
   serializedVersion: 4
