@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &3846088583985356463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  northSprite: {fileID: 0}
+  southSprite: {fileID: 0}
+  westSprite: {fileID: 0}
+  eastSprite: {fileID: 0}
+  northWestSprite: {fileID: 0}
+  northEastSprite: {fileID: 0}
+  southWestSprite: {fileID: 0}
+  southEastSprite: {fileID: 0}
 --- !u!50 &3554947151251573820
 Rigidbody2D:
   serializedVersion: 4
@@ -159,6 +167,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03515625, y: -0.117020845}
+  m_Offset: {x: 0.03515625, y: 2.44}
   m_Size: {x: 2.0541992, y: 4.885958}
   m_Direction: 0
