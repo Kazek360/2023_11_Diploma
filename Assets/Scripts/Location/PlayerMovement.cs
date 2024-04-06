@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float runSpeed;
     private Rigidbody2D _rigidbody;
-    private bool _inDialogue;
+    private bool _isInterfaceOpened;
+    private float _currentSpeed;
     
     public Sprite northSprite;
     public Sprite southSprite;
@@ -27,26 +29,32 @@ public class PlayerMovement : MonoBehaviour
         SouthWest,
         SouthEast
     }
-    
-    
+    private void OnEnable()
+    {
+        InterfaceEvents.OnInterfaceOpened += DisableMovement;
+        InterfaceEvents.OnInterfaceClosed += EnableMovement;
+    }
+    private void OnDisable()
+    {
+        InterfaceEvents.OnInterfaceOpened -= DisableMovement;
+        InterfaceEvents.OnInterfaceClosed -= EnableMovement;
+    }
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _inDialogue = false;
-    }
-    private void OnEnable()
-    {
-        DialogueEvents.OnDialogueStarted += DisableMovement;
-        DialogueEvents.OnDialogueEnd += EnableMovement;
-    }
-    
-    private void OnDisable()
-    {
-        DialogueEvents.OnDialogueStarted -= DisableMovement;
-        DialogueEvents.OnDialogueEnd -= EnableMovement;
+        _isInterfaceOpened = false;
+        _currentSpeed = walkSpeed;
     }
     private void Update()
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _currentSpeed = runSpeed;
+        }
+        else
+        {
+            _currentSpeed = walkSpeed;
+        }
         // Sprawdź, które klawisze są obecnie naciśnięte
         bool up = Input.GetKey(KeyCode.W);
         bool down = Input.GetKey(KeyCode.S);
@@ -74,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         // Ustaw odpowiednią grafikę postaci w zależności od kierunku
         SetCharacterSprite();
         
-        if (!_inDialogue)
+        if (!_isInterfaceOpened)
         {
             MovePlayer();
         }
@@ -82,6 +90,15 @@ public class PlayerMovement : MonoBehaviour
         {
             _rigidbody.velocity = Vector2.zero;
         }
+    }
+
+    private void DisableMovement(string interfaceName)
+    {
+        _isInterfaceOpened = true;
+    }
+    private void EnableMovement()
+    {
+        _isInterfaceOpened = false;
     }
     
     private void SetCharacterSprite()
@@ -117,16 +134,7 @@ public class PlayerMovement : MonoBehaviour
                         break;
         }
     }
-
-    private void DisableMovement(Dialogue dialogue)
-    {
-        _inDialogue = true;
-    }
-    private void EnableMovement()
-    {
-        _inDialogue = false;
-    }
-
+    
     void MovePlayer()
     {
         float xInput = Input.GetAxis("Horizontal");
@@ -134,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
         {
-            _rigidbody.velocity = new Vector2(xInput, yInput).normalized * speed;
+            _rigidbody.velocity = new Vector2(xInput, yInput).normalized * _currentSpeed;
         }
         else
         {

@@ -14,21 +14,42 @@ public class QuestLog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stepsText;
 
     private Button _defaultSelectedButton;
+    private bool _isAnotherInterfaceOpened;
+    
+    private void OnEnable()
+    {
+        QuestEvents.OnQuestStateChange += QuestStateChange;
+        InterfaceEvents.OnInterfaceOpened += DisableInterface;
+        InterfaceEvents.OnInterfaceClosed += EnableInterface;
+    }
+    private void OnDisable()
+    {
+        QuestEvents.OnQuestStateChange -= QuestStateChange;
+        InterfaceEvents.OnInterfaceOpened -= DisableInterface;
+        InterfaceEvents.OnInterfaceClosed -= EnableInterface;
+    }
     private void Start()
     {
         contentParent.SetActive(false);
+        _isAnotherInterfaceOpened = false;
     }
     private void Update()
     {
+        if (_isAnotherInterfaceOpened)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (contentParent.activeSelf)
             {
                 contentParent.SetActive(false);
+                InterfaceEvents.CloseInterface();
             }
             else
             {
                 contentParent.SetActive(true);
+                InterfaceEvents.OpenInterface(gameObject.name);
                 if (_defaultSelectedButton is not null)
                 {
                     _defaultSelectedButton.Select();
@@ -37,13 +58,17 @@ public class QuestLog : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void DisableInterface(string interfaceName)
     {
-        QuestEvents.OnQuestStateChange += QuestStateChange;
+        if (!interfaceName.Equals(gameObject.name))
+        {
+            _isAnotherInterfaceOpened = true;
+        }
     }
-    private void OnDisable()
+
+    private void EnableInterface()
     {
-        QuestEvents.OnQuestStateChange -= QuestStateChange;
+        _isAnotherInterfaceOpened = false;
     }
     
     private void QuestStateChange(Quest quest)
