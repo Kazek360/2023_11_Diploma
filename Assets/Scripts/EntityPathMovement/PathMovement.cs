@@ -18,7 +18,6 @@ public class PathMovement : MonoBehaviour
         _parentTransform = transform.parent;
         _rigidbody = GetComponentInParent<Rigidbody2D>();
         _isMoving = false;
-        StartMovement();
     }
 
 
