@@ -5,12 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Sentence", menuName = "ScriptableObjects/Dialogues/Sentence")]
 public class SentenceSO : ScriptableObject
 {
+    [Header("Sentence info")]
     [SerializeField] public Sprite portrait;
     [SerializeField] public string speakerName;    
     [TextArea]
     [SerializeField] public string text;
-
-    [Header("Sentences")] 
+    
+    [Header("Flags")]
+    [SerializeField] public DialogueMarkerSO flagToTrigger;
+    
+    [Header("Next Sentences")] 
     [SerializeField] public List<SentenceSO> nextSentences;
     [TextArea][SerializeField] public List<string> answers;
 }
