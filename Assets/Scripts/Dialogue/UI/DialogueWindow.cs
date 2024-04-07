@@ -53,8 +53,19 @@ public class DialogueWindow : MonoBehaviour
             if (_currentSentence.nextSentences.Count == 0)
             {
                 contentParent.SetActive(false);
+                if (_currentDialogue.questProgress != DialogueQuestProgress.None)
+                {
+                    if (_currentDialogue.questProgress == DialogueQuestProgress.Start)
+                    {
+                        QuestEvents.StartQuest(_currentDialogue.relatedQuest.id);
+                    }
+                    else if (_currentDialogue.questProgress == DialogueQuestProgress.Finish)
+                    {
+                        QuestEvents.FinishQuest(_currentDialogue.relatedQuest.id);
+                    }
+                    DialogueEvents.FinishDialogue(_currentDialogue);
+                }
                 InterfaceEvents.CloseInterface();
-                DialogueEvents.EndDialogue();
             }
             else
             {
@@ -70,6 +81,11 @@ public class DialogueWindow : MonoBehaviour
         speakerPortrait.sprite = _currentSentence.portrait;
         speakerName.text= _currentSentence.speakerName;
         sentenceText.text = _currentSentence.text;
+
+        if (_currentSentence.flagToTrigger is not null)
+        {
+            DialogueEvents.TriggerDialogueMarker(_currentSentence.flagToTrigger.id);
+        }
     }
 
     private void DisplayChoices()

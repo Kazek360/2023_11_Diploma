@@ -9,9 +9,20 @@ public class DialogueTrigger : MonoBehaviour
     
     private Dictionary<string, Dialogue> _dialogueDictionary;
     private Dialogue _currentDialogue;
-    
     private bool _playerInRange;
     
+    private void OnEnable()
+    {
+        QuestEvents.OnQuestStateChange += ChangeDialogueState;
+        DialogueEvents.OnDialogueMarkerStateChange += ChangeDialogueState;
+        DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
+    }
+    private void OnDisable()
+    {
+        QuestEvents.OnQuestStateChange -= ChangeDialogueState;
+        DialogueEvents.OnDialogueMarkerStateChange -= ChangeDialogueState;
+        DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
+    }
     private void Awake()
     {
         _dialogueDictionary = CreateDialogueDictionary();
@@ -29,17 +40,6 @@ public class DialogueTrigger : MonoBehaviour
         ChangeCurrentDialogue();
     }
 
-    private void OnEnable()
-    {
-        QuestEvents.OnQuestStateChange += ChangeDialogueState;
-        DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
-    }
-    private void OnDisable()
-    {
-        QuestEvents.OnQuestStateChange -= ChangeDialogueState;
-        DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
-    }
-
     public void Update()
     {
         if (_playerInRange && Input.GetKeyDown(KeyCode.E))
@@ -48,14 +48,6 @@ public class DialogueTrigger : MonoBehaviour
             
             if (_currentDialogue.Info.questProgress != DialogueQuestProgress.None)
             {
-                if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Start)
-                {
-                    QuestEvents.StartQuest(_currentDialogue.Info.relatedQuest.id);
-                }
-                else if (_currentDialogue.Info.questProgress == DialogueQuestProgress.Finish)
-                {
-                    QuestEvents.FinishQuest(_currentDialogue.Info.relatedQuest.id);
-                }
                 _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
                 ChangeCurrentDialogue();
             }
@@ -101,6 +93,21 @@ public class DialogueTrigger : MonoBehaviour
         ChangeCurrentDialogue();
     }
     
+    private void ChangeDialogueState(string id)
+    {
+        foreach (var dialogue in _dialogueDictionary.Values)
+        {
+            if (dialogue.Info.requiredFlag is not null)
+            {
+                if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
+                {
+                    dialogue.State = DialogueState.CanTrigger;
+                }
+            }
+        }
+        ChangeCurrentDialogue();
+    }
+    
     private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
     {
         foreach (var questRequirement in dialogue.Info.requiredQuests)
@@ -111,6 +118,13 @@ public class DialogueTrigger : MonoBehaviour
             }
         }
 
+        if (dialogue.Info.requiredFlag is not null)
+        {
+            if (!DialogueMarkerManager.GetMarkerById(dialogue.Info.requiredFlag.id)._isTriggered)
+            {
+                return false;
+            } 
+        }
         if (dialogue.Info.relatedQuest is not null)
         {
             if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
