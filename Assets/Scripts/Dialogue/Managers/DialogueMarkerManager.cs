@@ -21,7 +21,6 @@ public class DialogueMarkerManager : MonoBehaviour
 
     private void TriggerMarker(string id)
     {
-        Debug.Log(id);
         _markerDictionary[id]._isTriggered = true;
         DialogueEvents.ChangeDialogueMarkerState(id);
     }

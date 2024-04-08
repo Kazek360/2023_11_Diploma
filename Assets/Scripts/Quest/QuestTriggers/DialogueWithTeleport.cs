@@ -1,15 +1,20 @@
-using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class DialogueQuestEndStep : QuestStep
+public class DialogueWithTeleport : QuestStep
 {
     [SerializeField] private List<DialogueSO> dialoguesInfo;
+    private GameObject _npcToTeleport;
+    private GameObject _placeToTeleport;
     private DialogueSO _requiredDialogue;
-    [SerializeField] private QuestSO questToStart;
     private void OnEnable()
     {
-        DialogueEvents.OnDialogueFinished += StartFinishingStep;
+        DialogueEvents.OnDialogueFinished += FinishStep;
+
+        _npcToTeleport = GameObject.Find("Hryc");
+        _placeToTeleport = GameObject.Find("TeleportPoint");
+        
         foreach (var dialogue in dialoguesInfo)
         {
             if (dialogue.requiredFlag is not null)
@@ -21,10 +26,9 @@ public class DialogueQuestEndStep : QuestStep
                 }
             }
         }
-
+        
         if (_requiredDialogue is null)
         {
-            Debug.LogError("XD");
             _requiredDialogue = dialoguesInfo[0];
         }
         
@@ -32,22 +36,16 @@ public class DialogueQuestEndStep : QuestStep
     }
     private void OnDisable()
     {
-        DialogueEvents.OnDialogueFinished -= StartFinishingStep;
+        DialogueEvents.OnDialogueFinished-= FinishStep;
     }
-    
-    private void StartFinishingStep(DialogueSO dialogue)
-    {
-        StartCoroutine(FinishStep(dialogue));
-    }
-    
-    private IEnumerator FinishStep(DialogueSO dialogue)
+
+    private void FinishStep(DialogueSO dialogue)
     {
         if (_requiredDialogue.id == dialogue.id)
         {
-            QuestEvents.ProgressQuest(dialogue.relatedQuest.id);
-            yield return new WaitForSeconds(3f);
-            QuestEvents.StartQuest(questToStart.id);
-            Destroy(gameObject);
-        }
+            _npcToTeleport.GameObject().transform.position = _placeToTeleport.transform.position;
+            Destroy(_placeToTeleport);
+            Finish();
+        } 
     }
 }
