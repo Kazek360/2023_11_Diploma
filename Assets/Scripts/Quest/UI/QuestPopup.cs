@@ -27,11 +27,11 @@ public class QuestPopup : MonoBehaviour
         {
             if (quest.State == QuestState.InProgress)
             {
-                popupText.text = $"Zadanie rozpoczete\n{quest.Info.displayName}";
+                popupText.text = $"Zadanie rozpoczęte\n{quest.Info.displayName}";
             }
             else if (quest.State == QuestState.Finished)
             {
-                popupText.text = $"Zadanie zakonczone\n{quest.Info.displayName}";
+                popupText.text = $"Zadanie zakończone\n{quest.Info.displayName}";
             }
             popupText.gameObject.SetActive(true);
             yield return new WaitForSeconds(2f);
