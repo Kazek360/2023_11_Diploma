@@ -63,7 +63,6 @@ public class CombatUI : MonoBehaviour
             container.transform.SetParent(AbilitiesScrollContent.transform);
             if (_combatSystem2.ActionsLeft <= 0)
             {
-                Debug.Log(_combatSystem2.ActionsLeft);
                 container.GetComponent<Toggle>().interactable = false;
             }
         }

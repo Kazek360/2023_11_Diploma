@@ -20,7 +20,7 @@ public class EntityManager : MonoBehaviour
 
     private int _currentEntity;
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         _combatSystem2 = GetComponent<CombatSystem_2>();
         _currentEntity = -1;
@@ -39,7 +39,11 @@ public class EntityManager : MonoBehaviour
         NextTurn();
     }
 
-    
+    public void Start()
+    {
+        ShowEntities(true);
+    }
+
 
     public void NextTurn()
     {
