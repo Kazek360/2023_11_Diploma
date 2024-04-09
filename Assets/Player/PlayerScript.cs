@@ -127,7 +127,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         Debug.Log( "Wit has lost all health");
         GetComponentInParent<EntityManager>().PlayerDied();
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public virtual void OnPartnerDeath()

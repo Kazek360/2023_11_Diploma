@@ -16,7 +16,7 @@ public class SpiritPlayerScript : PlayerScript, IHittable
 
     public new void OnPartnerDeath()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
     
     
@@ -24,7 +24,6 @@ public class SpiritPlayerScript : PlayerScript, IHittable
     public override void OnHealthDepleted()
     {
         Debug.Log( "Nestor has lost all health");
-        base.OnHealthDepleted();
         if (_partner is not null)
         {
             _partner.OnPartnerDeath();
