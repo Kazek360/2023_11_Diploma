@@ -14,7 +14,7 @@ public class AreaToCutsceneQuestStep : QuestStep
     {
         AreaEvent.OnAreaEnter -= FinishStep;
     }
-    private void FinishStep()
+    private void FinishStep(string objectName)
     {
         _shoreToTeleport.SetActive(true);
         CutsceneEvents.OpenCutscene(CutsceneToTrigger);

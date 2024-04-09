@@ -1,38 +1,15 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DialogueWithMovement : QuestStep
 {
     [SerializeField] private List<DialogueSO> dialoguesInfo;
     private DialogueSO _requiredDialogue;
-    //private GameObject _npcToTeleport;
-    //private GameObject _placeToTeleport;
     
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-
-        //_npcToTeleport = GameObject.Find("Hryc");
-        //_placeToTeleport = GameObject.Find("TeleportPoint");
-        
-        foreach (var dialogue in dialoguesInfo)
-        {
-            if (dialogue.requiredFlag is not null)
-            {
-                if (DialogueMarkerManager.GetMarkerById(dialogue.requiredFlag.id)._isTriggered)
-                {
-                    _requiredDialogue = dialogue;
-                    break;
-                }
-            }
-        }
-        
-        if (_requiredDialogue is null)
-        {
-            _requiredDialogue = dialoguesInfo[0];
-        }
-        
+        _requiredDialogue = ChooseRequiredDialogue();
         DialogueEvents.UnlockDialogue(_requiredDialogue.id);
     }
     private void OnDisable()
@@ -40,13 +17,32 @@ public class DialogueWithMovement : QuestStep
         DialogueEvents.OnDialogueFinished-= FinishStep;
     }
 
+    private DialogueSO ChooseRequiredDialogue()
+    {
+        foreach (var dialogue in dialoguesInfo)
+        {
+            bool allFlagsTriggered = true;
+            foreach (var dialogueFlag in dialogue.requiredFlags)
+            {
+                if (!DialogueMarkerManager.GetMarkerById(dialogueFlag.id)._isTriggered)
+                { 
+                    allFlagsTriggered = false;
+                    break;
+                }
+            }
+            if (allFlagsTriggered)
+            {
+                return dialogue;
+            }
+        }
+        return dialoguesInfo[0];
+    }
+
     private void FinishStep(DialogueSO dialogue)
     {
         if (_requiredDialogue.id == dialogue.id)
         {
             PathEvents.StartMovement();
-            //_npcToTeleport.GameObject().transform.position = _placeToTeleport.transform.position;
-            //Destroy(_placeToTeleport);
             Finish();
         } 
     }
