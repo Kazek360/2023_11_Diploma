@@ -119,7 +119,7 @@ public class DialogueTrigger : MonoBehaviour
         }
         foreach (var flagRequirement in dialogue.Info.requiredFlags)
         {
-            if (!DialogueMarkerManager.GetMarkerById(flagRequirement.id)._isTriggered)
+            if (!FlagManager.GetMarkerById(flagRequirement.id)._isTriggered)
             {
                 return false;
             }

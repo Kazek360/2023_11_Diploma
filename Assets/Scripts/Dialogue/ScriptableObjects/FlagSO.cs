@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "DialogueMarker", menuName = "ScriptableObjects/Dialogues/DialogueMarker")]
-public class DialogueMarkerSO : ScriptableObject
+public class FlagSO : ScriptableObject
 {
     public string id;
     private void OnValidate()
