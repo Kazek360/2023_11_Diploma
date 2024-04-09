@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiritPlayerScript : PlayerScript
+public class SpiritPlayerScript : PlayerScript, IHittable
 {
-    public void SetPartnerEntity(IHittable partner)
+    public new void SetPartnerEntity(IHittable partner)
     {
         _partner = partner;
     }
@@ -16,7 +16,7 @@ public class SpiritPlayerScript : PlayerScript
 
     public new void OnPartnerDeath()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
     
     
@@ -24,7 +24,9 @@ public class SpiritPlayerScript : PlayerScript
     public override void OnHealthDepleted()
     {
         Debug.Log( "Nestor has lost all health");
-        OnHealthDepleted();
-        _partner.OnPartnerDeath();
+        if (_partner is not null)
+        {
+            _partner.OnPartnerDeath();
+        }
     }
 }

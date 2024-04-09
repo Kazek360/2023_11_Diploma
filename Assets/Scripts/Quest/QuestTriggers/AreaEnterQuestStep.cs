@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AreaEnterQuestStep : QuestStep
 {
-    [SerializeField] private DialogueMarkerSO witMarker;
-    [SerializeField] private DialogueMarkerSO hrycMarker;
+    [SerializeField] private FlagSO witMarker;
+    [SerializeField] private FlagSO hrycMarker;
     
     private void OnEnable()
     {

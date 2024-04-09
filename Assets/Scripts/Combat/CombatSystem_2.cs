@@ -406,7 +406,7 @@ public class CombatSystem_2 : MonoBehaviour
             {
                 if (isMaterial)
                 {
-                    if (_currentIsMaterial)
+                    if (_currentIsMaterial && _movementLeft > 0)
                     {
                         HighlightNeighborsInRadius(currPos, 1, 0, false);
                     }
@@ -418,7 +418,7 @@ public class CombatSystem_2 : MonoBehaviour
                 }
                 else
                 {
-                    if (!_currentIsMaterial)
+                    if (!_currentIsMaterial && _movementLeft > 0)
                     {
                         HighlightNeighborsInRadius(currPos, 1, 0, false);
                     }

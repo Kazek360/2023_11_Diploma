@@ -3,27 +3,27 @@ using UnityEngine;
 
 public class DialogueQuestStep : QuestStep
 {
-    [SerializeField] private List<DialogueSO> dialoguesInfo;
-    private DialogueSO _requiredDialogue;
+    [SerializeField] protected List<DialogueSO> dialoguesInfo;
+    protected DialogueSO requiredDialogue;
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-        _requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(_requiredDialogue.id);
+        requiredDialogue = ChooseRequiredDialogue();
+        DialogueEvents.UnlockDialogue(requiredDialogue.id);
     }
     private void OnDisable()
     {
         DialogueEvents.OnDialogueFinished-= FinishStep;
     }
 
-    private DialogueSO ChooseRequiredDialogue()
+    protected DialogueSO ChooseRequiredDialogue()
     {
         foreach (var dialogue in dialoguesInfo)
         {
             bool allFlagsTriggered = true;
             foreach (var dialogueFlag in dialogue.requiredFlags)
             {
-                if (!DialogueMarkerManager.GetMarkerById(dialogueFlag.id)._isTriggered)
+                if (!FlagManager.GetMarkerById(dialogueFlag.id)._isTriggered)
                 { 
                     allFlagsTriggered = false;
                     break;
@@ -39,7 +39,7 @@ public class DialogueQuestStep : QuestStep
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (_requiredDialogue.id == dialogue.id)
+        if (requiredDialogue.id == dialogue.id)
         {
             Finish();
         } 
