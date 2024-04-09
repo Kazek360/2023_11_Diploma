@@ -21,23 +21,7 @@ public class DeathDialogueQuestStep : QuestStep
         _shoreToTeleport = GameObject.Find("ShoreArea");
         _playerToTeleport = GameObject.Find("Wit");
         
-        foreach (var dialogue in dialoguesInfo)
-        {
-            if (dialogue.requiredFlag is not null)
-            {
-                if (DialogueMarkerManager.GetMarkerById(dialogue.requiredFlag.id)._isTriggered)
-                {
-                    _requiredDialogue = dialogue;
-                    break;
-                }
-            }
-        }
-        
-        if (_requiredDialogue is null)
-        {
-            _requiredDialogue = dialoguesInfo[0];
-        }
-        
+        _requiredDialogue = ChooseRequiredDialogue();
         DialogueEvents.UnlockDialogue(_requiredDialogue.id);
     }
     private void OnDisable()
@@ -45,7 +29,27 @@ public class DeathDialogueQuestStep : QuestStep
         DialogueEvents.OnDialogueFinished -= StartFinishingStep;
         CutsceneEvents.OnCutsceneClose -= TeleportPlayer;
     }
-
+    
+    private DialogueSO ChooseRequiredDialogue()
+    {
+        foreach (var dialogue in dialoguesInfo)
+        {
+            bool allFlagsTriggered = true;
+            foreach (var dialogueFlag in dialogue.requiredFlags)
+            {
+                if (!DialogueMarkerManager.GetMarkerById(dialogueFlag.id)._isTriggered)
+                { 
+                    allFlagsTriggered = false;
+                    break;
+                }
+            }
+            if (allFlagsTriggered)
+            {
+                return dialogue;
+            }
+        }
+        return dialoguesInfo[0];
+    }
     private void TeleportPlayer()
     {
         _playerToTeleport.GameObject().transform.position = _deathRealmToTeleport.transform.position;

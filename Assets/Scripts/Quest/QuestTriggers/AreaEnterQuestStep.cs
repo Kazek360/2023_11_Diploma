@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AreaEnterQuestStep : QuestStep
 {
+    [SerializeField] private DialogueMarkerSO witMarker;
+    [SerializeField] private DialogueMarkerSO hrycMarker;
+    
     private void OnEnable()
     {
         AreaEvent.OnAreaEnter += FinishStep;
@@ -12,8 +15,17 @@ public class AreaEnterQuestStep : QuestStep
     {
         AreaEvent.OnAreaEnter -= FinishStep;
     }
-    private void FinishStep()
+    private void FinishStep(string objectName)
     {
+        if (objectName.Equals("Wit"))
+        {
+            DialogueEvents.TriggerDialogueMarker(witMarker.id);
+        }
+        else if (objectName.Equals("Hryc"))
+        {
+            DialogueEvents.TriggerDialogueMarker(hrycMarker.id);
+        }
+        
         Finish();
     }
 }

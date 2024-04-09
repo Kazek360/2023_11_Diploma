@@ -97,7 +97,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         foreach (var dialogue in _dialogueDictionary.Values)
         {
-            if (dialogue.Info.requiredFlag is not null)
+            if (dialogue.Info.requiredFlags.Count > 0)
             {
                 if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
                 {
@@ -117,14 +117,14 @@ public class DialogueTrigger : MonoBehaviour
                 return false;
             }
         }
-
-        if (dialogue.Info.requiredFlag is not null)
+        foreach (var flagRequirement in dialogue.Info.requiredFlags)
         {
-            if (!DialogueMarkerManager.GetMarkerById(dialogue.Info.requiredFlag.id)._isTriggered)
+            if (!DialogueMarkerManager.GetMarkerById(flagRequirement.id)._isTriggered)
             {
                 return false;
-            } 
+            }
         }
+        
         if (dialogue.Info.relatedQuest is not null)
         {
             if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)

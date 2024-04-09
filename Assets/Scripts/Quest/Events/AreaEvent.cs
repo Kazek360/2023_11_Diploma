@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public static class AreaEvent
 {
-    public static event Action OnAreaEnter;
-    public static void EnterArea()
+    public static event Action<string> OnAreaEnter;
+    public static void EnterArea(string objectName)
     {
-        OnAreaEnter?.Invoke();
+        OnAreaEnter?.Invoke(objectName);
     }
 }
