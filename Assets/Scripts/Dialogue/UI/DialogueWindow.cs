@@ -21,7 +21,7 @@ public class DialogueWindow : MonoBehaviour
     private void Start()
     {
         _choicesText = new List<TextMeshProUGUI>();
-        for (int i = 0; i < choices.Count; i++)
+        for(int i = 0; i < choices.Count; i++)
         {
             contentParent.SetActive(false);
             _choicesText.Add(choices[i].GetComponentInChildren<TextMeshProUGUI>());
@@ -52,7 +52,6 @@ public class DialogueWindow : MonoBehaviour
         {
             if (_currentSentence.nextSentences.Count == 0)
             {
-                contentParent.SetActive(false);
                 if (_currentDialogue.questProgress != DialogueQuestProgress.None)
                 {
                     if (_currentDialogue.questProgress == DialogueQuestProgress.Start)
@@ -63,9 +62,10 @@ public class DialogueWindow : MonoBehaviour
                     {
                         QuestEvents.FinishQuest(_currentDialogue.relatedQuest.id);
                     }
-                    DialogueEvents.FinishDialogue(_currentDialogue);
                 }
+                contentParent.SetActive(false);
                 InterfaceEvents.CloseInterface();
+                DialogueEvents.FinishDialogue(_currentDialogue);
             }
             else
             {
