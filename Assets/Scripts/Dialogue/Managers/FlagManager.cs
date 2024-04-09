@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueMarkerManager : MonoBehaviour
+public class FlagManager : MonoBehaviour
 {
     private static Dictionary<string, DialogueMarker> _markerDictionary;
     
@@ -27,7 +27,7 @@ public class DialogueMarkerManager : MonoBehaviour
     
     private Dictionary<string, DialogueMarker> CreateQuestDictionary()
     {
-        DialogueMarkerSO[] allMarkers = Resources.LoadAll<DialogueMarkerSO>("Dialogues");
+        FlagSO[] allMarkers = Resources.LoadAll<FlagSO>("Dialogues");
         Dictionary<string, DialogueMarker> idToDictionary = new Dictionary<string, DialogueMarker>();
         foreach (var dialogueMarkerInfo in allMarkers)
         {

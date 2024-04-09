@@ -12,7 +12,7 @@ public class SentenceSO : ScriptableObject
     [SerializeField] public string text;
     
     [Header("Flags")]
-    [SerializeField] public DialogueMarkerSO flagToTrigger;
+    [SerializeField] public FlagSO flagToTrigger;
     
     [Header("Next Sentences")] 
     [SerializeField] public List<SentenceSO> nextSentences;

@@ -23,7 +23,7 @@ public class DialogueQuestStep : QuestStep
             bool allFlagsTriggered = true;
             foreach (var dialogueFlag in dialogue.requiredFlags)
             {
-                if (!DialogueMarkerManager.GetMarkerById(dialogueFlag.id)._isTriggered)
+                if (!FlagManager.GetMarkerById(dialogueFlag.id)._isTriggered)
                 { 
                     allFlagsTriggered = false;
                     break;
