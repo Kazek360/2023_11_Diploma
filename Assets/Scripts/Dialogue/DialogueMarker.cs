@@ -2,10 +2,10 @@
 
 public class DialogueMarker
 { 
-    public DialogueMarkerSO info;
+    public FlagSO info;
     public bool _isTriggered;
 
-    public DialogueMarker(DialogueMarkerSO info)
+    public DialogueMarker(FlagSO info)
     {
         _isTriggered = false;
         this.info = info;

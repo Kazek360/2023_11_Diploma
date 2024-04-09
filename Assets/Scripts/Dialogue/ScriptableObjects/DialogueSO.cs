@@ -8,7 +8,7 @@ public class DialogueSO : ScriptableObject
     public string id;
     
     [Header("Requirements")]
-    [SerializeField] public List<DialogueMarkerSO> requiredFlags;
+    [SerializeField] public List<FlagSO> requiredFlags;
     [SerializeField] public List<QuestSO> requiredQuests;
     
     [Header("Quest")]
