@@ -9,17 +9,17 @@ public class ScalingAreaScript : MonoBehaviour
     [SerializeField] private GameObject FocusPoint;
     [SerializeField] private float ScaleAtFocusPoint;
 
-    private PolygonCollider2D _edgeCollider2D;
+    private EdgeCollider2D _collider2D;
     private List<ObjectWithTransform> _scaledObjects;
     
 
-    private Vector3 _focusTransform;
+    private Vector2 _focusPosition;
     // Start is called before the first frame update
     void Start()
     {
         _scaledObjects = new List<ObjectWithTransform>();
-        _edgeCollider2D = GetComponent<PolygonCollider2D>();
-        _focusTransform = FocusPoint.transform.position;
+        _collider2D = GetComponent<EdgeCollider2D>();
+        _focusPosition = FocusPoint.transform.position;
     }
     
     // Update is called once per frame
@@ -27,28 +27,40 @@ public class ScalingAreaScript : MonoBehaviour
     {
         foreach (ObjectWithTransform objectWithTransform in _scaledObjects)
         {
-            Debug.Log(_edgeCollider2D.ClosestPoint(objectWithTransform.OriginalTransform));
+            Vector2 objectPos = objectWithTransform.GameObject.transform.position;
+            
+            Vector2 direction = (objectPos - _focusPosition).normalized;
+            LayerMask layerMask = LayerMask.GetMask("TechnicalRaycastLayer");
+            RaycastHit2D hit = Physics2D.Raycast(objectPos, direction, 1000f, layerMask);
+            Debug.DrawRay(objectPos, direction * 1000, Color.green);
+            if(hit.collider is not null)
+            {
+                Debug.DrawRay(objectPos, direction * 1000, Color.red);
+                Debug.Log("HIT: " + hit.collider.gameObject.name);
+                if(hit.collider.isTrigger)
+                {
+                    Debug.Log(hit.point);
+                }
+            }
             //objectWithTransform.GameObject = 
         }
     }
     
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerExit2D(Collider2D other)
     {
+        foreach (ObjectWithTransform objectWithTransform in _scaledObjects)
+        { 
+            if (objectWithTransform.GameObject.Equals(other.GameObject())) 
+            { 
+                _scaledObjects.Remove(objectWithTransform);
+                return;
+            }
+        }
         ObjectWithTransform obj = new ObjectWithTransform(other.GameObject(), other.GameObject().transform.localScale);
         _scaledObjects.Add(obj);
     }
 
-    public void OnTriggerExit2D(Collider2D other)
-    {
-        foreach (ObjectWithTransform objectWithTransform in _scaledObjects)
-        {
-            if (objectWithTransform.GameObject.Equals(other.GameObject()))
-            {
-                _scaledObjects.Remove(objectWithTransform);
-            }
-        }
-    }
 }
 
 class ObjectWithTransform
