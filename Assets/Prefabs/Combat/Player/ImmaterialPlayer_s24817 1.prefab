@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.9813, y: 0.3933}
+  m_AnchoredPosition: {x: 0, y: -0.73}
+  m_SizeDelta: {x: 3.5, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8898932634035526323
 MeshRenderer:
@@ -76,7 +76,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 362952979
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5146724397325384878
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 5
+  m_fontSize: 10
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -201,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.94, y: -0.51, z: 8.029425}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 753197900534660806}
@@ -247,9 +247,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 362952979
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e20505d5ec5551048876dbc1fec62dd1, type: 3}
   m_Color: {r: 0.49923474, g: 0, b: 0.8207547, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -272,10 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b6a5e90673d7244ba73b670ba747a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  Speed: 50
   currentState: 0
-  gridX: 0
-  gridY: 0
+  GridX: 0
+  GridY: 0
 --- !u!50 &1747876560113939686
 Rigidbody2D:
   serializedVersion: 4
@@ -338,12 +338,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 7904647406454164839}
     m_Modifications:
     - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.61
       objectReference: {fileID: 0}
     - target: {fileID: 3176621426914187145, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -384,6 +396,14 @@ PrefabInstance:
     - target: {fileID: 3289442749046825095, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436316103305093601, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
+      propertyPath: m_SortingLayer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436316103305093601, guid: 18e71227074cdae45a6bf6702b65513c, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 362952979
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
