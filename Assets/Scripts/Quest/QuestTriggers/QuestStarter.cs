@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FirstQuestStarter : MonoBehaviour
+public class QuestStarter : MonoBehaviour
 {
     [SerializeField] private QuestSO quest;
     
