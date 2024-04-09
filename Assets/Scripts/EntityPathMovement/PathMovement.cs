@@ -15,27 +15,23 @@ public class PathMovement : MonoBehaviour
 
     public void OnEnable()
     {
+        PathEvents.OnMovementStarted += StartMovement;
         _parentTransform = transform.parent;
         _rigidbody = GetComponentInParent<Rigidbody2D>();
         _isMoving = false;
     }
-
+    public void OnDisable()
+    {
+        PathEvents.OnMovementStarted -= StartMovement;
+    }
 
     private IEnumerator Movement()
     {
         List<Vector3> targets = PathScript.GetTargets();
-        Debug.Log("AAA");
         foreach (Vector3 target in targets)
         {
-            Debug.Log("BBB");
-            
-            Debug.Log("BBB");
-            //_targetTransform = PathScript.NexTarget();
-
-
             while (Vector3.Distance(target, _parentTransform.position) > DistanceTolerance)
             {
-                Debug.Log("DDD");
                 var position = _parentTransform.position;
                 Vector3 moveDir = (target - position).normalized;
                 _rigidbody.velocity = moveDir * Speed;
