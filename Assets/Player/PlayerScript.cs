@@ -29,6 +29,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     
     private int _currentHealth;
     private int _currentPsyche;
+    private bool _partnerIsKilled;
     
     // Start is called before the first frame update
     void Start()
@@ -39,9 +40,8 @@ public class PlayerScript : MonoBehaviour, IHittable
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _cooldowns = new List<int>();
-        if (IsMaterial())
+        if (IsMaterial() && partner is not null)
         {
-            Debug.Log(IsMaterial());
             _partner = partner.GetComponent<IHittable>();
             _partner.SetPartnerEntity(this);
         }
@@ -63,7 +63,6 @@ public class PlayerScript : MonoBehaviour, IHittable
         var ability = abilities[i];
         _cooldowns[i] = ability.Cooldown;
         ability.CastAbility(target, this);
-        Debug.Log("A");
     }
     
     
@@ -92,7 +91,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     public void ModifyHealth(int amount)
     {
         //Debug.Log("HP CHANGED BY " + amount);
-        if (_partner is null && amount < 0)
+        if (_partnerIsKilled && amount < 0)
         {
             amount *= 2;
         }
@@ -128,12 +127,13 @@ public class PlayerScript : MonoBehaviour, IHittable
     {
         Debug.Log( "Wit has lost all health");
         GetComponentInParent<EntityManager>().PlayerDied();
-        //gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public virtual void OnPartnerDeath()
     {
         _partner = null;
+        _partnerIsKilled = true;
     }
 
     public void OnPsycheDepleted()

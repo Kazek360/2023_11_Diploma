@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ImmaterialEnemyScript : EnemyScript
+public class ImmaterialEnemyScript : EnemyScript, IHittable
 {
-    public void SetPartnerEntity(IHittable partner)
+    public new void SetPartnerEntity(IHittable partner)
     {
         _partner = partner;
     }
@@ -20,10 +20,5 @@ public class ImmaterialEnemyScript : EnemyScript
     {
         Debug.Log("DED");
         OnHealthDepleted();
-    }
-
-    public override void OnHealthDepleted()
-    {
-        base.OnHealthDepleted();
     }
 }

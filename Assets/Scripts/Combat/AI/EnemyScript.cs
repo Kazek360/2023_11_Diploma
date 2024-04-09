@@ -33,6 +33,7 @@ public class EnemyScript : MonoBehaviour, IHittable
     private int _currentHealth;
     private int _currentPsyche;
     private bool _isDead;
+    private bool _partnerIsKilled;
     
     // Start is called before the first frame update
     private void Start()
@@ -43,7 +44,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
-        if (IsMaterial())
+        if (IsMaterial() && Partner is not null)
         {
             _partner = Partner.GetComponent<IHittable>();
             _partner.SetPartnerEntity(this);
@@ -197,7 +198,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public void ModifyHealth(int amount)
     {
-        if (_partner is null && amount < 0)
+        if (_partnerIsKilled && amount < 0)
         {
             amount *= 2;
         }
@@ -246,6 +247,7 @@ public class EnemyScript : MonoBehaviour, IHittable
 
     public virtual void OnPartnerDeath()
     {
+        _partnerIsKilled = true;
         _partner = null;
     }
 
