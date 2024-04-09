@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DialogueWithTeleport : QuestStep
+public class DialogueWithMovement : QuestStep
 {
     [SerializeField] private List<DialogueSO> dialoguesInfo;
-    private GameObject _npcToTeleport;
-    private GameObject _placeToTeleport;
     private DialogueSO _requiredDialogue;
+    //private GameObject _npcToTeleport;
+    //private GameObject _placeToTeleport;
+    
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
 
-        _npcToTeleport = GameObject.Find("Hryc");
-        _placeToTeleport = GameObject.Find("TeleportPoint");
+        //_npcToTeleport = GameObject.Find("Hryc");
+        //_placeToTeleport = GameObject.Find("TeleportPoint");
         
         foreach (var dialogue in dialoguesInfo)
         {
@@ -43,8 +44,9 @@ public class DialogueWithTeleport : QuestStep
     {
         if (_requiredDialogue.id == dialogue.id)
         {
-            _npcToTeleport.GameObject().transform.position = _placeToTeleport.transform.position;
-            Destroy(_placeToTeleport);
+            PathEvents.StartMovement();
+            //_npcToTeleport.GameObject().transform.position = _placeToTeleport.transform.position;
+            //Destroy(_placeToTeleport);
             Finish();
         } 
     }
