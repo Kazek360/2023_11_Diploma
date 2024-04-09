@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public class DialogueWindow : MonoBehaviour
     
     private DialogueSO _currentDialogue;
     private SentenceSO _currentSentence;
-
+    
     private void Start()
     {
         _choicesText = new List<TextMeshProUGUI>();
@@ -108,4 +109,6 @@ public class DialogueWindow : MonoBehaviour
     {
         SetSentence(_currentSentence.nextSentences[choiceIndex]);
     }
+
+    
 }

@@ -41,6 +41,7 @@ public class PathMovement : MonoBehaviour
         }
         _rigidbody.velocity = new Vector2(0, 0);
         _isMoving = false;
+        PathEvents.EndMovement();
     }
 
     public void StartMovement()

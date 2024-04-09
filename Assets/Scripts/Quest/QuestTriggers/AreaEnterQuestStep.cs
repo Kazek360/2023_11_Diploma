@@ -4,10 +4,16 @@ public class AreaEnterQuestStep : QuestStep
 {
     [SerializeField] private FlagSO witMarker;
     [SerializeField] private FlagSO hrycMarker;
+    private GameObject _uiToDisable;
+    private GameObject _cliffArea;
     
     private void OnEnable()
     {
         AreaEvent.OnAreaEnter += FinishStep;
+        _cliffArea = GameObject.Find("CliffArea");
+        _cliffArea.SetActive(false);
+        _uiToDisable = GameObject.Find("DialogueWindow");
+        _cliffArea.SetActive(false);
     }
     private void OnDisable()
     {
@@ -23,7 +29,8 @@ public class AreaEnterQuestStep : QuestStep
         {
             DialogueEvents.TriggerDialogueMarker(hrycMarker.id);
         }
-        
+        _cliffArea.SetActive(true);
+        _uiToDisable.SetActive(true);
         Finish();
     }
 }

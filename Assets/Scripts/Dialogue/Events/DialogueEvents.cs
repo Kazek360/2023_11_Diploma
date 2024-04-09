@@ -28,4 +28,10 @@ public static class DialogueEvents
     {
         OnDialogueMarkerStateChange?.Invoke(id);
     }
+    
+    public static event Action OnRaceBegin;
+    public static void BeginRace()
+    {
+        OnRaceBegin?.Invoke();
+    }
 }

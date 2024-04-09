@@ -10,4 +10,9 @@ public static class PathEvents
     {
         OnMovementStarted?.Invoke();
     }
+    public static event Action OnMovementEnded;
+    public static void EndMovement()
+    {
+        OnMovementEnded?.Invoke();
+    }
 }

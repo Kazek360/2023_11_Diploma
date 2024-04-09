@@ -5,12 +5,18 @@ using UnityEngine;
 public class DialogueWithDelayedMovement : DialogueQuestStep
 {
     [SerializeField] private FlagSO flagDelay;
+    private GameObject _raceArea;
+    private GameObject _cliffArea;
     
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += StartFinishingStep;
         requiredDialogue = ChooseRequiredDialogue();
         DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        _raceArea = GameObject.Find("RaceArea");
+        _raceArea.SetActive(false);
+        _cliffArea = GameObject.Find("CliffArea");
+        _cliffArea.SetActive(false);
     }
     private void OnDisable()
     {
@@ -30,6 +36,8 @@ public class DialogueWithDelayedMovement : DialogueQuestStep
             {
                 yield return new WaitForSeconds(1f);
             }
+            _raceArea.SetActive(true);
+            _cliffArea.SetActive(true);
             PathEvents.StartMovement();
             Finish();
         } 

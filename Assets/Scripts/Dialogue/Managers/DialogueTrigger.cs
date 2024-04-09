@@ -6,27 +6,35 @@ public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] private string locationName;
     [SerializeField] private string triggerName;
+    [SerializeField] private GameObject keyImage;
     
     private Dictionary<string, Dialogue> _dialogueDictionary;
     private Dialogue _currentDialogue;
     private bool _playerInRange;
+    private bool _isEnabled;
     
     private void OnEnable()
     {
         QuestEvents.OnQuestStateChange += ChangeDialogueState;
         DialogueEvents.OnDialogueMarkerStateChange += ChangeDialogueState;
         DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
+        PathEvents.OnMovementStarted += DisableTrigger;
+        PathEvents.OnMovementEnded += EnableTrigger;
     }
     private void OnDisable()
     {
         QuestEvents.OnQuestStateChange -= ChangeDialogueState;
         DialogueEvents.OnDialogueMarkerStateChange -= ChangeDialogueState;
         DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
+        PathEvents.OnMovementStarted -= DisableTrigger;
+        PathEvents.OnMovementEnded -= EnableTrigger;
     }
     private void Awake()
     {
+        _isEnabled = true;
         _dialogueDictionary = CreateDialogueDictionary();
         ChangeCurrentDialogue();
+        keyImage.SetActive(false);
     }
     private void Start()
     {
@@ -42,7 +50,7 @@ public class DialogueTrigger : MonoBehaviour
 
     public void Update()
     {
-        if (_playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (_isEnabled && _playerInRange && Input.GetKeyDown(KeyCode.E))
         {
             DialogueEvents.StartDialogue(_currentDialogue);
             
@@ -162,6 +170,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            keyImage.SetActive(true);
             _playerInRange = true;
         }
     }
@@ -170,6 +179,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            keyImage.SetActive(false);
             _playerInRange = false;
         }
     }
@@ -190,5 +200,14 @@ public class DialogueTrigger : MonoBehaviour
         }
 
         return idToMap;
+    }
+    
+    private void DisableTrigger()
+    {
+        _isEnabled = false;
+    }
+    private void EnableTrigger()
+    {
+        _isEnabled = true;
     }
 }

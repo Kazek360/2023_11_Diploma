@@ -3,12 +3,12 @@ using UnityEngine;
 public class AreaToCutsceneQuestStep : QuestStep
 {
     [SerializeField] private CutsceneSO CutsceneToTrigger;
-    private GameObject _shoreToTeleport;
+    private GameObject _shoreArea;
     private void OnEnable()
     {
         AreaEvent.OnAreaEnter += FinishStep;
-        _shoreToTeleport = GameObject.Find("ShoreArea");
-        _shoreToTeleport.SetActive(false);
+        _shoreArea = GameObject.Find("ShoreArea");
+        _shoreArea.SetActive(false);
     }
     private void OnDisable()
     {
@@ -16,7 +16,7 @@ public class AreaToCutsceneQuestStep : QuestStep
     }
     private void FinishStep(string objectName)
     {
-        _shoreToTeleport.SetActive(true);
+        _shoreArea.SetActive(true);
         CutsceneEvents.OpenCutscene(CutsceneToTrigger);
         Finish();
     }
