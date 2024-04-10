@@ -63,7 +63,7 @@ public class ScalingAreaScript : MonoBehaviour
             sumOfReversedDistances += 1 / Vector2.Distance(scalingPointPos, objectPos);
         }
 
-        Debug.Log("START");
+        //Debug.Log("START");
         foreach (ScalingPoint scalingPoint in _scalingPoints)
         {
             Vector2 scalingPointPos = scalingPoint.gameObject.transform.position;
