@@ -42,10 +42,10 @@ public class DeathDialogueQuestStep : DialogueQuestStep
     {
         if (requiredDialogue.id == dialogue.id)
         {
-            _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
             Destroy(_deathRealmToTeleport);
             yield return new WaitForSeconds(2f);
             QuestEvents.StartQuest(questToStart.id);
+            _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
             Destroy(gameObject);
         } 
     }
