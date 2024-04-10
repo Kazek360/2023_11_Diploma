@@ -24,8 +24,8 @@ public class DialogueAreaIntoCombatQuestStep : DialogueQuestStep
         if (requiredDialogue.id == dialogue.id)
         {
             Destroy(_dialogueArea);
-            Finish();
             SceneManager.LoadScene(combatSceneName);
+            Finish();
         } 
     }
 }
