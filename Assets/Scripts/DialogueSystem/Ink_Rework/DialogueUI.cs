@@ -15,16 +15,20 @@ namespace DialogueSystem.Ink_Rework
     {
         [Header("Components")] 
         [SerializeField] private GameObject dialoguePanel;
-        [SerializeField] private Image speakerPortrait;
+        [SerializeField] private Animator portraitAnimator;
         [SerializeField] private TextMeshProUGUI speakerName;
         [SerializeField] private TextMeshProUGUI dialogueText;
         
+        [Header("Choice buttons")]
         [SerializeField] private List<GameObject> choices;
         private List<TextMeshProUGUI> _choicesText;
 
-        private DialogueSO _currentDialogue;
-        private SentenceSO _currentSentence;
+        //private DialogueSO _currentDialogue;
+        //private SentenceSO _currentSentence;
 
+        private const string SPEAKER_TAG = "speaker";
+        private const string PORTRAIT_TAG = "portrait";
+        
         private Story _currentStory;
         private bool _isDialoguePlaying;
         private bool _choicesAreActive;
@@ -61,6 +65,10 @@ namespace DialogueSystem.Ink_Rework
         {
             _currentStory = new Story(inkJson.text);
             _isDialoguePlaying = true;
+
+            speakerName.text = "???";
+            portraitAnimator.Play("none");
+            
             dialoguePanel.SetActive(true);
             InterfaceEvents.OpenInterface(gameObject.name);
             ContinueDialogue();
@@ -72,10 +80,38 @@ namespace DialogueSystem.Ink_Rework
             {
                 dialogueText.text = _currentStory.Continue();
                 DisplayChoices();
+                HandleTags(_currentStory.currentTags);
             }
             else
             {
                 EndDialogue();
+            }
+        }
+
+        private void HandleTags(List<string> currentTags)
+        {
+            foreach (var currentTag in currentTags)
+            {
+                string[] splitTag = currentTag.Split(":");
+                if (splitTag.Length != 2)
+                {
+                    Debug.LogError($"Tag could not be parsed: {currentTag}");
+                }
+                var tagKey = splitTag[0].Trim();
+                var tagValue = splitTag[1].Trim();
+
+                switch (tagKey)
+                {
+                    case SPEAKER_TAG:
+                        speakerName.text = tagValue;
+                        break;
+                    case PORTRAIT_TAG:
+                        portraitAnimator.Play(tagValue);
+                        break;
+                    default:
+                        Debug.LogWarning($"Tag Cannot be handled: {currentTag}");
+                        break;
+                }
             }
         }
         
@@ -90,7 +126,6 @@ namespace DialogueSystem.Ink_Rework
         private void DisplayChoices()
         {
             List<Choice> currentChoices = _currentStory.currentChoices;
-
             _choicesAreActive = currentChoices.Count > 0;
             if (currentChoices.Count > choices.Count)
             {
