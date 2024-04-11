@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using DialogueSystem.Events;
 
 public class DialogueQuestStepCliffDisabler : DialogueQuestStep
 {

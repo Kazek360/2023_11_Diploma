@@ -1,4 +1,5 @@
 using UnityEngine;
+using DialogueSystem.Events;
 
 public class AreaEnterQuestStep : QuestStep
 {

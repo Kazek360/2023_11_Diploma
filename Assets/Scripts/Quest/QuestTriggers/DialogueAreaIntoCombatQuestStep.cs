@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DialogueSystem.Events;
 
 public class DialogueAreaIntoCombatQuestStep : DialogueQuestStep
 {

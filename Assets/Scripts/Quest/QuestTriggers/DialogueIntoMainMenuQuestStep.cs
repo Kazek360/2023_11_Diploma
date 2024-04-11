@@ -1,4 +1,4 @@
-
+using DialogueSystem.Events;
 using UnityEngine.SceneManagement;
 
 public class DialogueIntoMainMenuQuestStep : DialogueQuestStep

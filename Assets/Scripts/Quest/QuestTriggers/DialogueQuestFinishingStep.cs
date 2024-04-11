@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DialogueSystem.Events;
 
 public class DialogueQuestFinishingStep : DialogueQuestStep
 {

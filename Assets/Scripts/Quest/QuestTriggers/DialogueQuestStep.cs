@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using DialogueSystem.Events;
+using DialogueSystem.Managers;
 
 public class DialogueQuestStep : QuestStep
 {

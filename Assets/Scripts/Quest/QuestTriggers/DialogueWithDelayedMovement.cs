@@ -1,6 +1,7 @@
-
+using DialogueSystem.Events;
 using System.Collections;
 using UnityEngine;
+using DialogueSystem.Managers;
 
 public class DialogueWithDelayedMovement : DialogueQuestStep
 {
