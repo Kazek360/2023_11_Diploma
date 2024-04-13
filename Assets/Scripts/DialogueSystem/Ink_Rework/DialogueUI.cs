@@ -13,6 +13,9 @@ namespace DialogueSystem.Ink_Rework
     //Class managing the currently triggered dialogue.
     public class DialogueUI : MonoBehaviour
     {
+        [Header("Params")] 
+        [SerializeField] private float typingSpeed;
+        
         [Header("Components")] 
         [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private Animator portraitAnimator;
@@ -24,14 +27,15 @@ namespace DialogueSystem.Ink_Rework
         private List<TextMeshProUGUI> _choicesText;
 
         //private DialogueSO _currentDialogue;
-        //private SentenceSO _currentSentence;
-
+        private Story _currentStory;
+        private Coroutine _displayLineCoroutine;
+        
+        private bool _dialoguePlaying;
+        private bool _canContinueToNextLine;
+        private bool _submitButtonPressedThisFrame;
+        
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
-        
-        private Story _currentStory;
-        private bool _isDialoguePlaying;
-        private bool _choicesAreActive;
         
         private void OnEnable()
         {
@@ -45,8 +49,9 @@ namespace DialogueSystem.Ink_Rework
         private void Start()
         {
             _choicesText = new List<TextMeshProUGUI>();
-            _isDialoguePlaying = false;
-            _choicesAreActive = false;
+            _dialoguePlaying = false;
+            _canContinueToNextLine = false;
+            _submitButtonPressedThisFrame = false;
             dialoguePanel.SetActive(false);
             foreach (var choice in choices)
             {
@@ -54,9 +59,18 @@ namespace DialogueSystem.Ink_Rework
             }
         }
         public void Update()
-        {
-            if (_isDialoguePlaying && Input.GetButtonDown("Fire1") && !_choicesAreActive)
+        { 
+            if (Input.GetButtonDown("Fire1"))
             {
+                _submitButtonPressedThisFrame = true;
+            }
+            if (!_dialoguePlaying)
+            {
+                return;
+            }
+            if (_canContinueToNextLine && _currentStory.currentChoices.Count == 0 && _submitButtonPressedThisFrame)
+            {
+                _submitButtonPressedThisFrame = false;
                 ContinueDialogue();
             }
         }
@@ -64,12 +78,12 @@ namespace DialogueSystem.Ink_Rework
         private void StartDialogue(TextAsset inkJson)
         {
             _currentStory = new Story(inkJson.text);
-            _isDialoguePlaying = true;
-
+            _dialoguePlaying = true;
+            
+            dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
             
-            dialoguePanel.SetActive(true);
             InterfaceEvents.OpenInterface(gameObject.name);
             ContinueDialogue();
         }
@@ -78,8 +92,11 @@ namespace DialogueSystem.Ink_Rework
         {
             if (_currentStory.canContinue)
             {
-                dialogueText.text = _currentStory.Continue();
-                DisplayChoices();
+                if (_displayLineCoroutine is not null)
+                {
+                    StopCoroutine(_displayLineCoroutine);
+                }
+                _displayLineCoroutine = StartCoroutine(DisplayLine(_currentStory.Continue()));
                 HandleTags(_currentStory.currentTags);
             }
             else
@@ -87,7 +104,90 @@ namespace DialogueSystem.Ink_Rework
                 EndDialogue();
             }
         }
+        
+        private void EndDialogue()
+        {
+            _dialoguePlaying = false;
+            dialoguePanel.SetActive(false);
+            InterfaceEvents.CloseInterface();
+            dialogueText.text = "";
+        }
+        
+        private IEnumerator DisplayLine(string line)
+        {
+            dialogueText.text = "";
+            HideChoices();
+            _canContinueToNextLine = false;
 
+            var addingRichTextTag = false;
+            
+            foreach (var letter in line.ToCharArray())
+            {
+                if (_submitButtonPressedThisFrame)
+                {
+                    _submitButtonPressedThisFrame = false;
+                    dialogueText.text = line;
+                    break;
+                }
+
+                if (letter == '<' || addingRichTextTag)
+                {
+                    addingRichTextTag = true;
+                    dialogueText.text += letter;
+                    if (letter == '>')
+                    {
+                        addingRichTextTag = false;
+                    }
+                }
+                else
+                {
+                    dialogueText.text += letter;
+                    yield return new WaitForSeconds(typingSpeed);
+                }
+            }
+            DisplayChoices();
+            _canContinueToNextLine = true;
+        }
+        
+        private void DisplayChoices()
+        {
+            List<Choice> currentChoices = _currentStory.currentChoices;
+            if (currentChoices.Count > choices.Count)
+            {
+                Debug.LogError("More choices were given than UI can support");
+            }
+            
+            var index = 0;
+            foreach (var choice in currentChoices)
+            {
+                choices[index].SetActive(true);
+                _choicesText[index].text = choice.text;
+                index++;
+            }
+            
+            for (var i = index; i < choices.Count; i++)
+            {
+                choices[i].SetActive(false);
+            }
+        }
+
+        private void HideChoices()
+        {
+            foreach (var choice in choices)
+            {
+                choice.SetActive(false);
+            }
+        }
+        
+        public void MakeChoice(int choiceIndex)
+        {
+            if (_canContinueToNextLine)
+            {
+                _currentStory.ChooseChoiceIndex(choiceIndex);
+                ContinueDialogue(); 
+            }
+        }
+        
         private void HandleTags(List<string> currentTags)
         {
             foreach (var currentTag in currentTags)
@@ -114,115 +214,5 @@ namespace DialogueSystem.Ink_Rework
                 }
             }
         }
-        
-        private void EndDialogue()
-        {
-            _isDialoguePlaying = false;
-            dialoguePanel.SetActive(false);
-            InterfaceEvents.CloseInterface();
-            dialogueText.text = "";
-        }
-        
-        private void DisplayChoices()
-        {
-            List<Choice> currentChoices = _currentStory.currentChoices;
-            _choicesAreActive = currentChoices.Count > 0;
-            if (currentChoices.Count > choices.Count)
-            {
-                Debug.LogError("More choices were given than UI can support");
-            }
-            
-            var index = 0;
-            foreach (var choice in currentChoices)
-            {
-                choices[index].SetActive(true);
-                _choicesText[index].text = choice.text;
-                index++;
-            }
-            
-            for (var i = index; i < choices.Count; i++)
-            {
-                choices[i].SetActive(false);
-            }
-        }
-        
-        public void MakeChoice(int choiceIndex)
-        {
-            _currentStory.ChooseChoiceIndex(choiceIndex);
-            ContinueDialogue();
-        }
-        
-        
-        // private void StartDialogue(Dialogue dialogue)
-        // {
-        //     dialoguePanel.SetActive(true);
-        //     InterfaceEvents.OpenInterface(gameObject.name);
-        //     _currentDialogue = dialogue.Info;
-        //     SetSentence(_currentDialogue.firstSentence);
-        // }
-        
-        // public void Update()
-        // {
-        //     if (dialoguePanel.activeSelf && Input.GetButtonDown("Fire1") && _currentSentence.nextSentences.Count < 2)
-        //     {
-        //         if (_currentSentence.nextSentences.Count == 0)
-        //         {
-        //             if (_currentDialogue.questProgress != DialogueQuestProgress.None)
-        //             {
-        //                 if (_currentDialogue.questProgress == DialogueQuestProgress.Start)
-        //                 {
-        //                     QuestEvents.StartQuest(_currentDialogue.relatedQuest.id);
-        //                 }
-        //                 else if (_currentDialogue.questProgress == DialogueQuestProgress.Finish)
-        //                 {
-        //                     QuestEvents.FinishQuest(_currentDialogue.relatedQuest.id);
-        //                 }
-        //             }
-        //     
-        //             dialoguePanel.SetActive(false);
-        //             InterfaceEvents.CloseInterface();
-        //             DialogueEvents.FinishDialogue(_currentDialogue);
-        //         }
-        //         else
-        //         {
-        //             SetSentence(_currentSentence.nextSentences[0]);
-        //         }
-        //     }
-        // }
-
-        // public void SetSentence(SentenceSO sentence)
-        // {
-        //     _currentSentence = sentence;
-        //     DisplayChoices();
-        //     speakerPortrait.sprite = _currentSentence.portrait;
-        //     speakerName.text = _currentSentence.speakerName;
-        //     dialogueText.text = _currentSentence.text;
-        //
-        //     if (_currentSentence.flagToTrigger is not null)
-        //     {
-        //         DialogueEvents.TriggerDialogueMarker(_currentSentence.flagToTrigger.id);
-        //     }
-        // }
-
-        // private void DisplayChoices()
-        // {
-        //     int index = 0;
-        //     foreach (var answer in _currentSentence.answers)
-        //     {
-        //         choices[index].SetActive(true);
-        //         _choicesText[index].text = answer;
-        //         index++;
-        //     }
-        //
-        //     for (int i = index; i < choices.Count; i++)
-        //     {
-        //         choices[i].SetActive(false);
-        //     }
-        // }
-
-        // public void MakeChoice(int choiceIndex)
-        // {
-        //     SetSentence(_currentSentence.nextSentences[choiceIndex]);
-        // }
     }
 }
