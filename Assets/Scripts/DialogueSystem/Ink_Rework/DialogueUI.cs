@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -5,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DialogueSystem.Events;
 using Ink.Runtime;
+using Ink.UnityIntegration;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
 
@@ -15,6 +17,9 @@ namespace DialogueSystem.Ink_Rework
     {
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
+
+        [Header("Globals Ink File")] 
+        [SerializeField] private InkFile globalsInkFile;
         
         [Header("Components")] 
         [SerializeField] private GameObject dialoguePanel;
@@ -36,6 +41,8 @@ namespace DialogueSystem.Ink_Rework
         
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
+
+        private DialogueVariables _dialogueVariables;
         
         private void OnEnable()
         {
@@ -46,6 +53,12 @@ namespace DialogueSystem.Ink_Rework
         {
             DialogueEvents.OnDialogueStarted -= StartDialogue;
         }
+
+        private void Awake()
+        {
+            _dialogueVariables = new DialogueVariables(globalsInkFile.filePath);
+        }
+
         private void Start()
         {
             _choicesText = new List<TextMeshProUGUI>();
@@ -80,6 +93,8 @@ namespace DialogueSystem.Ink_Rework
             _currentStory = new Story(inkJson.text);
             _dialoguePlaying = true;
             
+            _dialogueVariables.StartListening(_currentStory);
+            
             dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
@@ -107,6 +122,7 @@ namespace DialogueSystem.Ink_Rework
         
         private void EndDialogue()
         {
+            _dialogueVariables.StopListening(_currentStory);
             _dialoguePlaying = false;
             dialoguePanel.SetActive(false);
             InterfaceEvents.CloseInterface();
@@ -213,6 +229,18 @@ namespace DialogueSystem.Ink_Rework
                         break;
                 }
             }
+        }
+
+        public Ink.Runtime.Object GetVariableState(string variableName)
+        {
+            Ink.Runtime.Object variableValue = null;
+            _dialogueVariables._variablesDictionary.TryGetValue(variableName, out variableValue);
+            if (variableValue == null)
+            {
+                Debug.LogWarning($"Ink Variable was not found: {variableName}");
+            }
+
+            return variableValue;
         }
     }
 }
