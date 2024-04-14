@@ -1,1 +1,0 @@
-VAR stary_status = ""

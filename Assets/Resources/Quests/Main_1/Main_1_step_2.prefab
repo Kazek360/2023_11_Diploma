@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3951440220953067276
+--- !u!1 &153709662558089433
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9041123071449591538}
-  - component: {fileID: 1164972494973791257}
+  - component: {fileID: 1629117767793677753}
+  - component: {fileID: 7214458307089335545}
   m_Layer: 0
   m_Name: Main_1_step_2
   m_TagString: Untagged
@@ -17,33 +17,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9041123071449591538
+--- !u!4 &1629117767793677753
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3951440220953067276}
+  m_GameObject: {fileID: 153709662558089433}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1500.1992, y: 446.52313, z: -175.86331}
+  m_LocalPosition: {x: -1392.9965, y: 563.678, z: -175.97037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1164972494973791257
+--- !u!114 &7214458307089335545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3951440220953067276}
+  m_GameObject: {fileID: 153709662558089433}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a982a5ff116ac1418540055c27ceab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   description: Dobiegnij do mety
-  witMarker: {fileID: 11400000, guid: bd27432403065474fb5ada2c6ee988e1, type: 2}
-  hrycMarker: {fileID: 11400000, guid: 2db57496687238c4b8cc1ee67dac6aec, type: 2}
+  areasToDisableNames:
+  - CliffArea

@@ -7,28 +7,34 @@ namespace DialogueSystem.Managers
     //Class storing NPC dialogues and allowing for their execution in a dialogue window.
     public class DialogueTrigger : MonoBehaviour
     {
+        [Header("Dialogues Location")]
         [SerializeField] private string locationName;
         [SerializeField] private string triggerName;
-        [SerializeField] private GameObject keyImage;
-
+        
+        [Header("Interaction")]
+        [SerializeField] private GameObject interactionKeyImage;
+        
         private Dictionary<string, Dialogue> _dialogueDictionary;
         private Dialogue _currentDialogue;
+        
         private bool _playerInRange;
-        private bool _isEnabled;
+        private bool _enabled;
 
         private void OnEnable()
         {
+            InterfaceEvents.OnInterfaceOpened += DisableTrigger;
+            InterfaceEvents.OnInterfaceClosed += EnableTrigger;
             QuestEvents.OnQuestStateChange += ChangeDialogueState;
-            DialogueEvents.OnDialogueMarkerStateChange += ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;
         }
-
+        
         private void OnDisable()
         {
+            InterfaceEvents.OnInterfaceOpened -= DisableTrigger;
+            InterfaceEvents.OnInterfaceClosed -= EnableTrigger;
             QuestEvents.OnQuestStateChange -= ChangeDialogueState;
-            DialogueEvents.OnDialogueMarkerStateChange -= ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
@@ -36,34 +42,34 @@ namespace DialogueSystem.Managers
 
         private void Awake()
         {
-            _isEnabled = true;
+            interactionKeyImage.SetActive(false);
+            _playerInRange = false;
+            _enabled = true;
             _dialogueDictionary = CreateDialogueDictionary();
             ChangeCurrentDialogue();
-            keyImage.SetActive(false);
         }
 
         private void Start()
         {
             foreach (var dialogue in _dialogueDictionary.Values)
             {
-                if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
+                if (dialogue.state == Dialogue.State.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
                 {
-                    dialogue.State = DialogueState.CanTrigger;
+                    dialogue.state = Dialogue.State.CanTrigger;
                 }
             }
-
             ChangeCurrentDialogue();
         }
 
         public void Update()
         {
-            if (_isEnabled && _playerInRange && Input.GetKeyDown(KeyCode.E))
+            if (_enabled && _playerInRange && Input.GetKeyDown(KeyCode.E))
             {
-                DialogueEvents.StartDialogue(_currentDialogue);
+                DialogueEvents.StartDialogue(_currentDialogue.info);
 
-                if (_currentDialogue.Info.questProgress != DialogueQuestProgress.None)
+                if (_currentDialogue.info.relatedQuest is not null)
                 {
-                    _dialogueDictionary[_currentDialogue.Info.id].State = DialogueState.Finished;
+                    _dialogueDictionary[_currentDialogue.info.name].state = Dialogue.State.Finished;
                     ChangeCurrentDialogue();
                 }
             }
@@ -78,12 +84,12 @@ namespace DialogueSystem.Managers
                     _currentDialogue = dialogue;
                     continue;
                 }
-
-                if (dialogue.State == DialogueState.CanTrigger)
+        
+                if (dialogue.state == Dialogue.State.CanTrigger)
                 {
                     if (dialogue.currentPriority > _currentDialogue.currentPriority ||
-                        _currentDialogue.State == DialogueState.NotUnlocked ||
-                        _currentDialogue.State == DialogueState.Finished)
+                        _currentDialogue.state == Dialogue.State.CannotTrigger ||
+                        _currentDialogue.state == Dialogue.State.Finished)
                     {
                         _currentDialogue = dialogue;
                     }
@@ -95,86 +101,54 @@ namespace DialogueSystem.Managers
         {
             foreach (var dialogue in _dialogueDictionary.Values)
             {
-                if (dialogue.Info.relatedQuest is not null)
+                if (dialogue.info.relatedQuest is not null)
                 {
-                    if (quest.Info.id == dialogue.Info.relatedQuest.id)
+                    if (quest.Info.id == dialogue.info.relatedQuest.id)
                     {
-                        if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
+                        if (dialogue.state == Dialogue.State.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
                         {
-                            dialogue.State = DialogueState.CanTrigger;
+                            dialogue.state = Dialogue.State.CanTrigger;
                         }
                     }
                 }
             }
-
+        
             ChangeCurrentDialogue();
         }
-
-        private void ChangeDialogueState(string id)
-        {
-            foreach (var dialogue in _dialogueDictionary.Values)
-            {
-                if (dialogue.Info.requiredFlags.Count > 0)
-                {
-                    if (dialogue.State == DialogueState.NotUnlocked && CheckIfDialogueCanTrigger(dialogue))
-                    {
-                        dialogue.State = DialogueState.CanTrigger;
-                    }
-                }
-            }
-
-            ChangeCurrentDialogue();
-        }
-
+        
         private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
         {
-            foreach (var questRequirement in dialogue.Info.requiredQuests)
+            foreach (var questRequirement in dialogue.info.requiredQuests)
             {
                 if (QuestManager.GetQuestById(questRequirement.id).State != QuestState.Finished)
                 {
                     return false;
                 }
             }
-
-            foreach (var flagRequirement in dialogue.Info.requiredFlags)
+            
+            if (dialogue.info.relatedQuest is not null)
             {
-                if (!FlagManager.GetMarkerById(flagRequirement.id)._isTriggered)
+                if (dialogue.info.startsQuest)
                 {
-                    return false;
-                }
-            }
-
-            if (dialogue.Info.relatedQuest is not null)
-            {
-                if (dialogue.Info.questProgress == DialogueQuestProgress.Progress)
-                {
-                    return false;
-                }
-
-                if (dialogue.Info.questProgress == DialogueQuestProgress.Start)
-                {
-                    if (QuestManager.GetQuestById(dialogue.Info.relatedQuest.id).State != QuestState.CanStart)
+                    if (QuestManager.GetQuestById(dialogue.info.relatedQuest.id).State != QuestState.CanStart)
                     {
                         return false;
                     }
                 }
-                else if (dialogue.Info.questProgress == DialogueQuestProgress.Finish)
+                else
                 {
-                    if (QuestManager.GetQuestById(dialogue.Info.relatedQuest.id).State != QuestState.CanFinish)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
-
             return true;
         }
-
+        
+        
         private void UnlockDialogue(string id)
         {
             if (_dialogueDictionary.ContainsKey(id))
             {
-                _dialogueDictionary[id].State = DialogueState.CanTrigger;
+                _dialogueDictionary[id].state = Dialogue.State.CanTrigger;
                 ChangeCurrentDialogue();
             }
         }
@@ -183,7 +157,7 @@ namespace DialogueSystem.Managers
         {
             if (other.CompareTag("Player"))
             {
-                keyImage.SetActive(true);
+                interactionKeyImage.SetActive(true);
                 _playerInRange = true;
             }
         }
@@ -192,38 +166,38 @@ namespace DialogueSystem.Managers
         {
             if (other.CompareTag("Player"))
             {
-                keyImage.SetActive(false);
+                interactionKeyImage.SetActive(false);
                 _playerInRange = false;
             }
         }
 
         private Dictionary<string, Dialogue> CreateDialogueDictionary()
         {
-            DialogueSO[] allDialogues = Resources.LoadAll<DialogueSO>($"Dialogues/{locationName}/{triggerName}");
-
-            Dictionary<string, Dialogue> idToMap = new Dictionary<string, Dialogue>();
-
-            foreach (var dialogueInfo in allDialogues)
+            DialogueSO[] allTriggerDialogues = Resources.LoadAll<DialogueSO>($"Dialogues/{locationName}/{triggerName}");
+            Dictionary<string, Dialogue> idToDictionary = new Dictionary<string, Dialogue>();
+            foreach (var dialogueInfo in allTriggerDialogues)
             {
-                if (idToMap.ContainsKey(dialogueInfo.id))
+                if (idToDictionary.ContainsKey(dialogueInfo.name))
                 {
-                    Debug.LogWarning($"Found Duplicate ID: {dialogueInfo.id}");
+                    Debug.LogWarning($"Found Duplicate ID: {dialogueInfo.name}");
                 }
-
-                idToMap.Add(dialogueInfo.id, new Dialogue(dialogueInfo));
+                idToDictionary.Add(dialogueInfo.name, new Dialogue(dialogueInfo));
             }
-
-            return idToMap;
+            return idToDictionary;
         }
 
         private void DisableTrigger()
         {
-            _isEnabled = false;
+            _enabled = false;
         }
-
+        private void DisableTrigger(string interfaceName)
+        {
+            _enabled = false;
+        }
         private void EnableTrigger()
         {
-            _isEnabled = true;
+            _enabled = true;
         }
     }
 }
+

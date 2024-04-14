@@ -5,24 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Dialogue", menuName = "ScriptableObjects/Dialogues/Dialogue")]
 public class DialogueSO : ScriptableObject
 {
-    public string id;
-    
-    [Header("Requirements")]
-    [SerializeField] public List<FlagSO> requiredFlags;
-    [SerializeField] public List<QuestSO> requiredQuests;
-    
     [Header("Quest")]
+    [SerializeField] public List<QuestSO> requiredQuests;
     [SerializeField] public QuestSO relatedQuest;
-    [SerializeField] public DialogueQuestProgress questProgress;
+    [SerializeField] public bool startsQuest;
     
-    [Header("Starting sentence")]
-    [SerializeField] public SentenceSO firstSentence;
-     
-    private void OnValidate()
-    {
-        #if UNITY_EDITOR
-            id = name;
-            UnityEditor.EditorUtility.SetDirty(this);
-        #endif
-    }
+    [Header("Dialogue Text")]
+    [SerializeField] public TextAsset dialogueText;
 }

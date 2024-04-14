@@ -12,8 +12,7 @@ public class NestorDialogueAreaQuestStep : DialogueQuestStep
         _dialogueArea = GameObject.Find(areaName);
         _nestor = GameObject.Find("Nestor");
         _nestor.SetActive(false);
-        requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -21,7 +20,7 @@ public class NestorDialogueAreaQuestStep : DialogueQuestStep
     }
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             _nestor.SetActive(true);
             Destroy(_dialogueArea);

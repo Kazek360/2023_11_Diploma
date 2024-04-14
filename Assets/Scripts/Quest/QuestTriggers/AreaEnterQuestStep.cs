@@ -1,17 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
-using DialogueSystem.Events;
 
 public class AreaEnterQuestStep : QuestStep
 {
-    [SerializeField] private FlagSO witMarker;
-    [SerializeField] private FlagSO hrycMarker;
     private GameObject _cliffArea;
+    [SerializeField] private List<string> areasToDisableNames;
+    private List<GameObject> areasToDisable = new List<GameObject>();
     
     private void OnEnable()
     {
         AreaEvent.OnAreaEnter += FinishStep;
-        _cliffArea = GameObject.Find("CliffArea");
-        _cliffArea.SetActive(false);
+        for (var i = 0; i < areasToDisableNames.Count; i++)
+        {
+            areasToDisable.Add(GameObject.Find(areasToDisableNames[i]));
+            areasToDisable[i].SetActive(false);
+        }
     }
     private void OnDisable()
     {
@@ -19,15 +22,10 @@ public class AreaEnterQuestStep : QuestStep
     }
     private void FinishStep(string objectName)
     {
-        if (objectName.Equals("Wit"))
+        for (var i = 0; i < areasToDisableNames.Count; i++)
         {
-            DialogueEvents.TriggerDialogueMarker(witMarker.id);
+            areasToDisable[i].SetActive(true);
         }
-        else if (objectName.Equals("Hryc"))
-        {
-            DialogueEvents.TriggerDialogueMarker(hrycMarker.id);
-        }
-        _cliffArea.SetActive(true);
         Finish();
     }
 }

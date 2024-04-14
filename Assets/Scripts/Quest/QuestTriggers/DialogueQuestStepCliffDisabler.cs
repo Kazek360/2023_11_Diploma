@@ -7,12 +7,11 @@ public class DialogueQuestStepCliffDisabler : DialogueQuestStep
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-        requiredDialogue = ChooseRequiredDialogue();
 
         _cliffArea = GameObject.Find("CliffArea");
         _cliffArea.SetActive(false);
         
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -21,7 +20,7 @@ public class DialogueQuestStepCliffDisabler : DialogueQuestStep
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             _cliffArea.SetActive(true);
             Finish();

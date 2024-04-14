@@ -1,27 +1,26 @@
 using DialogueSystem.Events;
 using System.Collections;
+using DialogueSystem.UI;
 using UnityEngine;
-using DialogueSystem.Managers;
 
 public class DialogueWithDelayedMovement : DialogueQuestStep
 {
-    [SerializeField] private FlagSO flagDelay;
-    private GameObject _raceArea;
-    private GameObject _cliffArea;
+    [SerializeField] private string delayFlag;
     
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += StartFinishingStep;
-        requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
-        _raceArea = GameObject.Find("RaceArea");
-        _raceArea.SetActive(false);
-        _cliffArea = GameObject.Find("CliffArea");
-        _cliffArea.SetActive(false);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
+        
+        for (var i = 0; i < areasToDisableNames.Count; i++)
+        {
+            areasToDisable.Add(GameObject.Find(areasToDisableNames[i]));
+            areasToDisable[i].SetActive(false);
+        }
     }
     private void OnDisable()
     {
-        DialogueEvents.OnDialogueFinished-= StartFinishingStep;
+        DialogueEvents.OnDialogueFinished -= StartFinishingStep;
     }
     
     private void StartFinishingStep(DialogueSO dialogue)
@@ -31,14 +30,16 @@ public class DialogueWithDelayedMovement : DialogueQuestStep
     
     private IEnumerator FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
-            if (FlagManager.GetMarkerById(flagDelay.id)._isTriggered)
+            if (((Ink.Runtime.BoolValue) DialogueUI.instance.GetVariableState(delayFlag)).value)
             {
                 yield return new WaitForSeconds(1f);
             }
-            _raceArea.SetActive(true);
-            _cliffArea.SetActive(true);
+            for (var i = 0; i < areasToDisableNames.Count; i++)
+            {
+                areasToDisable[i].SetActive(true);
+            }
             PathEvents.StartMovement();
             Finish();
         } 

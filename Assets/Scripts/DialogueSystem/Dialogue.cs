@@ -1,30 +1,39 @@
+using UnityEngine;
 
-//Class storing NPC dialogue info and state of dialogue.
 namespace DialogueSystem
 {
+    //Class storing NPC dialogue info and state of dialogue.
     public class Dialogue
     {
-        public readonly DialogueSO Info;
-        public DialogueState State;
+        public enum State
+        {
+            CannotTrigger,
+            CanTrigger,
+            Finished
+        }
+        
+        public readonly DialogueSO info;
+        public State state;
         private int _defaultPriority;
         public int currentPriority;
     
         public Dialogue(DialogueSO info)
         {
-            Info = info;
-            State = DialogueState.NotUnlocked;
-            if (Info.relatedQuest is not null)
+            this.info = info;
+            state = State.CannotTrigger;
+
+            if (info.relatedQuest is null)
             {
-                _defaultPriority = Info.relatedQuest.questCategory switch
+                _defaultPriority = 1;
+            }
+            else
+            {
+                _defaultPriority = info.relatedQuest.questCategory switch
                 {
                     QuestCategory.MainQuest => 3,
                     QuestCategory.SideQuest => 2,
                     _ => 1
-                };
-            }
-            else
-            {
-                _defaultPriority = 1;
+                }; 
             }
             currentPriority = _defaultPriority;
         }

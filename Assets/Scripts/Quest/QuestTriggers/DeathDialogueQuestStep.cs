@@ -19,8 +19,7 @@ public class DeathDialogueQuestStep : DialogueQuestStep
         _shoreToTeleport = GameObject.Find("ShoreArea");
         _playerToTeleport = GameObject.Find("Wit");
         
-        requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -41,7 +40,7 @@ public class DeathDialogueQuestStep : DialogueQuestStep
     
     private IEnumerator FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             Destroy(_deathRealmToTeleport);
             yield return new WaitForSeconds(2f);

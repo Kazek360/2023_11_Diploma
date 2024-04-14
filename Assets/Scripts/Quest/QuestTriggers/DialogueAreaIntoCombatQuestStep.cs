@@ -12,8 +12,7 @@ public class DialogueAreaIntoCombatQuestStep : DialogueQuestStep
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
         _dialogueArea = GameObject.Find(areaName);
-        requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -22,7 +21,7 @@ public class DialogueAreaIntoCombatQuestStep : DialogueQuestStep
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             Destroy(_dialogueArea);
             SceneManager.LoadScene(2);

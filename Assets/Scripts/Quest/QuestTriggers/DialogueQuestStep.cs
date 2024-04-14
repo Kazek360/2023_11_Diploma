@@ -1,48 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.Managers;
 
 public class DialogueQuestStep : QuestStep
 {
-    [SerializeField] protected List<DialogueSO> dialoguesInfo;
-    protected DialogueSO requiredDialogue;
+    [SerializeField] protected DialogueSO dialoguesInfo;
+    [SerializeField] protected List<string> areasToDisableNames;
+    protected List<GameObject> areasToDisable = new List<GameObject>();
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-        requiredDialogue = ChooseRequiredDialogue();
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
+        for (var i = 0; i < areasToDisableNames.Count; i++)
+        {
+            areasToDisable.Add(GameObject.Find(areasToDisableNames[i]));
+            areasToDisable[i].SetActive(false);
+        }
     }
     private void OnDisable()
     {
         DialogueEvents.OnDialogueFinished-= FinishStep;
     }
-
-    protected DialogueSO ChooseRequiredDialogue()
-    {
-        foreach (var dialogue in dialoguesInfo)
-        {
-            bool allFlagsTriggered = true;
-            foreach (var dialogueFlag in dialogue.requiredFlags)
-            {
-                if (!FlagManager.GetMarkerById(dialogueFlag.id)._isTriggered)
-                { 
-                    allFlagsTriggered = false;
-                    break;
-                }
-            }
-            if (allFlagsTriggered)
-            {
-                return dialogue;
-            }
-        }
-        return dialoguesInfo[0];
-    }
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
+            for (var i = 0; i < areasToDisableNames.Count; i++)
+            {
+                areasToDisable[i].SetActive(true);
+            }
             Finish();
         } 
     }

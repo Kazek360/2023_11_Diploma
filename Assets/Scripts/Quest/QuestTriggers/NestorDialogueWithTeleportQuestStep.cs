@@ -13,7 +13,6 @@ public class NestorDialogueWithTeleportQuestStep : DialogueQuestStep
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-        requiredDialogue = ChooseRequiredDialogue();
 
         _motherToTeleport = GameObject.Find("Mother");
         _placeToTeleportMother = GameObject.Find("MotherTeleportPlace");
@@ -24,7 +23,7 @@ public class NestorDialogueWithTeleportQuestStep : DialogueQuestStep
         _motherArea.SetActive(false);
         _nestor.SetActive(false);
         
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -33,7 +32,7 @@ public class NestorDialogueWithTeleportQuestStep : DialogueQuestStep
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             _nestor.SetActive(true);
             _motherArea.SetActive(true);

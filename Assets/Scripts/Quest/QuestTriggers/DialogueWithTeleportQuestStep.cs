@@ -9,12 +9,11 @@ public class DialogueWithTeleportQuestStep : DialogueQuestStep
     private void OnEnable()
     {
         DialogueEvents.OnDialogueFinished += FinishStep;
-        requiredDialogue = ChooseRequiredDialogue();
 
         _npcToTeleport = GameObject.Find("Mother");
         _placeToTeleport = GameObject.Find("TeleportPlace");
         
-        DialogueEvents.UnlockDialogue(requiredDialogue.id);
+        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
@@ -23,7 +22,7 @@ public class DialogueWithTeleportQuestStep : DialogueQuestStep
     
     private void FinishStep(DialogueSO dialogue)
     {
-        if (requiredDialogue.id == dialogue.id)
+        if (dialoguesInfo.name == dialogue.name)
         {
             _npcToTeleport.transform.position = _placeToTeleport.transform.position;
             Finish();
