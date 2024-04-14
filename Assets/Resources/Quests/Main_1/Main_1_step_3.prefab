@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3518506834551167818
+--- !u!1 &1869453517204469530
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2192468294528614800}
-  - component: {fileID: 2670853351757166491}
+  - component: {fileID: 4029773641457882768}
+  - component: {fileID: 3216004035163607880}
   m_Layer: 0
   m_Name: Main_1_step_3
   m_TagString: Untagged
@@ -17,38 +17,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2192468294528614800
+--- !u!4 &4029773641457882768
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518506834551167818}
+  m_GameObject: {fileID: 1869453517204469530}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1477.8557, y: 443.44577, z: -100.35214}
+  m_LocalPosition: {x: -1379.9279, y: 563.30206, z: -176.03207}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2670853351757166491
+--- !u!114 &3216004035163607880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3518506834551167818}
+  m_GameObject: {fileID: 1869453517204469530}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d351eb24d43bc540a41760137cfb2ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 247c8008a5f220f488c31e473cee2c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   description: Porozmawiaj z Hrycem
-  dialoguesInfo:
-  - {fileID: 11400000, guid: 4a9b9e5bd93879b4181dae2472f8ea82, type: 2}
-  - {fileID: 11400000, guid: 3832b51344dc25345b81e89ff8206ed6, type: 2}
-  - {fileID: 11400000, guid: a55a6ddc2f88518438c2bcfd65a33744, type: 2}
-  - {fileID: 11400000, guid: f53139e1a8191f14b9bc9aa77df136f9, type: 2}
-  - {fileID: 11400000, guid: 09cce0f6cb6529e488ce9f69ceef5a6a, type: 2}
-  - {fileID: 11400000, guid: 88ac3bcc0f495fe4984955148147b5e5, type: 2}
+  dialoguesInfo: {fileID: 11400000, guid: 5f1f539307a71ca468f623f54e083b54, type: 2}
+  areasToDisableNames:
+  - CliffArea
