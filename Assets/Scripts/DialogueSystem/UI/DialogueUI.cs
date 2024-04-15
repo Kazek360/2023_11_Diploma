@@ -250,5 +250,16 @@ namespace DialogueSystem.UI
 
             return variableValue;
         }
+        
+        public void SetVariableState(string variableName, Ink.Runtime.Object variableValue)
+        {
+            if (_dialogueVariables._variablesDictionary.ContainsKey(variableName))
+            {
+                var globalStory = new Story(loadGlobalsJSON.text);
+                _dialogueVariables.StartListening(globalStory);
+                globalStory.variablesState.SetGlobal(variableName, variableValue);
+                _dialogueVariables.StopListening(globalStory);
+            }
+        }
     }
 }

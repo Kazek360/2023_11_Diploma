@@ -1,9 +1,27 @@
 INCLUDE ../../globals.ink
 
 { race_reward:
-- "satisfaction": ->WitWinsSat
-- "knife": ->WitWinsKnife
-- "slingshot": ->WitWinsSling
+- "satisfaction": ->SatWin
+- "knife": ->KnifeWin
+- "slingshot": ->SlingWin
+}
+
+== SatWin ==
+{ race_winner: 
+- "wit": ->WitWinsSat 
+- "hryc": ->HrycWinsSat
+}
+
+== KnifeWin ==
+{ race_winner: 
+- "wit": ->WitWinsKnife
+- "hryc": ->HrycWinsKnife
+}
+
+== SlingWin ==
+{ race_winner: 
+- "wit": ->WitWinsSling
+- "hryc": ->HrycWinsSling
 }
 
 == WitWinsSat ==
@@ -24,7 +42,6 @@ Wolałbym czyścić oborę.
 
 #speaker:Hryc #portrait:hryc_neutral
 Następnym razem mi się uda.
-
 -> END
 
 == WitWinsKnife ==
@@ -39,7 +56,6 @@ Chyba śnisz…
 
 #speaker:Hryc #portrait:hryc_neutral
 Jeszcze zobaczymy
-
 -> END
 
 == WitWinsSling ==
@@ -51,5 +67,52 @@ Tym razem miałeś szczęście.
 
 #speaker:Hryc #portrait:hryc_neutral
 Następnym razem mi się uda.
+-> END
 
+== HrycWinsSat ==
+#speaker:Hryc #portrait:hryc_neutral
+Widzisz? I kto teraz jest lepszy?
+
+*[Przyznaj, że Hryc jest lepszy]
+    #speaker:Wit #portrait:wit_surprised
+    Dobra, wygrałeś.
+    
+    #speaker:Wit #portrait:wit_smirk
+    Następnym razem mi się uda
+
+    #speaker:Hryc #portrait:hryc_neutral
+    Widzisz? To nie było takie trudne.
+
+    #speaker:Hryc #portrait:hryc_neutral
+    Jestem zwyczajnie lepszy od ciebie.
+
+*[Milcz]
+    #speaker:Hryc #portrait:hryc_neutral
+    Nic nie mówisz, bo wiesz że przegrałeś.
+-
+-> END
+
+== HrycWinsKnife ==
+#speaker:Hryc #portrait:hryc_neutral
+(Wyciąga rękę. Na twarzy ma drwiący uśmieszek)
+
+#speaker:Wit #portrait:wit_angry
+Masz. I tak zamierzałem ci go jutro oddać.
+-> END
+
+== HrycWinsSling ==
+#speaker:Hryc #portrait:hryc_neutral
+H: Chyba twoja proca zostanie u mnie. Nie martw się, dobrze się nią zaopiekuję.
+
+#speaker:Wit #portrait:wit_angry
+W: Jak ją połamiesz to, to...
+
+#speaker:Hryc #portrait:hryc_neutral
+H: To co?
+
+#speaker:Wit #portrait:wit_angry
+W: To jajco. Masz jej pilnować.
+
+#speaker:Hryc #portrait:hryc_neutral
+H: A myślisz, że co ja robię.
 -> END
