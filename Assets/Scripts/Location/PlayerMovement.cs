@@ -56,28 +56,24 @@ public class PlayerMovement : MonoBehaviour
             _currentSpeed = walkSpeed;
         }
         // Sprawdź, które klawisze są obecnie naciśnięte
-        bool up = Input.GetKey(KeyCode.W);
-        bool down = Input.GetKey(KeyCode.S);
-        bool left = Input.GetKey(KeyCode.A);
-        bool right = Input.GetKey(KeyCode.D);
-
+        var up = Input.GetKey(KeyCode.W);
+        var down = Input.GetKey(KeyCode.S);
+        var left = Input.GetKey(KeyCode.A);
+        var right = Input.GetKey(KeyCode.D);
+        
         // Ustaw kierunek postaci na podstawie naciśniętych klawiszy
-        if (up && !down)
-                _currentDirection = Direction.North;
-            else if (down && !up)
-                _currentDirection = Direction.South;
-            else if (left && !right)
-                _currentDirection = Direction.West;
-            else if (right && !left)
-                _currentDirection = Direction.East;
-            else if (up && left)
-                _currentDirection = Direction.NorthWest;
-            else if (up && right)
-                _currentDirection = Direction.NorthEast;
-            else if (down && left)
-                _currentDirection = Direction.SouthWest;
-            else if (down && right)
-                _currentDirection = Direction.SouthEast;
+        _currentDirection = (up, down, left, right) switch
+        {
+            (true, false, false, false) => Direction.North,
+            (false, true, false, false) => Direction.South,
+            (false, false, true, false) => Direction.West,
+            (false, false, false, true) => Direction.East,
+            (true, false, true, false) => Direction.NorthWest,
+            (true, false, false, true) => Direction.NorthEast,
+            (false, true, true, false) => Direction.SouthWest,
+            (false, true, false, true) => Direction.SouthEast,
+            _ => _currentDirection
+        };
 
         // Ustaw odpowiednią grafikę postaci w zależności od kierunku
         SetCharacterSprite();
