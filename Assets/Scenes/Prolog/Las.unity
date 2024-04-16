@@ -533,7 +533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5829198612074789900, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000012225586
+      value: -0.00020868765
       objectReference: {fileID: 0}
     - target: {fileID: 5841518103030163287, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
       propertyPath: m_AnchorMax.x
@@ -557,10 +557,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5914736082575578241, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5914736082575578241, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
-      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5923918961859350901, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
@@ -709,10 +705,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9045118946424662826, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9097966049051481154, guid: 062590eb146619041ac777dbb89e04d8, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2128,14 +2120,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3671862230612481976, guid: e663a7456c56c664ba380d859b6231d4, type: 3}
-      propertyPath: m_Name
-      value: RaceArea
-      objectReference: {fileID: 0}
-    - target: {fileID: 3804431330906421937, guid: e663a7456c56c664ba380d859b6231d4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.35
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2263,10 +2247,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1487672256952171330, guid: faef00dbdb81ee24fbe97227eb4b0b6b, type: 3}
-      propertyPath: m_Radius
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4230355746164658804, guid: faef00dbdb81ee24fbe97227eb4b0b6b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1497.55
@@ -11090,6 +11070,7 @@ MonoBehaviour:
   locationName: Prologue
   triggerName: Hryc
   interactionKeyImage: {fileID: 1561064801}
+  autoTrigger: 0
 --- !u!58 &745120213
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -21167,7 +21148,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2998423763880966118, guid: ebd862929967141468270f27a38fefc6, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebd862929967141468270f27a38fefc6, type: 3}

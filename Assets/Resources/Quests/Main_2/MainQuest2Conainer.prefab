@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1068143324654690057}
   - component: {fileID: 7815238609110407855}
-  - component: {fileID: 3660984519201699905}
+  - component: {fileID: 922953552566553514}
   m_Layer: 0
   m_Name: NestorArea
   m_TagString: Untagged
@@ -68,7 +68,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 4
---- !u!114 &3660984519201699905
+--- !u!114 &922953552566553514
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,11 +77,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 596134385176773425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53a33b1f5ac137458870b32e76e78c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   locationName: Prologue
   triggerName: Nestor_Tree
+  interactionKeyImage: {fileID: 0}
+  autoTrigger: 1
 --- !u!1 &3384998664439028022
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6690135533773907407}
   - component: {fileID: 1487672256952171330}
-  - component: {fileID: 4360895218852980954}
+  - component: {fileID: 908906757860961353}
   m_Layer: 0
   m_Name: ShoreArea
   m_TagString: Untagged
@@ -149,8 +151,8 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 4
---- !u!114 &4360895218852980954
+  m_Radius: 2
+--- !u!114 &908906757860961353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -159,11 +161,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3384998664439028022}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53a33b1f5ac137458870b32e76e78c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   locationName: Prologue
   triggerName: Wit_Shore
+  interactionKeyImage: {fileID: 0}
+  autoTrigger: 1
 --- !u!1 &5006643425860773193
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2487686284776720351}
   - component: {fileID: 8646927299762978676}
-  - component: {fileID: 5053269047732531912}
+  - component: {fileID: 5817580669032886257}
   m_Layer: 0
   m_Name: WolfArea
   m_TagString: Untagged
@@ -232,7 +236,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 8
---- !u!114 &5053269047732531912
+--- !u!114 &5817580669032886257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,11 +245,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5006643425860773193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53a33b1f5ac137458870b32e76e78c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   locationName: Prologue
   triggerName: Nestor_Wolves
+  interactionKeyImage: {fileID: 0}
+  autoTrigger: 1
 --- !u!1 &6059353420836310293
 GameObject:
   m_ObjectHideFlags: 0

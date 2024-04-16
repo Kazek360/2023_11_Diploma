@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 6702338461434730526}
   - component: {fileID: 5723177085890071113}
   m_Layer: 0
-  m_Name: RaceErea
+  m_Name: RaceArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ Transform:
   m_GameObject: {fileID: 6993248036695582622}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.43, y: -10.43, z: 0}
+  m_LocalPosition: {x: -8.35, y: -10.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -250,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8079261840081001037}
   - component: {fileID: 1249573654519107608}
-  - component: {fileID: 5528121240400005331}
+  - component: {fileID: 2562271640146814934}
   m_Layer: 0
   m_Name: DeathArea
   m_TagString: Untagged
@@ -308,7 +308,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
---- !u!114 &5528121240400005331
+--- !u!114 &2562271640146814934
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -317,8 +317,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7575106596032409298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53a33b1f5ac137458870b32e76e78c0, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   locationName: Prologue
   triggerName: Wit_Death
+  interactionKeyImage: {fileID: 0}
+  autoTrigger: 1

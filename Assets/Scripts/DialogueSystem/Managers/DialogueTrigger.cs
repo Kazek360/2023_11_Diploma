@@ -14,6 +14,9 @@ namespace DialogueSystem.Managers
         [Header("Interaction")]
         [SerializeField] private GameObject interactionKeyImage;
         
+        [Header("Auto")]
+        [SerializeField] private bool autoTrigger;
+        
         private Dictionary<string, Dialogue> _dialogueDictionary;
         private Dialogue _currentDialogue;
         
@@ -28,6 +31,7 @@ namespace DialogueSystem.Managers
             DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;
+            AreaEvent.OnCorrectAreaEnter += TriggerDialogue;
         }
         
         private void OnDisable()
@@ -38,11 +42,15 @@ namespace DialogueSystem.Managers
             DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
+            AreaEvent.OnCorrectAreaEnter -= TriggerDialogue;
         }
 
         private void Awake()
         {
-            interactionKeyImage.SetActive(false);
+            if (!autoTrigger)
+            {
+                interactionKeyImage.SetActive(false); 
+            }
             _playerInRange = false;
             _enabled = true;
             _dialogueDictionary = CreateDialogueDictionary();
@@ -63,7 +71,7 @@ namespace DialogueSystem.Managers
 
         public void Update()
         {
-            if (_enabled && _playerInRange && Input.GetKeyDown(KeyCode.E))
+            if (_enabled && _playerInRange && !autoTrigger && Input.GetKeyDown(KeyCode.E))
             {
                 DialogueEvents.StartDialogue(_currentDialogue.info);
 
@@ -142,8 +150,19 @@ namespace DialogueSystem.Managers
             }
             return true;
         }
-        
-        
+
+        private void TriggerDialogue(string areaName)
+        {
+            if (areaName.Equals(gameObject.name))
+            {
+                DialogueEvents.StartDialogue(_currentDialogue.info);
+                if (_currentDialogue.info.relatedQuest is not null)
+                {
+                    _dialogueDictionary[_currentDialogue.info.name].state = Dialogue.State.Finished;
+                    ChangeCurrentDialogue();
+                }
+            }
+        }
         private void UnlockDialogue(string id)
         {
             if (_dialogueDictionary.ContainsKey(id))
@@ -157,17 +176,27 @@ namespace DialogueSystem.Managers
         {
             if (other.CompareTag("Player"))
             {
-                interactionKeyImage.SetActive(true);
-                _playerInRange = true;
+                if (autoTrigger)
+                {
+                    AreaEvent.EnterArea(gameObject.name, other.name);
+                }
+                else
+                {
+                    interactionKeyImage.SetActive(true);
+                    _playerInRange = true;  
+                }
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (!autoTrigger)
             {
-                interactionKeyImage.SetActive(false);
-                _playerInRange = false;
+                if (other.CompareTag("Player"))
+                {
+                    interactionKeyImage.SetActive(false);
+                    _playerInRange = false;
+                }  
             }
         }
 

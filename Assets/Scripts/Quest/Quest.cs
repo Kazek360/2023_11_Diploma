@@ -34,9 +34,9 @@ public class Quest
     {
         if (CurrentStepExists())
         {
-            QuestStep questStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<QuestStep>();
-            questStep.InitializeQuestStep(Info.id);
-            stepsDescriptions.Add(questStep.description);
+            BaseQuestStep baseQuestStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
+            baseQuestStep.InitializeQuestStep(Info.id);
+            stepsDescriptions.Add(baseQuestStep.description);
         }
         else
         {
