@@ -23,5 +23,20 @@ namespace InputSystem
             OnInteractionInput?.Invoke();
         }
         
+        public static event Action OnInterfaceOpened;
+        public static void OpenInterface()
+        {
+            OnInterfaceOpened?.Invoke();
+        }
+        public static event Action OnDialogueContinueInput;
+        public static void InputDialogueContinue()
+        {
+            OnDialogueContinueInput?.Invoke();
+        }
+        public static event Action OnCutsceneContinueInput;
+        public static void InputCutsceneContinue()
+        {
+            OnCutsceneContinueInput?.Invoke();
+        }
     }
 }

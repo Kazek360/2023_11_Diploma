@@ -1,4 +1,5 @@
 using System.Linq;
+using InputSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,14 +20,10 @@ public class QuestLog : MonoBehaviour
     private void OnEnable()
     {
         QuestEvents.OnQuestStateChange += QuestStateChange;
-        InterfaceEvents.OnInterfaceOpened += DisableInterface;
-        InterfaceEvents.OnInterfaceClosed += EnableInterface;
     }
     private void OnDisable()
     {
         QuestEvents.OnQuestStateChange -= QuestStateChange;
-        InterfaceEvents.OnInterfaceOpened -= DisableInterface;
-        InterfaceEvents.OnInterfaceClosed -= EnableInterface;
     }
     private void Start()
     {
@@ -44,31 +41,17 @@ public class QuestLog : MonoBehaviour
             if (contentParent.activeSelf)
             {
                 contentParent.SetActive(false);
-                InterfaceEvents.CloseInterface();
             }
             else
             {
                 contentParent.SetActive(true);
-                InterfaceEvents.OpenInterface(gameObject.name);
+                InputEvents.OpenInterface();
                 if (_defaultSelectedButton is not null)
                 {
                     _defaultSelectedButton.Select();
                 }
             }
         }
-    }
-
-    private void DisableInterface(string interfaceName)
-    {
-        if (!interfaceName.Equals(gameObject.name))
-        {
-            _isAnotherInterfaceOpened = true;
-        }
-    }
-
-    private void EnableInterface()
-    {
-        _isAnotherInterfaceOpened = false;
     }
     
     private void QuestStateChange(Quest quest)

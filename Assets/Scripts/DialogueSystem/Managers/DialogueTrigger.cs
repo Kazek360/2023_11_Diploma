@@ -28,9 +28,6 @@ namespace DialogueSystem.Managers
         {
             InputEvents.OnInteractionInput += TriggerDialogueByInteraction;
             AreaEvent.OnCorrectAreaEnter += TriggerDialogueByAreaEnter;
-            
-            InterfaceEvents.OnInterfaceOpened += DisableTrigger;
-            InterfaceEvents.OnInterfaceClosed += EnableTrigger;
             QuestEvents.OnQuestStateChange += ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             PathEvents.OnMovementStarted += DisableTrigger;
@@ -42,9 +39,6 @@ namespace DialogueSystem.Managers
         {
             InputEvents.OnInteractionInput -= TriggerDialogueByInteraction;
             AreaEvent.OnCorrectAreaEnter -= TriggerDialogueByAreaEnter;
-            
-            InterfaceEvents.OnInterfaceOpened -= DisableTrigger;
-            InterfaceEvents.OnInterfaceClosed -= EnableTrigger;
             QuestEvents.OnQuestStateChange -= ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             PathEvents.OnMovementStarted -= DisableTrigger;
@@ -154,7 +148,7 @@ namespace DialogueSystem.Managers
         }
         private void TriggerDialogueByInteraction()
         {
-            if (autoTrigger || _disabled && !_playerInRange)
+            if (autoTrigger || _disabled || !_playerInRange)
             {
                 return;
             }
@@ -222,10 +216,6 @@ namespace DialogueSystem.Managers
         }
 
         private void DisableTrigger()
-        {
-            _disabled = true;
-        }
-        private void DisableTrigger(string interfaceName)
         {
             _disabled = true;
         }

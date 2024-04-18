@@ -12,30 +12,26 @@ namespace Player
         
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rigidbody;
-
-        private bool _isInterfaceOpened;
+        
         private bool _isPlayerSprinting;
         private void OnEnable()
         {
             InputEvents.OnSprintInput += ChangeSprintState;
             InputEvents.OnMovementInput += MovePlayer;
-            InterfaceEvents.OnInterfaceOpened += DisableMovement;
-            InterfaceEvents.OnInterfaceClosed += EnableMovement;
+            InputEvents.OnInterfaceOpened += StopMovement;
         }
 
         private void OnDisable()
         {
             InputEvents.OnSprintInput -= ChangeSprintState;
             InputEvents.OnMovementInput -= MovePlayer;
-            InterfaceEvents.OnInterfaceOpened -= DisableMovement;
-            InterfaceEvents.OnInterfaceClosed -= EnableMovement;
+            InputEvents.OnInterfaceOpened -= StopMovement;
         }
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _isInterfaceOpened = false;
             _isPlayerSprinting = false;
         }
 
@@ -62,12 +58,6 @@ namespace Player
 
         private void MovePlayer(Vector2 movementVector)
         {
-            if (_isInterfaceOpened)
-            {
-                _rigidbody.velocity = Vector2.zero;
-                return;
-            }
-
             SetCharacterSprite();
             var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
             _rigidbody.velocity = movementVector.normalized * currentSpeed;
@@ -78,14 +68,9 @@ namespace Player
             _isPlayerSprinting = isPlayerSprinting;
         }
 
-        private void DisableMovement(string interfaceName)
+        private void StopMovement()
         {
-            _isInterfaceOpened = true;
-        }
-
-        private void EnableMovement()
-        {
-            _isInterfaceOpened = false;
+            _rigidbody.velocity = Vector2.zero;
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using DialogueSystem.Events;
 using DialogueSystem.Managers;
 using Ink.Runtime;
+using InputSystem;
 
 namespace DialogueSystem.UI
 {
@@ -33,9 +34,8 @@ namespace DialogueSystem.UI
         private Story _currentStory;
         private Coroutine _displayLineCoroutine;
         
-        private bool _dialoguePlaying;
         private bool _canContinueToNextLine;
-        private bool _submitButtonPressedThisFrame;
+        private bool _submitButtonPressedThisLine;
         
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
@@ -45,11 +45,13 @@ namespace DialogueSystem.UI
         private void OnEnable()
         {
             DialogueEvents.OnDialogueStarted += StartDialogue;
+            InputEvents.OnDialogueContinueInput += ContinueDialogue;
         }
 
         private void OnDisable()
         {
             DialogueEvents.OnDialogueStarted -= StartDialogue;
+            InputEvents.OnDialogueContinueInput -= ContinueDialogue;
         }
 
         private void Awake()
@@ -65,29 +67,12 @@ namespace DialogueSystem.UI
         private void Start()
         {
             _choicesText = new List<TextMeshProUGUI>();
-            _dialoguePlaying = false;
             _canContinueToNextLine = false;
-            _submitButtonPressedThisFrame = false;
+            _submitButtonPressedThisLine = false;
             dialoguePanel.SetActive(false);
             foreach (var choice in choices)
             {
                 _choicesText.Add(choice.GetComponentInChildren<TextMeshProUGUI>());
-            }
-        }
-        public void Update()
-        { 
-            if (Input.GetButtonDown("Fire1"))
-            {
-                _submitButtonPressedThisFrame = true;
-            }
-            if (!_dialoguePlaying)
-            {
-                return;
-            }
-            if (_canContinueToNextLine && _currentStory.currentChoices.Count == 0 && _submitButtonPressedThisFrame)
-            {
-                _submitButtonPressedThisFrame = false;
-                ContinueDialogue();
             }
         }
         
@@ -95,20 +80,27 @@ namespace DialogueSystem.UI
         {
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
-            _dialoguePlaying = true;
-            
+            _canContinueToNextLine = true;
             _dialogueVariables.StartListening(_currentStory);
             
             dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
             
-            InterfaceEvents.OpenInterface(gameObject.name);
+            InputEvents.OpenInterface();
             ContinueDialogue();
         }
 
         private void ContinueDialogue()
         {
+            if (!_canContinueToNextLine || _currentStory.currentChoices.Count > 0)
+            {
+                if (!_submitButtonPressedThisLine)
+                {
+                    _submitButtonPressedThisLine = true;
+                }
+                return;
+            }
             if (_currentStory.canContinue)
             {
                 if (_displayLineCoroutine is not null)
@@ -116,6 +108,7 @@ namespace DialogueSystem.UI
                     StopCoroutine(_displayLineCoroutine);
                 }
                 var nextLine = _currentStory.Continue();
+                _submitButtonPressedThisLine = false;
                 if (nextLine.Equals("") && !_currentStory.canContinue)
                 {
                     EndDialogue();
@@ -135,10 +128,8 @@ namespace DialogueSystem.UI
         private void EndDialogue()
         {
             _dialogueVariables.StopListening(_currentStory);
-            _dialoguePlaying = false;
             dialoguePanel.SetActive(false);
             DialogueEvents.FinishDialogue(_currentDialogue);
-            InterfaceEvents.CloseInterface();
             dialogueText.text = "";
         }
         
@@ -152,9 +143,9 @@ namespace DialogueSystem.UI
             
             foreach (var letter in line.ToCharArray())
             {
-                if (_submitButtonPressedThisFrame)
+                if (_submitButtonPressedThisLine)
                 {
-                    _submitButtonPressedThisFrame = false;
+                    _submitButtonPressedThisLine = false;
                     dialogueText.maxVisibleCharacters = line.Length;
                     break;
                 }

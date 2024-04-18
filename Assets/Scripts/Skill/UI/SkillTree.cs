@@ -1,3 +1,4 @@
+using InputSystem;
 using TMPro;
 using UnityEngine;
 
@@ -10,14 +11,10 @@ public class SkillTree : MonoBehaviour
     public void OnEnable()
     {
         PlayerResourcesEvents.OnSkillPointsChange += ChangeSkillPointsValue;
-        InterfaceEvents.OnInterfaceOpened += DisableInterface;
-        InterfaceEvents.OnInterfaceClosed += EnableInterface;
     }
     public void OnDisable()
     {
         PlayerResourcesEvents.OnSkillPointsChange -= ChangeSkillPointsValue;
-        InterfaceEvents.OnInterfaceOpened -= DisableInterface;
-        InterfaceEvents.OnInterfaceClosed -= EnableInterface;
     }
     private void Start()
     {
@@ -35,26 +32,13 @@ public class SkillTree : MonoBehaviour
             if (contentParent.activeSelf)
             {
                 contentParent.SetActive(false);
-                InterfaceEvents.CloseInterface();
             }
             else
             {
                 contentParent.SetActive(true);
-                InterfaceEvents.OpenInterface(gameObject.name);
+                InputEvents.OpenInterface();
             }
         }
-    }
-    private void DisableInterface(string interfaceName)
-    {
-        if (!interfaceName.Equals(gameObject.name))
-        {
-            _isAnotherInterfaceOpened = true;
-        }
-    }
-
-    private void EnableInterface()
-    {
-        _isAnotherInterfaceOpened = false;
     }
     private void ChangeSkillPointsValue(int value)
     {

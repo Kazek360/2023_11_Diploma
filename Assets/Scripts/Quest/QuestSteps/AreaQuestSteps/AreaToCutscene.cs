@@ -1,3 +1,4 @@
+using Cutscenes;
 using UnityEngine;
 
 public class AreaToCutscene : AreaEnterQuestStep
@@ -17,7 +18,7 @@ public class AreaToCutscene : AreaEnterQuestStep
         if (areaName.Equals(areaToEnterName))
         {
             Destroy(area);
-            CutsceneEvents.OpenCutscene(CutsceneToTrigger);
+            CutsceneEvents.StartCutscene(CutsceneToTrigger);
             Finish();
         }
     }

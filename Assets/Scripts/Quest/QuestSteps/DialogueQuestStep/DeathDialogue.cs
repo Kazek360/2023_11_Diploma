@@ -1,4 +1,5 @@
 using System.Collections;
+using Cutscenes;
 using Unity.VisualScripting;
 using UnityEngine;
 using DialogueSystem.Events;
@@ -14,7 +15,7 @@ public class DeathDialogue : DialogueQuestStep
     private GameObject _playerToTeleport;
     private void OnEnable()
     {
-        CutsceneEvents.OnCutsceneClose += TeleportPlayer;
+        CutsceneEvents.OnCutsceneFinished += TeleportPlayer;
         AreaEvent.OnAreaEnter += AreaEntered;
         DialogueEvents.OnDialogueFinished += StartFinishingStep;
         
@@ -26,7 +27,7 @@ public class DeathDialogue : DialogueQuestStep
     }
     private void OnDisable()
     {
-        CutsceneEvents.OnCutsceneClose -= TeleportPlayer;
+        CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
         AreaEvent.OnAreaEnter -= AreaEntered;
         DialogueEvents.OnDialogueFinished -= StartFinishingStep;
     }
