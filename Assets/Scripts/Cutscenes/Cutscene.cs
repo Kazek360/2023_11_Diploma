@@ -35,7 +35,6 @@ namespace Cutscenes
             cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
             _currentCutsceneIndex++;
             contentParent.SetActive(true);
-            InputEvents.OpenInterface();
         }
 
         private void ContinueCutscene()

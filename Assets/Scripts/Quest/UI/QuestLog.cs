@@ -15,43 +15,43 @@ public class QuestLog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stepsText;
 
     private Button _defaultSelectedButton;
-    private bool _isAnotherInterfaceOpened;
     
     private void OnEnable()
     {
+        InputEvents.OnQuestLogToggle += ToggleQuestLog;
+        InputEvents.OnInterfaceClosed += CloseQuestLog;
+        
         QuestEvents.OnQuestStateChange += QuestStateChange;
     }
     private void OnDisable()
     {
+        InputEvents.OnQuestLogToggle -= ToggleQuestLog;
+        InputEvents.OnInterfaceClosed -= CloseQuestLog;
+        
         QuestEvents.OnQuestStateChange -= QuestStateChange;
     }
     private void Start()
     {
         contentParent.SetActive(false);
-        _isAnotherInterfaceOpened = false;
     }
-    private void Update()
+    private void ToggleQuestLog()
     {
-        if (_isAnotherInterfaceOpened)
+        if (contentParent.activeSelf)
         {
-            return;
+            contentParent.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        else
         {
-            if (contentParent.activeSelf)
+            contentParent.SetActive(true);
+            if (_defaultSelectedButton is not null)
             {
-                contentParent.SetActive(false);
-            }
-            else
-            {
-                contentParent.SetActive(true);
-                InputEvents.OpenInterface();
-                if (_defaultSelectedButton is not null)
-                {
-                    _defaultSelectedButton.Select();
-                }
+                _defaultSelectedButton.Select();
             }
         }
+    }
+    private void CloseQuestLog()
+    {
+        contentParent.SetActive(false);
     }
     
     private void QuestStateChange(Quest quest)

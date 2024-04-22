@@ -22,12 +22,6 @@ namespace InputSystem
         {
             OnInteractionInput?.Invoke();
         }
-        
-        public static event Action OnInterfaceOpened;
-        public static void OpenInterface()
-        {
-            OnInterfaceOpened?.Invoke();
-        }
         public static event Action OnDialogueContinueInput;
         public static void InputDialogueContinue()
         {
@@ -38,5 +32,21 @@ namespace InputSystem
         {
             OnCutsceneContinueInput?.Invoke();
         }
+        public static event Action OnQuestLogToggle;
+        public static void ToggleQuestLog()
+        {
+            OnQuestLogToggle?.Invoke();
+        }
+        public static event Action OnSkillTreeToggle;
+        public static void ToggleSkillTree()
+        {
+            OnSkillTreeToggle?.Invoke();
+        }
+        public static event Action OnInterfaceClosed;
+        public static void CloseInterface()
+        {
+            OnInterfaceClosed?.Invoke();
+        }
+        
     }
 }

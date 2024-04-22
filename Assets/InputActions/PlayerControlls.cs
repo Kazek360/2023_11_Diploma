@@ -256,6 +256,74 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""c2c3d9c4-5137-4770-9cc1-8aabe28b450c"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle Quest Log"",
+                    ""type"": ""Button"",
+                    ""id"": ""1cbcf00b-920e-4e34-a0a3-9e1ef2bd9f99"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Toggle Skill Tree"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e2ac6f4-6771-41e9-8a26-a38fff79b6e7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Close UI"",
+                    ""type"": ""Button"",
+                    ""id"": ""c8dfe1e8-d7ea-41fd-9b42-d506b55f6304"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d80bcb9b-7b53-4164-8739-6bb7e08c71ac"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Quest Log"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""589ddfca-dd68-4e49-8796-c8a96e89a638"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Close UI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bbabc449-d6ef-42ba-b385-7d9e13b5f2ff"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Skill Tree"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -271,6 +339,11 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         // Cutscene
         m_Cutscene = asset.FindActionMap("Cutscene", throwIfNotFound: true);
         m_Cutscene_ContinueCutscene = m_Cutscene.FindAction("ContinueCutscene", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
+        m_UI_ToggleSkillTree = m_UI.FindAction("Toggle Skill Tree", throwIfNotFound: true);
+        m_UI_CloseUI = m_UI.FindAction("Close UI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -482,6 +555,68 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         }
     }
     public CutsceneActions @Cutscene => new CutsceneActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
+    private readonly InputAction m_UI_ToggleQuestLog;
+    private readonly InputAction m_UI_ToggleSkillTree;
+    private readonly InputAction m_UI_CloseUI;
+    public struct UIActions
+    {
+        private @PlayerControlls m_Wrapper;
+        public UIActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleQuestLog => m_Wrapper.m_UI_ToggleQuestLog;
+        public InputAction @ToggleSkillTree => m_Wrapper.m_UI_ToggleSkillTree;
+        public InputAction @CloseUI => m_Wrapper.m_UI_CloseUI;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void AddCallbacks(IUIActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
+            @ToggleQuestLog.started += instance.OnToggleQuestLog;
+            @ToggleQuestLog.performed += instance.OnToggleQuestLog;
+            @ToggleQuestLog.canceled += instance.OnToggleQuestLog;
+            @ToggleSkillTree.started += instance.OnToggleSkillTree;
+            @ToggleSkillTree.performed += instance.OnToggleSkillTree;
+            @ToggleSkillTree.canceled += instance.OnToggleSkillTree;
+            @CloseUI.started += instance.OnCloseUI;
+            @CloseUI.performed += instance.OnCloseUI;
+            @CloseUI.canceled += instance.OnCloseUI;
+        }
+
+        private void UnregisterCallbacks(IUIActions instance)
+        {
+            @ToggleQuestLog.started -= instance.OnToggleQuestLog;
+            @ToggleQuestLog.performed -= instance.OnToggleQuestLog;
+            @ToggleQuestLog.canceled -= instance.OnToggleQuestLog;
+            @ToggleSkillTree.started -= instance.OnToggleSkillTree;
+            @ToggleSkillTree.performed -= instance.OnToggleSkillTree;
+            @ToggleSkillTree.canceled -= instance.OnToggleSkillTree;
+            @CloseUI.started -= instance.OnCloseUI;
+            @CloseUI.performed -= instance.OnCloseUI;
+            @CloseUI.canceled -= instance.OnCloseUI;
+        }
+
+        public void RemoveCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUIActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UIActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UIActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -495,5 +630,11 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     public interface ICutsceneActions
     {
         void OnContinueCutscene(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnToggleQuestLog(InputAction.CallbackContext context);
+        void OnToggleSkillTree(InputAction.CallbackContext context);
+        void OnCloseUI(InputAction.CallbackContext context);
     }
 }

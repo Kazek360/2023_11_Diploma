@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cutscenes;
+using DialogueSystem.Events;
 using InputSystem;
 using UnityEngine;
 
@@ -18,14 +20,18 @@ namespace Player
         {
             InputEvents.OnSprintInput += ChangeSprintState;
             InputEvents.OnMovementInput += MovePlayer;
-            InputEvents.OnInterfaceOpened += StopMovement;
+            
+            DialogueEvents.OnDialogueStarted += StopMovement;
+            CutsceneEvents.OnCutsceneStarted += StopMovement;
         }
 
         private void OnDisable()
         {
             InputEvents.OnSprintInput -= ChangeSprintState;
             InputEvents.OnMovementInput -= MovePlayer;
-            InputEvents.OnInterfaceOpened -= StopMovement;
+            
+            DialogueEvents.OnDialogueStarted -= StopMovement;
+            CutsceneEvents.OnCutsceneStarted -= StopMovement;
         }
 
         private void Awake()
@@ -68,7 +74,11 @@ namespace Player
             _isPlayerSprinting = isPlayerSprinting;
         }
 
-        private void StopMovement()
+        private void StopMovement(DialogueSO dialogue)
+        {
+            _rigidbody.velocity = Vector2.zero;
+        }
+        private void StopMovement(CutsceneSO cutscene)
         {
             _rigidbody.velocity = Vector2.zero;
         }

@@ -86,8 +86,6 @@ namespace DialogueSystem.UI
             dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
-            
-            InputEvents.OpenInterface();
             ContinueDialogue();
         }
 

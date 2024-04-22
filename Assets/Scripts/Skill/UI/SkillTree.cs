@@ -6,40 +6,43 @@ public class SkillTree : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI skillPointsValue;
     [SerializeField] private GameObject contentParent;
-    private bool _isAnotherInterfaceOpened;
     
     public void OnEnable()
     {
+        InputEvents.OnSkillTreeToggle += ToggleSkillTree;
+        InputEvents.OnInterfaceClosed += CloseSkillTree;
+        
         PlayerResourcesEvents.OnSkillPointsChange += ChangeSkillPointsValue;
     }
     public void OnDisable()
     {
+        InputEvents.OnSkillTreeToggle -= ToggleSkillTree;
+        InputEvents.OnInterfaceClosed -= CloseSkillTree;
+        
         PlayerResourcesEvents.OnSkillPointsChange -= ChangeSkillPointsValue;
     }
     private void Start()
     {
         contentParent.SetActive(false);
-        _isAnotherInterfaceOpened = false;
     }
-    private void Update()
+
+    private void ToggleSkillTree()
     {
-        if (_isAnotherInterfaceOpened)
+        if (contentParent.activeSelf)
         {
-            return;
+            contentParent.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        else
         {
-            if (contentParent.activeSelf)
-            {
-                contentParent.SetActive(false);
-            }
-            else
-            {
-                contentParent.SetActive(true);
-                InputEvents.OpenInterface();
-            }
+            contentParent.SetActive(true);
         }
     }
+    
+    private void CloseSkillTree()
+    {
+        contentParent.SetActive(false);
+    }
+    
     private void ChangeSkillPointsValue(int value)
     {
         skillPointsValue.text = value.ToString();
