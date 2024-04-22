@@ -9,6 +9,36 @@ public class Inventory : MonoBehaviour
     {
         _inventorySlots = new InventorySlot[5,10];
     }
+
+    public InventorySlot GetSlot(int x, int y)
+    {
+        return _inventorySlots[x, y];
+    }
+
+    public void UseItem(int x, int y)
+    {
+        _inventorySlots[x, y].Use();
+    }
+
+    public void DropItem(int x, int y, int amount)
+    {
+        _inventorySlots[x, y].RemoveItem(amount);
+    }
+    
+    public void DropItem(int x, int y)
+    {
+        _inventorySlots[x, y].RemoveItem();
+    }
+
+    public void AddItem(int itemID, int amount, int x, int y)
+    {
+        //TODO: Add items to specific slot
+    }
+    
+    public void AddItem(int itemID, int amount)
+    {
+        //TODO: Add items to inventory - on pickup for example
+    }
 }
 
 public class InventorySlot
@@ -21,10 +51,14 @@ public class InventorySlot
 
     public void Use()
     {
-        if (_item is UsableItem)
+        if (_item is null)
         {
-            ((UsableItem)_item).Use();
-            if (((UsableItem)_item).DestroyOnUse)
+            return;
+        }
+        if (_item is UsableItem item)
+        {
+            item.Use();
+            if (item.DestroyOnUse)
             {
                 _count--;
                 if (_count == 0)
@@ -35,9 +69,9 @@ public class InventorySlot
             return;
         }
 
-        if (_item is EquipmentItem)
+        if (_item is EquipmentItem equipmentItem)
         {
-            ((EquipmentItem)_item).Equip();
+            equipmentItem.Equip();
             _count = 0;
             _item = null;
         }
