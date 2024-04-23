@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 670121570462440079}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988515789885852012}
+        m_TargetAssemblyTypeName: ItemInteractionUI, Assembly-CSharp
+        m_MethodName: DropItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &645440109039099111
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +144,7 @@ GameObject:
   - component: {fileID: 4915830879043629795}
   - component: {fileID: 656716743299392006}
   - component: {fileID: 756772938897817315}
+  - component: {fileID: 1988515789885852012}
   m_Layer: 5
   m_Name: ItemInteraction
   m_TagString: Untagged
@@ -202,6 +215,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1988515789885852012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 645440109039099111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86d5ecda77aa1b478f37e282c8d91d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemImage: {fileID: 8769225673539176036}
+  ItemName: {fileID: 7994869292888891668}
+  ItemDesc: {fileID: 8695070319318438449}
+  UseButton: {fileID: 2249354560462314348}
+  DropButton: {fileID: 4886182462508104988}
+  MoveButton: {fileID: 7462840042710666605}
 --- !u!1 &763949948342121725
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,7 +621,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7404052795553408190}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988515789885852012}
+        m_TargetAssemblyTypeName: ItemInteractionUI, Assembly-CSharp
+        m_MethodName: UseItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4468449397240297269
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +754,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3259391596149048844}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1988515789885852012}
+        m_TargetAssemblyTypeName: ItemInteractionUI, Assembly-CSharp
+        m_MethodName: MoveItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5864934193684019541
 GameObject:
   m_ObjectHideFlags: 0
