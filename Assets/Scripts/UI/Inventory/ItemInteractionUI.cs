@@ -16,18 +16,19 @@ public class ItemInteractionUI : MonoBehaviour
     
 
 
-    private void SetItem(Item item)
+    private void SetSlot(InventorySlot slot)
     {
-        _item = item;
-        ItemImage.sprite = item.ItemSprite;
-        ItemName.text = item.ItemName;
-        ItemDesc.text = item.ItemDesc;
-        if (item is EquipmentItem)
+        _slot = slot;
+        _item = slot.Item;
+        ItemImage.sprite = _item.ItemSprite;
+        ItemName.text = _item.ItemName;
+        ItemDesc.text = _item.ItemDesc;
+        if (_item is EquipmentItem)
         {
             UseButton.enabled = true;
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
         }
-        else if (item is UsableItem)
+        else if (_item is UsableItem)
         {
             UseButton.enabled = true;
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
