@@ -31,4 +31,9 @@ public class InventorySlotsUI : MonoBehaviour
 
         return null;
     }
+
+    public List<InventorySlotUI> GetSlots()
+    {
+        return _slots;
+    }
 }

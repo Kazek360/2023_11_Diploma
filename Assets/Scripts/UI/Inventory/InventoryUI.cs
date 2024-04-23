@@ -1,18 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private InventorySlotsUI Slots;
+
+    public void OnEnable()
     {
-        
+        UpdateDisplay();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateDisplay()
     {
-        
+        foreach (InventorySlotUI slot in Slots.GetSlots())
+        {
+            InventorySlot actualSlot = Inventory.GetInstance().GetSlot(slot.GetCoordinateX(), slot.GetCoordinateY());
+            
+            slot.UpdateSlot(actualSlot.Item.ItemSprite, actualSlot.Count);
+        }
     }
 }
