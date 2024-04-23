@@ -48,6 +48,16 @@ public class ItemLibrary
             delegate { Debug.Log("MIECZ ODŁOŻONY DO EKWIPUNKU"); } ,
             EquipmentSlotType.hand
         ));
+        
+        _items.Add(new EquipmentItem(
+            itemID: 3, 
+            "Kamień do rzucania", 
+            "Daj kamienia", 
+            Resources.Load<Sprite>("ItemSprites/Heart1"), 
+            delegate { Debug.Log("KAMIEŃ WYEKWIPOWANY"); }, 
+            delegate { Debug.Log("KAMIEŃ ODŁOŻONY DO EKWIPUNKU"); } ,
+            EquipmentSlotType.hand
+        ));
     }
 
     public Item GetItem(int id)

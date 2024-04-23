@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventorySlotsUI : MonoBehaviour
 {
     [SerializeField] private InventoryUI InventoryUI;
-    
+
     private List<InventorySlotUI> _slots;
     
     private void OnEnable()
@@ -22,6 +23,13 @@ public class InventorySlotsUI : MonoBehaviour
         }
     }
 
+    public void UpdateUI()
+    {
+        foreach (InventorySlotUI slot in _slots)
+        {
+            slot.UpdateSlot();
+        }
+    }
 
 
     public List<InventorySlotUI> GetSlots()

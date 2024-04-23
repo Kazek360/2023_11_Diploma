@@ -9,7 +9,7 @@ public class EquipmentSlotUI : MonoBehaviour
     [SerializeField] private Image ItemImage;
     [SerializeField] private Toggle Toggle;
     [SerializeField] private EquipmentSlotType SlotType;
-    [SerializeField] private InventorySlotsUI InventorySlots;
+    [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     
 
 
@@ -28,9 +28,31 @@ public class EquipmentSlotUI : MonoBehaviour
         }
         
     }
+    
+    public void UpdateSlot()
+    {
+        EquipmentSlot actualSlot = Inventory.GetInstance().GetEquipmentSlot(SlotType);
+        Item item = actualSlot.Item;
+        if (item is null)
+        {
+            ItemImage.enabled = false;
+            Toggle.interactable = false;
+        }
+        else
+        {
+            ItemImage.enabled = true;
+            ItemImage.sprite = item.ItemSprite;
+            Toggle.interactable = true;
+        }
+    }
 
     public void SlotSelected()
     {
-        
+        if (Toggle.isOn)
+        {
+            EquipmentSlots.SelectedSlotChanged(SlotType);
+            return;
+        }
+        EquipmentSlots.SlotDeselected();
     }
 }

@@ -41,6 +41,7 @@ public class Inventory
         AddItem(0, 10);
         AddItem(2, 1);
         AddItem(1, 1);
+        AddItem(3, 1);
     }
 
     public InventorySlot GetSlot(int x, int y)

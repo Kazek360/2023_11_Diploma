@@ -7,6 +7,8 @@ public class ItemSlot
 {
     protected Item _item = null;
     public Item Item => _item;
+
+    public virtual void Use(){}
 }
 
 public class InventorySlot : ItemSlot
@@ -15,7 +17,7 @@ public class InventorySlot : ItemSlot
 
     public int Count => _count;
 
-    public void Use()
+    public override void Use()
     {
         if (_item is null)
         {
@@ -110,14 +112,18 @@ public class EquipmentSlot : ItemSlot
 
     public EquipmentSlotType SlotType => _slotType;
     
-    public bool UnequipItem()
+    public override void Use()
     {
+        Inventory.GetInstance().AddItem(_item.ItemID, 1);
         _item = null;
-        return true;
     }
 
     public bool EquipItem(EquipmentItem item)
     {
+        if (_item is not null)
+        {
+            Inventory.GetInstance().AddItem(_item.ItemID, 1);
+        }
         _item = item;
         return true;
     }

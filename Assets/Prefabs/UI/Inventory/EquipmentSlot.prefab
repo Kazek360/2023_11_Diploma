@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4585043771935452189}
-  - component: {fileID: 97674137990811292}
   - component: {fileID: 8158844467271823400}
+  - component: {fileID: 3628153760013263711}
   m_Layer: 5
   m_Name: EquipmentSlot
   m_TagString: Untagged
@@ -40,24 +40,6 @@ RectTransform:
   m_AnchoredPosition: {x: -320, y: 370}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &97674137990811292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1307901460666737314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36ec4fe2156bc1a45b8ccd4460672e10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemImage: {fileID: 5982137508046284701}
-  Count: {fileID: 0}
-  Toggle: {fileID: 8158844467271823400}
-  x: 0
-  y: 0
-  InventorySlots: {fileID: 0}
 --- !u!114 &8158844467271823400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,8 +87,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 97674137990811292}
-        m_TargetAssemblyTypeName: InventorySlotUI, Assembly-CSharp
+      - m_Target: {fileID: 3628153760013263711}
+        m_TargetAssemblyTypeName: EquipmentSlotUI, Assembly-CSharp
         m_MethodName: SlotSelected
         m_Mode: 1
         m_Arguments:
@@ -118,6 +100,22 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
+--- !u!114 &3628153760013263711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307901460666737314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee61e7ca06121484685438a805ed293e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemImage: {fileID: 5982137508046284701}
+  Toggle: {fileID: 8158844467271823400}
+  SlotType: 0
+  InventorySlots: {fileID: 0}
 --- !u!1 &2889959430378226189
 GameObject:
   m_ObjectHideFlags: 0

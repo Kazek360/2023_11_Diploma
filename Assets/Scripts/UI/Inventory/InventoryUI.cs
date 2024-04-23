@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private InventorySlotsUI Slots;
+    [SerializeField] private InventorySlotsUI InventorySlots;
+    [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     [SerializeField] private ItemInteractionUI ItemInteraction;
 
     public void OnEnable()
@@ -21,13 +23,11 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        foreach (InventorySlotUI slot in Slots.GetSlots())
-        {
-            slot.UpdateSlot();
-        }
+        InventorySlots.UpdateUI();
+        EquipmentSlots.UpdateUI();
     }
 
-    public void SelectedSlotChanged(InventorySlot slot)
+    public void SelectedSlotChanged(ItemSlot slot)
     {
         ItemInteraction.SetSlot(slot);
     }

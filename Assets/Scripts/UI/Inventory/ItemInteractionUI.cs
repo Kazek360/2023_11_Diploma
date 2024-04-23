@@ -12,7 +12,7 @@ public class ItemInteractionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ItemDesc;
     [SerializeField] private Button UseButton, DropButton, MoveButton;
     
-    private InventorySlot _slot;
+    private ItemSlot _slot;
     private InventoryUI _inventoryUI;
 
     public void Awake()
@@ -21,7 +21,7 @@ public class ItemInteractionUI : MonoBehaviour
     }
 
 
-    public void SetSlot(InventorySlot slot)
+    public void SetSlot(ItemSlot slot)
     {
         _slot = slot;
         Item item = slot.Item;
@@ -31,24 +31,37 @@ public class ItemInteractionUI : MonoBehaviour
         ItemDesc.gameObject.SetActive(true);
         
         UseButton.gameObject.SetActive(true);
-        DropButton.gameObject.SetActive(true);
-        MoveButton.gameObject.SetActive(true);
         
         ItemImage.sprite = item.ItemSprite;
         ItemName.text = item.ItemName;
         ItemDesc.text = item.ItemDesc;
-        if (item is EquipmentItem)
+        if (slot is InventorySlot)
         {
-            UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
-        }
-        else if (item is UsableItem)
-        {
-            UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
+            DropButton.gameObject.SetActive(true);
+            MoveButton.gameObject.SetActive(true);
+        
+            if (item is EquipmentItem)
+            {
+                UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
+            }
+            else if (item is UsableItem)
+            {
+                UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
+            }
+            else
+            {
+                UseButton.gameObject.SetActive(false);
+            }
         }
         else
         {
-            UseButton.gameObject.SetActive(false);
+            ItemImage.sprite = item.ItemSprite;
+            ItemName.text = item.ItemName;
+            ItemDesc.text = item.ItemDesc;
+        
+            UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZDEJMIJ";
         }
+        
     }
 
     public void ClearInteraction()
@@ -65,12 +78,13 @@ public class ItemInteractionUI : MonoBehaviour
     public void UseItem()
     {
         _slot.Use();
+        ClearInteraction();
         _inventoryUI.UpdateDisplay();
     }
 
     public void DropItem()
     {
-        _slot.RemoveItem();
+        ((InventorySlot)_slot).RemoveItem();
         ClearInteraction();
         _inventoryUI.UpdateDisplay();
     }

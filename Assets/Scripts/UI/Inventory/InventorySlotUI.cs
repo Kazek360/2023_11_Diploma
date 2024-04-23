@@ -12,40 +12,6 @@ public class InventorySlotUI : MonoBehaviour
     [SerializeField] private int x, y;
     [SerializeField] private InventorySlotsUI InventorySlots;
     
-
-    public int GetCoordinateX()
-    {
-        return x;
-    }
-    
-    public int GetCoordinateY()
-    {
-        return y;
-    }
-
-    public void SetItem(Item item, int amount)
-    {
-        if (item is null)
-        {
-            ItemImage.enabled = false;
-            Toggle.interactable = false;
-        }
-        else
-        {
-            ItemImage.enabled = true;
-            ItemImage.sprite = item.ItemSprite;
-            Toggle.interactable = true;
-        }
-        if (amount == 0)
-        {
-            Count.enabled = false;
-            return;
-        }
-        Count.enabled = true;
-        Count.text = "" + amount;
-        
-    }
-    
     public void UpdateSlot()
     {
         InventorySlot actualSlot = Inventory.GetInstance().GetSlot(x, y);
