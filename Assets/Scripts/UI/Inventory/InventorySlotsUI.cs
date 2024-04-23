@@ -28,5 +28,7 @@ public class InventorySlotsUI : MonoBehaviour
                 return slot;
             }
         }
+
+        return null;
     }
 }
