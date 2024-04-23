@@ -578,10 +578,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MOVEMENT LEFT
+  m_text: "POZOSTA\u0141E RUCHY"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7a24d979fde5d5f4e84aeaabd6005f50, type: 2}
+  m_sharedMaterial: {fileID: 7990740847824359088, guid: 7a24d979fde5d5f4e84aeaabd6005f50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -712,7 +712,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: END TURN
+  m_text: KONIEC TURY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1230,15 +1230,14 @@ MonoBehaviour:
   SummaryDisplay: {fileID: 2925648283113501154}
   UpperScreen: {fileID: 2201483074664968775}
   LowerScreen: {fileID: 6809397268797281032}
-  abilitiesScrollContent: {fileID: 7532616955782560234}
-  abilityCardPrefab: {fileID: 2474440438366241873, guid: 2a58fd5611e9c3c48bbcff37778b4e19, type: 3}
-  targetCardPrefab: {fileID: 2474440438366241873, guid: d0d0c5558073cfb4fa2c307364cda054, type: 3}
-  entityManager: {fileID: 0}
-  movementCounter: {fileID: 7551404540723173849}
-  actionCounter: {fileID: 2256731916890842684}
-  endTurnButton: {fileID: 3563914522227886197}
-  materialToggle: {fileID: 1765714015845764867}
-  immaterialToggle: {fileID: 5632364384592728007}
+  AbilitiesScrollContent: {fileID: 7532616955782560234}
+  AbilityCardPrefab: {fileID: 2474440438366241873, guid: 2a58fd5611e9c3c48bbcff37778b4e19, type: 3}
+  EntityManager: {fileID: 0}
+  MovementCounter: {fileID: 7551404540723173849}
+  ActionCounter: {fileID: 2256731916890842684}
+  EndTurnButton: {fileID: 3563914522227886197}
+  MaterialToggle: {fileID: 1765714015845764867}
+  ImmaterialToggle: {fileID: 5632364384592728007}
 --- !u!1 &3725455033953303480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Immaterial
+  m_text: Niematerialny
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1824,7 +1823,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.25
+  m_fontSize: 32.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2100,7 +2099,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Material
+  m_text: Materialny
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2127,7 +2126,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.75
+  m_fontSize: 43.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2495,10 +2494,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ACTIONS LEFT
+  m_text: "POZOSTA\u0141E AKCJE"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7a24d979fde5d5f4e84aeaabd6005f50, type: 2}
+  m_sharedMaterial: {fileID: 7990740847824359088, guid: 7a24d979fde5d5f4e84aeaabd6005f50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2684,7 +2683,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1953377141242239033}
   m_HandleRect: {fileID: 290981746834236710}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
