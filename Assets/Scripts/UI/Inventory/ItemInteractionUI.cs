@@ -19,6 +19,7 @@ public class ItemInteractionUI : MonoBehaviour
     public void Awake()
     {
         _inventoryUI = GetComponentInParent<InventoryUI>();
+        Debug.Log("DONE SETTING UP");
     }
 
 

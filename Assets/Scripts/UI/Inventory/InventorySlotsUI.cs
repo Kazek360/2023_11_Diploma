@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventorySlotsUI : MonoBehaviour
 {
     private List<InventorySlotUI> _slots;
-    private void Awake()
+    private void OnEnable()
     {
         _slots = new List<InventorySlotUI>();
         foreach (Transform child in transform)

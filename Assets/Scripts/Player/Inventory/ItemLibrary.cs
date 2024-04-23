@@ -50,7 +50,7 @@ public class ItemLibrary
         ));
     }
 
-    public static Item GetItem(int id)
+    public Item GetItem(int id)
     {
         foreach (Item item in _items)
         {

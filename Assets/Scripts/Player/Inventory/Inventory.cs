@@ -6,6 +6,7 @@ using UnityEngine;
 public class Inventory
 {
     private static Inventory _instance;
+    private ItemLibrary _itemLibrary;
 
     public static Inventory GetInstance()
     {
@@ -19,8 +20,16 @@ public class Inventory
     private InventorySlot[,] _inventorySlots;
     private Inventory()
     {
+        _itemLibrary = ItemLibrary.GetInstance();
         _inventorySlots = new InventorySlot[7,5];
-        _inventorySlots[0, 0].AddItem(ItemLibrary.GetItem(0), 2);
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                _inventorySlots[i, j] = new InventorySlot();
+            }
+        }
+        _inventorySlots[0, 0].AddItem(_itemLibrary.GetItem(0), 2);
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -45,7 +54,7 @@ public class Inventory
 
     public void AddItem(int itemID, int amount, int x, int y)
     {
-        bool success = _inventorySlots[x, y].AddItem(ItemLibrary.GetItem(itemID), amount);
+        bool success = _inventorySlots[x, y].AddItem(_itemLibrary.GetItem(itemID), amount);
         if (!success)
         {
             throw new Exception("DODANIE PRZEDMIOTU NIE POWIODŁO SIĘ");
@@ -62,7 +71,7 @@ public class Inventory
      */
     public int AddItem(int itemID, int amount)
     {
-        Item item = ItemLibrary.GetItem(itemID);
+        Item item = _itemLibrary.GetItem(itemID);
         //TODO: Add items to inventory - on pickup for example
         foreach (InventorySlot inventorySlot in _inventorySlots)
         {
