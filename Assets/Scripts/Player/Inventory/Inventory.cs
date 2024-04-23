@@ -20,6 +20,7 @@ public class Inventory
     private Inventory()
     {
         _inventorySlots = new InventorySlot[7,5];
+        _inventorySlots[0, 0].AddItem(ItemLibrary.GetItem(0), 2);
     }
 
     public InventorySlot GetSlot(int x, int y)

@@ -12,7 +12,7 @@ public class InventoryUI : MonoBehaviour
         UpdateDisplay();
     }
 
-    private void UpdateDisplay()
+    public void UpdateDisplay()
     {
         foreach (InventorySlotUI slot in Slots.GetSlots())
         {

@@ -9,7 +9,7 @@ public class InventorySlotsUI : MonoBehaviour
     private void Awake()
     {
         _slots = new List<InventorySlotUI>();
-        foreach (GameObject child in transform)
+        foreach (Transform child in transform)
         {
             InventorySlotUI script = child.GetComponent<InventorySlotUI>();
             if (script is not null)

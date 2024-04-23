@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,12 @@ public class ItemInteractionUI : MonoBehaviour
     
     private Item _item;
     private InventorySlot _slot;
-    
+    private InventoryUI _inventoryUI;
+
+    public void Awake()
+    {
+        _inventoryUI = GetComponentInParent<InventoryUI>();
+    }
 
 
     private void SetSlot(InventorySlot slot)
@@ -50,17 +56,20 @@ public class ItemInteractionUI : MonoBehaviour
             equipmentItem.Equip();
         }
         Debug.Log("ITEM USED");
+        _inventoryUI.UpdateDisplay();
     }
 
     public void DropItem()
     {
         _slot.RemoveItem();
         Debug.Log("ITEM DROPPED");
+        _inventoryUI.UpdateDisplay();
     }
 
     public void MoveItem()
     {
         //TODO: Implement item movement
         Debug.Log("ITEM MOVING");
+        _inventoryUI.UpdateDisplay();
     }
 }
