@@ -22,7 +22,7 @@ public class ItemLibrary
     {
         _items = new List<Item>();
         _items.Add(new Item(
-            0, 
+            itemID: 0, 
             "Kamień", 
             "Przydatny dla jaskiniowców", 
             Resources.Load<Sprite>("ItemSprites/Heart1"), 
@@ -30,7 +30,7 @@ public class ItemLibrary
             ));
         
         _items.Add(new UsableItem(
-            1, 
+            itemID: 1, 
             "Piwo", 
             "Dobre do picia", 
             Resources.Load<Sprite>("ItemSprites/piwo"), 
@@ -40,7 +40,7 @@ public class ItemLibrary
         ));
         
         _items.Add(new EquipmentItem(
-            2, 
+            itemID: 2, 
             "Miecz", 
             "Można nim machać", 
             Resources.Load<Sprite>("ItemSprites/Sword1"), 
