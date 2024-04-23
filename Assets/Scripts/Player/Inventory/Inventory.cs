@@ -1,11 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory
 {
+    private static Inventory _instance;
+
+    public static Inventory GetInstance()
+    {
+        if (_instance is null)
+        {
+            _instance = new Inventory();
+        }
+        return _instance;
+    }
+    
     private InventorySlot[,] _inventorySlots;
-    void Awake()
+    private Inventory()
     {
         _inventorySlots = new InventorySlot[5,10];
     }
@@ -32,12 +44,50 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(int itemID, int amount, int x, int y)
     {
-        //TODO: Add items to specific slot
+        bool success = _inventorySlots[x, y].AddItem(ItemLibrary.GetItem(itemID), amount);
+        if (!success)
+        {
+            throw new Exception("DODANIE PRZEDMIOTU NIE POWIODŁO SIĘ");
+        }
     }
     
-    public void AddItem(int itemID, int amount)
+    /**
+     * Funkcja służąca do dodawania do ekwipunku wielu identycznych przedmiotów.
+     *
+     * Używana w przypadku dodawania przedmiotu do ekwipunku.
+     *
+     * Zwracana liczba to ilość przedmiotów,
+     * które nie zostały dodane, np. z powodu braku miejsc.
+     */
+    public int AddItem(int itemID, int amount)
     {
+        Item item = ItemLibrary.GetItem(itemID);
         //TODO: Add items to inventory - on pickup for example
+        foreach (InventorySlot inventorySlot in _inventorySlots)
+        {
+            if (amount == 0)
+            {
+                Debug.Log("ALL ITEMS ADDED");
+                break;
+            }
+            if (inventorySlot.Item is null)
+            {
+                int toAdd = Math.Max(amount, item.MaxStackSize);
+                inventorySlot.AddItem(item, Math.Min(amount, item.MaxStackSize));
+                amount -= toAdd;
+                continue;
+            }
+
+            if (inventorySlot.Item.ItemID == itemID)
+            {
+                int toAdd = Math.Min(amount, item.MaxStackSize - inventorySlot.Count);
+                inventorySlot.AddItem(item, Math.Max(amount, item.MaxStackSize));
+                amount -= toAdd;
+                continue;
+            }
+        }
+
+        return amount;
     }
 }
 

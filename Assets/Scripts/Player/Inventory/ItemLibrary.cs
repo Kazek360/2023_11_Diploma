@@ -7,7 +7,7 @@ using UnityEngine;
 public class ItemLibrary
 {
     private static ItemLibrary _instance;
-    private List<Item> _items;
+    private static List<Item> _items;
 
     public static ItemLibrary GetInstance()
     {
@@ -50,7 +50,7 @@ public class ItemLibrary
         ));
     }
 
-    public Item GetItem(int id)
+    public static Item GetItem(int id)
     {
         foreach (Item item in _items)
         {
