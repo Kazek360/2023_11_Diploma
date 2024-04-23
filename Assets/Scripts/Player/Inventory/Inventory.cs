@@ -19,7 +19,7 @@ public class Inventory
     private InventorySlot[,] _inventorySlots;
     private Inventory()
     {
-        _inventorySlots = new InventorySlot[5,7];
+        _inventorySlots = new InventorySlot[7,5];
     }
 
     public InventorySlot GetSlot(int x, int y)
