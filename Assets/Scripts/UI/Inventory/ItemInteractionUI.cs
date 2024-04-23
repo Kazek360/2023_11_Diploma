@@ -49,15 +49,18 @@ public class ItemInteractionUI : MonoBehaviour
         {
             equipmentItem.Equip();
         }
+        Debug.Log("ITEM USED");
     }
 
     public void DropItem()
     {
         _slot.RemoveItem();
+        Debug.Log("ITEM DROPPED");
     }
 
     public void MoveItem()
     {
         //TODO: Implement item movement
+        Debug.Log("ITEM MOVING");
     }
 }
