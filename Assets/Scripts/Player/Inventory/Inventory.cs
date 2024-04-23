@@ -37,11 +37,11 @@ public class Inventory
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-        AddItem(0, 2);
-        AddItem(0, 10);
-        AddItem(2, 1);
-        AddItem(1, 1);
-        AddItem(3, 1);
+        // AddItem(0, 2);
+        // AddItem(0, 10);
+        // AddItem(2, 1);
+        // AddItem(1, 1);
+        // AddItem(3, 1);
     }
 
     public InventorySlot GetSlot(int x, int y)

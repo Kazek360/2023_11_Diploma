@@ -38,7 +38,7 @@ public class ItemInteractionUI : MonoBehaviour
         if (slot is InventorySlot)
         {
             DropButton.gameObject.SetActive(true);
-            MoveButton.gameObject.SetActive(true);
+            //MoveButton.gameObject.SetActive(true);
         
             if (item is EquipmentItem)
             {
