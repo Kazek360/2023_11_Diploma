@@ -54,4 +54,9 @@ public class ItemInteractionUI : MonoBehaviour
     {
         _slot.RemoveItem();
     }
+
+    public void MoveItem()
+    {
+        //TODO: Implement item movement
+    }
 }
