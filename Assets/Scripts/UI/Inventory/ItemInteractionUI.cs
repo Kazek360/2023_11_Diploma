@@ -12,7 +12,6 @@ public class ItemInteractionUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ItemDesc;
     [SerializeField] private Button UseButton, DropButton, MoveButton;
     
-    private Item _item;
     private InventorySlot _slot;
     private InventoryUI _inventoryUI;
 
@@ -25,7 +24,7 @@ public class ItemInteractionUI : MonoBehaviour
     public void SetSlot(InventorySlot slot)
     {
         _slot = slot;
-        _item = slot.Item;
+        Item item = slot.Item;
         
         ItemImage.gameObject.SetActive(true);
         ItemName.gameObject.SetActive(true);
@@ -35,14 +34,14 @@ public class ItemInteractionUI : MonoBehaviour
         DropButton.gameObject.SetActive(true);
         MoveButton.gameObject.SetActive(true);
         
-        ItemImage.sprite = _item.ItemSprite;
-        ItemName.text = _item.ItemName;
-        ItemDesc.text = _item.ItemDesc;
-        if (_item is EquipmentItem)
+        ItemImage.sprite = item.ItemSprite;
+        ItemName.text = item.ItemName;
+        ItemDesc.text = item.ItemDesc;
+        if (item is EquipmentItem)
         {
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
         }
-        else if (_item is UsableItem)
+        else if (item is UsableItem)
         {
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
         }
@@ -65,14 +64,7 @@ public class ItemInteractionUI : MonoBehaviour
 
     public void UseItem()
     {
-        if (_item is UsableItem item)
-        {
-            item.Use();
-        } 
-        else if (_item is EquipmentItem equipmentItem)
-        {
-            equipmentItem.Equip();
-        }
+        _slot.Use();
         _inventoryUI.UpdateDisplay();
     }
 

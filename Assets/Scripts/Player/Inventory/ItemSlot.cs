@@ -38,6 +38,7 @@ public class InventorySlot : ItemSlot
         if (_item is EquipmentItem equipmentItem)
         {
             equipmentItem.Equip();
+            Inventory.GetInstance().GetEquipmentSlot(equipmentItem.EquipmentSlotType).EquipItem(equipmentItem);
             _count = 0;
             _item = null;
         }

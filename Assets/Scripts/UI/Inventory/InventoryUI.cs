@@ -23,8 +23,7 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (InventorySlotUI slot in Slots.GetSlots())
         {
-            InventorySlot actualSlot = Inventory.GetInstance().GetSlot(slot.GetCoordinateX(), slot.GetCoordinateY());
-            slot.UpdateSlot(actualSlot.Item, actualSlot.Count);
+            slot.UpdateSlot();
         }
     }
 

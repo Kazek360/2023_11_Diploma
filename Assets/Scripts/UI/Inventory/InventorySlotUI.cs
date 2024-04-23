@@ -23,7 +23,7 @@ public class InventorySlotUI : MonoBehaviour
         return y;
     }
 
-    public void UpdateSlot(Item item, int amount)
+    public void SetItem(Item item, int amount)
     {
         if (item is null)
         {
@@ -43,6 +43,31 @@ public class InventorySlotUI : MonoBehaviour
         }
         Count.enabled = true;
         Count.text = "" + amount;
+        
+    }
+    
+    public void UpdateSlot()
+    {
+        InventorySlot actualSlot = Inventory.GetInstance().GetSlot(x, y);
+        Item item = actualSlot.Item;
+        if (item is null)
+        {
+            ItemImage.enabled = false;
+            Toggle.interactable = false;
+        }
+        else
+        {
+            ItemImage.enabled = true;
+            ItemImage.sprite = item.ItemSprite;
+            Toggle.interactable = true;
+        }
+        if (actualSlot.Count == 0)
+        {
+            Count.enabled = false;
+            return;
+        }
+        Count.enabled = true;
+        Count.text = "" + actualSlot.Count;
         
     }
 
