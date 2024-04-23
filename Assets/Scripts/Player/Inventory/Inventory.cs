@@ -153,7 +153,7 @@ public class InventorySlot
     }
 
     /**
-     * AddItem służy do zmniejszania ilości przedmiotów w slocie. Zwracana wartość bool daje znać, czy operacja powiodła
+     * RemoveItem służy do zmniejszania ilości przedmiotów w slocie. Zwracana wartość bool daje znać, czy operacja powiodła
      * się / jest możliwa.
      *
      * Jeśli po usunięciu ilość przedmiotów w slocie spadnie do zera, jest on zwalniany.
