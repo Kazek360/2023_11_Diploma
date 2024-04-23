@@ -28,6 +28,6 @@ public class BasicMelee : AbilityScriptableObject
     
     public override string GetAbilityActionText()
     {
-        return "DAMAGE: " + healthDamage;
+        return "OBRAŻENIA: " + healthDamage;
     }
 }

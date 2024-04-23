@@ -25,6 +25,6 @@ public class HealingAbility : AbilityScriptableObject
     
     public override string GetAbilityActionText()
     {
-        return "HEALING: " + healthRestored;
+        return "LECZENIE: " + healthRestored;
     }
 }
