@@ -17,6 +17,7 @@ public class Item
         _itemName = itemName;
         _itemDesc = itemDesc;
         _itemSprite = itemSprite;
+        _maxStackSize = maxStackSize;
     }
 
     public int ItemID => _itemID;

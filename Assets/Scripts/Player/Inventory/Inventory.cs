@@ -29,7 +29,10 @@ public class Inventory
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-        _inventorySlots[0, 0].AddItem(_itemLibrary.GetItem(0), 2);
+        AddItem(0, 2);
+        AddItem(0, 10);
+        AddItem(2, 1);
+        AddItem(1, 1);
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -72,18 +75,17 @@ public class Inventory
     public int AddItem(int itemID, int amount)
     {
         Item item = _itemLibrary.GetItem(itemID);
-        //TODO: Add items to inventory - on pickup for example
+        
         foreach (InventorySlot inventorySlot in _inventorySlots)
         {
             if (amount == 0)
             {
-                Debug.Log("ALL ITEMS ADDED");
                 break;
             }
             if (inventorySlot.Item is null)
             {
-                int toAdd = Math.Max(amount, item.MaxStackSize);
-                inventorySlot.AddItem(item, Math.Min(amount, item.MaxStackSize));
+                int toAdd = Math.Min(amount, item.MaxStackSize);
+                inventorySlot.AddItem(item, toAdd);
                 amount -= toAdd;
                 continue;
             }
@@ -91,7 +93,7 @@ public class Inventory
             if (inventorySlot.Item.ItemID == itemID)
             {
                 int toAdd = Math.Min(amount, item.MaxStackSize - inventorySlot.Count);
-                inventorySlot.AddItem(item, Math.Max(amount, item.MaxStackSize));
+                inventorySlot.AddItem(item, toAdd);
                 amount -= toAdd;
                 continue;
             }

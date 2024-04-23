@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class InventorySlotsUI : MonoBehaviour
 {
+    [SerializeField] private InventoryUI InventoryUI;
+    
     private List<InventorySlotUI> _slots;
+    
     private void OnEnable()
     {
         _slots = new List<InventorySlotUI>();
@@ -35,5 +38,15 @@ public class InventorySlotsUI : MonoBehaviour
     public List<InventorySlotUI> GetSlots()
     {
         return _slots;
+    }
+
+    public void SelectedSlotChanged(int x, int y)
+    {
+        InventoryUI.SelectedSlotChanged(Inventory.GetInstance().GetSlot(x, y));
+    }
+    
+    public void SlotDeselected()
+    {
+        InventoryUI.SlotDeselected();
     }
 }

@@ -19,31 +19,48 @@ public class ItemInteractionUI : MonoBehaviour
     public void Awake()
     {
         _inventoryUI = GetComponentInParent<InventoryUI>();
-        Debug.Log("DONE SETTING UP");
     }
 
 
-    private void SetSlot(InventorySlot slot)
+    public void SetSlot(InventorySlot slot)
     {
         _slot = slot;
         _item = slot.Item;
+        
+        ItemImage.gameObject.SetActive(true);
+        ItemName.gameObject.SetActive(true);
+        ItemDesc.gameObject.SetActive(true);
+        
+        UseButton.gameObject.SetActive(true);
+        DropButton.gameObject.SetActive(true);
+        MoveButton.gameObject.SetActive(true);
+        
         ItemImage.sprite = _item.ItemSprite;
         ItemName.text = _item.ItemName;
         ItemDesc.text = _item.ItemDesc;
         if (_item is EquipmentItem)
         {
-            UseButton.enabled = true;
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
         }
         else if (_item is UsableItem)
         {
-            UseButton.enabled = true;
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
         }
         else
         {
-            UseButton.enabled = false;
+            UseButton.gameObject.SetActive(false);
         }
+    }
+
+    public void ClearInteraction()
+    {
+        ItemImage.gameObject.SetActive(false);
+        ItemName.gameObject.SetActive(false);
+        ItemDesc.gameObject.SetActive(false);
+        
+        UseButton.gameObject.SetActive(false);
+        DropButton.gameObject.SetActive(false);
+        MoveButton.gameObject.SetActive(false);
     }
 
     public void UseItem()
@@ -56,21 +73,19 @@ public class ItemInteractionUI : MonoBehaviour
         {
             equipmentItem.Equip();
         }
-        Debug.Log("ITEM USED");
         _inventoryUI.UpdateDisplay();
     }
 
     public void DropItem()
     {
         _slot.RemoveItem();
-        Debug.Log("ITEM DROPPED");
+        ClearInteraction();
         _inventoryUI.UpdateDisplay();
     }
 
     public void MoveItem()
     {
         //TODO: Implement item movement
-        Debug.Log("ITEM MOVING");
         _inventoryUI.UpdateDisplay();
     }
 }

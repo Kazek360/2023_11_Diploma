@@ -6,6 +6,7 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private InventorySlotsUI Slots;
+    [SerializeField] private ItemInteractionUI ItemInteraction;
 
     public void OnEnable()
     {
@@ -15,6 +16,7 @@ public class InventoryUI : MonoBehaviour
     public void Start()
     {
         UpdateDisplay();
+        ItemInteraction.ClearInteraction();
     }
 
     public void UpdateDisplay()
@@ -22,8 +24,17 @@ public class InventoryUI : MonoBehaviour
         foreach (InventorySlotUI slot in Slots.GetSlots())
         {
             InventorySlot actualSlot = Inventory.GetInstance().GetSlot(slot.GetCoordinateX(), slot.GetCoordinateY());
-            
-            slot.UpdateSlot(actualSlot.Item.ItemSprite, actualSlot.Count);
+            slot.UpdateSlot(actualSlot.Item, actualSlot.Count);
         }
+    }
+
+    public void SelectedSlotChanged(InventorySlot slot)
+    {
+        ItemInteraction.SetSlot(slot);
+    }
+
+    public void SlotDeselected()
+    {
+        ItemInteraction.ClearInteraction();
     }
 }
