@@ -32,7 +32,7 @@ public class ItemLibrary
         _items.Add(new UsableItem(
             itemID: 1, 
             "Piwo", 
-            "Dobre do picia", 
+            "PIWO PJATK", 
             Resources.Load<Sprite>("ItemSprites/piwo"), 
             10,
             delegate { Debug.Log("Piwo wypite"); },

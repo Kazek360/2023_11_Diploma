@@ -18,10 +18,18 @@ public class Inventory
     }
     
     private InventorySlot[,] _inventorySlots;
+    private EquipmentSlot[] _equipmentSlots;
     private Inventory()
     {
         _itemLibrary = ItemLibrary.GetInstance();
         _inventorySlots = new InventorySlot[7,5];
+        _equipmentSlots = new[] { 
+            new EquipmentSlot(EquipmentSlotType.feet),
+            new EquipmentSlot(EquipmentSlotType.hand),
+            new EquipmentSlot(EquipmentSlotType.head),
+            new EquipmentSlot(EquipmentSlotType.legs),
+            new EquipmentSlot(EquipmentSlotType.torso)
+        };
         for (int i = 0; i < 7; i++)
         {
             for (int j = 0; j < 5; j++)
@@ -38,6 +46,18 @@ public class Inventory
     public InventorySlot GetSlot(int x, int y)
     {
         return _inventorySlots[x, y];
+    }
+
+    public EquipmentSlot GetEquipmentSlot(EquipmentSlotType slotType)
+    {
+        foreach (EquipmentSlot slot in _equipmentSlots)
+        {
+            if (slot.SlotType == slotType)
+            {
+                return slot;
+            }
+        }
+        return null;
     }
 
     public void UseItem(int x, int y)
@@ -103,94 +123,3 @@ public class Inventory
     }
 }
 
-public class InventorySlot
-{
-    private int _count = 0;
-    private Item _item = null;
-
-    public int Count => _count;
-    public Item Item => _item;
-
-    public void Use()
-    {
-        if (_item is null)
-        {
-            return;
-        }
-        if (_item is UsableItem item)
-        {
-            item.Use();
-            if (item.DestroyOnUse)
-            {
-                _count--;
-                if (_count == 0)
-                {
-                    _item = null;
-                }
-            }
-            return;
-        }
-
-        if (_item is EquipmentItem equipmentItem)
-        {
-            equipmentItem.Equip();
-            _count = 0;
-            _item = null;
-        }
-    }
-
-    /**
-     * AddItem służy do dodawania przedmiotu do wybranego Slotu.Zwracana wartość bool daje znać, czy operacja powiodła
-     * się / jest możliwa.
-     *
-     * Operacja dodania przedmiotu jest możliwa tylko wtedy, gdy slot nie ma przypisanego przedmiotu, lub przypisany
-     * przedmiot jest taki sam jak dodawany.
-     * 
-     */
-    public bool AddItem(Item item, int count)
-    {
-        if (_item is null)
-        {
-            _item = item;
-            _count = count;
-            return true;
-        }
-
-        if (_item.ItemID == item.ItemID)
-        {
-            _count += count;
-        }
-
-        return false;
-    }
-
-    /**
-     * RemoveItem służy do zmniejszania ilości przedmiotów w slocie. Zwracana wartość bool daje znać, czy operacja powiodła
-     * się / jest możliwa.
-     *
-     * Jeśli po usunięciu ilość przedmiotów w slocie spadnie do zera, jest on zwalniany.
-     *
-     * Operacja jest możliwa tylko wtedy, gdy usuwana ilość jest mniejsza lub równa ilości w slocie.
-     *
-     */
-    public bool RemoveItem(int count)
-    {
-        if (count > _count)
-        {
-            return false;
-        }
-        _count -= count;
-        if (_count == 0)
-        {
-            _item = null;
-        }
-        return true;
-    }
-    
-    public bool RemoveItem()
-    {
-        _item = null;
-        _count = 0;
-        return true;
-    }
-}

@@ -22,18 +22,7 @@ public class InventorySlotsUI : MonoBehaviour
         }
     }
 
-    public InventorySlotUI GetSlot(int x, int y)
-    {
-        foreach (InventorySlotUI slot in _slots)
-        {
-            if (slot.GetCoordinateX() == x && slot.GetCoordinateY() == y)
-            {
-                return slot;
-            }
-        }
 
-        return null;
-    }
 
     public List<InventorySlotUI> GetSlots()
     {
