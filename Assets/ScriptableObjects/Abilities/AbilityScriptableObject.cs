@@ -92,12 +92,12 @@ public class AbilityScriptableObject : ScriptableObject
     
     public string GetAbilityCooldownText()
     {
-        return "COOLDOWN: " + (cooldown);
+        return "ODNOWIENIE: " + (cooldown);
     }
     
     public string GetAbilityRangeText()
     {
-        return "RANGE: " + range;
+        return "ZASIĘG: " + range;
     }
 
 }
