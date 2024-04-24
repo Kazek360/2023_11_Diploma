@@ -1,15 +1,19 @@
 using System;
 
-public static class CutsceneEvents
+namespace Cutscenes
 {
-    public static event Action<CutsceneSO> OnCutsceneOpen;
-    public static void OpenCutscene(CutsceneSO cutscene)
+    public static class CutsceneEvents
     {
-        OnCutsceneOpen?.Invoke(cutscene);
+        public static event Action<CutsceneSO> OnCutsceneStarted;
+        public static void StartCutscene(CutsceneSO cutscene)
+        {
+            OnCutsceneStarted?.Invoke(cutscene);
+        }
+        public static event Action OnCutsceneFinished;
+        public static void FinishCutscene()
+        {
+            OnCutsceneFinished?.Invoke();
+        }
     }
-    public static event Action OnCutsceneClose;
-    public static void CloseCutscene()
-    {
-        OnCutsceneClose?.Invoke();
-    }
+ 
 }

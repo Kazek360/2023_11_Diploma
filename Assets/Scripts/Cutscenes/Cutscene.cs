@@ -1,41 +1,43 @@
 using System.Collections.Generic;
+using InputSystem;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Cutscene : MonoBehaviour
+namespace Cutscenes
 {
-    [SerializeField] private GameObject contentParent;
-    [SerializeField] private Image cutsceneImage;
-    private List<Sprite> _cutsceneImages;
-    private int _currentCutsceneIndex;
-    
-    private void OnEnable()
+    public class Cutscene : MonoBehaviour
     {
-        CutsceneEvents.OnCutsceneOpen += OpenCutscene;
-    }
-    
-    private void OnDisable()
-    {
-        CutsceneEvents.OnCutsceneOpen -= OpenCutscene;
-    }
-    
-    private void Start()
-    {
-        contentParent.SetActive(false);
-    }
-    private void OpenCutscene(CutsceneSO cutsceneInfo)
-    {
-        _cutsceneImages = cutsceneInfo.cutsceneImages;
-        _currentCutsceneIndex = 0;
-        cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
-        _currentCutsceneIndex++;
-        contentParent.SetActive(true);
-        InterfaceEvents.OpenInterface(gameObject.name);
-    }
-    
-    public void Update()
-    {
-        if (contentParent.activeSelf && Input.GetButtonDown("Fire1"))
+        [SerializeField] private GameObject contentParent;
+        [SerializeField] private Image cutsceneImage;
+        private List<Sprite> _cutsceneImages;
+        private int _currentCutsceneIndex;
+        
+        private void OnEnable()
+        {
+            CutsceneEvents.OnCutsceneStarted += StartCutscene;
+            InputEvents.OnCutsceneContinueInput += ContinueCutscene;
+        }
+        
+        private void OnDisable()
+        {
+            CutsceneEvents.OnCutsceneStarted -= StartCutscene;
+            InputEvents.OnCutsceneContinueInput -= ContinueCutscene;
+        }
+        
+        private void Start()
+        {
+            contentParent.SetActive(false);
+        }
+        private void StartCutscene(CutsceneSO cutsceneInfo)
+        {
+            _cutsceneImages = cutsceneInfo.cutsceneImages;
+            _currentCutsceneIndex = 0;
+            cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
+            _currentCutsceneIndex++;
+            contentParent.SetActive(true);
+        }
+
+        private void ContinueCutscene()
         {
             if (_currentCutsceneIndex < _cutsceneImages.Count)
             {
@@ -45,9 +47,9 @@ public class Cutscene : MonoBehaviour
             else
             {
                 contentParent.SetActive(false);
-                InterfaceEvents.CloseInterface();
-                CutsceneEvents.CloseCutscene();
+                CutsceneEvents.FinishCutscene();
             }
         }
     }
 }
+

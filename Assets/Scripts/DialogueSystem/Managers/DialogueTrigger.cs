@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem.Events;
+using InputSystem;
 
 namespace DialogueSystem.Managers
 {
@@ -21,28 +22,28 @@ namespace DialogueSystem.Managers
         private Dialogue _currentDialogue;
         
         private bool _playerInRange;
-        private bool _enabled;
+        private bool _disabled;
 
         private void OnEnable()
         {
-            InterfaceEvents.OnInterfaceOpened += DisableTrigger;
-            InterfaceEvents.OnInterfaceClosed += EnableTrigger;
+            InputEvents.OnInteractionInput += TriggerDialogueByInteraction;
+            AreaEvent.OnCorrectAreaEnter += TriggerDialogueByAreaEnter;
             QuestEvents.OnQuestStateChange += ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;
-            AreaEvent.OnCorrectAreaEnter += TriggerDialogue;
+            
         }
         
         private void OnDisable()
         {
-            InterfaceEvents.OnInterfaceOpened -= DisableTrigger;
-            InterfaceEvents.OnInterfaceClosed -= EnableTrigger;
+            InputEvents.OnInteractionInput -= TriggerDialogueByInteraction;
+            AreaEvent.OnCorrectAreaEnter -= TriggerDialogueByAreaEnter;
             QuestEvents.OnQuestStateChange -= ChangeDialogueState;
             DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
-            AreaEvent.OnCorrectAreaEnter -= TriggerDialogue;
+            
         }
 
         private void Awake()
@@ -52,7 +53,7 @@ namespace DialogueSystem.Managers
                 interactionKeyImage.SetActive(false); 
             }
             _playerInRange = false;
-            _enabled = true;
+            _disabled = false;
             _dialogueDictionary = CreateDialogueDictionary();
             ChangeCurrentDialogue();
         }
@@ -68,21 +69,6 @@ namespace DialogueSystem.Managers
             }
             ChangeCurrentDialogue();
         }
-
-        public void Update()
-        {
-            if (_enabled && _playerInRange && !autoTrigger && Input.GetKeyDown(KeyCode.E))
-            {
-                DialogueEvents.StartDialogue(_currentDialogue.info);
-
-                if (_currentDialogue.info.relatedQuest is not null)
-                {
-                    _dialogueDictionary[_currentDialogue.info.name].state = Dialogue.State.Finished;
-                    ChangeCurrentDialogue();
-                }
-            }
-        }
-
         private void ChangeCurrentDialogue()
         {
             foreach (var dialogue in _dialogueDictionary.Values)
@@ -150,19 +136,34 @@ namespace DialogueSystem.Managers
             }
             return true;
         }
-
-        private void TriggerDialogue(string areaName)
+        
+        private void TriggerDialogue()
         {
-            if (areaName.Equals(gameObject.name))
+            DialogueEvents.StartDialogue(_currentDialogue.info);
+            if (_currentDialogue.info.relatedQuest is not null)
             {
-                DialogueEvents.StartDialogue(_currentDialogue.info);
-                if (_currentDialogue.info.relatedQuest is not null)
-                {
-                    _dialogueDictionary[_currentDialogue.info.name].state = Dialogue.State.Finished;
-                    ChangeCurrentDialogue();
-                }
+                _dialogueDictionary[_currentDialogue.info.name].state = Dialogue.State.Finished;
+                ChangeCurrentDialogue();
             }
         }
+        private void TriggerDialogueByInteraction()
+        {
+            if (autoTrigger || _disabled || !_playerInRange)
+            {
+                return;
+            }
+            TriggerDialogue();
+        }
+        
+        private void TriggerDialogueByAreaEnter(string areaName)
+        {
+            if (!areaName.Equals(gameObject.name))
+            {
+                return;
+            }
+            TriggerDialogue();
+        }
+        
         private void UnlockDialogue(string id)
         {
             if (_dialogueDictionary.ContainsKey(id))
@@ -174,30 +175,29 @@ namespace DialogueSystem.Managers
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (!other.CompareTag("Player"))
             {
-                if (autoTrigger)
-                {
-                    AreaEvent.EnterArea(gameObject.name, other.name);
-                }
-                else
-                {
-                    interactionKeyImage.SetActive(true);
-                    _playerInRange = true;  
-                }
+                return;
+            }
+            if (autoTrigger)
+            {
+                AreaEvent.EnterArea(gameObject.name, other.name);
+            }
+            else
+            {
+                interactionKeyImage.SetActive(true);
+                _playerInRange = true;  
             }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (!autoTrigger)
+            if (autoTrigger || !other.CompareTag("Player"))
             {
-                if (other.CompareTag("Player"))
-                {
-                    interactionKeyImage.SetActive(false);
-                    _playerInRange = false;
-                }  
+                return;
             }
+            interactionKeyImage.SetActive(false);
+            _playerInRange = false;
         }
 
         private Dictionary<string, Dialogue> CreateDialogueDictionary()
@@ -217,15 +217,11 @@ namespace DialogueSystem.Managers
 
         private void DisableTrigger()
         {
-            _enabled = false;
-        }
-        private void DisableTrigger(string interfaceName)
-        {
-            _enabled = false;
+            _disabled = true;
         }
         private void EnableTrigger()
         {
-            _enabled = true;
+            _disabled = false;
         }
     }
 }

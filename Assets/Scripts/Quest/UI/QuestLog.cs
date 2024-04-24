@@ -1,4 +1,5 @@
 using System.Linq;
+using InputSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,61 +15,43 @@ public class QuestLog : MonoBehaviour
     [SerializeField] private TextMeshProUGUI stepsText;
 
     private Button _defaultSelectedButton;
-    private bool _isAnotherInterfaceOpened;
     
     private void OnEnable()
     {
+        InputEvents.OnQuestLogToggle += ToggleQuestLog;
+        InputEvents.OnInterfaceClosed += CloseQuestLog;
+        
         QuestEvents.OnQuestStateChange += QuestStateChange;
-        InterfaceEvents.OnInterfaceOpened += DisableInterface;
-        InterfaceEvents.OnInterfaceClosed += EnableInterface;
     }
     private void OnDisable()
     {
+        InputEvents.OnQuestLogToggle -= ToggleQuestLog;
+        InputEvents.OnInterfaceClosed -= CloseQuestLog;
+        
         QuestEvents.OnQuestStateChange -= QuestStateChange;
-        InterfaceEvents.OnInterfaceOpened -= DisableInterface;
-        InterfaceEvents.OnInterfaceClosed -= EnableInterface;
     }
     private void Start()
     {
         contentParent.SetActive(false);
-        _isAnotherInterfaceOpened = false;
     }
-    private void Update()
+    private void ToggleQuestLog()
     {
-        if (_isAnotherInterfaceOpened)
+        if (contentParent.activeSelf)
         {
-            return;
+            contentParent.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        else
         {
-            if (contentParent.activeSelf)
+            contentParent.SetActive(true);
+            if (_defaultSelectedButton is not null)
             {
-                contentParent.SetActive(false);
-                InterfaceEvents.CloseInterface();
-            }
-            else
-            {
-                contentParent.SetActive(true);
-                InterfaceEvents.OpenInterface(gameObject.name);
-                if (_defaultSelectedButton is not null)
-                {
-                    _defaultSelectedButton.Select();
-                }
+                _defaultSelectedButton.Select();
             }
         }
     }
-
-    private void DisableInterface(string interfaceName)
+    private void CloseQuestLog()
     {
-        if (!interfaceName.Equals(gameObject.name))
-        {
-            _isAnotherInterfaceOpened = true;
-        }
-    }
-
-    private void EnableInterface()
-    {
-        _isAnotherInterfaceOpened = false;
+        contentParent.SetActive(false);
     }
     
     private void QuestStateChange(Quest quest)
