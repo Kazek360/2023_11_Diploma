@@ -28,11 +28,7 @@ public class Inventory : MonoBehaviour
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-        // AddItem(0, 2);
-        // AddItem(0, 10);
-        // AddItem(2, 1);
-        // AddItem(1, 1);
-        // AddItem(3, 1);
+        Load();
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -112,6 +108,22 @@ public class Inventory : MonoBehaviour
         }
 
         return amount;
+    }
+
+    public void Load()
+    {
+        //TODO: To be done by Oskar
+        
+        AddItem(0, 2);
+        AddItem(0, 10);
+        AddItem(2, 1);
+        AddItem(1, 1);
+        AddItem(3, 1);
+    }
+
+    public void Save()
+    {
+        //TODO: To be done by Oskar
     }
 }
 
