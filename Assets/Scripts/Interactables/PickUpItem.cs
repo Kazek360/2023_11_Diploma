@@ -24,7 +24,7 @@ public class PickUpItem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) && _inRange)
         {
-            Inventory.GetInstance().AddItem(ItemId, Amount);
+            GameConfig.PlayerInventory.AddItem(ItemId, Amount);
             Destroy(gameObject);
         }
     }

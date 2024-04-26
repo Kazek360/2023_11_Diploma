@@ -14,7 +14,7 @@ public class InventorySlotUI : MonoBehaviour
     
     public void UpdateSlot()
     {
-        InventorySlot actualSlot = Inventory.GetInstance().GetSlot(x, y);
+        InventorySlot actualSlot = GameConfig.PlayerInventory.GetSlot(x, y);
         Item item = actualSlot.Item;
         if (item is null)
         {

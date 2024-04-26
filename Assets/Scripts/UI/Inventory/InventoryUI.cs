@@ -12,7 +12,6 @@ public class InventoryUI : MonoBehaviour
 
     public void OnEnable()
     {
-        Inventory.GetInstance();
     }
 
     public void Start()

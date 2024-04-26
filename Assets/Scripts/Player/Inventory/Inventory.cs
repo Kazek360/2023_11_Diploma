@@ -3,24 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public class Inventory : MonoBehaviour
 {
-    private static Inventory _instance;
     private ItemLibrary _itemLibrary;
-
-    public static Inventory GetInstance()
-    {
-        if (_instance is null)
-        {
-            _instance = new Inventory();
-        }
-        return _instance;
-    }
     
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
-    private Inventory()
+    public void OnEnable()
     {
+        GameConfig.PlayerInventory = this;
         _itemLibrary = ItemLibrary.GetInstance();
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 

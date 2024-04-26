@@ -31,7 +31,7 @@ public class EquipmentSlotUI : MonoBehaviour
     
     public void UpdateSlot()
     {
-        EquipmentSlot actualSlot = Inventory.GetInstance().GetEquipmentSlot(SlotType);
+        EquipmentSlot actualSlot = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType);
         Item item = actualSlot.Item;
         if (item is null)
         {
