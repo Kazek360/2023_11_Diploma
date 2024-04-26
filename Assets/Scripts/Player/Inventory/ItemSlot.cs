@@ -114,6 +114,7 @@ public class EquipmentSlot : ItemSlot
     
     public override void Use()
     {
+        GameConfig.PlayerStats.ItemRemoved(_item.ItemID);
         GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
         _item = null;
     }
@@ -122,9 +123,12 @@ public class EquipmentSlot : ItemSlot
     {
         if (_item is not null)
         {
+            GameConfig.PlayerStats.ItemRemoved(_item.ItemID);
             GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
+            
         }
         _item = item;
+        Debug.Log(GameConfig.PlayerStats.GetPlayerStatsString());
         return true;
     }
 }

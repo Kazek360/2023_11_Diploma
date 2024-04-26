@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
@@ -49,11 +51,11 @@ public class PlayerStats : MonoBehaviour
 
     public void ItemRemoved(int itemID)
     {
-        foreach (var modifier in _itemStatModifiers)
+        for (int i = _itemStatModifiers.Count - 1; i >= 0; i--)
         {
-            if (modifier.ItemID == itemID)
+            if (_itemStatModifiers[i].ItemID == itemID)
             {
-                _itemStatModifiers.Remove(modifier);
+                _itemStatModifiers.RemoveAt(i);
             }
         }
     }
@@ -101,6 +103,18 @@ public class PlayerStats : MonoBehaviour
         _baseStats.Add(new BaseStat(StatType.Luck, 3));
         _baseStats.Add(new BaseStat(StatType.Imagination, 3));
         _baseStats.Add(new BaseStat(StatType.Health, 15));
+    }
+
+    public string GetPlayerStatsString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        foreach(StatType statType in Enum.GetValues(typeof(StatType)))
+        {
+            stringBuilder.Append(statType + ": " + GetStat(statType) + "\n");
+        }
+
+        return stringBuilder.ToString();
     }
 }
 public enum StatType{Health, Strength, Agility, Luck, Imagination}
