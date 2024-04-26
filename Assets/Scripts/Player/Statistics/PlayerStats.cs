@@ -57,6 +57,11 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void AddItemModifier(ItemStatModifier modifier)
+    {
+        _itemStatModifiers.Add(modifier);
+    }
+
     public List<ItemStatModifier> GetModifiers(StatType statType)
     {
         List<ItemStatModifier> _tmpMod = new List<ItemStatModifier>();
