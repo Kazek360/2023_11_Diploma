@@ -10,6 +10,7 @@ public class PlayerStats : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
+        GameConfig.PlayerStats = this;
         Load();
     }
 
