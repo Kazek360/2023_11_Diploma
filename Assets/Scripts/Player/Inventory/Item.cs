@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public enum EquipmentSlotType {head, torso, hand, legs, feet}
@@ -8,7 +9,7 @@ public class Item
 {
     private int _itemID;
     private string _itemName;
-    private string _itemDesc;
+    protected string _itemDesc;
     private Sprite _itemSprite;
     private int _maxStackSize;
 
@@ -25,7 +26,10 @@ public class Item
 
     public string ItemName => _itemName;
 
-    public string ItemDesc => _itemDesc;
+    public virtual string ItemDesc()
+    {
+        return _itemDesc;
+    }
 
     public Sprite ItemSprite => _itemSprite;
 
@@ -53,6 +57,18 @@ public class EquipmentItem: Item
             GameConfig.PlayerStats.AddItemModifier(modifier);
         }
         _equip();
+    }
+
+    public override string ItemDesc()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.Append(_itemDesc + "\n");
+        foreach (var modifier in _modifiers)
+        {
+            builder.Append(modifier.StatString() + "\n");
+        }
+        
+        return builder.ToString();
     }
 
     public EquipmentSlotType EquipmentSlotType => _equipmentSlotType;

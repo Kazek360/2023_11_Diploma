@@ -128,7 +128,6 @@ public class EquipmentSlot : ItemSlot
             
         }
         _item = item;
-        Debug.Log(GameConfig.PlayerStats.GetPlayerStatsString());
         return true;
     }
 }

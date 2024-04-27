@@ -44,7 +44,7 @@ public class ItemLibrary
             "Miecz", 
             "Można nim machać", 
             Resources.Load<Sprite>("ItemSprites/Sword1"), 
-            delegate { Debug.Log("MIECZ WYEKWIPOWANY"); }, 
+            delegate { }, 
             EquipmentSlotType.hand ,
             new List<ItemStatModifier>()
             {
@@ -57,7 +57,7 @@ public class ItemLibrary
             "Kamień do rzucania", 
             "Daj kamienia", 
             Resources.Load<Sprite>("ItemSprites/Heart1"), 
-            delegate { Debug.Log("KAMIEŃ WYEKWIPOWANY"); }, 
+            delegate { }, 
             EquipmentSlotType.hand,
             new List<ItemStatModifier>()
             {

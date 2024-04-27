@@ -116,6 +116,20 @@ public class PlayerStats : MonoBehaviour
 
         return stringBuilder.ToString();
     }
+
+    public static string TranslateStatType(StatType statType)
+    {
+        switch (statType)
+        {
+            case StatType.Health: return "Życie";
+            case StatType.Strength: return "Siła";
+            case StatType.Agility: return "Zręczność";
+            case StatType.Luck: return "Szczęście";
+            case StatType.Imagination: return "Wyobraźnia";
+            default: return "STAT_NAME_NOT_FOUND";
+        }
+        
+    }
 }
 public enum StatType{Health, Strength, Agility, Luck, Imagination}
 
@@ -137,6 +151,15 @@ public class ItemStatModifier
     public int Modifier => _modifier;
 
     public int ItemID => _itemID;
+
+    public string StatString()
+    {
+        if (_modifier > 0)
+        {
+            return "+" + _modifier + " " + PlayerStats.TranslateStatType(_statType);
+        }
+        return _modifier + " " + PlayerStats.TranslateStatType(_statType);
+    }
 }
 
 public class BaseStat
