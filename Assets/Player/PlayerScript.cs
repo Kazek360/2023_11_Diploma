@@ -74,7 +74,7 @@ public class PlayerScript : MonoBehaviour, IHittable
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
         _combatUI.ShowCombatUI(this);
-        _combatSystem2.PlayerTurnStart(agility, imagination, IsMaterial());
+        _combatSystem2.PlayerTurnStart(GetAgility(), GetImagination(), IsMaterial());
     }
 
 
@@ -143,22 +143,22 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public int GetStrength()
     {
-        return strength;
+        return GameConfig.PlayerStats.GetStat(StatType.Strength);
     }
 
     public int GetAgility()
     {
-        return agility;
+        return GameConfig.PlayerStats.GetStat(StatType.Agility);
     }
 
     public int GetLuck()
     {
-        return luck;
+        return GameConfig.PlayerStats.GetStat(StatType.Luck);
     }
 
     public int GetImagination()
     {
-        return imagination;
+        return GameConfig.PlayerStats.GetStat(StatType.Imagination);
     }
 
     public string GetEntityName()
