@@ -18,7 +18,7 @@ public class BasicMelee : AbilityScriptableObject
         if (dealingHealthDamage)
         {
             //AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
-            AbilityEffects.DealHealthDamage(target, healthDamage);
+            AbilityEffects.DealHealthDamage(target, healthDamage + (int)(caster.GetStrength()/2));
         }
         if (dealingPsycheDamage)
         {
@@ -28,6 +28,6 @@ public class BasicMelee : AbilityScriptableObject
     
     public override string GetAbilityActionText()
     {
-        return "OBRAŻENIA: " + healthDamage;
+        return "OBRAŻENIA: " + healthDamage + " + STR/2";
     }
 }
