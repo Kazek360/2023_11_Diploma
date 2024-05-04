@@ -98,13 +98,13 @@ namespace InputSystem
         {
             _controlls.Player.Disable();
             _controlls.UI.Disable();
-            _controlls.Dialogue.Enable();
+            _controlls.Cutscene.Enable();
         }
         private void OnCutsceneFinished()
         {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
-            _controlls.Dialogue.Disable();
+            _controlls.Cutscene.Disable();
         }
         
         public void OnContinueDialogue(InputAction.CallbackContext context)
