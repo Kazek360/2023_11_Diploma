@@ -1,12 +1,14 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestPopup : MonoBehaviour
 {
     [Header("Components")] 
     [SerializeField] private TextMeshProUGUI popupText;
-    
+    // serializefiled tez do UI Image
+    [SerializeField] private Image popupImage;
     private void OnEnable()
     {
         QuestEvents.OnQuestStateChange += EnablePopup;
@@ -34,8 +36,10 @@ public class QuestPopup : MonoBehaviour
                 popupText.text = $"Zadanie zakończone\n{quest.Info.displayName}";
             }
             popupText.gameObject.SetActive(true);
+            popupImage.gameObject.SetActive(true);
             yield return new WaitForSeconds(2f);
             popupText.gameObject.SetActive(false);
+            popupImage.gameObject.SetActive(false);
         }
     }
     
