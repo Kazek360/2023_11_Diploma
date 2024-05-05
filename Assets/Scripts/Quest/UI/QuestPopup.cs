@@ -7,7 +7,6 @@ public class QuestPopup : MonoBehaviour
 {
     [Header("Components")] 
     [SerializeField] private TextMeshProUGUI popupText;
-    // serializefiled tez do UI Image
     [SerializeField] private Image popupImage;
     private void OnEnable()
     {

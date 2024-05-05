@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class HintSystem : MonoBehaviour
 {
-    public GameObject[] popups; // Przypisz tutaj obiekty UI podpowiedzi w inspektorze
+    public GameObject[] popups; 
 
     private int currentPopup = 0;
 
     private void Start()
     {
-        // Wyłącz wszystkie popupy na początku
+  
         foreach (var popup in popups)
         {
             popup.SetActive(false);
@@ -17,33 +17,33 @@ public class HintSystem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Upewnij się, że to gracz wszedł w collider
+        if (other.CompareTag("Player")) 
         {
-            ShowPopup(currentPopup); // Pokaż pierwszy popup
+            ShowPopup(currentPopup); 
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) // Upewnij się, że to gracz opuszcza collider
+        if (other.CompareTag("Player")) 
         {
             foreach (var popup in popups)
             {
-                popup.SetActive(false); // Wyłącz wszystkie popupy
+                popup.SetActive(false); 
             }
         }
     }
 
     private void Update()
     {
-        if (popups[currentPopup].activeSelf) // Sprawdź, czy jakikolwiek popup jest aktywny
+        if (popups[currentPopup].activeSelf) 
         {
             if (Input.GetKeyDown(KeyCode.Space)) 
             {
                 currentPopup++;
                 if (currentPopup >= popups.Length)
                 {
-                    currentPopup = 0; // Zresetuj na pierwszy popup, jeśli to konieczne
+                    currentPopup = 0; 
                 }
                 ShowPopup(currentPopup);
             }
@@ -54,8 +54,8 @@ public class HintSystem : MonoBehaviour
     {
         foreach (var popup in popups)
         {
-            popup.SetActive(false); // Wyłącz wszystkie popupy
+            popup.SetActive(false); 
         }
-        popups[index].SetActive(true); // Aktywuj tylko wybrany popup
+        popups[index].SetActive(true); 
     }
 }
