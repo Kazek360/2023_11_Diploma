@@ -9,10 +9,10 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private InventorySlotsUI InventorySlots;
     [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     [SerializeField] private ItemInteractionUI ItemInteraction;
+    [SerializeField] private PlayerStatsUI PlayerStatisticks;
 
     public void OnEnable()
     {
-        Inventory.GetInstance();
     }
 
     public void Start()
@@ -25,6 +25,7 @@ public class InventoryUI : MonoBehaviour
     {
         InventorySlots.UpdateUI();
         EquipmentSlots.UpdateUI();
+        PlayerStatisticks.UpdateDisplay();
     }
 
     public void SelectedSlotChanged(ItemSlot slot)

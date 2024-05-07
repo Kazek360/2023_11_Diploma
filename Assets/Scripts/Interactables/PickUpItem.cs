@@ -24,7 +24,7 @@ public class PickUpItem : MonoBehaviour, ITooltippable
     {
         if (Input.GetKeyDown(KeyCode.E) && _inRange)
         {
-            Inventory.GetInstance().AddItem(ItemId, Amount);
+            GameConfig.PlayerInventory.AddItem(ItemId, Amount);
             Destroy(gameObject);
         }
     }
@@ -54,6 +54,6 @@ public class PickUpItem : MonoBehaviour, ITooltippable
 
     public string GetTooltipDesc()
     {
-        return ItemLibrary.GetInstance().GetItem(ItemId).ItemDesc;
+        return ItemLibrary.GetInstance().GetItem(ItemId).ItemDesc();
     }
 }

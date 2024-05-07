@@ -32,7 +32,7 @@ public class CombatUI : MonoBehaviour
 
     public void OnEnable()
     {
-        GameConfigLib.canvas = GetComponent<Canvas>();
+        GameConfig.canvas = GetComponent<Canvas>();
     }
 
     // Start is called before the first frame update

@@ -13,7 +13,7 @@ public class TooltipUI : MonoBehaviour
     {
         Header.text = header;
         Desc.text = desc;
-        gameObject.transform.SetParent(GameConfigLib.canvas.gameObject.transform);
+        gameObject.transform.SetParent(GameConfig.canvas.gameObject.transform);
         width = GetComponent<RectTransform>().rect.width;
         height = GetComponent<RectTransform>().rect.height;
         SetupPos();

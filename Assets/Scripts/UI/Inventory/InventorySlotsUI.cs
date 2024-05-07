@@ -39,7 +39,7 @@ public class InventorySlotsUI : MonoBehaviour
 
     public void SelectedSlotChanged(int x, int y)
     {
-        InventoryUI.SelectedSlotChanged(Inventory.GetInstance().GetSlot(x, y));
+        InventoryUI.SelectedSlotChanged(GameConfig.PlayerInventory.GetSlot(x, y));
     }
     
     public void SlotDeselected()
