@@ -99,5 +99,6 @@ namespace SaveSystem
         {
             return _gameData is not null;
         }
+        public GameData GameData => _gameData;
     }
 }
