@@ -8,7 +8,8 @@ using UnityEngine;
  */
 public class GameConfig
 {
+    
     public static Inventory PlayerInventory;
     public static PlayerStats PlayerStats;
-
+    public static Canvas canvas;
 }

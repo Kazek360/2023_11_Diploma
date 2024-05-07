@@ -54,6 +54,6 @@ public class PickUpItem : MonoBehaviour, ITooltippable
 
     public string GetTooltipDesc()
     {
-        return ItemLibrary.GetInstance().GetItem(ItemId).ItemDesc;
+        return ItemLibrary.GetInstance().GetItem(ItemId).ItemDesc();
     }
 }
