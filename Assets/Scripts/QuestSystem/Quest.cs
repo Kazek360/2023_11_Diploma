@@ -42,7 +42,14 @@ namespace QuestSystem
                 var questStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
                 questStep.InitializeQuestStep(Info.id);
 
-                if (!stepsDescriptions.Contains(questStep.description))
+                if (stepsDescriptions.Count > 0)
+                {
+                    if (!stepsDescriptions[stepsDescriptions.Count - 1].Equals("questStep.description"))
+                    {
+                        stepsDescriptions.Add(questStep.description);
+                    }
+                }
+                else
                 {
                     stepsDescriptions.Add(questStep.description);
                 }

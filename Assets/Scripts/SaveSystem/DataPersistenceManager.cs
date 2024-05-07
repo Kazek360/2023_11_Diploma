@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveSystem.Data;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SaveSystem
 {
@@ -17,13 +19,39 @@ namespace SaveSystem
 
         private void Awake()
         {
+            if (Instance is not null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             Instance = this;
+            DontDestroyOnLoad(gameObject);
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
         }
-
-        private void NewGame()
+        private void OnSceneUnloaded(Scene scene)
+        {
+            SaveGame();
+        }
+        
+        public void NewGame()
         {
             _gameData = new GameData();
         }
@@ -33,7 +61,7 @@ namespace SaveSystem
             _gameData = _dataHandler.LoadData();
             if (_gameData is null)
             {
-                NewGame();
+                return;
             }
 
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
@@ -44,6 +72,10 @@ namespace SaveSystem
 
         private void SaveGame()
         {
+            if (_gameData is null)
+            {
+                return;
+            }
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _gameData);
@@ -51,17 +83,21 @@ namespace SaveSystem
             _dataHandler.SaveData(_gameData);
         }
 
+        private void OnApplicationQuit()
+        {
+            SaveGame();
+        }
+        
         private List<IDataPersistence> FindAllDataPersistenceObjects()
         {
             IEnumerable<IDataPersistence> dataPersistenceObjects =
                 FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
-        
-        
-        private void OnApplicationQuit()
+
+        public bool HasGameData()
         {
-            SaveGame();
+            return _gameData is not null;
         }
     }
 }

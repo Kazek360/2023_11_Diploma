@@ -19,7 +19,12 @@ public class QuestPopup : MonoBehaviour
         QuestEvents.OnQuestStart -= EnableQuestStartPopup;
         QuestEvents.OnQuestFinish -= EnableQuestFinishPopup;
     }
-
+    private void Awake()
+    {
+        popupText.gameObject.SetActive(false);
+        popupImage.gameObject.SetActive(false);
+    }
+    
     private void EnableQuestStartPopup(string questID)
     {
         Quest quest = QuestManager.GetQuestById(questID);
