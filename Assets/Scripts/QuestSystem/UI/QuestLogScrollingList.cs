@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using QuestSystem;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,7 +36,7 @@ public class QuestLogScrollingList : MonoBehaviour
     {
         var index = GetIndexFromQuestCategory(quest.Info.questCategory);
         
-        QuestLogButton questLogButton = _questDictionary[index].ContainsKey(quest.Info.id)?
+        var questLogButton = _questDictionary[index].ContainsKey(quest.Info.id)?
             _questDictionary[index][quest.Info.id] : InstantiateQuestLogButton(quest, selectAction);
         
         return questLogButton;

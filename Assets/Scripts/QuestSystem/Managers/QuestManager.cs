@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using QuestSystem;
+using SaveSystem;
+using SaveSystem.Data;
 using UnityEngine;
 
-public class QuestManager : MonoBehaviour
+public class QuestManager : MonoBehaviour, IDataPersistence
 {
-    private static Dictionary<string, Quest> _questDictionary;
+    private static Dictionary<string, Quest> _quests;
     
     private void Awake()
     {
-        _questDictionary = CreateQuestDictionary();
+        _quests = CreateQuestDictionary();
     } 
 
     private void OnEnable()
@@ -26,7 +29,7 @@ public class QuestManager : MonoBehaviour
 
     private bool CheckRequirementsMet(Quest quest)
     {
-        bool meetsRequirements = true;
+        var meetsRequirements = true;
         foreach (var questRequirement in quest.Info.requirements)
         {
             if (GetQuestById(questRequirement.id).State != QuestState.Finished)
@@ -37,9 +40,9 @@ public class QuestManager : MonoBehaviour
         return meetsRequirements;
     }
 
-    private void Update()
+    private void Start()
     {
-        foreach (var quest in _questDictionary.Values)
+        foreach (var quest in _quests.Values)
         {
             if (quest.State == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
             {
@@ -50,21 +53,21 @@ public class QuestManager : MonoBehaviour
     
     private void ChangeQuestState(string id, QuestState state)
     {
-        Quest quest = GetQuestById(id);
+        var quest = GetQuestById(id);
         quest.State = state;
         QuestEvents.ChangeQuestState(quest);
     }
     
     private void StartQuest(string id)
     {
-        Quest quest = GetQuestById(id);
+        var quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(transform);
         ChangeQuestState(id, QuestState.InProgress);
     }
     
     private void ProgressQuest(string id)
     {
-        Quest quest = GetQuestById(id);
+        var quest = GetQuestById(id);
         quest.MoveToNextStep();
         if (quest.CurrentStepExists())
         {
@@ -78,8 +81,16 @@ public class QuestManager : MonoBehaviour
     
     private void FinishQuest(string id)
     {
-        Quest quest = GetQuestById(id);
+        var quest = GetQuestById(id);
         ChangeQuestState(id, QuestState.Finished);
+        
+        foreach (var q in _quests.Values)
+        {
+            if (q.State == QuestState.RequirementsNotMet && CheckRequirementsMet(q))
+            {
+                ChangeQuestState(q.Info.id, QuestState.CanStart);
+            }
+        }
     }
     
     private Dictionary<string, Quest> CreateQuestDictionary()
@@ -99,11 +110,42 @@ public class QuestManager : MonoBehaviour
 
     public static Quest GetQuestById(string id)
     {
-        var quest = _questDictionary[id];
+        var quest = _quests[id];
         if (quest == null)
         {
             Debug.LogError($"There is no quest with ID: {quest.Info}");
         }
         return quest;
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        var loadedQuests = gameData.quests;
+        if (loadedQuests is not null)
+        {
+            foreach (var pair in loadedQuests)
+            {
+                loadedQuests[pair.Key].Info = _quests[pair.Key].Info;
+            }
+            _quests = loadedQuests;
+        }
+
+        foreach (var quest in _quests.Values)
+        {
+            if (quest.State == QuestState.InProgress)
+            {
+                QuestEvents.ChangeQuestState(quest);
+                quest.InstantiateCurrentQuestStep(transform);
+            }
+            else if(quest.State == QuestState.Finished)
+            {
+                QuestEvents.ChangeQuestState(quest);
+            }
+        }
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        gameData.quests = _quests;
     }
 }

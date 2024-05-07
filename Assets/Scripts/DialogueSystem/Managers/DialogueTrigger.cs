@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem.Events;
 using InputSystem;
+using QuestSystem;
 
 namespace DialogueSystem.Managers
 {

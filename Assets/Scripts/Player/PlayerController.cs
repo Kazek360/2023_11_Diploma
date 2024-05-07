@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using Cutscenes;
 using DialogueSystem.Events;
 using InputSystem;
+using SaveSystem;
+using SaveSystem.Data;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private float walkSpeed;
         [SerializeField] private float runSpeed;
@@ -81,6 +83,16 @@ namespace Player
         private void StopMovement(CutsceneSO cutscene)
         {
             _rigidbody.velocity = Vector2.zero;
+        }
+
+        public void LoadData(GameData gameData)
+        {
+            transform.position = new Vector3(gameData.playerPosition[0], gameData.playerPosition[1], 0);
+        }
+
+        public void SaveData(ref GameData gameData)
+        {
+            gameData.playerPosition = new [] {transform.position.x, transform.position.y};
         }
     }
 }
