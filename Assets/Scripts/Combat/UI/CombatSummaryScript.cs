@@ -19,13 +19,13 @@ public class CombatSummaryScript : MonoBehaviour
         {
             ProceedWin.SetActive(true);
             ProceedLoss.SetActive(false);
-            ResultText.text = "VICTORY";
+            ResultText.text = "ZWYCIĘSTWO";
         }
         else
         {
             ProceedWin.SetActive(false);
             ProceedLoss.SetActive(true);
-            ResultText.text = "DEFEAT";
+            ResultText.text = "PORAŻKA";
         }
 
         foreach (IHittable player in players)
