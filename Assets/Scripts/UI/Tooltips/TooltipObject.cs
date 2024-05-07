@@ -25,17 +25,17 @@ public class TooltipObject : MonoBehaviour
         }
 
         _tooltip = Instantiate(TooltipPrefab).GetComponent<TooltipUI>();
-        _tooltip.Setup(_target.GetTooltipHeader(), _target.GetTooltipDesc());
+        if (_target is not null)
+        {
+            _tooltip.Setup(_target.GetTooltipHeader(), _target.GetTooltipDesc());
+        }
 
         _triggered = true;
-        print (gameObject.name);
-        //TODO SPAWN TOOLTIP
     }
 
     private void OnMouseExit()
     {
         _triggered = false;
         _tooltip.Delete();
-        print(gameObject.name + " OVER");
     }
 }
