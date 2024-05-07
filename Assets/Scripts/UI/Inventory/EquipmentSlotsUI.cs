@@ -37,7 +37,7 @@ public class EquipmentSlotsUI : MonoBehaviour
 
     public void SelectedSlotChanged(EquipmentSlotType type)
     {
-        InventoryUI.SelectedSlotChanged(Inventory.GetInstance().GetEquipmentSlot(type));
+        InventoryUI.SelectedSlotChanged(GameConfig.PlayerInventory.GetEquipmentSlot(type));
     }
     
     public void SlotDeselected()

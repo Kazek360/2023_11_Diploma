@@ -16,6 +16,7 @@ public class EntityManager : MonoBehaviour
 
     [FormerlySerializedAs("enemiesToDefeat")] [SerializeField] private int EnemiesToDefeat;
     [FormerlySerializedAs("sceneToOpenAfterVictory")] [SerializeField] private int SceneToOpenAfterVictory;
+    [SerializeField] private int SceneToOpenAfterLoss;
     private int _enemiesDefeated;
 
     private int _currentEntity;
@@ -191,10 +192,17 @@ public class EntityManager : MonoBehaviour
         Debug.Log("AAAAAA");
     }
 
-    public void OnCombatEnd()
+    public void OnCombatWin()
     {
         SceneManager.LoadScene(SceneToOpenAfterVictory);
     }
+    
+    public void OnCombatLoss()
+    {
+        SceneManager.LoadScene(SceneToOpenAfterLoss);
+    }
+    
+    
 
     private void ShowCombatSummary(bool IsVictory)
     {
