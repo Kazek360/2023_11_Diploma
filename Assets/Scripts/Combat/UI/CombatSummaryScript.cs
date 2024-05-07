@@ -10,15 +10,21 @@ public class CombatSummaryScript : MonoBehaviour
     [SerializeField] private GameObject PlayerScrollContent;
     [SerializeField] private GameObject EnemyScrollContent;
     [SerializeField] private GameObject EntityContainerPrefab;
+    [SerializeField] private GameObject ProceedWin;
+    [SerializeField] private GameObject ProceedLoss;
 
     public void SetValues(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
     {
         if (IsVictory)
         {
+            ProceedWin.SetActive(true);
+            ProceedLoss.SetActive(false);
             ResultText.text = "VICTORY";
         }
         else
         {
+            ProceedWin.SetActive(false);
+            ProceedLoss.SetActive(true);
             ResultText.text = "DEFEAT";
         }
 

@@ -13,12 +13,13 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // Start is called before the first frame update
     void Start()
     {
-        _target = GetComponent<ITooltippable>();
+        _target = GetComponentInParent<ITooltippable>();
     }
 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("ENTER");
         if (_triggered)
         {
             return;
@@ -35,6 +36,7 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        Debug.Log("EXIT");
         _triggered = false;
         _tooltip.Delete();
     }
