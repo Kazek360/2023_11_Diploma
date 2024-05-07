@@ -18,7 +18,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        if (_quests is null)
+        if(_quests is null)
         {
             _quests = CreateQuestDictionary();
         }
@@ -143,7 +143,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
         foreach (var quest in _quests.Values)
         {
-            if (quest.State == QuestState.InProgress)
+            if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
             {
                 QuestEvents.ChangeQuestState(quest);
                 quest.InstantiateCurrentQuestStep(transform);
