@@ -34,8 +34,6 @@ namespace SaveSystem
                             dataToLoad = reader.ReadToEnd();
                         }
                     }
-
-                    //loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
                     loadedData = JsonConvert.DeserializeObject<GameData>(dataToLoad);
                 }
                 catch (Exception e)
@@ -52,7 +50,6 @@ namespace SaveSystem
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(_fullPath));
-                //var dataToStore = JsonUtility.ToJson(data, true);
                 var dataToStore = JsonConvert.SerializeObject(data);
                 using(var stream = new FileStream(_fullPath, FileMode.Create))
                 {

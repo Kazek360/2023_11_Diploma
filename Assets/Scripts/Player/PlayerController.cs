@@ -87,12 +87,12 @@ namespace Player
 
         public void LoadData(GameData gameData)
         {
-            transform.position = new Vector3(gameData.PlayerPosition[0], gameData.PlayerPosition[1], 0);
+            transform.position = new Vector3(gameData.playerPosition[0], gameData.playerPosition[1], 0);
         }
 
         public void SaveData(ref GameData gameData)
         {
-            gameData.PlayerPosition = new [] {transform.position.x, transform.position.y};
+            gameData.playerPosition = new [] {transform.position.x, transform.position.y};
         }
     }
 }

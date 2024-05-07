@@ -12,27 +12,23 @@ namespace SaveSystem
         public static DataPersistenceManager Instance { get; private set; }
         private GameData _gameData;
         private FileDataHandler _dataHandler;
-        public static List<IDataPersistence> DataPersistenceObjects;
+        private static List<IDataPersistence> _dataPersistenceObjects;
         
 
         private void Awake()
         {
             Instance = this;
-        }
-
-        public void Start()
-        {
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-            DataPersistenceObjects = FindAllDataPersistenceObjects();
+            _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
         }
 
-        public void NewGame()
+        private void NewGame()
         {
             _gameData = new GameData();
         }
 
-        public void LoadGame()
+        private void LoadGame()
         {
             _gameData = _dataHandler.LoadData();
             if (_gameData is null)
@@ -40,15 +36,15 @@ namespace SaveSystem
                 NewGame();
             }
 
-            foreach (var dataPersistenceObject in DataPersistenceObjects)
+            foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.LoadData(_gameData);
             }
         }
 
-        public void SaveGame()
+        private void SaveGame()
         {
-            foreach (var dataPersistenceObject in DataPersistenceObjects)
+            foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _gameData);
             }
@@ -68,5 +64,4 @@ namespace SaveSystem
             SaveGame();
         }
     }
-
 }
