@@ -12,14 +12,24 @@ public class RangedAbility : AbilityScriptableObject
     [Space(8)]
     [SerializeField] private bool dealingPsycheDamage;
     [SerializeField][Min(0)] private int psycheDamage;
-
+    
+    [Space(8)]
+    [SerializeField] private bool spiritAtt;
+    
     public override void CastAbility(IHittable target, IHittable caster)
     {
         base.CastAbility(target, caster);
         if (dealingHealthDamage)
         {
             //AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetStrength());
-            AbilityEffects.DealHealthDamage(target, healthDamage);
+            if (spiritAtt)
+            {
+                AbilityEffects.DealHealthDamage(target, healthDamage);
+            }
+            else
+            {
+                AbilityEffects.DealHealthDamage(target, healthDamage + caster.GetAgility() / 2);
+            }
         }
         if (dealingPsycheDamage)
         {
@@ -34,6 +44,13 @@ public class RangedAbility : AbilityScriptableObject
 
     public override string GetAbilityActionText()
     {
-        return "OBRAŻENIA: " + healthDamage;
+        if (spiritAtt)
+        {
+            return "OBRAŻENIA: " + healthDamage;
+        }
+        else
+        {
+            return "OBRAŻENIA: " + healthDamage + " + ZRĘCZ/2";
+        }
     }
 }
