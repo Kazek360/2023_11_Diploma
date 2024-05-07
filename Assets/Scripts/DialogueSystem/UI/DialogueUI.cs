@@ -12,8 +12,6 @@ namespace DialogueSystem.UI
     //Class managing the currently triggered dialogue.
     public class DialogueUI : MonoBehaviour
     {
-        public static DialogueUI instance;
-        
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
 
@@ -56,11 +54,7 @@ namespace DialogueSystem.UI
 
         private void Awake()
         {
-            if(instance is not null)
-            {
-                Debug.LogWarning("Found more than one Dialogue UI on scene");
-            }
-            instance = this;  
+            GameConfig.DialogueUI = this;  
             _dialogueVariables = new DialogueVariables(loadGlobalsJSON);
         }
 

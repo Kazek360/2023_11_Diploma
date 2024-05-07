@@ -28,7 +28,7 @@ public class AreaRace : AreaEnterQuestStep
                 winner = new StringValue("hryc");
             
             }
-            DialogueUI.instance.SetVariableState("race_winner", winner);
+            GameConfig.DialogueUI.SetVariableState("race_winner", winner);
             
             Finish();
         }

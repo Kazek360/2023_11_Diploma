@@ -6,22 +6,11 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour, IDataPersistence
 {
-    public static QuestManager Instance { get; private set; }
     private static Dictionary<string, Quest> _quests;
     
     private void Awake()
     {
-        if(Instance is not null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        if(_quests is null)
-        {
-            _quests = CreateQuestDictionary();
-        }
+        _quests = CreateQuestDictionary();
     } 
 
     private void OnEnable()

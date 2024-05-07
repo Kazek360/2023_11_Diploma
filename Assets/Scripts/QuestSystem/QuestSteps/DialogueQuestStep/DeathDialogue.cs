@@ -52,7 +52,7 @@ public class DeathDialogue : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            if (((Ink.Runtime.StringValue) DialogueUI.instance.GetVariableState("death_choice")).value.Equals("death"))
+            if (((Ink.Runtime.StringValue) GameConfig.DialogueUI.GetVariableState("death_choice")).value.Equals("death"))
             {
                 SceneManager.LoadScene(0);
             }

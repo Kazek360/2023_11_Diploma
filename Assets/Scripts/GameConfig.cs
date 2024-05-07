@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DialogueSystem.UI;
 using UnityEngine;
 
 
@@ -8,7 +9,7 @@ using UnityEngine;
  */
 public class GameConfig
 {
-    
+    public static DialogueUI DialogueUI;
     public static Inventory PlayerInventory;
     public static PlayerStats PlayerStats;
     public static Canvas canvas;

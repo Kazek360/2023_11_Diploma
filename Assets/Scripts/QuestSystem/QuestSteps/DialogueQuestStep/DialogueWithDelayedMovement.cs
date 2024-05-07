@@ -26,7 +26,7 @@ public class DialogueWithDelayedMovement : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            if (((Ink.Runtime.BoolValue) DialogueUI.instance.GetVariableState(delayFlag)).value)
+            if (((Ink.Runtime.BoolValue) GameConfig.DialogueUI.GetVariableState(delayFlag)).value)
             {
                 yield return new WaitForSeconds(1f);
             }
