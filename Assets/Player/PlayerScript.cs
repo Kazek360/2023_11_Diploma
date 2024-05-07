@@ -8,15 +8,10 @@ public class PlayerScript : MonoBehaviour, IHittable
 {
     [SerializeField] private GameObject partner;
     [SerializeField] private Sprite playerImage;
-    [SerializeField] private int maxHealthPoints;
     [SerializeField] private int maxPsychePoints;
     protected IHittable _partner;
 
     [SerializeField] private string entityName;
-    [SerializeField] private int strength;
-    [SerializeField] private int agility;
-    [SerializeField] private int luck;
-    [SerializeField] private int imagination;
     
     [SerializeField] private List<AbilityScriptableObject> abilities;
     private List<int> _cooldowns;
@@ -35,7 +30,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     void Start()
     {
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = maxHealthPoints;
+        _currentHealth = GameConfig.PlayerStats.GetStat(StatType.Health);
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
@@ -85,7 +80,7 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public int GetMaxHealth()
     {
-        return maxHealthPoints;
+        return GameConfig.PlayerStats.GetStat(StatType.Health);
     }
 
     public void ModifyHealth(int amount)
