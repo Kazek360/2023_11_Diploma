@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PickUpItem : MonoBehaviour
+public class PickUpItem : MonoBehaviour, ITooltippable
 {
     [SerializeField] private int ItemId;
     [SerializeField] private int Amount;
@@ -45,5 +45,15 @@ public class PickUpItem : MonoBehaviour
             _inRange = false;
             _pickupIndicatorSprite.SetActive(false);
         }
+    }
+
+    public string GetTooltipHeader()
+    {
+        return ItemLibrary.GetInstance().GetItem(ItemId).ItemName;
+    }
+
+    public string GetTooltipDesc()
+    {
+        return ItemLibrary.GetInstance().GetItem(ItemId).ItemDesc;
     }
 }

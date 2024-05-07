@@ -25,7 +25,7 @@ public class TooltipObject : MonoBehaviour
         }
 
         _tooltip = Instantiate(TooltipPrefab).GetComponent<TooltipUI>();
-        _tooltip.Setup("HEAD", "DESC");
+        _tooltip.Setup(_target.GetTooltipHeader(), _target.GetTooltipDesc());
 
         _triggered = true;
         print (gameObject.name);
