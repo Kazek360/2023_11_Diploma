@@ -44,7 +44,7 @@ namespace QuestSystem
 
                 if (stepsDescriptions.Count > 0)
                 {
-                    if (!stepsDescriptions[stepsDescriptions.Count - 1].Equals("questStep.description"))
+                    if (!stepsDescriptions[stepsDescriptions.Count - 1].Equals(questStep.description))
                     {
                         stepsDescriptions.Add(questStep.description);
                     }
