@@ -42,6 +42,11 @@ namespace InputSystem
         {
             OnSkillTreeToggle?.Invoke();
         }
+        public static event Action OnInventoryToggle;
+        public static void ToggleInventory()
+        {
+            OnInventoryToggle?.Invoke();
+        }
         public static event Action OnInterfaceClosed;
         public static void CloseInterface()
         {

@@ -163,6 +163,19 @@ namespace InputSystem
             }
         }
 
+        public void OnToggleInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (!_uiName.Equals("Inventory") && !_uiName.Equals(""))
+                {
+                    return;
+                }
+                PrepareInterfaceValues("Inventory");
+                InputEvents.ToggleInventory();
+            }
+        }
+
         public void OnCloseUI(InputAction.CallbackContext context)
         {
             if (context.performed)

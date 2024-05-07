@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -10,11 +6,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     [SerializeField] private ItemInteractionUI ItemInteraction;
     [SerializeField] private PlayerStatsUI PlayerStatisticks;
-
-    public void OnEnable()
-    {
-    }
-
+    
     public void Start()
     {
         UpdateDisplay();
