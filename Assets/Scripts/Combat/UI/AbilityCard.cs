@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class AbilityCard : MonoBehaviour
+public class AbilityCard : MonoBehaviour,   ITooltippable
 {
     [FormerlySerializedAs("ability")] [SerializeField] private AbilityScriptableObject Ability;
     [FormerlySerializedAs("abilityNameField")] [SerializeField] private GameObject AbilityNameField;
@@ -66,4 +66,14 @@ public class AbilityCard : MonoBehaviour
     public int AbilityOrderInEntityList => _abilityOrderInEntityList;
 
     public AbilityScriptableObject GetAbility => Ability;
+
+    public string GetTooltipHeader()
+    {
+        return Ability.AbilityName;
+    }
+
+    public string GetTooltipDesc()
+    {
+        return Ability.AbilityDescription;
+    }
 }

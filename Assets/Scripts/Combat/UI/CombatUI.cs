@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -28,6 +29,12 @@ public class CombatUI : MonoBehaviour
 
     private List<IHittable> _possibleTargets;
     private IHittable _currentTarget;
+
+    public void OnEnable()
+    {
+        GameConfigLib.canvas = GetComponent<Canvas>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
