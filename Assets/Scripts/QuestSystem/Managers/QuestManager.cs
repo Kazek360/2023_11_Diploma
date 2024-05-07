@@ -6,11 +6,22 @@ using UnityEngine;
 
 public class QuestManager : MonoBehaviour, IDataPersistence
 {
+    public static QuestManager Instance { get; private set; }
     private static Dictionary<string, Quest> _quests;
     
     private void Awake()
     {
-        _quests = CreateQuestDictionary();
+        if(Instance is not null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        if(_quests is null)
+        {
+            _quests = CreateQuestDictionary();
+        }
     } 
 
     private void OnEnable()
@@ -132,7 +143,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
         foreach (var quest in _quests.Values)
         {
-            if (quest.State == QuestState.InProgress)
+            if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
             {
                 QuestEvents.ChangeQuestState(quest);
                 quest.InstantiateCurrentQuestStep(transform);

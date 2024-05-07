@@ -64,7 +64,7 @@ namespace QuestSystem.UI
 
         private void QuestStateChange(Quest quest)
         {
-            if (quest.State == QuestState.InProgress)
+            if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
             {
                 var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
 
