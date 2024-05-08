@@ -98,11 +98,11 @@ public class PlayerStats : MonoBehaviour
         _itemStatModifiers = new List<ItemStatModifier>();
         _baseStats = new List<BaseStat>();
         
-        _baseStats.Add(new BaseStat(StatType.Agility, 3));
-        _baseStats.Add(new BaseStat(StatType.Strength, 5));
+        _baseStats.Add(new BaseStat(StatType.Agility, 2));
+        _baseStats.Add(new BaseStat(StatType.Strength, 3));
         _baseStats.Add(new BaseStat(StatType.Luck, 3));
-        _baseStats.Add(new BaseStat(StatType.Imagination, 3));
-        _baseStats.Add(new BaseStat(StatType.Health, 10));
+        _baseStats.Add(new BaseStat(StatType.Imagination, 2));
+        _baseStats.Add(new BaseStat(StatType.Health, 8));
     }
 
     public string GetPlayerStatsString()
