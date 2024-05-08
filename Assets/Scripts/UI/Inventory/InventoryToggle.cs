@@ -13,8 +13,8 @@ public class InventoryToggle : MonoBehaviour
     
     public void OnDisable()
     {
-        InputEvents.OnInventoryToggle += ToggleInventory;
-        InputEvents.OnInterfaceClosed += CloseInventory;
+        InputEvents.OnInventoryToggle -= ToggleInventory;
+        InputEvents.OnInterfaceClosed -= CloseInventory;
     }
     
     private void ToggleInventory()
