@@ -432,6 +432,8 @@ public class CombatSystem_2 : MonoBehaviour
         
         public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
         {
+            CombatUI.DisableCombatUI();
+            ClearGrid();
             CombatUI.ShowCombatSummary(IsVictory, players, enemies);
         }
 
