@@ -52,6 +52,10 @@ namespace InputSystem
         {
             OnInterfaceClosed?.Invoke();
         }
-        
+        public static event Action OnPauseToggle;
+        public static void TogglePause()
+        {
+            OnPauseToggle?.Invoke();
+        }
     }
 }
