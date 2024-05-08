@@ -69,7 +69,7 @@ namespace SaveSystem
             }
         }
 
-        private void SaveGame()
+        public void SaveGame()
         {
             if (_gameData is null)
             {
