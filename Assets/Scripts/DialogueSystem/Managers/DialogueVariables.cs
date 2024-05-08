@@ -9,15 +9,16 @@ namespace DialogueSystem.Managers
     {
         public Dictionary<string, Object> _variablesDictionary { get; private set; }
 
+        private Story _globalVariableStory;
         public DialogueVariables(TextAsset loadGlobalJson)
         {
-            var globalVariableStory = new Story(loadGlobalJson.text);
+            _globalVariableStory = new Story(loadGlobalJson.text);
 
             _variablesDictionary = new Dictionary<string, Object>();
 
-            foreach (var name in globalVariableStory.variablesState)
+            foreach (var name in _globalVariableStory.variablesState)
             {
-                var value = globalVariableStory.variablesState.GetVariableWithName(name);
+                var value = _globalVariableStory.variablesState.GetVariableWithName(name);
                 _variablesDictionary.Add(name, value);
             }
         }
@@ -47,6 +48,21 @@ namespace DialogueSystem.Managers
             {
                 story.variablesState.SetGlobal(variable.Key, variable.Value);
             }
+        }
+
+        public string SaveVariables()
+        {
+            if (_globalVariableStory is not null)
+            {
+                VariableToStory(_globalVariableStory);
+                return _globalVariableStory.state.ToJson();
+            }
+
+            return null;
+        }
+        public void LoadVariables(string variablesString)
+        {
+            _globalVariableStory.state.LoadJson(variablesString);
         }
     }
 }

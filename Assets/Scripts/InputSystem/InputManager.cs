@@ -27,6 +27,11 @@ namespace InputSystem
             DialogueEvents.OnDialogueFinished -= OnDialogueFinished;
             CutsceneEvents.OnCutsceneStarted -= OnCutsceneStarted;
             CutsceneEvents.OnCutsceneFinished -= OnCutsceneFinished;
+            
+            _controlls.Player.RemoveCallbacks(this);
+            _controlls.Dialogue.RemoveCallbacks(this);
+            _controlls.Cutscene.RemoveCallbacks(this);
+            _controlls.UI.RemoveCallbacks(this);
         }
         
         private void Awake()

@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &81033584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 81033585}
+  - component: {fileID: 81033586}
+  m_Layer: 7
+  m_Name: PlayerTeleporter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &81033585
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81033584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1440.62, y: 519.83, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &81033586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81033584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9114fca45a31a94fb5845911a301b29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToTeleport: {fileID: 1389328046}
 --- !u!1 &133087235
 GameObject:
   m_ObjectHideFlags: 0
@@ -34280,6 +34325,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82225c5def148e549965022ba036ca3b, type: 3}
+--- !u!1 &1389328046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1065001071251367640, guid: 82225c5def148e549965022ba036ca3b, type: 3}
+  m_PrefabInstance: {fileID: 1389328045}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1406192023
 GameObject:
   m_ObjectHideFlags: 0
@@ -46680,6 +46730,7 @@ SceneRoots:
   - {fileID: 672250192}
   - {fileID: 1958188154}
   - {fileID: 896830771}
+  - {fileID: 81033585}
   - {fileID: 1389328045}
   - {fileID: 2086934715}
   - {fileID: 1259369546}

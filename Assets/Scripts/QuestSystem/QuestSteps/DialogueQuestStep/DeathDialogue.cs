@@ -3,7 +3,6 @@ using Cutscenes;
 using Unity.VisualScripting;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.UI;
 using UnityEngine.SceneManagement;
 
 public class DeathDialogue : DialogueQuestStep

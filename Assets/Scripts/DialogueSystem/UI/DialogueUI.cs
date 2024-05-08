@@ -6,11 +6,13 @@ using DialogueSystem.Events;
 using DialogueSystem.Managers;
 using Ink.Runtime;
 using InputSystem;
+using SaveSystem;
+using SaveSystem.Data;
 
 namespace DialogueSystem.UI
 {
     //Class managing the currently triggered dialogue.
-    public class DialogueUI : MonoBehaviour
+    public class DialogueUI : MonoBehaviour, IDataPersistence
     {
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
@@ -243,6 +245,21 @@ namespace DialogueSystem.UI
                 globalStory.variablesState.SetGlobal(variableName, variableValue);
                 _dialogueVariables.StopListening(globalStory);
             }
+        }
+
+        public void LoadData(GameData gameData)
+        {
+            if (gameData.inkVariables.Equals("") || gameData.inkVariables is null)
+            {
+                return;
+            }
+
+            _dialogueVariables.LoadVariables(gameData.inkVariables);
+        }
+
+        public void SaveData(ref GameData gameData)
+        {
+            gameData.inkVariables = _dialogueVariables.SaveVariables();
         }
     }
 }
