@@ -258,6 +258,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Toggle Inventory",
+                    "type": "Button",
+                    "id": "2ce3c231-f361-48a3-ba32-d87c3497377e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Close UI",
                     "type": "Button",
                     "id": "c8dfe1e8-d7ea-41fd-9b42-d506b55f6304",
@@ -298,6 +307,45 @@
                     "processors": "",
                     "groups": "",
                     "action": "Toggle Skill Tree",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b0060de3-f2b2-4ce5-81b3-e2fa0e3e569e",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Pause Menu",
+            "id": "1c3d21b1-38bb-4d90-8cd5-4a32b3091a46",
+            "actions": [
+                {
+                    "name": "TogglePauseMenu",
+                    "type": "Button",
+                    "id": "0df7f974-fdd0-438e-9fb1-b5289e0de6d2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b4db4619-f207-46e8-8660-3590622a0ae9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TogglePauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public enum EquipmentSlotType {head, torso, hand, legs, feet}
@@ -7,7 +9,7 @@ public class Item
 {
     private int _itemID;
     private string _itemName;
-    private string _itemDesc;
+    protected string _itemDesc;
     private Sprite _itemSprite;
     private int _maxStackSize;
 
@@ -24,7 +26,10 @@ public class Item
 
     public string ItemName => _itemName;
 
-    public string ItemDesc => _itemDesc;
+    public virtual string ItemDesc()
+    {
+        return _itemDesc;
+    }
 
     public Sprite ItemSprite => _itemSprite;
 
@@ -35,24 +40,35 @@ public class Item
 public class EquipmentItem: Item
 {
     private Action _equip;
-    private Action _unequip;
     private EquipmentSlotType _equipmentSlotType;
+    private List<ItemStatModifier> _modifiers;
 
-    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, EquipmentSlotType equipmentSlotType) : base(itemID, itemName, itemDesc, itemSprite, 1)
+    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
     {
         _equip = equip;
-        _unequip = unequip;
         _equipmentSlotType = equipmentSlotType;
+        _modifiers = modifiers;
     }
 
     public void Equip()
     {
+        foreach (var modifier in _modifiers)
+        {
+            GameConfig.PlayerStats.AddItemModifier(modifier);
+        }
         _equip();
     }
 
-    public void Unequip()
+    public override string ItemDesc()
     {
-        _unequip();
+        StringBuilder builder = new StringBuilder();
+        builder.Append(_itemDesc + "\n");
+        foreach (var modifier in _modifiers)
+        {
+            builder.Append(modifier.StatString() + "\n");
+        }
+        
+        return builder.ToString();
     }
 
     public EquipmentSlotType EquipmentSlotType => _equipmentSlotType;

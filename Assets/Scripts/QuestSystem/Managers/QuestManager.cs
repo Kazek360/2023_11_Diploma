@@ -81,14 +81,12 @@ public class QuestManager : MonoBehaviour, IDataPersistence
     
     private void FinishQuest(string id)
     {
-        var quest = GetQuestById(id);
         ChangeQuestState(id, QuestState.Finished);
-        
-        foreach (var q in _quests.Values)
+        foreach (var quest in _quests.Values)
         {
-            if (q.State == QuestState.RequirementsNotMet && CheckRequirementsMet(q))
+            if (quest.State == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
             {
-                ChangeQuestState(q.Info.id, QuestState.CanStart);
+                ChangeQuestState(quest.Info.id, QuestState.CanStart);
             }
         }
     }
@@ -132,7 +130,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
         foreach (var quest in _quests.Values)
         {
-            if (quest.State == QuestState.InProgress)
+            if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
             {
                 QuestEvents.ChangeQuestState(quest);
                 quest.InstantiateCurrentQuestStep(transform);

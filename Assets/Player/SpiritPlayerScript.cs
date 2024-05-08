@@ -28,5 +28,6 @@ public class SpiritPlayerScript : PlayerScript, IHittable
         {
             _partner.OnPartnerDeath();
         }
+        gameObject.SetActive(false);
     }
 }

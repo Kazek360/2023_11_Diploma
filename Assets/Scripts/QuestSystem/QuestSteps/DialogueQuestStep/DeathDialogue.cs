@@ -3,7 +3,6 @@ using Cutscenes;
 using Unity.VisualScripting;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.UI;
 using UnityEngine.SceneManagement;
 
 public class DeathDialogue : DialogueQuestStep
@@ -52,7 +51,7 @@ public class DeathDialogue : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            if (((Ink.Runtime.StringValue) DialogueUI.instance.GetVariableState("death_choice")).value.Equals("death"))
+            if (((Ink.Runtime.StringValue) GameConfig.DialogueUI.GetVariableState("death_choice")).value.Equals("death"))
             {
                 SceneManager.LoadScene(0);
             }

@@ -1,20 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private InventorySlotsUI InventorySlots;
     [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     [SerializeField] private ItemInteractionUI ItemInteraction;
-
-    public void OnEnable()
-    {
-        Inventory.GetInstance();
-    }
-
+    [SerializeField] private PlayerStatsUI PlayerStatisticks;
+    
     public void Start()
     {
         UpdateDisplay();
@@ -25,6 +17,7 @@ public class InventoryUI : MonoBehaviour
     {
         InventorySlots.UpdateUI();
         EquipmentSlots.UpdateUI();
+        PlayerStatisticks.UpdateDisplay();
     }
 
     public void SelectedSlotChanged(ItemSlot slot)

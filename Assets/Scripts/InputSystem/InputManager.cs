@@ -7,11 +7,12 @@ namespace InputSystem
 {
     public class InputManager : MonoBehaviour, 
         PlayerControlls.IPlayerActions, PlayerControlls.IDialogueActions, PlayerControlls.ICutsceneActions,
-        PlayerControlls.IUIActions
+        PlayerControlls.IUIActions, PlayerControlls.IPauseMenuActions
     {
         private PlayerControlls _controlls;
         private bool _uiOpened;
         private string _uiName;
+        private bool _gamePaused;
         
         private void OnEnable()
         {
@@ -27,6 +28,12 @@ namespace InputSystem
             DialogueEvents.OnDialogueFinished -= OnDialogueFinished;
             CutsceneEvents.OnCutsceneStarted -= OnCutsceneStarted;
             CutsceneEvents.OnCutsceneFinished -= OnCutsceneFinished;
+            
+            _controlls.Player.RemoveCallbacks(this);
+            _controlls.Dialogue.RemoveCallbacks(this);
+            _controlls.Cutscene.RemoveCallbacks(this);
+            _controlls.UI.RemoveCallbacks(this);
+            _controlls.PauseMenu.RemoveCallbacks(this);
         }
         
         private void Awake()
@@ -46,15 +53,18 @@ namespace InputSystem
         {
             _controlls = new PlayerControlls();
             _uiOpened = false;
+            _gamePaused = false;
             _uiName = "";
             
             _controlls.Player.SetCallbacks(this);
             _controlls.Dialogue.SetCallbacks(this);
             _controlls.Cutscene.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
+            _controlls.PauseMenu.SetCallbacks(this);
             
             _controlls.Player.Enable();
             _controlls.UI.Enable();
+            _controlls.PauseMenu.Enable();
         }
 
         public void OnMovement(InputAction.CallbackContext context)
@@ -86,24 +96,28 @@ namespace InputSystem
         {
             _controlls.Player.Disable();
             _controlls.UI.Disable();
+            _controlls.PauseMenu.Disable();
             _controlls.Dialogue.Enable();
         }
         private void OnDialogueFinished(DialogueSO dialogue)
         {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
+            _controlls.PauseMenu.Enable();
             _controlls.Dialogue.Disable();
         }
         private void OnCutsceneStarted(CutsceneSO cutscene)
         {
             _controlls.Player.Disable();
             _controlls.UI.Disable();
+            _controlls.PauseMenu.Disable();
             _controlls.Cutscene.Enable();
         }
         private void OnCutsceneFinished()
         {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
+            _controlls.PauseMenu.Enable();
             _controlls.Cutscene.Disable();
         }
         
@@ -128,11 +142,13 @@ namespace InputSystem
             {
                 _uiName = ""; 
                 _controlls.Player.Enable();
+                _controlls.PauseMenu.Enable();
             }
             else
             {
                 _uiName = uiName;
                 _controlls.Player.Disable();
+                _controlls.PauseMenu.Disable();
             }
             _uiOpened = !_uiOpened;
         }
@@ -163,14 +179,48 @@ namespace InputSystem
             }
         }
 
+        public void OnToggleInventory(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (!_uiName.Equals("Inventory") && !_uiName.Equals(""))
+                {
+                    return;
+                }
+                PrepareInterfaceValues("Inventory");
+                InputEvents.ToggleInventory();
+            }
+        }
+
         public void OnCloseUI(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
                 _controlls.Player.Enable();
+                _controlls.PauseMenu.Enable();
                 _uiOpened = false;
                 _uiName = ""; 
                 InputEvents.CloseInterface();
+            }
+        }
+
+        public void OnTogglePauseMenu(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (_gamePaused)
+                {
+                    _controlls.Player.Enable();
+                    _controlls.UI.Enable();
+                    
+;                }
+                else
+                {
+                    _controlls.Player.Disable();
+                    _controlls.UI.Disable();
+                }
+                _gamePaused = !_gamePaused;
+                InputEvents.TogglePause();
             }
         }
     }

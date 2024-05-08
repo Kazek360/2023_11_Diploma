@@ -40,7 +40,7 @@ public class InventorySlot : ItemSlot
         if (_item is EquipmentItem equipmentItem)
         {
             equipmentItem.Equip();
-            Inventory.GetInstance().GetEquipmentSlot(equipmentItem.EquipmentSlotType).EquipItem(equipmentItem);
+            GameConfig.PlayerInventory.GetEquipmentSlot(equipmentItem.EquipmentSlotType).EquipItem(equipmentItem);
             _count = 0;
             _item = null;
         }
@@ -114,7 +114,8 @@ public class EquipmentSlot : ItemSlot
     
     public override void Use()
     {
-        Inventory.GetInstance().AddItem(_item.ItemID, 1);
+        GameConfig.PlayerStats.ItemRemoved(_item.ItemID);
+        GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
         _item = null;
     }
 
@@ -122,7 +123,9 @@ public class EquipmentSlot : ItemSlot
     {
         if (_item is not null)
         {
-            Inventory.GetInstance().AddItem(_item.ItemID, 1);
+            GameConfig.PlayerStats.ItemRemoved(_item.ItemID);
+            GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
+            
         }
         _item = item;
         return true;

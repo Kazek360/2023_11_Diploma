@@ -10,14 +10,12 @@ public class PathMovement : MonoBehaviour
     [SerializeField] private float DistanceTolerance;
     private Transform _parentTransform;
     private Rigidbody2D _rigidbody;
-    private bool _isMoving;
 
     public void OnEnable()
     {
         PathEvents.OnMovementStarted += StartMovement;
         _parentTransform = transform.parent;
         _rigidbody = GetComponentInParent<Rigidbody2D>();
-        _isMoving = false;
     }
     public void OnDisable()
     {
@@ -39,13 +37,11 @@ public class PathMovement : MonoBehaviour
             }
         }
         _rigidbody.velocity = new Vector2(0, 0);
-        _isMoving = false;
         PathEvents.EndMovement();
     }
 
     public void StartMovement()
     {
-        _isMoving = true;
         StartCoroutine(Movement());
     }
     

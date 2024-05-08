@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
     }
     public void OnContinueClicked()
     {
-        SceneManager.LoadSceneAsync("Las");
+        SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.GameData.currentScene);
     }
     public void OnSettingsClicked()
     {

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveSystem.Data;
@@ -26,7 +25,7 @@ namespace SaveSystem
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            _dataHandler = new FileDataHandler(Application.dataPath, fileName);
         }
 
         private void OnEnable()
@@ -70,7 +69,7 @@ namespace SaveSystem
             }
         }
 
-        private void SaveGame()
+        public void SaveGame()
         {
             if (_gameData is null)
             {
@@ -99,5 +98,6 @@ namespace SaveSystem
         {
             return _gameData is not null;
         }
+        public GameData GameData => _gameData;
     }
 }

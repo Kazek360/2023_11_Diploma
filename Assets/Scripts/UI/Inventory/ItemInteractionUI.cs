@@ -34,7 +34,7 @@ public class ItemInteractionUI : MonoBehaviour
         
         ItemImage.sprite = item.ItemSprite;
         ItemName.text = item.ItemName;
-        ItemDesc.text = item.ItemDesc;
+        ItemDesc.text = item.ItemDesc();
         if (slot is InventorySlot)
         {
             DropButton.gameObject.SetActive(true);
@@ -57,7 +57,7 @@ public class ItemInteractionUI : MonoBehaviour
         {
             ItemImage.sprite = item.ItemSprite;
             ItemName.text = item.ItemName;
-            ItemDesc.text = item.ItemDesc;
+            ItemDesc.text = item.ItemDesc();
         
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZDEJMIJ";
         }
