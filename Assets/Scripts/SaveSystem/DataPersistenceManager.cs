@@ -25,7 +25,7 @@ namespace SaveSystem
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            _dataHandler = new FileDataHandler(Application.dataPath, fileName);
         }
 
         private void OnEnable()
@@ -69,7 +69,7 @@ namespace SaveSystem
             }
         }
 
-        private void SaveGame()
+        public void SaveGame()
         {
             if (_gameData is null)
             {

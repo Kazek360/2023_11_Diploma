@@ -1,5 +1,6 @@
 using System;
 using InputSystem;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,6 +36,7 @@ public class PauseMenu : MonoBehaviour
     
     public void QuitGame()
     {
+        DataPersistenceManager.Instance.SaveGame();
         SceneManager.LoadSceneAsync("MainMenu");
     }
 }
