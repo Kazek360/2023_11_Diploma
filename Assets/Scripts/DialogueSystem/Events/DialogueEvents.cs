@@ -1,9 +1,15 @@
 using System;
+using DialogueSystem.ScriptableObjects;
 
 namespace DialogueSystem.Events
 {
     public static class DialogueEvents
     {
+        public static event Action<string> OnDialogueTriggered;
+        public static void TriggerDialogue(string triggerName)
+        {
+            OnDialogueTriggered?.Invoke(triggerName);
+        }
         public static event Action<DialogueSO> OnDialogueStarted;
         public static void StartDialogue(DialogueSO dialogue)
         {

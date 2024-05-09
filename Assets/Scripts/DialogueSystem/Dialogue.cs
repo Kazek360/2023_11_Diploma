@@ -1,3 +1,4 @@
+using DialogueSystem.ScriptableObjects;
 using UnityEngine;
 
 namespace DialogueSystem
@@ -11,7 +12,8 @@ namespace DialogueSystem
             CanTrigger,
             Finished
         }
-        
+
+        public string id;
         public readonly DialogueSO info;
         public State state;
         private int _defaultPriority;
@@ -21,6 +23,7 @@ namespace DialogueSystem
         {
             this.info = info;
             state = State.CannotTrigger;
+            id = this.info.name;
 
             if (info.relatedQuest is null)
             {
