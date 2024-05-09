@@ -7,7 +7,7 @@ public class QuestStarter : MonoBehaviour
     private void Start()
     {
         if(QuestManager.GetQuestById(quest.id).State != QuestState.InProgress && 
-           QuestManager.GetQuestById(quest.id).State != QuestState.Finished )
+           QuestManager.GetQuestById(quest.id).State != QuestState.Finished)
         {
             QuestEvents.StartQuest(quest.id);
         }

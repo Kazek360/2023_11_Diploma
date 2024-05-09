@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
-using QuestSystem;
 using UnityEngine;
 
 namespace DialogueSystem.Managers
@@ -14,20 +13,18 @@ namespace DialogueSystem.Managers
         
         private void Awake()
         {
+            _currentDialogues = new Dictionary<string, Dialogue>();
             _dialoguesDictionary = CreateDialogueDictionary();
-            ChangeAllCurrentDialogues();
         }
         
         private void OnEnable()
         {
-            QuestEvents.OnQuestStateChange += ChangeDialoguesState;
             DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             DialogueEvents.OnDialogueTriggered += StartDialogue;
         }
         
         private void OnDisable()
         {
-            QuestEvents.OnQuestStateChange -= ChangeDialoguesState;
             DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             DialogueEvents.OnDialogueTriggered -= StartDialogue;
         }
@@ -67,7 +64,6 @@ namespace DialogueSystem.Managers
                     _currentDialogues[triggerName] = dialogue;
                     continue;
                 }
-        
                 if (dialogue.state == Dialogue.State.CanTrigger)
                 {
                     if (dialogue.currentPriority > _currentDialogues[triggerName].currentPriority ||
@@ -107,27 +103,6 @@ namespace DialogueSystem.Managers
             return true;
         }
         
-        private void ChangeDialoguesState(Quest quest)
-        {
-            foreach (var dialogues in _dialoguesDictionary.Values)
-            {
-                foreach (var dialogue in dialogues)
-                {
-                    if (dialogue.info.relatedQuest is not null)
-                    {
-                        if (quest.Info.id == dialogue.info.relatedQuest.id)
-                        {
-                            if (dialogue.state == Dialogue.State.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
-                            {
-                                dialogue.state = Dialogue.State.CanTrigger;
-                            }
-                        }
-                    }
-                }
-            }
-            ChangeAllCurrentDialogues();
-        }
-        
         private void UnlockDialogue(string id)
         {
             var foundDialogue = false;
@@ -137,6 +112,7 @@ namespace DialogueSystem.Managers
                 {
                     if (dialogue.id.Equals(id))
                     {
+                        dialogue.state = Dialogue.State.CanTrigger;
                         foundDialogue = true;
                         ChangeCurrentDialogue(pair.Key);
                         break;
@@ -159,6 +135,7 @@ namespace DialogueSystem.Managers
                 if (!dialoguesDictionary.ContainsKey(dialogueInfo.triggerName))
                 {
                     dialoguesDictionary.Add(dialogueInfo.triggerName, new List<Dialogue>());
+                    _currentDialogues.Add(dialogueInfo.triggerName, null);
                 }
                 dialoguesDictionary[dialogueInfo.triggerName].Add(new Dialogue(dialogueInfo));
             }
