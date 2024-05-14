@@ -1,15 +1,10 @@
+using SaveSystem;
 using UnityEngine;
 
 public abstract class BaseQuestStep : MonoBehaviour
 {
     [TextArea][SerializeField] public string description;
-    private bool _isFinished;
     private string _questId;
-    
-    private void Start()
-    {
-        _isFinished = false;
-    }
 
     public void InitializeQuestStep(string id)
     {
@@ -18,11 +13,24 @@ public abstract class BaseQuestStep : MonoBehaviour
     
     protected void Finish()
     {
-        if (!_isFinished)
+        if (QuestManager.GetQuestById(_questId).State == QuestState.CanFinish)
         {
-            _isFinished = true;
-            QuestEvents.ProgressQuest(_questId);
-            Destroy(gameObject);
+            QuestEvents.FinishQuest(_questId);
         }
+        else
+        {
+            QuestEvents.ProgressQuest(_questId);
+        }
+        DataPersistenceManager.Instance.SaveGame();
+    }
+
+    protected void Delete()
+    {
+        Destroy(gameObject);
+    }
+    protected void FinishAndDelete()
+    {
+        Finish();
+        Delete();
     }
 }

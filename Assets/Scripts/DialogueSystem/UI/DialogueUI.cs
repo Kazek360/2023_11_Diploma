@@ -13,7 +13,7 @@ using SaveSystem.Data;
 namespace DialogueSystem.UI
 {
     //Class managing the currently triggered dialogue.
-    public class DialogueUI : MonoBehaviour, IDataPersistence
+    public class DialogueUI : MonoBehaviour
     {
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
@@ -248,19 +248,19 @@ namespace DialogueSystem.UI
             }
         }
 
-        public void LoadData(GameData gameData)
-        {
-            if (gameData.inkVariables.Equals("") || gameData.inkVariables is null)
-            {
-                return;
-            }
-
-            _dialogueVariables.LoadVariables(gameData.inkVariables);
-        }
-
-        public void SaveData(ref GameData gameData)
-        {
-            gameData.inkVariables = _dialogueVariables.SaveVariables();
-        }
+        // public void LoadData(GameData gameData)
+        // {
+        //     if (gameData.inkVariables.Equals("") || gameData.inkVariables is null)
+        //     {
+        //         return;
+        //     }
+        //
+        //     _dialogueVariables.LoadVariables(gameData.inkVariables);
+        // }
+        //
+        // public void SaveData(ref GameData gameData)
+        // {
+        //     gameData.inkVariables = _dialogueVariables.SaveVariables();
+        // }
     }
 }

@@ -32,7 +32,7 @@ public class DialogueAreaQuestStep : DialogueQuestStep
         if (dialoguesInfo.name == dialogue.name)
         {
             Destroy(area);
-            Finish();
+            FinishAndDelete();
         } 
     }
 }

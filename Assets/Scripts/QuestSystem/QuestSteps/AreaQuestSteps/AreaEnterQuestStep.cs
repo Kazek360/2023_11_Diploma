@@ -19,7 +19,7 @@ public class AreaEnterQuestStep : BaseQuestStep
         if (areaName.Equals(areaToEnterName))
         {
             Destroy(area);
-            Finish();
+            FinishAndDelete();
         }
     }
 }

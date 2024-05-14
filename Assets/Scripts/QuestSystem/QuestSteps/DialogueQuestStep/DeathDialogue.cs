@@ -17,7 +17,7 @@ public class DeathDialogue : DialogueQuestStep
     {
         CutsceneEvents.OnCutsceneFinished += TeleportPlayer;
         AreaEvent.OnAreaEnter += AreaEntered;
-        DialogueEvents.OnDialogueFinished += StartFinishingStep;
+        DialogueEvents.OnDialogueFinished += FinishStep;
         
         _deathRealmToTeleport = GameObject.Find("DeathArea");
         _shoreToTeleport = GameObject.Find("ShoreArea");
@@ -29,7 +29,7 @@ public class DeathDialogue : DialogueQuestStep
     {
         CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
         AreaEvent.OnAreaEnter -= AreaEntered;
-        DialogueEvents.OnDialogueFinished -= StartFinishingStep;
+        DialogueEvents.OnDialogueFinished -= FinishStep;
     }
     
     private void TeleportPlayer()
@@ -43,12 +43,7 @@ public class DeathDialogue : DialogueQuestStep
             AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
         }
     }
-    private void StartFinishingStep(DialogueSO dialogue)
-    {
-        StartCoroutine(FinishStep(dialogue));
-    }
-    
-    private IEnumerator FinishStep(DialogueSO dialogue)
+    private void FinishStep(DialogueSO dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {
@@ -58,12 +53,11 @@ public class DeathDialogue : DialogueQuestStep
             }
             else
             {
-                QuestEvents.FinishQuest(dialogue.relatedQuest.id);
+                Finish();
                 Destroy(_deathRealmToTeleport);
-                yield return new WaitForSeconds(2f);
                 QuestEvents.StartQuest(questToStart.id);
                 _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
-                Destroy(gameObject); 
+                Delete();
             }
         } 
     }

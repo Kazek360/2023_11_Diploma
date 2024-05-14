@@ -32,7 +32,7 @@ public class DialogueWithDelayedMovement : DialogueQuestStep
                 yield return new WaitForSeconds(1f);
             }
             PathEvents.StartMovement();
-            Finish();
+            FinishAndDelete();
         } 
     }
 }
