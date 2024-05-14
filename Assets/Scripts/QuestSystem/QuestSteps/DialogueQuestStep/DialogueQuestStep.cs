@@ -20,7 +20,7 @@ public class DialogueQuestStep : BaseQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            Finish();
+            FinishAndDelete();
         } 
     }
 }

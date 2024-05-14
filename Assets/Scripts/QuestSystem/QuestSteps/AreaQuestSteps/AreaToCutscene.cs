@@ -19,7 +19,7 @@ public class AreaToCutscene : AreaEnterQuestStep
         {
             Destroy(area);
             CutsceneEvents.StartCutscene(CutsceneToTrigger);
-            Finish();
+            FinishAndDelete();
         }
     }
 }

@@ -21,8 +21,8 @@ public class DialogueSceneChange : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            SceneManager.LoadScene(sceneNumber);
             Finish();
+            SceneManager.LoadScene(sceneNumber);
         } 
     }
 }

@@ -30,7 +30,7 @@ public class AreaRace : AreaEnterQuestStep
             }
             GameConfig.DialogueUI.SetVariableState("race_winner", winner);
             
-            Finish();
+            FinishAndDelete();
         }
     }
 }

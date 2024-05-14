@@ -1,5 +1,5 @@
 using System.Collections;
-using QuestSystem;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,49 +9,57 @@ public class QuestPopup : MonoBehaviour
     [Header("Components")] 
     [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private Image popupImage;
-    private void OnEnable()
-    {
-        QuestEvents.OnQuestStart += EnableQuestStartPopup;
-        QuestEvents.OnQuestFinish += EnableQuestFinishPopup;
-    }
-    private void OnDisable()
-    {
-        QuestEvents.OnQuestStart -= EnableQuestStartPopup;
-        QuestEvents.OnQuestFinish -= EnableQuestFinishPopup;
-    }
+
+    private Queue<string> _popupQueue;
+    private bool _popupDisplayed;
+    
     private void Awake()
     {
         popupText.gameObject.SetActive(false);
         popupImage.gameObject.SetActive(false);
+        _popupQueue = new Queue<string>();
+        _popupDisplayed = false;
+    }
+    private void OnEnable()
+    {
+        QuestEvents.OnQuestStart += AddStartQuestPopup;
+        QuestEvents.OnQuestFinish += AddFinishQuestPopup;
+    }
+    private void OnDisable()
+    {
+        QuestEvents.OnQuestStart -= AddStartQuestPopup;
+        QuestEvents.OnQuestFinish -= AddFinishQuestPopup;
+    }
+
+    private void Update()
+    {
+        if (_popupQueue.Count > 0 && !_popupDisplayed)
+        {
+            StartCoroutine(ShowPopup());
+        }
+    }
+
+    private void AddStartQuestPopup(string questID)
+    {
+        var quest = QuestManager.GetQuestById(questID);
+        _popupQueue.Enqueue($"Zadanie rozpoczęte\n{quest.Info.displayName}");
     }
     
-    private void EnableQuestStartPopup(string questID)
+    private void AddFinishQuestPopup(string questID)
     {
-        Quest quest = QuestManager.GetQuestById(questID);
-        StartCoroutine(ShowQuestStartPopup(quest));
-    }
-    private IEnumerator ShowQuestStartPopup(Quest quest)
-    {
-        popupText.text = $"Zadanie rozpoczęte\n{quest.Info.displayName}";
-        popupText.gameObject.SetActive(true);
-        popupImage.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        popupText.gameObject.SetActive(false);
-        popupImage.gameObject.SetActive(false);
+        var quest = QuestManager.GetQuestById(questID);
+        _popupQueue.Enqueue($"Zadanie zakończone\n{quest.Info.displayName}");
     }
     
-    private void EnableQuestFinishPopup(string questID)
+    private IEnumerator ShowPopup()
     {
-        Quest quest = QuestManager.GetQuestById(questID);
-        StartCoroutine(ShowQuestFinishPopup(quest));
-    }
-    private IEnumerator ShowQuestFinishPopup(Quest quest)
-    {
-        popupText.text = $"Zadanie zakończone\n{quest.Info.displayName}";
+        _popupDisplayed = true;
+        popupText.text = _popupQueue.Dequeue();
         popupText.gameObject.SetActive(true);
         popupImage.gameObject.SetActive(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         popupText.gameObject.SetActive(false);
         popupImage.gameObject.SetActive(false);
+        _popupDisplayed = false;
     }
 }

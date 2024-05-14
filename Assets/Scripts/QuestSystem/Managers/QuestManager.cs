@@ -26,7 +26,17 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         QuestEvents.OnQuestProgress -= ProgressQuest;
         QuestEvents.OnQuestFinish -= FinishQuest;
     }
-
+    private void Start()
+    {
+        foreach (var quest in _quests.Values)
+        {
+            if (quest.State == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
+            {
+                ChangeQuestState(quest.Info.id, QuestState.CanStart);
+            }
+        }
+    }
+    
     private bool CheckRequirementsMet(Quest quest)
     {
         var meetsRequirements = true;
@@ -38,17 +48,6 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             }
         }
         return meetsRequirements;
-    }
-
-    private void Start()
-    {
-        foreach (var quest in _quests.Values)
-        {
-            if (quest.State == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
-            {
-                ChangeQuestState(quest.Info.id, QuestState.CanStart);
-            }
-        }
     }
     
     private void ChangeQuestState(string id, QuestState state)
@@ -130,14 +129,10 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
         foreach (var quest in _quests.Values)
         {
+            QuestEvents.ChangeQuestState(quest);
             if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
             {
-                QuestEvents.ChangeQuestState(quest);
                 quest.InstantiateCurrentQuestStep(transform);
-            }
-            else if(quest.State == QuestState.Finished)
-            {
-                QuestEvents.ChangeQuestState(quest);
             }
         }
     }

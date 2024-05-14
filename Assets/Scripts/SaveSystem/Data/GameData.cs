@@ -18,7 +18,6 @@ namespace SaveSystem.Data
             hrycPosition = new[] {-1409.893f, 592.45f};
             playerPosition = new[] {-1423.72f, 609.44f};
             currentScene = "MainMenu";
-            inkVariables = "";
         }
     }
 }

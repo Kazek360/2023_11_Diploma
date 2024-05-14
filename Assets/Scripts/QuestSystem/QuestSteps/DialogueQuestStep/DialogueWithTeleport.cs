@@ -35,7 +35,7 @@ public class DialogueWithTeleport : DialogueQuestStep
             {
                 objectsToTeleport[i].transform.position = placesToTeleport[i].transform.position;
             }
-            Finish();
+            FinishAndDelete();
         } 
     }
 }

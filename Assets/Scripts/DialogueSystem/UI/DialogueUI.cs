@@ -75,6 +75,7 @@ namespace DialogueSystem.UI
         
         private void StartDialogue(DialogueSO dialogueInfo)
         {
+            Debug.Log($"Dialogue Started: {dialogueInfo.name}");
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
@@ -122,6 +123,7 @@ namespace DialogueSystem.UI
         
         private void EndDialogue()
         {
+            Debug.Log("Dialogue Ended");
             _dialogueVariables.StopListening(_currentStory);
             dialoguePanel.SetActive(false);
             DialogueEvents.FinishDialogue(_currentDialogue);
@@ -254,10 +256,10 @@ namespace DialogueSystem.UI
             {
                 return;
             }
-
+        
             _dialogueVariables.LoadVariables(gameData.inkVariables);
         }
-
+        
         public void SaveData(ref GameData gameData)
         {
             gameData.inkVariables = _dialogueVariables.SaveVariables();

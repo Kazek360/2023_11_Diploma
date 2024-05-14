@@ -11,30 +11,22 @@ public class DialogueAreaSceneChange : DialogueAreaQuestStep
     private void OnEnable()
     {
         AreaEvent.OnAreaEnter += AreaEntered;
-        DialogueEvents.OnDialogueFinished += StartFinishingStep;
+        DialogueEvents.OnDialogueFinished += FinishStep;
         area = GameObject.Find(areaToEnterName);
         DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
     private void OnDisable()
     {
         AreaEvent.OnAreaEnter -= AreaEntered;
-        DialogueEvents.OnDialogueFinished-= StartFinishingStep;
+        DialogueEvents.OnDialogueFinished-= FinishStep;
     }
     
-    private void StartFinishingStep(DialogueSO dialogue)
-    {
-        StartCoroutine(FinishStep(dialogue));
-    }
-    
-    private IEnumerator FinishStep(DialogueSO dialogue)
+    private void FinishStep(DialogueSO dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            QuestEvents.FinishQuest(dialogue.relatedQuest.id);
-            Destroy(area);
-            Destroy(gameObject); 
+            Finish();
             SceneManager.LoadScene(sceneNumber);
-            yield return new WaitForSeconds(1f);
         } 
     }
 }
