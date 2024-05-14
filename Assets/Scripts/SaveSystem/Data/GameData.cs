@@ -11,6 +11,7 @@ namespace SaveSystem.Data
         public float[] playerPosition;
         public float[] hrycPosition;
         public Dictionary<string, Quest> quests;
+        public string inkVariables;
 
         public GameData()
         {
