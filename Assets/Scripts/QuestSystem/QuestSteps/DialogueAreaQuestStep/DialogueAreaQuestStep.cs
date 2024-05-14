@@ -1,5 +1,6 @@
 using UnityEngine;
 using DialogueSystem.Events;
+using DialogueSystem.ScriptableObjects;
 
 public class DialogueAreaQuestStep : DialogueQuestStep
 {

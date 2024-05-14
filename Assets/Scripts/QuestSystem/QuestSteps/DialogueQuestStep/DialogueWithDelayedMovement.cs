@@ -1,5 +1,6 @@
 using DialogueSystem.Events;
 using System.Collections;
+using DialogueSystem.ScriptableObjects;
 using DialogueSystem.UI;
 using UnityEngine;
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Cutscenes;
 using DialogueSystem.Events;
+using DialogueSystem.ScriptableObjects;
 using InputSystem;
 using SaveSystem;
 using SaveSystem.Data;

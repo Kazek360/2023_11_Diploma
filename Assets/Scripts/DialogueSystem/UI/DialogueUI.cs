@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using DialogueSystem.Events;
 using DialogueSystem.Managers;
+using DialogueSystem.ScriptableObjects;
 using Ink.Runtime;
 using InputSystem;
 using SaveSystem;
