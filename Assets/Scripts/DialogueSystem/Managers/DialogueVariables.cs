@@ -60,9 +60,19 @@ namespace DialogueSystem.Managers
 
             return null;
         }
-        public void LoadVariables(string variablesString)
+        public void LoadVariables(TextAsset loadGlobalJson, string variablesString)
         {
+            _globalVariableStory = new Story(loadGlobalJson.text);
+            
             _globalVariableStory.state.LoadJson(variablesString);
+
+            _variablesDictionary = new Dictionary<string, Object>();
+
+            foreach (var name in _globalVariableStory.variablesState)
+            {
+                var value = _globalVariableStory.variablesState.GetVariableWithName(name);
+                _variablesDictionary.Add(name, value);
+            }
         }
     }
 }
