@@ -43,6 +43,12 @@ namespace DialogueSystem.UI
 
         private static DialogueVariables _dialogueVariables;
         
+        private void Awake()
+        {
+            GameConfig.DialogueUI = this;  
+            _dialogueVariables = new DialogueVariables(loadGlobalsJSON);
+        }
+        
         private void OnEnable()
         {
             DialogueEvents.OnDialogueStarted += StartDialogue;
@@ -54,13 +60,7 @@ namespace DialogueSystem.UI
             DialogueEvents.OnDialogueStarted -= StartDialogue;
             InputEvents.OnDialogueContinueInput -= ContinueDialogue;
         }
-
-        private void Awake()
-        {
-            GameConfig.DialogueUI = this;  
-            _dialogueVariables = new DialogueVariables(loadGlobalsJSON);
-        }
-
+        
         private void Start()
         {
             _choicesText = new List<TextMeshProUGUI>();
@@ -252,12 +252,12 @@ namespace DialogueSystem.UI
 
         public void LoadData(GameData gameData)
         {
-            if (gameData.inkVariables.Equals("") || gameData.inkVariables is null)
+            if (gameData.inkVariables is null)
             {
                 return;
             }
         
-            _dialogueVariables.LoadVariables(gameData.inkVariables);
+            _dialogueVariables.LoadVariables(loadGlobalsJSON, gameData.inkVariables);
         }
         
         public void SaveData(ref GameData gameData)
