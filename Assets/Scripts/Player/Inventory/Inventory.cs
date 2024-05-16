@@ -1,9 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using SaveSystem;
+using SaveSystem.Data;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IDataPersistence
 {
     private ItemLibrary _itemLibrary;
     
@@ -21,14 +21,13 @@ public class Inventory : MonoBehaviour
             new EquipmentSlot(EquipmentSlotType.legs),
             new EquipmentSlot(EquipmentSlotType.torso)
         };
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < _inventorySlots.GetLength(0); i++)
         {
-            for (int j = 0; j < 5; j++)
+            for (int j = 0; j < _inventorySlots.GetLength(1); j++)
             {
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-        Load();
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -103,7 +102,6 @@ public class Inventory : MonoBehaviour
                 int toAdd = Math.Min(amount, item.MaxStackSize - inventorySlot.Count);
                 inventorySlot.AddItem(item, toAdd);
                 amount -= toAdd;
-                continue;
             }
         }
 
@@ -112,8 +110,6 @@ public class Inventory : MonoBehaviour
 
     public void Load()
     {
-        //TODO: To be done by Oskar
-        
         AddItem(0, 2);
         AddItem(0, 10);
         AddItem(2, 1);
@@ -121,9 +117,33 @@ public class Inventory : MonoBehaviour
         AddItem(3, 1);
     }
 
-    public void Save()
+    public void LoadData(GameData gameData)
     {
-        //TODO: To be done by Oskar
+        for (var i = 0; i < gameData.inventory.GetLength(0); i++)
+        {
+            for (var j = 0; j < gameData.inventory.GetLength(1); j++)
+            {
+                if (gameData.inventory[i, j] is not null)
+                {
+                    AddItem(gameData.inventory[i, j].Item1, gameData.inventory[i, j].Item2, i, j);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        for (var i = 0; i < _inventorySlots.GetLength(0); i++)
+        {
+            for (var j = 0; j < _inventorySlots.GetLength(1); j++)
+            {
+                if (_inventorySlots[i, j].Item is not null)
+                {
+                    gameData.inventory[i, j] =
+                        new Tuple<int, int>(_inventorySlots[i, j].Item.ItemID, _inventorySlots[i, j].Count);
+                }
+            }
+        }
     }
 }
 
