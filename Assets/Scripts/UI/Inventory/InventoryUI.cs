@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
@@ -11,6 +12,11 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateDisplay();
         ItemInteraction.ClearInteraction();
+    }
+
+    public void OnEnable()
+    {
+        UpdateDisplay();
     }
 
     public void UpdateDisplay()
