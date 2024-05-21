@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -7,9 +8,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private EquipmentSlotsUI EquipmentSlots;
     [SerializeField] private ItemInteractionUI ItemInteraction;
     [SerializeField] private PlayerStatsUI PlayerStatisticks;
+    private ToggleGroup _toggleGroup;
     
     public void Start()
     {
+        _toggleGroup = GetComponent<ToggleGroup>();
         UpdateDisplay();
         ItemInteraction.ClearInteraction();
     }
@@ -21,6 +24,7 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateDisplay()
     {
+        _toggleGroup.SetAllTogglesOff();
         InventorySlots.UpdateUI();
         EquipmentSlots.UpdateUI();
         PlayerStatisticks.UpdateDisplay();
