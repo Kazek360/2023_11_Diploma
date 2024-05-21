@@ -12,9 +12,9 @@ public class InventoryUI : MonoBehaviour
     
     public void Start()
     {
-        _toggleGroup = GetComponent<ToggleGroup>();
         UpdateDisplay();
         ItemInteraction.ClearInteraction();
+        _toggleGroup = gameObject.GetComponent<ToggleGroup>();
     }
 
     public void OnEnable()
@@ -24,7 +24,10 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        _toggleGroup.SetAllTogglesOff();
+        if (_toggleGroup is not null)
+        {
+            _toggleGroup.SetAllTogglesOff();
+        }
         InventorySlots.UpdateUI();
         EquipmentSlots.UpdateUI();
         PlayerStatisticks.UpdateDisplay();
