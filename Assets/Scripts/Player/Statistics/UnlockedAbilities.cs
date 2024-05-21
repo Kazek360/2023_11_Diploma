@@ -5,18 +5,23 @@ using UnityEngine;
 
 public class UnlockedAbilities
 {
-    private List<UnlockableAbility> _unlockedAbilities = new List<UnlockableAbility>();
+    private List<UnlockableAbility> _unlockedAbilities;
 
     private static UnlockedAbilities instance;
     
-    public UnlockedAbilities GetInstance()
+    public static UnlockedAbilities GetInstance()
     {
         if (instance is null)
         {
-            instance = this;
+            instance = new UnlockedAbilities();
         }
 
         return instance;
+    }
+
+    private UnlockedAbilities()
+    {
+        _unlockedAbilities = new List<UnlockableAbility>();
     }
 
     public void UnlockAbility(UnlockableAbility ability)
@@ -36,6 +41,16 @@ public class UnlockedAbilities
         }
 
         return result;
+    }
+
+    private void Save()
+    {
+        //TODO: OSKAR I MECHANIZM ZAPISU
+    }
+
+    private void Load()
+    {
+        //TODO: OSKAR I MECHANIZM ZAPISU
     }
 }
 
