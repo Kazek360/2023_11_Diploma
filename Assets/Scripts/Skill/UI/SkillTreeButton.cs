@@ -1,10 +1,11 @@
+using System.Text;
 using Skill;
 using Skill.Events;
 using Skill.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillTreeButton : MonoBehaviour
+public class SkillTreeButton : MonoBehaviour, ITooltippable
 {
     [SerializeField] public Button button;
     [SerializeField] public SkillTreeNodeSO skillTreeNodeInfo;
@@ -58,5 +59,22 @@ public class SkillTreeButton : MonoBehaviour
             GameConfig.PlayerStats.AddSkillTreeModifier(modifier);
         }
         SkillTreeEvents.ActivateNode(skillTreeNodeInfo.id);
+    }
+
+    public string GetTooltipHeader()
+    {
+        return skillTreeNodeInfo.id;
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append(skillTreeNodeInfo.description);
+        foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
+        {
+            str.Append(modifier.StatString());
+        }
+
+        return str.ToString();
     }
 }
