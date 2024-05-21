@@ -24,6 +24,18 @@ public class EquipmentSlotsUI : MonoBehaviour
     
     public void UpdateUI()
     {
+        if (_slots is null)
+        {
+            _slots = new List<EquipmentSlotUI>();
+            foreach (Transform child in transform)
+            {
+                EquipmentSlotUI script = child.GetComponent<EquipmentSlotUI>();
+                if (script is not null)
+                {
+                    _slots.Add(script);
+                }
+            }
+        }
         foreach (EquipmentSlotUI slot in _slots)
         {
             slot.UpdateSlot();
