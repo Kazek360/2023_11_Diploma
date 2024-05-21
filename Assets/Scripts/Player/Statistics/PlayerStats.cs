@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviour
 {
 
     private List<ItemStatModifier> _itemStatModifiers;
+    private List<SkillTreeStatModifier> _skillTreeStatModifiers;
     private List<BaseStat> _baseStats;
     // Start is called before the first frame update
     void OnEnable()
@@ -46,6 +47,13 @@ public class PlayerStats : MonoBehaviour
                 res += modifier.Modifier;
             }
         }
+        foreach (var modifier in _skillTreeStatModifiers)
+        {
+            if (modifier.StatType == statType)
+            {
+                res += modifier.Modifier;
+            }
+        }
 
         return res;
     }
@@ -65,24 +73,21 @@ public class PlayerStats : MonoBehaviour
     {
         _itemStatModifiers.Add(modifier);
     }
-
-    public List<ItemStatModifier> GetModifiers(StatType statType)
+    
+    public void SkillRemoved(string skillID)
     {
-        List<ItemStatModifier> _tmpMod = new List<ItemStatModifier>();
-        foreach (ItemStatModifier modifier in _itemStatModifiers)
+        for (int i = _skillTreeStatModifiers.Count - 1; i >= 0; i--)
         {
-            if (modifier.StatType == statType)
+            if (_skillTreeStatModifiers[i].SkillID == skillID)
             {
-                _tmpMod.Add(modifier);
+                _itemStatModifiers.RemoveAt(i);
             }
         }
-
-        return _tmpMod;
     }
     
-    public List<ItemStatModifier> GetModifiers()
+    public void AddSkillTreeModifier(SkillTreeStatModifier modifier)
     {
-        return _itemStatModifiers;
+        _skillTreeStatModifiers.Add(modifier);
     }
     
     
@@ -97,6 +102,7 @@ public class PlayerStats : MonoBehaviour
         //TODO: To be done by Oskar during data persistence development
 
         _itemStatModifiers = new List<ItemStatModifier>();
+        _skillTreeStatModifiers = new List<SkillTreeStatModifier>();
         _baseStats = new List<BaseStat>();
         
         _baseStats.Add(new BaseStat(StatType.Agility, 2));
