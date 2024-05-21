@@ -53,6 +53,10 @@ public class SkillTreeButton : MonoBehaviour
     {
         button.enabled = false;
         button.image.color = Color.cyan;
+        foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
+        {
+            GameConfig.PlayerStats.AddSkillTreeModifier(modifier);
+        }
         SkillTreeEvents.ActivateNode(skillTreeNodeInfo.id);
     }
 }
