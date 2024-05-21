@@ -7,6 +7,8 @@ namespace SaveSystem.Data
     [Serializable]
     public class GameData
     {
+        public long lastUpdated;
+        public string saveDate;
         public string currentScene;
         public float[] playerPosition;
         public float[] hrycPosition;
@@ -19,7 +21,8 @@ namespace SaveSystem.Data
             hrycPosition = new[] {-1409.893f, 592.45f};
             playerPosition = new[] {-1423.72f, 609.44f};
             inventory = new Tuple<int, int>[7, 5];
-            currentScene = "MainMenu";
+            saveDate = "";
+            currentScene = "Las";
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
@@ -20,5 +21,6 @@ public class CurrentLocation : MonoBehaviour, IDataPersistence
     public void SaveData(ref GameData gameData)
     {
         gameData.currentScene = _currentScene;
+        gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
     }
 }

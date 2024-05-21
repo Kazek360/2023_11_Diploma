@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private Button continueButton; 
+    [SerializeField] private Button continueButton;
+    [SerializeField] private SaveSlotMenu saveSlotMenu;
     private void Start()
     {
         if (!DataPersistenceManager.Instance.HasGameData())
@@ -19,6 +20,13 @@ public class MainMenu : MonoBehaviour
         DataPersistenceManager.Instance.NewGame();
         SceneManager.LoadSceneAsync("Las");
     }
+    
+    public void OnLoadGameClicked()
+    {
+        gameObject.SetActive(false);
+        saveSlotMenu.ActivateMenu("load");
+    }
+    
     public void OnContinueClicked()
     {
         SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.GameData.currentScene);

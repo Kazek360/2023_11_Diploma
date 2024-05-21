@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveSystem.Data;
@@ -14,7 +15,8 @@ namespace SaveSystem
         private GameData _gameData;
         private FileDataHandler _dataHandler;
         private static List<IDataPersistence> _dataPersistenceObjects;
-        
+        private string _selectedProfileId = "";
+        private bool _startedNewGame;
 
         private void Awake()
         {
@@ -26,6 +28,7 @@ namespace SaveSystem
             Instance = this;
             DontDestroyOnLoad(gameObject);
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
         }
 
         private void OnEnable()
@@ -47,44 +50,55 @@ namespace SaveSystem
         }
         private void OnSceneUnloaded(Scene scene)
         {
-            SaveGame();
+            SaveGame("autosave");
+        }
+
+        public void ChangeSelectedProfileId(string newProfile)
+        {
+            _selectedProfileId = newProfile;
         }
         
         public void NewGame()
-        {
-            _gameData = new GameData();
+        { 
+            ChangeSelectedProfileId("newGame");
         }
 
-        private void LoadGame()
+        public void LoadGameData()
         {
-            _gameData = _dataHandler.LoadData();
+            _gameData = _dataHandler.LoadData(_selectedProfileId);
+        }
+        
+        public void LoadGame()
+        {
+            _gameData = _dataHandler.LoadData(_selectedProfileId);
             if (_gameData is null)
             {
+                _gameData = new GameData();
                 return;
             }
-
+            
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.LoadData(_gameData);
             }
         }
 
-        public void SaveGame()
+        public void SaveGame(string profile)
         {
-            if (_gameData is null)
+            if (_gameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu"))
             {
                 return;
             }
+
+            _gameData.lastUpdated = DateTime.Now.ToBinary();
+            _gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            _gameData.currentScene = SceneManager.GetActiveScene().name;
+            
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _gameData);
             }
-            _dataHandler.SaveData(_gameData);
-        }
-
-        private void OnApplicationQuit()
-        {
-            SaveGame();
+            _dataHandler.SaveData(_gameData, profile);
         }
         
         private List<IDataPersistence> FindAllDataPersistenceObjects()
@@ -94,6 +108,11 @@ namespace SaveSystem
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
 
+        public Dictionary<string, GameData> GetAllGameData()
+        {
+            return _dataHandler.LoadAllData();
+        }
+        
         public bool HasGameData()
         {
             return _gameData is not null;
