@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private UnlockableAbility.Recipient playerType;
     [SerializeField] private GameObject partner;
     [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxPsychePoints;
