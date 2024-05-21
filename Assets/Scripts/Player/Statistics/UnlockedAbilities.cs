@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Ink.Parsed;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UnlockedAbilities
 {
@@ -29,14 +30,14 @@ public class UnlockedAbilities
         _unlockedAbilities.Add(ability);
     }
 
-    public List<AbilityScriptableObject> GetAbilities(UnlockableAbility.Recipient recipient)
+    public List<AbilityScriptableObject> GetAbilities(UnlockableAbility.PlayerType playerType)
     {
         List<AbilityScriptableObject> result = new List<AbilityScriptableObject>();
         foreach (UnlockableAbility ability in _unlockedAbilities)
         {
-            if (ability.GetRecipient.Equals(recipient))
+            if (ability.Recipient.Equals(playerType))
             {
-                result.Add(ability.GetAbilityScriptableObject);
+                result.Add(ability.AbilitySO);
             }
         }
 
@@ -57,15 +58,23 @@ public class UnlockedAbilities
 [System.Serializable]
 public class UnlockableAbility
 {
-    public enum Recipient
+    public enum PlayerType
     {
         WIT, NESTOR
     }
 
-    [SerializeField] private Recipient _recipient;
+    [FormerlySerializedAs("_recipient")] [SerializeField] private PlayerType recipient;
     [SerializeField] private AbilityScriptableObject _abilityScriptableObject;
 
-    public Recipient GetRecipient => _recipient;
+    public PlayerType Recipient
+    {
+        get => recipient;
+        set => recipient = value;
+    }
 
-    public AbilityScriptableObject GetAbilityScriptableObject => _abilityScriptableObject;
+    public AbilityScriptableObject AbilitySO
+    {
+        get => _abilityScriptableObject;
+        set => _abilityScriptableObject = value;
+    }
 }

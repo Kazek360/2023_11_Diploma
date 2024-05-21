@@ -16,6 +16,7 @@ public class SkillTreeNodeSO : ScriptableObject
     
     [Header("Effects")]
     [SerializeField] public List<SkillTreeStatModifier> appliedModifiers;
+    [SerializeField] public List<UnlockableAbility> unlockedAbilities;
     
     private void OnValidate()
     {

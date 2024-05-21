@@ -58,7 +58,12 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         {
             GameConfig.PlayerStats.AddSkillTreeModifier(modifier);
         }
+        foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
+        {
+            UnlockedAbilities.GetInstance().UnlockAbility(ability);
+        }
         SkillTreeEvents.ActivateNode(skillTreeNodeInfo.id);
+        
     }
 
     public string GetTooltipHeader()
@@ -70,11 +75,16 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     {
         StringBuilder str = new StringBuilder();
         str.Append(skillTreeNodeInfo.description);
+        str.Append("\nEfekty:");
         foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
         {
-            str.Append(modifier.StatString());
+            str.Append("\n\t" + modifier.StatString());
         }
-
+        str.Append("\nZdolności:");
+        foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
+        {
+            str.Append("\n\t" + ability.AbilitySO.AbilityName);
+        }
         return str.ToString();
     }
 }
