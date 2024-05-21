@@ -25,6 +25,18 @@ public class InventorySlotsUI : MonoBehaviour
 
     public void UpdateUI()
     {
+        if (_slots is null)
+        {
+            _slots = new List<InventorySlotUI>();
+            foreach (Transform child in transform)
+            {
+                InventorySlotUI script = child.GetComponent<InventorySlotUI>();
+                if (script is not null)
+                {
+                    _slots.Add(script);
+                }
+            }
+        }
         foreach (InventorySlotUI slot in _slots)
         {
             slot.UpdateSlot();
