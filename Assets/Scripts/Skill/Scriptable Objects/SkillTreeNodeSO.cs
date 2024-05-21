@@ -14,6 +14,9 @@ public class SkillTreeNodeSO : ScriptableObject
     [Header("Requirements")]
     [SerializeField] public List<SkillTreeNodeSO> requiredNodes;
     
+    [Header("Effects")]
+    [SerializeField] public List<SkillTreeStatModifier> appliedModifiers;
+    
     private void OnValidate()
     {
         #if UNITY_EDITOR
