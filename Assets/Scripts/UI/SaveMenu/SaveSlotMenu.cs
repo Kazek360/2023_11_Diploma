@@ -55,6 +55,7 @@ public class SaveSlotMenu : MonoBehaviour
         else if (_currentOperation.Equals("save"))
         {
             DataPersistenceManager.Instance.SaveGame(saveSlot.profileId);
+            DataPersistenceManager.Instance.ChangeSelectedProfileId("autosave");
             DeactivateMenu();
         }
     }

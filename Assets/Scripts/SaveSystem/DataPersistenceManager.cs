@@ -47,6 +47,7 @@ namespace SaveSystem
         {
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
+            ChangeSelectedProfileId("autosave");
         }
         private void OnSceneUnloaded(Scene scene)
         {

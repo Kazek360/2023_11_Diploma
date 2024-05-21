@@ -148,6 +148,18 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 }
             }
         }
+
+        for (var i = 0; i < _equipmentSlots.Length; i++)
+        {
+            if (_equipmentSlots[i].Item is not null)
+            {
+                gameData.equipment[i] = _equipmentSlots[i].Item.ItemID;
+            }
+            else
+            {
+                gameData.equipment[i] = -1;
+            }
+        }
     }
 }
 
