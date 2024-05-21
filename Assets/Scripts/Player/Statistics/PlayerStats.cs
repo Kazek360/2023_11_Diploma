@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using UnityEngine;
 
@@ -151,6 +152,40 @@ public class ItemStatModifier
     public int Modifier => _modifier;
 
     public int ItemID => _itemID;
+
+    public string StatString()
+    {
+        if (_modifier > 0)
+        {
+            return "+" + _modifier + " " + PlayerStats.TranslateStatType(_statType);
+        }
+        return _modifier + " " + PlayerStats.TranslateStatType(_statType);
+    }
+}
+
+[System.Serializable]
+public class SkillTreeStatModifier
+{
+
+    [SerializeField] private StatType _statType;
+    [SerializeField] private int _modifier;
+    private string _skillID;
+
+    public SkillTreeStatModifier(StatType statType, int modifier)
+    {
+        _statType = statType;
+        _modifier = modifier;
+    }
+
+    public StatType StatType => _statType;
+
+    public int Modifier => _modifier;
+
+    public string SkillID
+    {
+        get => _skillID;
+        set => _skillID = value;
+    }
 
     public string StatString()
     {
