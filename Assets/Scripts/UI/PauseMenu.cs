@@ -1,4 +1,3 @@
-using System;
 using InputSystem;
 using SaveSystem;
 using UnityEngine;
@@ -7,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject contentParent;
+    [SerializeField] private SaveSlotMenu saveSlotMenu;
+    [SerializeField] private GameObject buttons;
+    
     private void OnEnable()
     {
         InputEvents.OnPauseToggle += TogglePause;
@@ -31,12 +33,29 @@ public class PauseMenu : MonoBehaviour
         {
             contentParent.SetActive(true);
         }
-        
     }
     
-    public void QuitGame()
+    public void OnSaveGameClicked()
     {
-        DataPersistenceManager.Instance.SaveGame();
+        buttons.SetActive(false);
+        saveSlotMenu.ActivateMenu("save");
+    }
+    
+    public void OnLoadGameClicked()
+    {
+        buttons.SetActive(false);
+        saveSlotMenu.ActivateMenu("load");
+    }
+    
+    public void OnToMainMenuClicked()
+    {
         SceneManager.LoadSceneAsync("MainMenu");
+    }
+    public void OnQuitGameClicked()
+    {
+        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }

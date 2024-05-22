@@ -21,7 +21,7 @@ public abstract class BaseQuestStep : MonoBehaviour
         {
             QuestEvents.ProgressQuest(_questId);
         }
-        DataPersistenceManager.Instance.SaveGame();
+        DataPersistenceManager.Instance.SaveGame("autosave");
     }
 
     protected void Delete()
