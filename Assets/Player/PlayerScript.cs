@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
 {
+    [SerializeField] private UnlockableAbility.PlayerType playerType;
     [SerializeField] private GameObject partner;
     [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxPsychePoints;
@@ -34,6 +35,14 @@ public class PlayerScript : MonoBehaviour, IHittable
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            UnlockableAbility tmp = new UnlockableAbility();
+            tmp.Recipient = playerType;
+            tmp.AbilitySO = abilities[i];
+            UnlockedAbilities.GetInstance().UnlockAbility(tmp);
+        }
+        abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         if (IsMaterial() && partner is not null)
         {
