@@ -142,6 +142,22 @@ public class Inventory : MonoBehaviour, IDataPersistence
                     gameData.inventory[i, j] =
                         new Tuple<int, int>(_inventorySlots[i, j].Item.ItemID, _inventorySlots[i, j].Count);
                 }
+                else
+                {
+                    gameData.inventory[i, j] = null;
+                }
+            }
+        }
+
+        for (var i = 0; i < _equipmentSlots.Length; i++)
+        {
+            if (_equipmentSlots[i].Item is not null)
+            {
+                gameData.equipment[i] = _equipmentSlots[i].Item.ItemID;
+            }
+            else
+            {
+                gameData.equipment[i] = -1;
             }
         }
     }

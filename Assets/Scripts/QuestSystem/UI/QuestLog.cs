@@ -1,6 +1,5 @@
 using System.Linq;
 using InputSystem;
-using QuestSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +8,8 @@ namespace QuestSystem.UI
 {
     public class QuestLog : MonoBehaviour
     {
-        [Header("Components")] [SerializeField]
-        private GameObject contentParent;
-
+        [Header("Components")] 
+        [SerializeField] private GameObject contentParent;
         [SerializeField] private QuestLogScrollingList scrollingList;
         [SerializeField] private TextMeshProUGUI displayNameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
@@ -98,7 +96,6 @@ namespace QuestSystem.UI
             }
 
             currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
-
         }
     }
 }
