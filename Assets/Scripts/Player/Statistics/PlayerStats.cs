@@ -105,11 +105,16 @@ public class PlayerStats : MonoBehaviour
         _skillTreeStatModifiers = new List<SkillTreeStatModifier>();
         _baseStats = new List<BaseStat>();
         
-        _baseStats.Add(new BaseStat(StatType.Agility, 2));
-        _baseStats.Add(new BaseStat(StatType.Strength, 3));
-        _baseStats.Add(new BaseStat(StatType.Luck, 3));
-        _baseStats.Add(new BaseStat(StatType.Imagination, 2));
-        _baseStats.Add(new BaseStat(StatType.Health, 8));
+        _baseStats.Add(new BaseStat(StatType.WitAgility, 2));
+        _baseStats.Add(new BaseStat(StatType.WitStrength, 3));
+        _baseStats.Add(new BaseStat(StatType.WitLuck, 3));
+        _baseStats.Add(new BaseStat(StatType.WitImagination, 2));
+        _baseStats.Add(new BaseStat(StatType.WitHealth, 8));
+        _baseStats.Add(new BaseStat(StatType.NestorAgility, 3));
+        _baseStats.Add(new BaseStat(StatType.NestorStrength, 4));
+        _baseStats.Add(new BaseStat(StatType.NestorLuck, 1));
+        _baseStats.Add(new BaseStat(StatType.NestorImagination, 4));
+        _baseStats.Add(new BaseStat(StatType.NestorHealth, 10));
     }
 
     public string GetPlayerStatsString()
@@ -128,17 +133,27 @@ public class PlayerStats : MonoBehaviour
     {
         switch (statType)
         {
-            case StatType.Health: return "Życie";
-            case StatType.Strength: return "Siła";
-            case StatType.Agility: return "Zręczność";
-            case StatType.Luck: return "Szczęście";
-            case StatType.Imagination: return "Wyobraźnia";
+            case StatType.WitHealth: return "Życie Wita";
+            case StatType.WitStrength: return "Siła Wita";
+            case StatType.WitAgility: return "Zręczność Wita";
+            case StatType.WitLuck: return "Szczęście Wita";
+            case StatType.WitImagination: return "Wyobraźnia Wita";
+            case StatType.NestorHealth: return "Życie Nestora";
+            case StatType.NestorStrength: return "Siła Nestora";
+            case StatType.NestorAgility: return "Zręczność Nestora";
+            case StatType.NestorLuck: return "Szczęście Nestora";
+            case StatType.NestorImagination: return "Wyobraźnia Nestora";
             default: return "STAT_NAME_NOT_FOUND";
         }
         
     }
 }
-public enum StatType{Health, Strength, Agility, Luck, Imagination}
+
+public enum StatType
+{
+    WitHealth, WitStrength, WitAgility, WitLuck, WitImagination,
+    NestorHealth, NestorStrength, NestorAgility, NestorLuck, NestorImagination
+}
 
 public class ItemStatModifier
 {
