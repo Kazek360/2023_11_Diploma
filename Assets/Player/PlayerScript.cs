@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     void Start()
     {
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = GameConfig.PlayerStats.GetStat(StatType.WitHealth);
+        _currentHealth = PlayerStats.GetInstance().GetStat(StatType.WitHealth);
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
@@ -89,7 +89,7 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public virtual int GetMaxHealth()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.WitHealth);
+        return PlayerStats.GetInstance().GetStat(StatType.WitHealth);
     }
 
     public void ModifyHealth(int amount)
@@ -147,22 +147,22 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public virtual int GetStrength()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.WitStrength);
+        return PlayerStats.GetInstance().GetStat(StatType.WitStrength);
     }
 
     public virtual int GetAgility()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.WitAgility);
+        return PlayerStats.GetInstance().GetStat(StatType.WitAgility);
     }
 
     public virtual int GetLuck()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.WitLuck);
+        return PlayerStats.GetInstance().GetStat(StatType.WitLuck);
     }
 
     public virtual int GetImagination()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.WitImagination);
+        return PlayerStats.GetInstance().GetStat(StatType.WitImagination);
     }
 
     public string GetEntityName()

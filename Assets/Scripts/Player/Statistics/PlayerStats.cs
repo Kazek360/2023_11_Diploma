@@ -3,26 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats
 {
+    private static PlayerStats _instance;
+
+    public static PlayerStats GetInstance()
+    {
+        if (_instance is null)
+        {
+            _instance = new PlayerStats();
+        }
+
+        return _instance;
+    }
+
+    private PlayerStats()
+    {
+        Load();
+    }
+
 
     private List<ItemStatModifier> _itemStatModifiers;
     private List<SkillTreeStatModifier> _skillTreeStatModifiers;
     private List<BaseStat> _baseStats;
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        GameConfig.PlayerStats = this;
-        Load();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public int GetBaseStat(StatType statType)
     {

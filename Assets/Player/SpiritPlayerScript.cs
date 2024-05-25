@@ -33,26 +33,26 @@ public class SpiritPlayerScript : PlayerScript, IHittable
 
     public override int GetMaxHealth()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.NestorHealth);
+        return PlayerStats.GetInstance().GetStat(StatType.NestorHealth);
     }
 
     public override int GetStrength()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.NestorStrength);
+        return PlayerStats.GetInstance().GetStat(StatType.NestorStrength);
     }
 
     public override int GetAgility()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.NestorAgility);
+        return PlayerStats.GetInstance().GetStat(StatType.NestorAgility);
     }
 
     public override int GetLuck()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.NestorLuck);
+        return PlayerStats.GetInstance().GetStat(StatType.NestorLuck);
     }
 
     public override int GetImagination()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.NestorImagination);
+        return PlayerStats.GetInstance().GetStat(StatType.NestorImagination);
     }
 }

@@ -56,7 +56,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         button.image.color = Color.cyan;
         foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
         {
-            GameConfig.PlayerStats.AddSkillTreeModifier(modifier);
+            PlayerStats.GetInstance().AddSkillTreeModifier(modifier);
         }
         foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
         {
