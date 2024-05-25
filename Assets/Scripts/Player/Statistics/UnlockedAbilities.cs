@@ -27,6 +27,13 @@ public class UnlockedAbilities
 
     public void UnlockAbility(UnlockableAbility ability)
     {
+        foreach (var unlockedAbility in _unlockedAbilities)
+        {
+            if (unlockedAbility.AbilitySO.Equals(ability.AbilitySO))
+            {
+                return;
+            }
+        }
         _unlockedAbilities.Add(ability);
     }
 
