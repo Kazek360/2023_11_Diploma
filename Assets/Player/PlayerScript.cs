@@ -31,7 +31,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     void Start()
     {
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = PlayerStats.GetInstance().GetStat(StatType.WitHealth);
+        _currentHealth = this.GetMaxHealth();
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
@@ -58,6 +58,11 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    public virtual void Setup()
     {
         
     }
