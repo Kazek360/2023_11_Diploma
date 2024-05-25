@@ -12,7 +12,7 @@ public class PlayerStatsUI : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        HealthText.text = "Życie: " + PlayerStats.GetInstance().GetStat(StatType.WitHealth);
+        HealthText.text = "Życie: " + PlayerStats.GetInstance().GetWitHp() + "/" + PlayerStats.GetInstance().GetStat(StatType.WitHealth);
         AgilityText.text = "Zręczność: " + PlayerStats.GetInstance().GetStat(StatType.WitAgility);
         StrengthText.text = "Siła: " + PlayerStats.GetInstance().GetStat(StatType.WitStrength);
         LuckText.text = "Szczęście: " + PlayerStats.GetInstance().GetStat(StatType.WitLuck);

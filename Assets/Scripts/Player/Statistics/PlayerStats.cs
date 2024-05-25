@@ -29,6 +29,8 @@ public class PlayerStats
     private List<ItemStatModifier> _itemStatModifiers;
     private List<SkillTreeStatModifier> _skillTreeStatModifiers;
     private List<BaseStat> _baseStats;
+    private int _witHp;
+    private int _nestorHp;
 
     public int GetBaseStat(StatType statType)
     {
@@ -119,8 +121,11 @@ public class PlayerStats
         _baseStats.Add(new BaseStat(StatType.NestorAgility, 3));
         _baseStats.Add(new BaseStat(StatType.NestorStrength, 4));
         _baseStats.Add(new BaseStat(StatType.NestorLuck, 1));
-        _baseStats.Add(new BaseStat(StatType.NestorImagination, 4));
+        _baseStats.Add(new BaseStat(StatType.NestorImagination, 2));
         _baseStats.Add(new BaseStat(StatType.NestorHealth, 10));
+
+        _witHp = GetStat(StatType.WitHealth);
+        _nestorHp = GetStat(StatType.NestorHealth);
     }
 
     public string GetPlayerStatsString()
@@ -152,6 +157,36 @@ public class PlayerStats
             default: return "STAT_NAME_NOT_FOUND";
         }
         
+    }
+
+    public int GetWitHp()
+    {
+        return _witHp;
+    }
+    
+    public void SetWitHp(int val)
+    {
+        _witHp = val;
+    }
+    
+    public void ModifyWitHealth(int val)
+    {
+        _witHp = Math.Min(Math.Max(0, _witHp + val), GetStat(StatType.WitHealth));
+    }
+    
+    public int GetNestorHp()
+    {
+        return _nestorHp;
+    }
+    
+    public void SetNestorHp(int val)
+    {
+        _nestorHp = val;
+    }
+
+    public void ModifyNestorHealth(int val)
+    {
+        _nestorHp = Math.Min(Math.Max(0, _nestorHp + val), GetStat(StatType.NestorHealth));
     }
 }
 

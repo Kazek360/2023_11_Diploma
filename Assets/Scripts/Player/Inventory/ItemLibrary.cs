@@ -29,10 +29,14 @@ public class ItemLibrary
         _items.Add(new UsableItem(
             itemID: 1, 
             "Piwo", 
-            "PIWO PJATK", 
+            "PIWO PJATK leczy 1 HP", 
             Resources.Load<Sprite>("ItemSprites/piwo"), 
             10,
-            delegate { Debug.Log("Piwo wypite"); },
+            delegate
+            {
+                Debug.Log("Piwo wypite"); 
+                PlayerStats.GetInstance().ModifyWitHealth(1);
+            },
             true
         ));
         

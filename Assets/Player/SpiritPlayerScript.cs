@@ -30,6 +30,31 @@ public class SpiritPlayerScript : PlayerScript, IHittable
         }
         gameObject.SetActive(false);
     }
+    
+    public override int GetCurrentHealth()
+    {
+        return PlayerStats.GetInstance().GetNestorHp();
+    }
+
+    public override void ModifyHealth(int amount)
+    {
+        //Debug.Log("HP CHANGED BY " + amount);
+        if (_partnerIsKilled && amount < 0)
+        {
+            amount *= 2;
+        }
+        PlayerStats.GetInstance().ModifyNestorHealth(amount);
+        UpdateHpText();
+        if (PlayerStats.GetInstance().GetNestorHp() <= 0)
+        {
+            OnHealthDepleted();
+        }
+    }
+    
+    protected override void UpdateHpText()
+    {
+        hpText.text = "" + PlayerStats.GetInstance().GetNestorHp();
+    }
 
     public override int GetMaxHealth()
     {
