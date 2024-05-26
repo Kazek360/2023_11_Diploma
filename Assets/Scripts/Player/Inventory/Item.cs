@@ -54,7 +54,7 @@ public class EquipmentItem: Item
     {
         foreach (var modifier in _modifiers)
         {
-            GameConfig.PlayerStats.AddItemModifier(modifier);
+            PlayerStats.GetInstance().AddItemModifier(modifier);
         }
         _equip();
     }
