@@ -56,7 +56,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         button.image.color = Color.cyan;
         foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
         {
-            GameConfig.PlayerStats.AddSkillTreeModifier(modifier);
+            PlayerStats.GetInstance().AddSkillTreeModifier(modifier);
         }
         foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
         {
@@ -75,16 +75,24 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     {
         StringBuilder str = new StringBuilder();
         str.Append(skillTreeNodeInfo.description);
-        str.Append("\nEfekty:");
-        foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
+        if (skillTreeNodeInfo.appliedModifiers.Count > 0)
         {
-            str.Append("\n\t" + modifier.StatString());
+            str.Append("\nEfekty:");
+            foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
+            {
+                str.Append("\n\t" + modifier.StatString());
+            }
         }
-        str.Append("\nZdolności:");
-        foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
+
+        if (skillTreeNodeInfo.unlockedAbilities.Count > 0)
         {
-            str.Append("\n\t" + ability.AbilitySO.AbilityName);
+            str.Append("\nZdolności:");
+            foreach (var ability in skillTreeNodeInfo.unlockedAbilities)
+            {
+                str.Append("\n\t" + ability.AbilitySO.AbilityName);
+            }
         }
+        
         return str.ToString();
     }
 }
