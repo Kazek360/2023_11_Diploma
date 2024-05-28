@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IHittable
+public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 {
     [SerializeField] private UnlockableAbility.PlayerType playerType;
     [SerializeField] private GameObject partner;
@@ -273,5 +274,17 @@ public class PlayerScript : MonoBehaviour, IHittable
     public virtual bool IsDead()
     {
         return false;
+    }
+
+    public string GetTooltipHeader()
+    {
+        return GetEntityName();
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
+        return str.ToString();
     }
 }
