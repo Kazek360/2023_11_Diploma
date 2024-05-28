@@ -21,17 +21,15 @@ public class PlayerScript : MonoBehaviour, IHittable
     private UnitCombat _unitCombat;
 
     [SerializeField] private TargetClickArea targetClickArea;
-    [SerializeField] private TextMeshPro hpText;
+    [SerializeField] protected TextMeshPro hpText;
     
-    private int _currentHealth;
     private int _currentPsyche;
-    private bool _partnerIsKilled;
+    protected bool _partnerIsKilled;
     
     // Start is called before the first frame update
     void Start()
     {
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = GameConfig.PlayerStats.GetStat(StatType.Health);
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
@@ -62,6 +60,11 @@ public class PlayerScript : MonoBehaviour, IHittable
         
     }
 
+    public virtual void Setup()
+    {
+        
+    }
+
     public void CastAbility(int i, IHittable target)
     {
         var ability = abilities[i];
@@ -82,26 +85,27 @@ public class PlayerScript : MonoBehaviour, IHittable
     }
 
 
-    public int GetCurrentHealth()
+    public virtual int GetCurrentHealth()
     {
-        return _currentHealth;
+        return PlayerStats.GetInstance().GetWitHp();
     }
 
-    public int GetMaxHealth()
+    public virtual int GetMaxHealth()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Health);
+        return PlayerStats.GetInstance().GetStat(StatType.WitHealth);
     }
 
-    public void ModifyHealth(int amount)
+    public virtual void ModifyHealth(int amount)
     {
+        
         //Debug.Log("HP CHANGED BY " + amount);
         if (_partnerIsKilled && amount < 0)
         {
             amount *= 2;
         }
-        _currentHealth = _currentHealth + amount;
+        PlayerStats.GetInstance().ModifyWitHealth(amount);
         UpdateHpText();
-        if (_currentHealth <= 0)
+        if (PlayerStats.GetInstance().GetWitHp() <= 0)
         {
             OnHealthDepleted();
         }
@@ -145,24 +149,24 @@ public class PlayerScript : MonoBehaviour, IHittable
         Debug.Log("Wit has lost all psyche");
     }
 
-    public int GetStrength()
+    public virtual int GetStrength()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Strength);
+        return PlayerStats.GetInstance().GetStat(StatType.WitStrength);
     }
 
-    public int GetAgility()
+    public virtual int GetAgility()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Agility);
+        return PlayerStats.GetInstance().GetStat(StatType.WitAgility);
     }
 
-    public int GetLuck()
+    public virtual int GetLuck()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Luck);
+        return PlayerStats.GetInstance().GetStat(StatType.WitLuck);
     }
 
-    public int GetImagination()
+    public virtual int GetImagination()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Imagination);
+        return PlayerStats.GetInstance().GetStat(StatType.WitImagination);
     }
 
     public string GetEntityName()
@@ -210,9 +214,9 @@ public class PlayerScript : MonoBehaviour, IHittable
         targetClickArea.Deselect();
     }
     
-    private void UpdateHpText()
+    protected virtual void UpdateHpText()
     {
-        hpText.text = "" + _currentHealth;
+        hpText.text = "" + PlayerStats.GetInstance().GetWitHp();
     }
 
     public virtual bool IsMaterial()

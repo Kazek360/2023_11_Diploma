@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 6947300064825795639}
   - component: {fileID: 1747876560113939686}
   - component: {fileID: 2352337041875695347}
-  - component: {fileID: 8043076316467932526}
   m_Layer: 0
   m_Name: Player_s24817
   m_TagString: Player
@@ -274,15 +273,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dc82486642ae74cbe98c6f72043ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerType: 0
   partner: {fileID: 0}
   playerImage: {fileID: 21300000, guid: c1130f3154d1cec40816dd2c5f39e76c, type: 3}
-  maxHealthPoints: 50
   maxPsychePoints: 50
   entityName: Player
-  strength: 1
-  agility: 1
-  luck: 1
-  imagination: 1
   abilities:
   - {fileID: 11400000, guid: 9c2e44573b964b84d9e883d645ae2b62, type: 2}
   - {fileID: 11400000, guid: 439fec42259a00a44b773070ed1446ae, type: 2}
@@ -343,18 +338,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb72455cbebd6c044bb07f76f0c416e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8043076316467932526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8893886096949609619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a91e3c97c649a441a5fae6cea4aa368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2766975044200261967

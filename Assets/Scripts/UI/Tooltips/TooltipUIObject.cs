@@ -38,4 +38,12 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
         _triggered = false;
         _tooltip.Delete();
     }
+    
+    public void OnDisable()
+    {
+        if (_tooltip is not null)
+        {
+            Destroy(_tooltip.gameObject);
+        }
+    }
 }
