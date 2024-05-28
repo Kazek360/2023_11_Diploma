@@ -46,7 +46,7 @@ public class EquipmentItem: Item
     public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
     {
         _equip = equip;
-        _unequip = _unequip;
+        _unequip = unequip;
         _equipmentSlotType = equipmentSlotType;
         _modifiers = modifiers;
     }

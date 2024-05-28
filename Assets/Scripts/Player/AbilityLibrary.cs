@@ -16,4 +16,9 @@ public class AbilityLibrary : MonoBehaviour
     {
         return _abilityScriptableObjects[i];
     }
+
+    public List<AbilityScriptableObject> GetAllAbilities()
+    {
+        return _abilityScriptableObjects;
+    }
 }
