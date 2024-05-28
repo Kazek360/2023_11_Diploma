@@ -32,12 +32,18 @@ public class SaveSlotMenu : MonoBehaviour
 
             if (_currentOperation.Equals("load"))
             {
-                screenName.text = "Wczytaj grę";
+                if (screenName is not null)
+                {
+                    screenName.text = "Wczytaj grę";
+                }
                 saveSlot.SetInteractable(profileData != null);
             }
             else if (_currentOperation.Equals("save"))
             {
-                screenName.text = "Zapisz grę";
+                if (screenName is not null)
+                {
+                    screenName.text = "Zapisz grę";
+                }
                 saveSlot.SetInteractable(true);
             }
         }
@@ -55,7 +61,6 @@ public class SaveSlotMenu : MonoBehaviour
         else if (_currentOperation.Equals("save"))
         {
             DataPersistenceManager.Instance.SaveGame(saveSlot.profileId);
-            DataPersistenceManager.Instance.ChangeSelectedProfileId("autosave");
             DeactivateMenu();
         }
     }
