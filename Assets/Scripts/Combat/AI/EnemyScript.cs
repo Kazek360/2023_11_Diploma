@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,7 +12,7 @@ using Random = UnityEngine.Random;
  * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
  * TODO: if such a thing shall be done, make sure to change everything private in here to protected
  */
-public class EnemyScript : MonoBehaviour, IHittable
+public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 {
     [FormerlySerializedAs("partner")] [SerializeField] private GameObject Partner;
     [FormerlySerializedAs("stats")] [SerializeField] private EnemyStats Stats;
@@ -357,5 +358,17 @@ public class EnemyScript : MonoBehaviour, IHittable
     public bool IsDead()
     {
         return _isDead;
+    }
+
+    public string GetTooltipHeader()
+    {
+        return Stats.EnemyName;
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append("HEALTH: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        return str.ToString();
     }
 }
