@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
+        Load();
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -119,6 +120,22 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData gameData)
     {
+        _inventorySlots = new InventorySlot[7,5];
+        _equipmentSlots = new[] { 
+            new EquipmentSlot(EquipmentSlotType.feet),
+            new EquipmentSlot(EquipmentSlotType.hand),
+            new EquipmentSlot(EquipmentSlotType.head),
+            new EquipmentSlot(EquipmentSlotType.legs),
+            new EquipmentSlot(EquipmentSlotType.torso)
+        };
+        for (int i = 0; i < _inventorySlots.GetLength(0); i++)
+        {
+            for (int j = 0; j < _inventorySlots.GetLength(1); j++)
+            {
+                _inventorySlots[i, j] = new InventorySlot();
+            }
+        }
+        
         for (var i = 0; i < gameData.inventory.GetLength(0); i++)
         {
             for (var j = 0; j < gameData.inventory.GetLength(1); j++)
@@ -144,6 +161,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
             {
                 if (_inventorySlots[i, j].Item is not null)
                 {
+                    Debug.Log(_inventorySlots[i, j].Item.ItemID + " " + _inventorySlots[i, j].Count);
                     gameData.inventory[i, j] =
                         new Tuple<int, int>(_inventorySlots[i, j].Item.ItemID, _inventorySlots[i, j].Count);
                 }
