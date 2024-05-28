@@ -24,6 +24,7 @@ namespace Player
         private static readonly int X = Animator.StringToHash("X");
         private static readonly int Y = Animator.StringToHash("Y");
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
+        private static readonly int IsRunning = Animator.StringToHash("isRunning");
 
         private void OnEnable()
         {
@@ -53,6 +54,7 @@ namespace Player
 
         private void MovePlayer(Vector2 movementVector)
         {
+            bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift);
             var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
             _rigidbody.velocity = movementVector.normalized * currentSpeed;
 
@@ -62,10 +64,12 @@ namespace Player
                 _animator.SetFloat(Y, movementVector.y);
 
                 _animator.SetBool(IsWalking, true);
+                _animator.SetBool(IsRunning, isRunning);
             }
             else
             {
                 _animator.SetBool(IsWalking, false);
+                _animator.SetBool(IsRunning, false);
             }
         }
 
