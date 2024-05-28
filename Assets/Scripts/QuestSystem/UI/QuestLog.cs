@@ -15,7 +15,10 @@ namespace QuestSystem.UI
         [SerializeField] private TextMeshProUGUI descriptionText;
         [SerializeField] private TextMeshProUGUI currentStepText;
         [SerializeField] private TextMeshProUGUI stepsText;
+        [SerializeField] private Button trackQuestButton;
+        [SerializeField] private TextMeshProUGUI trackQuestButtonText;
 
+        private Quest _selectedQuest;
         private Button _defaultSelectedButton;
 
         private void OnEnable()
@@ -44,6 +47,7 @@ namespace QuestSystem.UI
             if (contentParent.activeSelf)
             {
                 contentParent.SetActive(false);
+                GameConfig.QuestTracker.EnableText();
             }
             else
             {
@@ -51,6 +55,7 @@ namespace QuestSystem.UI
                 if (_defaultSelectedButton is not null)
                 {
                     _defaultSelectedButton.Select();
+                    GameConfig.QuestTracker.DisableText();
                 }
             }
         }
@@ -79,6 +84,8 @@ namespace QuestSystem.UI
 
         private void SetQuestInfo(Quest quest)
         {
+            _selectedQuest = quest;
+            
             displayNameText.text = quest.Info.displayName;
             descriptionText.text = quest.Info.description;
             currentStepText.text = quest.stepsDescriptions.Last();
@@ -94,8 +101,26 @@ namespace QuestSystem.UI
             {
                 stepsText.text = "";
             }
-
             currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
+
+            trackQuestButtonText.text = quest.isTracked ?  "Przestań śledzić" : "Śledź";
+        }
+
+        public void SetTrackedQuest()
+        {
+            if (_selectedQuest.isTracked)
+            {
+                _selectedQuest.isTracked = false;
+                GameConfig.QuestTracker.trackedQuest = null;
+                trackQuestButtonText.text = "Śledź";
+            }
+            else
+            {
+                GameConfig.QuestTracker.trackedQuest = _selectedQuest;
+                _selectedQuest.isTracked = true;
+                trackQuestButtonText.text = "Przestań śledzić";
+                GameConfig.QuestTracker.UpdateText();
+            }
         }
     }
 }

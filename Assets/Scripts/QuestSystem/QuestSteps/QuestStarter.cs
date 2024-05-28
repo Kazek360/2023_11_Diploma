@@ -13,5 +13,4 @@ public class QuestStarter : MonoBehaviour
         }
         Destroy(gameObject);
     }
-    
 }

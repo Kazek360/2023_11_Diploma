@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DialogueSystem.UI;
+using QuestSystem.UI;
 using UnityEngine;
 
 
@@ -10,6 +11,7 @@ using UnityEngine;
 public class GameConfig
 {
     public static DialogueUI DialogueUI;
+    public static QuestTracker QuestTracker;
     public static Inventory PlayerInventory;
     public static Canvas canvas;
 }
