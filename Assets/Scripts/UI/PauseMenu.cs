@@ -1,5 +1,4 @@
 using InputSystem;
-using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +27,8 @@ public class PauseMenu : MonoBehaviour
         if (contentParent.activeSelf)
         {
             contentParent.SetActive(false);
+            saveSlotMenu.gameObject.SetActive(false);
+            buttons.SetActive(true);
             Time.timeScale = 1;
         }
         else

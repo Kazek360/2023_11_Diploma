@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 [CreateAssetMenu(fileName = "Cutscene", menuName = "ScriptableObjects/Cutscenes/Cutscene")]
 public class CutsceneSO : ScriptableObject
 {
-    [SerializeField] public List<Sprite> cutsceneImages;
+    [SerializeField] public VideoClip clip;
 }
