@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     [FormerlySerializedAs("targetClickArea")] [SerializeField] private TargetClickArea TargetClickArea;
     [FormerlySerializedAs("hpText")] [SerializeField] private TextMeshPro HpText;
     [FormerlySerializedAs("material")] [SerializeField] private bool Material;
+    [SerializeField] private TooltipObject tooltipArea;
     protected IHittable _partner;
     
     private List<AbilityScriptableObject> _abilities;
@@ -311,16 +312,22 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     
     public void ActivateTargetClickArea()
     {
-        TargetClickArea.EnableClick(_combatUI, this);
+        if (tooltipArea.gameObject.activeInHierarchy)
+        {
+            tooltipArea.gameObject.SetActive(false);
+            TargetClickArea.EnableClick(_combatUI, this);
+        }
     }
 
     public void DeactivateTargetClickArea()
     {
+        tooltipArea.gameObject.SetActive(true);
         TargetClickArea.DisableClick();
     }
 
     public void TargetClickAreaDeselected()
     {
+        tooltipArea.gameObject.SetActive(true);
         TargetClickArea.Deselect();
     }
 
@@ -348,6 +355,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         }
         if (setActive)
         {
+            HpText.gameObject.SetActive(true);
+            tooltipArea.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -357,6 +366,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         }
         else
         {
+            HpText.gameObject.SetActive(false);
+            tooltipArea.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;

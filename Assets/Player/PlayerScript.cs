@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private TargetClickArea targetClickArea;
+    [SerializeField] private TooltipObject tooltipArea;
     [SerializeField] protected TextMeshPro hpText;
     
     private int _currentPsyche;
@@ -205,16 +206,22 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     public void ActivateTargetClickArea()
     {
-        targetClickArea.EnableClick(_combatUI, this);
+        if (tooltipArea.gameObject.activeInHierarchy)
+        {
+            tooltipArea.gameObject.SetActive(false);
+            targetClickArea.EnableClick(_combatUI, this);
+        }
     }
 
     public void DeactivateTargetClickArea()
     {
+        tooltipArea.gameObject.SetActive(true);
         targetClickArea.DisableClick();
     }
     
     public void TargetClickAreaDeselected()
     {
+        tooltipArea.gameObject.SetActive(true);
         targetClickArea.Deselect();
     }
     
@@ -242,6 +249,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         if (setActive)
         {
+            hpText.gameObject.SetActive(true);
+            tooltipArea.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -251,6 +260,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         else
         {
+            hpText.gameObject.SetActive(false);
+            tooltipArea.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;
