@@ -20,8 +20,10 @@ namespace Player
         private Animator _animator;
 
         private bool _isPlayerSprinting;
+        
         private static readonly int X = Animator.StringToHash("X");
         private static readonly int Y = Animator.StringToHash("Y");
+        private static readonly int IsWalking = Animator.StringToHash("isWalking");
 
         private void OnEnable()
         {
@@ -59,11 +61,11 @@ namespace Player
                 _animator.SetFloat(X, movementVector.x);
                 _animator.SetFloat(Y, movementVector.y);
 
-                _animator.SetBool("isWalking", true);
+                _animator.SetBool(IsWalking, true);
             }
             else
             {
-                _animator.SetBool("isWalking", false);
+                _animator.SetBool(IsWalking, false);
             }
         }
 
