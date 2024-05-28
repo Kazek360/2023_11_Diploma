@@ -32,11 +32,11 @@ public class AbilityList : MonoBehaviour
 
     public void ShowAbilities()
     {
-        for (int i = 0; i < GameConfig.abilityLibrary.GetAllAbilities().Count; i++)
+        for (int i = 0; i < UnlockedAbilities.GetInstance().GetAbilities(UnlockableAbility.PlayerType.WIT).Count; i++)
         {
             var container = Instantiate(AbilityDisplay);
             AbilityDisplayContainer abilityDisplayContainer = container.gameObject.GetComponent<AbilityDisplayContainer>();
-            abilityDisplayContainer.SetAbility(GameConfig.abilityLibrary.GetAbility(i));
+            abilityDisplayContainer.SetAbility(UnlockedAbilities.GetInstance().GetAbilities(UnlockableAbility.PlayerType.WIT)[i]);
             container.transform.SetParent(AbilitiesScrollContent.transform);
         }
     }
