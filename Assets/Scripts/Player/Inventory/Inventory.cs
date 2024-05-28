@@ -129,6 +129,11 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 }
             }
         }
+
+        for (int i = 0; i < gameData.equipment.GetLength(0); i++)
+        {
+            _equipmentSlots[i].EquipItem((EquipmentItem)ItemLibrary.GetInstance().GetItem(gameData.equipment[i]));
+        }
     }
 
     public void SaveData(ref GameData gameData)
