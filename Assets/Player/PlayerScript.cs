@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour, IHittable
@@ -19,6 +20,7 @@ public class PlayerScript : MonoBehaviour, IHittable
     private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private UnitCombat _unitCombat;
+    private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private TargetClickArea targetClickArea;
     [SerializeField] protected TextMeshPro hpText;
@@ -33,6 +35,7 @@ public class PlayerScript : MonoBehaviour, IHittable
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         for (int i = 0; i < abilities.Count; i++)
         {
             UnlockableAbility tmp = new UnlockableAbility();
@@ -231,7 +234,30 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void Activate(bool setActive)
     {
-        gameObject.SetActive(setActive);
+        if (GetCurrentHealth() < 0 || IsDead())
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        if (setActive)
+        {
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, 1);
+            Color color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, -1);
+            Color color = _spriteRenderer.color;
+            color.a = 0.4f;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 0;
+        }
+        //gameObject.SetActive(setActive);
     }
     
     public GameObject GetGameObject()

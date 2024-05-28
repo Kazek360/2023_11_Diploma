@@ -28,6 +28,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private EntityManager _entityManager;
+    private SpriteRenderer _spriteRenderer;
 
     private IHittable _currentTarget;
 
@@ -45,6 +46,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         if (IsMaterial() && Partner is not null)
         {
             _partner = Partner.GetComponent<IHittable>();
@@ -339,10 +341,30 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     
     public void Activate(bool setActive)
     {
-        if (!setActive || !_isDead)
+        if (_currentHealth < 0 || _isDead)
         {
-            gameObject.SetActive(setActive);
+            gameObject.SetActive(false);
+            return;
         }
+        if (setActive)
+        {
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, 1);
+            Color color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, -1);
+            Color color = _spriteRenderer.color;
+            color.a = 0.4f;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 0;
+        }
+        //gameObject.SetActive(setActive);
     }
 
     public GameObject GetGameObject()
@@ -368,7 +390,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("HEALTH: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        str.Append("ŻYCIE: " + _currentHealth + "/" + Stats.MaxHealthPoints);
         return str.ToString();
     }
 }
