@@ -28,10 +28,12 @@ public class PauseMenu : MonoBehaviour
         if (contentParent.activeSelf)
         {
             contentParent.SetActive(false);
+            Time.timeScale = 1;
         }
         else
         {
             contentParent.SetActive(true);
+            Time.timeScale = 0;
         }
     }
     
@@ -49,6 +51,7 @@ public class PauseMenu : MonoBehaviour
     
     public void OnToMainMenuClicked()
     {
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync("MainMenu");
     }
     public void OnQuitGameClicked()

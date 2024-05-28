@@ -88,6 +88,12 @@ public class QuestManager : MonoBehaviour, IDataPersistence
     
     private void FinishQuest(string id)
     {
+        PlayerStats.GetInstance().AddXp(_quests[id].Info.experience);
+        foreach (var item in _quests[id].Info.items)
+        {
+            GameConfig.PlayerInventory.AddItem(item, 1);
+        }
+        
         ChangeQuestState(id, QuestState.Finished);
         foreach (var quest in _quests.Values)
         {

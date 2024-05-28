@@ -13,6 +13,10 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     public void OnEnable()
     {
         PlayerResourcesEvents.OnSkillPointsChange += CheckIfNodeCanBeEnabled;
+        if (PlayerResourcesManager.Instance is not null)
+        {
+            CheckIfNodeCanBeEnabled(PlayerResourcesManager.Instance.SkillPoints);
+        }
     }
     
     public void OnDisable()
