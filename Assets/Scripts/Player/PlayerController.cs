@@ -14,8 +14,7 @@ namespace Player
         [SerializeField] private float walkSpeed;
 
         [SerializeField] private float runSpeed;
-        // [SerializeField] private List<Sprite> playerSprites;
-
+        
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rigidbody;
         private Animator _animator;
