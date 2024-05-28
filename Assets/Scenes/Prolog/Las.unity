@@ -21861,7 +21861,6 @@ GameObject:
   - component: {fileID: 571803810}
   - component: {fileID: 571803813}
   - component: {fileID: 571803811}
-  - component: {fileID: 571803816}
   - component: {fileID: 571803815}
   - component: {fileID: 571803814}
   m_Layer: 7
@@ -22006,33 +22005,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!50 &571803816
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571803809}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!4 &571996576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 147157578045073722, guid: 0389d1b34527a1040af8328ee081cf80, type: 3}
@@ -230440,7 +230412,7 @@ Transform:
   m_GameObject: {fileID: 1953095151}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -295419,7 +295391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8030280751063571100, guid: a72d067c3bae632429db8c40ae320710, type: 3}
       propertyPath: Speed
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8030280751063571100, guid: a72d067c3bae632429db8c40ae320710, type: 3}
       propertyPath: DistanceTolerance
