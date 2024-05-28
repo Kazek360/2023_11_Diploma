@@ -101,7 +101,17 @@ namespace QuestSystem.UI
             {
                 stepsText.text = "";
             }
-            currentStepText.color = quest.State == QuestState.Finished ? Color.gray : Color.white;
+
+            if (quest.State == QuestState.Finished)
+            {
+                trackQuestButton.gameObject.SetActive(false);
+                currentStepText.color = Color.gray;
+            }
+            else
+            {
+                trackQuestButton.gameObject.SetActive(true);
+                currentStepText.color = Color.white;
+            }
 
             trackQuestButtonText.text = quest.isTracked ?  "Przestań śledzić" : "Śledź";
         }
