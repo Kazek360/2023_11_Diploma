@@ -16,7 +16,6 @@ namespace SaveSystem
         private FileDataHandler _dataHandler;
         private static List<IDataPersistence> _dataPersistenceObjects;
         private string _selectedProfileId = "";
-        private bool _startedNewGame;
 
         private void Awake()
         {
@@ -29,6 +28,7 @@ namespace SaveSystem
             DontDestroyOnLoad(gameObject);
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+            Debug.Log(_selectedProfileId);
         }
 
         private void OnEnable()
@@ -45,6 +45,7 @@ namespace SaveSystem
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            Debug.Log(_selectedProfileId);
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
             ChangeSelectedProfileId("autosave");
@@ -60,7 +61,8 @@ namespace SaveSystem
         }
         
         public void NewGame()
-        { 
+        {
+            _gameData = new GameData();
             ChangeSelectedProfileId("newGame");
         }
 
@@ -71,16 +73,21 @@ namespace SaveSystem
         
         public void LoadGame()
         {
-            _gameData = _dataHandler.LoadData(_selectedProfileId);
-            if (_gameData is null)
+            if (_selectedProfileId is null)
             {
-                _gameData = new GameData();
                 return;
             }
-            
-            foreach (var dataPersistenceObject in _dataPersistenceObjects)
+            if (_selectedProfileId.Equals("newGame"))
             {
-                dataPersistenceObject.LoadData(_gameData);
+                return;
+            }
+            _gameData = _dataHandler.LoadData(_selectedProfileId);
+            if (_gameData is not null)
+            {
+                foreach (var dataPersistenceObject in _dataPersistenceObjects)
+                {
+                    dataPersistenceObject.LoadData(_gameData);
+                }
             }
         }
 
