@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TooltipObject : MonoBehaviour
@@ -41,7 +42,11 @@ public class TooltipObject : MonoBehaviour
 
     public void OnDisable()
     {
-        if (_tooltip is not null)
+        if (_tooltip is null || _tooltip.IsDestroyed())
+        {
+            return;
+        }
+        if (_tooltip.isActiveAndEnabled)
         {
             Destroy(_tooltip.gameObject);
         }

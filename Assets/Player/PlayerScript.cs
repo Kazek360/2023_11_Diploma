@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IHittable
+public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 {
     [SerializeField] private UnlockableAbility.PlayerType playerType;
     [SerializeField] private GameObject partner;
@@ -19,8 +21,10 @@ public class PlayerScript : MonoBehaviour, IHittable
     private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private UnitCombat _unitCombat;
+    private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private TargetClickArea targetClickArea;
+    [SerializeField] private TooltipObject tooltipArea;
     [SerializeField] protected TextMeshPro hpText;
     
     private int _currentPsyche;
@@ -33,6 +37,7 @@ public class PlayerScript : MonoBehaviour, IHittable
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         for (int i = 0; i < abilities.Count; i++)
         {
             UnlockableAbility tmp = new UnlockableAbility();
@@ -201,16 +206,22 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ActivateTargetClickArea()
     {
-        targetClickArea.EnableClick(_combatUI, this);
+        if (tooltipArea.gameObject.activeInHierarchy)
+        {
+            tooltipArea.gameObject.SetActive(false);
+            targetClickArea.EnableClick(_combatUI, this);
+        }
     }
 
     public void DeactivateTargetClickArea()
     {
+        tooltipArea.gameObject.SetActive(true);
         targetClickArea.DisableClick();
     }
     
     public void TargetClickAreaDeselected()
     {
+        tooltipArea.gameObject.SetActive(true);
         targetClickArea.Deselect();
     }
     
@@ -231,7 +242,34 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void Activate(bool setActive)
     {
-        gameObject.SetActive(setActive);
+        if (GetCurrentHealth() < 0 || IsDead())
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        if (setActive)
+        {
+            hpText.gameObject.SetActive(true);
+            tooltipArea.gameObject.SetActive(true);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, 1);
+            Color color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            hpText.gameObject.SetActive(false);
+            tooltipArea.gameObject.SetActive(false);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, -1);
+            Color color = _spriteRenderer.color;
+            color.a = 0.4f;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 0;
+        }
+        //gameObject.SetActive(setActive);
     }
     
     public GameObject GetGameObject()
@@ -247,5 +285,17 @@ public class PlayerScript : MonoBehaviour, IHittable
     public virtual bool IsDead()
     {
         return false;
+    }
+
+    public string GetTooltipHeader()
+    {
+        return GetEntityName();
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
+        return str.ToString();
     }
 }
