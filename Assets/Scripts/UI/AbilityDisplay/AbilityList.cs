@@ -22,12 +22,16 @@ public class AbilityList : MonoBehaviour
 
     public void OnEnable()
     {
+        Debug.Log("AAAA");
         ShowAbilities();
     }
 
     public void OnDisable()
     {
-        AbilitiesScrollContent.transform.DetachChildren();
+        for (int i = 0; i < AbilitiesScrollContent.transform.childCount; i++) {
+            Transform child = AbilitiesScrollContent.transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
     }
 
     public void ShowAbilities()
