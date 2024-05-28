@@ -30,6 +30,7 @@ namespace Cutscenes
         }
         private void StartCutscene(CutsceneSO cutsceneInfo)
         {
+            GameConfig.QuestTracker.DisableText();
             _cutsceneImages = cutsceneInfo.cutsceneImages;
             _currentCutsceneIndex = 0;
             cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
@@ -47,6 +48,7 @@ namespace Cutscenes
             else
             {
                 contentParent.SetActive(false);
+                GameConfig.QuestTracker.EnableText();
                 CutsceneEvents.FinishCutscene();
             }
         }
