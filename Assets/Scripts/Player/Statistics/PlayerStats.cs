@@ -32,7 +32,6 @@ public class PlayerStats
     private int _witHp;
     private int _nestorHp;
     private int _currentXp;
-    private int _skillPoints;
 
     public int GetBaseStat(StatType statType)
     {
@@ -110,14 +109,9 @@ public class PlayerStats
         _currentXp += xp;
         if (_currentXp > 1000)
         {
-            _skillPoints++;
+            PlayerEvents.LevelUp();
             _currentXp -= 1000;
         }
-    }
-
-    public int GetSkillPoints()
-    {
-        return _skillPoints;
     }
 
 
