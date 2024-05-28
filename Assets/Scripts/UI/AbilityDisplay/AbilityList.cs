@@ -22,7 +22,6 @@ public class AbilityList : MonoBehaviour
 
     public void OnEnable()
     {
-        Debug.Log("AAAA");
         ShowAbilities();
     }
 

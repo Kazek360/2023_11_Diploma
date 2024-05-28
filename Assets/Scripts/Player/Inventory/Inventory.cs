@@ -28,7 +28,11 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-        Load();
+
+        if (_inventorySlots[0,0].Item is null)
+        {
+            Load();
+        }
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -111,11 +115,8 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
     public void Load()
     {
-        AddItem(0, 2);
-        AddItem(0, 10);
         AddItem(2, 1);
         AddItem(1, 1);
-        AddItem(3, 1);
         AddItem(4, 1);
     }
 

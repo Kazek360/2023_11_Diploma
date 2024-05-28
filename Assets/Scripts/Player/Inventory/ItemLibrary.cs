@@ -42,11 +42,23 @@ public class ItemLibrary
         
         _items.Add(new EquipmentItem(
             itemID: 2, 
-            "Nóż", 
-            "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Cięcie", 
+            "Scyzoryk", 
+            "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Scyzoryk", 
             Resources.Load<Sprite>("ItemSprites/Sword1"), 
-            delegate { }, 
-            delegate {  }, 
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
+            },
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
+            }, 
             EquipmentSlotType.hand ,
             new List<ItemStatModifier>()
             {
@@ -75,13 +87,10 @@ public class ItemLibrary
             Resources.Load<Sprite>("ItemSprites/Heart1"),
             delegate
             {
-                Debug.Log("A");
                 UnlockableAbility slingshot = new UnlockableAbility();
                 slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
                 slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
-                Debug.Log("A");
                 UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
-                Debug.Log("A");
             },
             delegate
             {
