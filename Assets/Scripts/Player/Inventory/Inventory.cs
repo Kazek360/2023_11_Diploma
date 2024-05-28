@@ -161,7 +161,6 @@ public class Inventory : MonoBehaviour, IDataPersistence
             {
                 if (_inventorySlots[i, j].Item is not null)
                 {
-                    Debug.Log(_inventorySlots[i, j].Item.ItemID + " " + _inventorySlots[i, j].Count);
                     gameData.inventory[i, j] =
                         new Tuple<int, int>(_inventorySlots[i, j].Item.ItemID, _inventorySlots[i, j].Count);
                 }
