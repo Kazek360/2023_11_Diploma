@@ -12,18 +12,22 @@ namespace Player
     public class PlayerController : MonoBehaviour, IDataPersistence
     {
         [SerializeField] private float walkSpeed;
+
         [SerializeField] private float runSpeed;
-        [SerializeField] private List<Sprite> playerSprites;
         
         private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rigidbody;
-        
+        private Animator _animator;
+
         private bool _isPlayerSprinting;
+        private static readonly int X = Animator.StringToHash("X");
+        private static readonly int Y = Animator.StringToHash("Y");
+
         private void OnEnable()
         {
             InputEvents.OnSprintInput += ChangeSprintState;
             InputEvents.OnMovementInput += MovePlayer;
-            
+
             DialogueEvents.OnDialogueStarted += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
         }
@@ -32,7 +36,7 @@ namespace Player
         {
             InputEvents.OnSprintInput -= ChangeSprintState;
             InputEvents.OnMovementInput -= MovePlayer;
-            
+
             DialogueEvents.OnDialogueStarted -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
         }
@@ -42,34 +46,25 @@ namespace Player
             _rigidbody = GetComponent<Rigidbody2D>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _isPlayerSprinting = false;
-        }
-
-        private void SetCharacterSprite()
-        {
-            var north = Input.GetKey(KeyCode.W);
-            var south = Input.GetKey(KeyCode.S);
-            var east = Input.GetKey(KeyCode.A);
-            var west = Input.GetKey(KeyCode.D);
-
-            _spriteRenderer.sprite = (north, south, east, west) switch
-            {
-                (true, false, false, false) => playerSprites[0],
-                (true, false, false, true) => playerSprites[1],
-                (false, false, false, true) => playerSprites[2],
-                (false, true, false, true) => playerSprites[3],
-                (false, true, false, false) => playerSprites[4],
-                (false, true, true, false) => playerSprites[5],
-                (false, false, true, false) => playerSprites[6],
-                (true, false, true, false) => playerSprites[7],
-                _ => _spriteRenderer.sprite
-            };
+            _animator = GetComponent<Animator>();
         }
 
         private void MovePlayer(Vector2 movementVector)
         {
-            SetCharacterSprite();
             var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
             _rigidbody.velocity = movementVector.normalized * currentSpeed;
+
+            if (movementVector.x != 0 || movementVector.y != 0)
+            {
+                _animator.SetFloat(X, movementVector.x);
+                _animator.SetFloat(Y, movementVector.y);
+
+                _animator.SetBool("isWalking", true);
+            }
+            else
+            {
+                _animator.SetBool("isWalking", false);
+            }
         }
 
         private void ChangeSprintState(bool isPlayerSprinting)
@@ -81,6 +76,7 @@ namespace Player
         {
             _rigidbody.velocity = Vector2.zero;
         }
+
         private void StopMovement(CutsceneSO cutscene)
         {
             _rigidbody.velocity = Vector2.zero;
@@ -93,7 +89,7 @@ namespace Player
 
         public void SaveData(ref GameData gameData)
         {
-            gameData.playerPosition = new [] {transform.position.x, transform.position.y};
+            gameData.playerPosition = new[] { transform.position.x, transform.position.y };
         }
     }
 }
