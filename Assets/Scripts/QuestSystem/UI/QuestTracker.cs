@@ -8,6 +8,7 @@ namespace QuestSystem.UI
     {
         public Quest trackedQuest;
         private TextMeshProUGUI _text;
+        [SerializeField] private GameObject panel;
         
         public void Awake()
         {
@@ -32,12 +33,12 @@ namespace QuestSystem.UI
         {
             if (trackedQuest is not null)
             {
-                _text.gameObject.SetActive(true);
+                panel.SetActive(true);
             }
         }
         public void DisableText()
         {
-            _text.gameObject.SetActive(false);
+            panel.SetActive(false);
         }
 
         public void UpdateText()
