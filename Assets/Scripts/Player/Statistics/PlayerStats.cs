@@ -31,6 +31,7 @@ public class PlayerStats
     private List<BaseStat> _baseStats;
     private int _witHp;
     private int _nestorHp;
+    private int _currentXp;
 
     public int GetBaseStat(StatType statType)
     {
@@ -97,8 +98,23 @@ public class PlayerStats
     {
         _skillTreeStatModifiers.Add(modifier);
     }
-    
-    
+
+    public int GetCurrentXp()
+    {
+        return _currentXp;
+    }
+
+    public void AddXp(int xp)
+    {
+        _currentXp += xp;
+        Debug.Log(_currentXp);
+        if (_currentXp >= 1000)
+        {
+            PlayerEvents.LevelUp();
+            _currentXp -= 1000;
+        }
+    }
+
 
     public void Save()
     {
