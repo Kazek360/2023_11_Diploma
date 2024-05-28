@@ -28,7 +28,6 @@ namespace SaveSystem
             DontDestroyOnLoad(gameObject);
             _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
-            Debug.Log(_selectedProfileId);
         }
 
         private void OnEnable()
@@ -45,10 +44,12 @@ namespace SaveSystem
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log(_selectedProfileId);
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
-            ChangeSelectedProfileId("autosave");
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
+            {
+                _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+            }
         }
         private void OnSceneUnloaded(Scene scene)
         {
