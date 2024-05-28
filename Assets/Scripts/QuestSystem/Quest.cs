@@ -10,6 +10,7 @@ namespace QuestSystem
     {
         [NonSerialized] public QuestSO Info;
         public QuestState State;
+        public bool isTracked;
         public List<string> stepsDescriptions = new List<string>();
         [JsonProperty] private int _currentStepIndex;
 
@@ -17,6 +18,7 @@ namespace QuestSystem
         {
             Info = info;
             State = QuestState.RequirementsNotMet;
+            isTracked = false;
             _currentStepIndex = 0;
         }
 

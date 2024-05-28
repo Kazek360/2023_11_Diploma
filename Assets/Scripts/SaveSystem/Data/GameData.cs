@@ -15,6 +15,7 @@ namespace SaveSystem.Data
         public Tuple<int, int>[,] inventory;
         public int[] equipment;
         public Dictionary<string, Quest> quests;
+        public string trackedQuest;
         public string inkVariables;
 
         public GameData()
