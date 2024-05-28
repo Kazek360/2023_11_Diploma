@@ -22,7 +22,7 @@ public class HrycController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         
-        if (_rigidbody.position.x != 0 || _rigidbody.velocity.y != 0)
+        if (_rigidbody.velocity.x != 0 || _rigidbody.velocity.y != 0)
             {
                 _animator.SetFloat(X, _rigidbody.velocity.x);
                 _animator.SetFloat(Y, _rigidbody.velocity.y);
