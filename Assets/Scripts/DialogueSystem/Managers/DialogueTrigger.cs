@@ -63,18 +63,17 @@ namespace DialogueSystem.Managers
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!other.CompareTag("Player"))
-            {
-                return;
-            }
             if (autoTrigger)
             {
                 AreaEvent.EnterArea(gameObject.name, other.name);
             }
-            else
+            else 
             {
-                interactionKeyImage.SetActive(true);
-                _playerInRange = true;  
+                if (other.CompareTag("Player"))
+                {
+                    interactionKeyImage.SetActive(true);
+                    _playerInRange = true;   
+                }
             }
         }
 
