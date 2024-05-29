@@ -116,6 +116,10 @@ public class EquipmentSlot : ItemSlot
     {
         PlayerStats.GetInstance().ItemRemoved(_item.ItemID);
         GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
+        if (_item is EquipmentItem equipmentItem)
+        {
+            equipmentItem.Unequip();
+        }
         _item = null;
     }
 
@@ -125,7 +129,10 @@ public class EquipmentSlot : ItemSlot
         {
             PlayerStats.GetInstance().ItemRemoved(_item.ItemID);
             GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
-            
+            if (_item is EquipmentItem equipmentItem)
+            {
+                equipmentItem.Unequip();
+            }
         }
         _item = item;
         return true;

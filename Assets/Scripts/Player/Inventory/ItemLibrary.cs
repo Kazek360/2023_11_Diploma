@@ -42,10 +42,23 @@ public class ItemLibrary
         
         _items.Add(new EquipmentItem(
             itemID: 2, 
-            "Miecz", 
-            "Można nim machać", 
+            "Scyzoryk", 
+            "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Scyzoryk", 
             Resources.Load<Sprite>("ItemSprites/Sword1"), 
-            delegate { }, 
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
+            },
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
+            }, 
             EquipmentSlotType.hand ,
             new List<ItemStatModifier>()
             {
@@ -59,6 +72,33 @@ public class ItemLibrary
             "Daj kamienia", 
             Resources.Load<Sprite>("ItemSprites/Heart1"), 
             delegate { }, 
+            delegate {  }, 
+            EquipmentSlotType.hand,
+            new List<ItemStatModifier>()
+            {
+                new ItemStatModifier(StatType.WitAgility, 1, 3)
+            }
+        ));
+        
+        _items.Add(new EquipmentItem(
+            itemID: 4, 
+            "Proca", 
+            "Brzydki kuzyn łuku. Pozwala na używanie zdolności dystansowej Strzał", 
+            Resources.Load<Sprite>("ItemSprites/Heart1"),
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
+            },
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
+            }, 
             EquipmentSlotType.hand,
             new List<ItemStatModifier>()
             {

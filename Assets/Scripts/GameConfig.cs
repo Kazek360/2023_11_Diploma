@@ -14,4 +14,5 @@ public class GameConfig
     public static QuestTracker QuestTracker;
     public static Inventory PlayerInventory;
     public static Canvas canvas;
+    public static AbilityLibrary abilityLibrary;
 }
