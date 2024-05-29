@@ -37,6 +37,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private int _currentPsyche;
     private bool _isDead;
     private bool _partnerIsKilled;
+    private bool _isVisible;
     
     // Start is called before the first frame update
     private void Start()
@@ -321,14 +322,20 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     public void DeactivateTargetClickArea()
     {
-        tooltipArea.gameObject.SetActive(true);
-        TargetClickArea.DisableClick();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            TargetClickArea.DisableClick();
+        }
     }
 
     public void TargetClickAreaDeselected()
     {
-        tooltipArea.gameObject.SetActive(true);
-        TargetClickArea.Deselect();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            TargetClickArea.DisableClick();
+        }
     }
 
     private void UpdateHpText()
@@ -355,6 +362,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         }
         if (setActive)
         {
+            _isVisible = true;
             HpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
@@ -366,6 +374,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         }
         else
         {
+            _isVisible = false;
             HpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
