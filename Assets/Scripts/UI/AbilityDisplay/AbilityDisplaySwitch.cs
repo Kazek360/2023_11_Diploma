@@ -1,29 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
+using InputSystem;
 using UnityEngine;
 
 public class AbilityDisplaySwitch : MonoBehaviour
 {
 
     [SerializeField] private GameObject abilityScreen;
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        
+        InputEvents.OnAbilityViewToggle += ToggleAbilityView;
+        InputEvents.OnInterfaceClosed += CloseAbilityView;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        InputEvents.OnAbilityViewToggle -= ToggleAbilityView;
+        InputEvents.OnInterfaceClosed -= CloseAbilityView;
     }
 
-    public void TurnOn()
+    private void ToggleAbilityView()
     {
-        abilityScreen.SetActive(true);
+        if (abilityScreen.activeSelf)
+        {
+            abilityScreen.SetActive(false);
+            GameConfig.QuestTracker.EnableText();
+        }
+        else
+        {
+            abilityScreen.SetActive(true);
+            GameConfig.QuestTracker.DisableText();
+        }
     }
     
-    public void TurnOff()
+    private void CloseAbilityView()
     {
         abilityScreen.SetActive(false);
     }

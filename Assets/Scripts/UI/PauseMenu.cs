@@ -29,11 +29,13 @@ public class PauseMenu : MonoBehaviour
             contentParent.SetActive(false);
             saveSlotMenu.gameObject.SetActive(false);
             buttons.SetActive(true);
+            GameConfig.QuestTracker.EnableText();
             Time.timeScale = 1;
         }
         else
         {
             contentParent.SetActive(true);
+            GameConfig.QuestTracker.DisableText();
             Time.timeScale = 0;
         }
     }
