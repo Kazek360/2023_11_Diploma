@@ -4,11 +4,13 @@ using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveSlotMenu : MonoBehaviour
 {
     [SerializeField] private GameObject backMenu;
     [SerializeField] private TextMeshProUGUI screenName;
+    [SerializeField] private Button autosaveButton;
     private SaveSlot[] _saveSlots;
 
     private string _currentOperation;
@@ -45,6 +47,7 @@ public class SaveSlotMenu : MonoBehaviour
                     screenName.text = "Zapisz grę";
                 }
                 saveSlot.SetInteractable(true);
+                autosaveButton.interactable = false;
             }
         }
     }
