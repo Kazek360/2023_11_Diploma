@@ -47,18 +47,11 @@ public class DeathDialogue : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            if (((Ink.Runtime.StringValue) GameConfig.DialogueUI.GetVariableState("death_choice")).value.Equals("death"))
-            {
-                SceneManager.LoadScene(0);
-            }
-            else
-            {
-                Finish();
-                Destroy(_deathRealmToTeleport);
-                QuestEvents.StartQuest(questToStart.id);
-                _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
-                Delete();
-            }
+            Finish();
+            Destroy(_deathRealmToTeleport);
+            QuestEvents.StartQuest(questToStart.id);
+            _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
+            Delete();
         } 
     }
 }
