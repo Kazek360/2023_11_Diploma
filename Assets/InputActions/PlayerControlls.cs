@@ -197,67 +197,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Cutscene"",
-            ""id"": ""6a9b1990-8034-48fb-a359-e37432bee262"",
-            ""actions"": [
-                {
-                    ""name"": ""ContinueCutscene"",
-                    ""type"": ""Button"",
-                    ""id"": ""fcd87ae9-dd64-4217-88b7-2dde96eb78d9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""bf6692af-1421-4260-a76f-166aedbcfc81"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ContinueCutscene"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""514321c9-d43d-410c-a681-22f21a0dd092"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ContinueCutscene"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""28f02393-600d-4f5c-9946-81bc848d8b14"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ContinueCutscene"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""56fa619f-e7bd-4413-ab17-30de2b48ddbe"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ContinueCutscene"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
             ""name"": ""UI"",
             ""id"": ""c2c3d9c4-5137-4770-9cc1-8aabe28b450c"",
             ""actions"": [
@@ -283,6 +222,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Toggle Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""2ce3c231-f361-48a3-ba32-d87c3497377e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Toggle Ability View"",
+                    ""type"": ""Button"",
+                    ""id"": ""f487ba15-2880-482e-ae7e-d2918a7f2549"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -342,6 +290,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""Toggle Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da3f0f20-0fe7-4998-b489-9789db620830"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Ability View"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -384,14 +343,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         // Dialogue
         m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
         m_Dialogue_ContinueDialogue = m_Dialogue.FindAction("ContinueDialogue", throwIfNotFound: true);
-        // Cutscene
-        m_Cutscene = asset.FindActionMap("Cutscene", throwIfNotFound: true);
-        m_Cutscene_ContinueCutscene = m_Cutscene.FindAction("ContinueCutscene", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
         m_UI_ToggleSkillTree = m_UI.FindAction("Toggle Skill Tree", throwIfNotFound: true);
         m_UI_ToggleInventory = m_UI.FindAction("Toggle Inventory", throwIfNotFound: true);
+        m_UI_ToggleAbilityView = m_UI.FindAction("Toggle Ability View", throwIfNotFound: true);
         m_UI_CloseUI = m_UI.FindAction("Close UI", throwIfNotFound: true);
         // Pause Menu
         m_PauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
@@ -562,58 +519,13 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     }
     public DialogueActions @Dialogue => new DialogueActions(this);
 
-    // Cutscene
-    private readonly InputActionMap m_Cutscene;
-    private List<ICutsceneActions> m_CutsceneActionsCallbackInterfaces = new List<ICutsceneActions>();
-    private readonly InputAction m_Cutscene_ContinueCutscene;
-    public struct CutsceneActions
-    {
-        private @PlayerControlls m_Wrapper;
-        public CutsceneActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ContinueCutscene => m_Wrapper.m_Cutscene_ContinueCutscene;
-        public InputActionMap Get() { return m_Wrapper.m_Cutscene; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(CutsceneActions set) { return set.Get(); }
-        public void AddCallbacks(ICutsceneActions instance)
-        {
-            if (instance == null || m_Wrapper.m_CutsceneActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_CutsceneActionsCallbackInterfaces.Add(instance);
-            @ContinueCutscene.started += instance.OnContinueCutscene;
-            @ContinueCutscene.performed += instance.OnContinueCutscene;
-            @ContinueCutscene.canceled += instance.OnContinueCutscene;
-        }
-
-        private void UnregisterCallbacks(ICutsceneActions instance)
-        {
-            @ContinueCutscene.started -= instance.OnContinueCutscene;
-            @ContinueCutscene.performed -= instance.OnContinueCutscene;
-            @ContinueCutscene.canceled -= instance.OnContinueCutscene;
-        }
-
-        public void RemoveCallbacks(ICutsceneActions instance)
-        {
-            if (m_Wrapper.m_CutsceneActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(ICutsceneActions instance)
-        {
-            foreach (var item in m_Wrapper.m_CutsceneActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_CutsceneActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public CutsceneActions @Cutscene => new CutsceneActions(this);
-
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_ToggleQuestLog;
     private readonly InputAction m_UI_ToggleSkillTree;
     private readonly InputAction m_UI_ToggleInventory;
+    private readonly InputAction m_UI_ToggleAbilityView;
     private readonly InputAction m_UI_CloseUI;
     public struct UIActions
     {
@@ -622,6 +534,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @ToggleQuestLog => m_Wrapper.m_UI_ToggleQuestLog;
         public InputAction @ToggleSkillTree => m_Wrapper.m_UI_ToggleSkillTree;
         public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
+        public InputAction @ToggleAbilityView => m_Wrapper.m_UI_ToggleAbilityView;
         public InputAction @CloseUI => m_Wrapper.m_UI_CloseUI;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -641,6 +554,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleInventory.started += instance.OnToggleInventory;
             @ToggleInventory.performed += instance.OnToggleInventory;
             @ToggleInventory.canceled += instance.OnToggleInventory;
+            @ToggleAbilityView.started += instance.OnToggleAbilityView;
+            @ToggleAbilityView.performed += instance.OnToggleAbilityView;
+            @ToggleAbilityView.canceled += instance.OnToggleAbilityView;
             @CloseUI.started += instance.OnCloseUI;
             @CloseUI.performed += instance.OnCloseUI;
             @CloseUI.canceled += instance.OnCloseUI;
@@ -657,6 +573,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleInventory.started -= instance.OnToggleInventory;
             @ToggleInventory.performed -= instance.OnToggleInventory;
             @ToggleInventory.canceled -= instance.OnToggleInventory;
+            @ToggleAbilityView.started -= instance.OnToggleAbilityView;
+            @ToggleAbilityView.performed -= instance.OnToggleAbilityView;
+            @ToggleAbilityView.canceled -= instance.OnToggleAbilityView;
             @CloseUI.started -= instance.OnCloseUI;
             @CloseUI.performed -= instance.OnCloseUI;
             @CloseUI.canceled -= instance.OnCloseUI;
@@ -733,15 +652,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     {
         void OnContinueDialogue(InputAction.CallbackContext context);
     }
-    public interface ICutsceneActions
-    {
-        void OnContinueCutscene(InputAction.CallbackContext context);
-    }
     public interface IUIActions
     {
         void OnToggleQuestLog(InputAction.CallbackContext context);
         void OnToggleSkillTree(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
+        void OnToggleAbilityView(InputAction.CallbackContext context);
         void OnCloseUI(InputAction.CallbackContext context);
     }
     public interface IPauseMenuActions

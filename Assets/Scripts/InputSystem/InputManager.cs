@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace InputSystem
 {
     public class InputManager : MonoBehaviour, 
-        PlayerControlls.IPlayerActions, PlayerControlls.IDialogueActions, PlayerControlls.ICutsceneActions,
+        PlayerControlls.IPlayerActions, PlayerControlls.IDialogueActions,
         PlayerControlls.IUIActions, PlayerControlls.IPauseMenuActions
     {
         private PlayerControlls _controlls;
@@ -32,7 +32,6 @@ namespace InputSystem
             
             _controlls.Player.RemoveCallbacks(this);
             _controlls.Dialogue.RemoveCallbacks(this);
-            _controlls.Cutscene.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
             _controlls.PauseMenu.RemoveCallbacks(this);
         }
@@ -59,7 +58,6 @@ namespace InputSystem
             
             _controlls.Player.SetCallbacks(this);
             _controlls.Dialogue.SetCallbacks(this);
-            _controlls.Cutscene.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
             _controlls.PauseMenu.SetCallbacks(this);
             
@@ -112,14 +110,12 @@ namespace InputSystem
             _controlls.Player.Disable();
             _controlls.UI.Disable();
             _controlls.PauseMenu.Disable();
-            _controlls.Cutscene.Enable();
         }
         private void OnCutsceneFinished()
         {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
             _controlls.PauseMenu.Enable();
-            _controlls.Cutscene.Disable();
         }
         
         public void OnContinueDialogue(InputAction.CallbackContext context)
@@ -127,13 +123,6 @@ namespace InputSystem
             if (context.performed)
             {
                 InputEvents.InputDialogueContinue();
-            }
-        }
-        public void OnContinueCutscene(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                InputEvents.InputCutsceneContinue();
             }
         }
 
@@ -190,6 +179,19 @@ namespace InputSystem
                 }
                 PrepareInterfaceValues("Inventory");
                 InputEvents.ToggleInventory();
+            }
+        }
+
+        public void OnToggleAbilityView(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (!_uiName.Equals("AbilityView") && !_uiName.Equals(""))
+                {
+                    return;
+                }
+                PrepareInterfaceValues("AbilityView");
+                InputEvents.ToggleAbilityView();
             }
         }
 
