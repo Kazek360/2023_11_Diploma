@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,28 +13,32 @@ public class HrycController : MonoBehaviour
     private static readonly int IsRunning = Animator.StringToHash("isRunning");
 
     // Start is called before the first frame update
-    public void OneEnable()
+    public void OnEnable()
     {
+        _rigidbody = GetComponentInParent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     public void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
-        
-        if (_rigidbody.position.x != 0 || _rigidbody.velocity.y != 0)
-            {
-                _animator.SetFloat(X, _rigidbody.velocity.x);
-                _animator.SetFloat(Y, _rigidbody.velocity.y);
-                
-                _animator.SetBool(IsRunning, true);
-            }
-            else
-            {
 
-                _animator.SetBool(IsRunning, false);
-            }
     }
     
+
+    public void Update()
+    {
+        if (_rigidbody.velocity.x != 0 || _rigidbody.velocity.y != 0)
+        {
+            _animator.SetFloat(X, _rigidbody.velocity.x);
+            _animator.SetFloat(Y, _rigidbody.velocity.y);
+                
+            _animator.SetBool(IsRunning, true);
+        }
+        else
+        {
+
+            _animator.SetBool(IsRunning, false);
+        }
+    }
 }
