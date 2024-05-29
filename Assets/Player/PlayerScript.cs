@@ -29,6 +29,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     
     private int _currentPsyche;
     protected bool _partnerIsKilled;
+    private bool _isVisible;
     
     // Start is called before the first frame update
     void Start()
@@ -38,13 +39,13 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        // for (int i = 0; i < abilities.Count; i++)
-        // {
-        //     UnlockableAbility tmp = new UnlockableAbility();
-        //     tmp.Recipient = playerType;
-        //     tmp.AbilitySO = abilities[i];
-        //     UnlockedAbilities.GetInstance().UnlockAbility(tmp);
-        // }
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            UnlockableAbility tmp = new UnlockableAbility();
+            tmp.Recipient = playerType;
+            tmp.AbilitySO = abilities[i];
+            UnlockedAbilities.GetInstance().UnlockAbility(tmp);
+        }
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         if (IsMaterial() && partner is not null)
@@ -206,7 +207,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     public void ActivateTargetClickArea()
     {
-        if (tooltipArea.gameObject.activeInHierarchy)
+        if (_isVisible)
         {
             tooltipArea.gameObject.SetActive(false);
             targetClickArea.EnableClick(_combatUI, this);
@@ -215,14 +216,20 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     public void DeactivateTargetClickArea()
     {
-        tooltipArea.gameObject.SetActive(true);
-        targetClickArea.DisableClick();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            targetClickArea.DisableClick();
+        }
     }
     
     public void TargetClickAreaDeselected()
     {
-        tooltipArea.gameObject.SetActive(true);
-        targetClickArea.Deselect();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            targetClickArea.DisableClick();
+        }
     }
     
     protected virtual void UpdateHpText()
@@ -249,6 +256,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         if (setActive)
         {
+            _isVisible = true;
             hpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
@@ -260,6 +268,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         else
         {
+            _isVisible = false;
             hpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
