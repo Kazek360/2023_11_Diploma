@@ -27,11 +27,6 @@ namespace InputSystem
         {
             OnDialogueContinueInput?.Invoke();
         }
-        public static event Action OnCutsceneContinueInput;
-        public static void InputCutsceneContinue()
-        {
-            OnCutsceneContinueInput?.Invoke();
-        }
         public static event Action OnQuestLogToggle;
         public static void ToggleQuestLog()
         {
@@ -56,6 +51,11 @@ namespace InputSystem
         public static void TogglePause()
         {
             OnPauseToggle?.Invoke();
+        }
+        public static event Action OnAbilityViewToggle;
+        public static void ToggleAbilityView()
+        {
+            OnAbilityViewToggle?.Invoke();
         }
     }
 }

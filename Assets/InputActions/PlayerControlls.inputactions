@@ -175,67 +175,6 @@
             ]
         },
         {
-            "name": "Cutscene",
-            "id": "6a9b1990-8034-48fb-a359-e37432bee262",
-            "actions": [
-                {
-                    "name": "ContinueCutscene",
-                    "type": "Button",
-                    "id": "fcd87ae9-dd64-4217-88b7-2dde96eb78d9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "bf6692af-1421-4260-a76f-166aedbcfc81",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ContinueCutscene",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "514321c9-d43d-410c-a681-22f21a0dd092",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ContinueCutscene",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "28f02393-600d-4f5c-9946-81bc848d8b14",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ContinueCutscene",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "56fa619f-e7bd-4413-ab17-30de2b48ddbe",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ContinueCutscene",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "UI",
             "id": "c2c3d9c4-5137-4770-9cc1-8aabe28b450c",
             "actions": [
@@ -261,6 +200,15 @@
                     "name": "Toggle Inventory",
                     "type": "Button",
                     "id": "2ce3c231-f361-48a3-ba32-d87c3497377e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Toggle Ability View",
+                    "type": "Button",
+                    "id": "f487ba15-2880-482e-ae7e-d2918a7f2549",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -318,6 +266,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Toggle Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da3f0f20-0fe7-4998-b489-9789db620830",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toggle Ability View",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

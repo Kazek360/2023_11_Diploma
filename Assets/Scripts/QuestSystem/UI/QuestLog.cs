@@ -52,10 +52,10 @@ namespace QuestSystem.UI
             else
             {
                 contentParent.SetActive(true);
+                GameConfig.QuestTracker.DisableText();
                 if (_defaultSelectedButton is not null)
                 {
                     _defaultSelectedButton.Select();
-                    GameConfig.QuestTracker.DisableText();
                 }
             }
         }

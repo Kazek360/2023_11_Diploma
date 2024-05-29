@@ -22,10 +22,12 @@ public class InventoryToggle : MonoBehaviour
         if (contentParent.activeSelf)
         {
             contentParent.SetActive(false);
+            GameConfig.QuestTracker.EnableText();
         }
         else
         {
             contentParent.SetActive(true);
+            GameConfig.QuestTracker.DisableText();
         }
     }
     
