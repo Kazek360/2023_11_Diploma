@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HrycController : MonoBehaviour
+public class NPC_Anim_Controller : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
     private Animator _animator;
