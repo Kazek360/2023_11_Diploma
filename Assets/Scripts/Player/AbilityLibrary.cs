@@ -23,7 +23,7 @@ public class AbilityLibrary : MonoBehaviour
         return _abilityScriptableObjects;
     }
 
-    private void Load()
+    public void Load()
     {
         UnlockableAbility ab1 = new UnlockableAbility();
         ab1.Recipient = UnlockableAbility.PlayerType.WIT;
