@@ -17,6 +17,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnNewGameClicked()
     {
+        GameConfig.abilityLibrary.Load();
+        PlayerStats.GetInstance().Load();
         DataPersistenceManager.Instance.NewGame();
         SceneManager.LoadSceneAsync("Las");
     }

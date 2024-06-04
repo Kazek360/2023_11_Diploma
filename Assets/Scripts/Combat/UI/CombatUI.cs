@@ -221,11 +221,15 @@ public class CombatUI : MonoBehaviour
 
     public void ToggleMaterial()
     {
+        HideTargets();
+        _abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem2.ShowStage(true);
     }
     
     public void ToggleImmaterial()
     {
+        HideTargets();
+        _abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem2.ShowStage(false);
     }
 
