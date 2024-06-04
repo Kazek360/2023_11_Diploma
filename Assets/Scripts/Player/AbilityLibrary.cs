@@ -10,7 +10,10 @@ public class AbilityLibrary : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         Load();
-        GameConfig.abilityLibrary = this;
+        if (GameConfig.abilityLibrary is null)
+        {
+            GameConfig.abilityLibrary = this;
+        }
     }
 
     public AbilityScriptableObject GetAbility(int i)
