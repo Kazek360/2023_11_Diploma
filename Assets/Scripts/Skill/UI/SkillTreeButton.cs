@@ -27,6 +27,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
 
     public void Start()
     {
+        gameObject.GetComponentInChildren<TextMeshProUGUI>().text = skillTreeNodeInfo.displayName;
         if (PlayerResourcesManager.Instance.SkillPoints == 0)
         {
             button.enabled = false;
@@ -57,7 +58,6 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     }
     public void ActivateNode()
     {
-        gameObject.GetComponentInChildren<TextMeshProUGUI>().text = skillTreeNodeInfo.displayName;
         button.enabled = false;
         button.image.color = Color.cyan;
         foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
