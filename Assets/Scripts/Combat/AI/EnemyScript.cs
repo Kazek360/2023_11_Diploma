@@ -33,7 +33,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     private IHittable _currentTarget;
 
-    private int _currentHealth;
+    protected int _currentHealth;
     private int _currentPsyche;
     private bool _isDead;
     private bool _partnerIsKilled;
