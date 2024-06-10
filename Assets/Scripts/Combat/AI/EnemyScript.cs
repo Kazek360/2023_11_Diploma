@@ -33,7 +33,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     private IHittable _currentTarget;
 
-    private int _currentHealth;
+    protected int _currentHealth;
     private int _currentPsyche;
     private bool _isDead;
     private bool _partnerIsKilled;
@@ -410,7 +410,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("ŻYCIE: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
         return str.ToString();
     }
 }

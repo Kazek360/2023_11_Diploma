@@ -8,7 +8,7 @@ public class SCRIPT2 : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadSceneAsync("MAIN MENU");
+        SceneManager.LoadSceneAsync("Scenes/UI/Wiktoria/MainMenu");
     }
 
     // Update is called once per frame
