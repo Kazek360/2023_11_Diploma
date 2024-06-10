@@ -2,6 +2,7 @@ using System.Text;
 using Skill;
 using Skill.Events;
 using Skill.Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
 
     public void Start()
     {
+        gameObject.GetComponentInChildren<TextMeshProUGUI>().text = skillTreeNodeInfo.displayName;
         if (PlayerResourcesManager.Instance.SkillPoints == 0)
         {
             button.enabled = false;
@@ -72,7 +74,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
 
     public string GetTooltipHeader()
     {
-        return skillTreeNodeInfo.id;
+        return skillTreeNodeInfo.displayName;
     }
 
     public string GetTooltipDesc()

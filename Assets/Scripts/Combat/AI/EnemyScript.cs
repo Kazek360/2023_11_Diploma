@@ -207,7 +207,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         {
             amount *= 2;
         }
-        _currentHealth = _currentHealth + amount;
+        _currentHealth = Math.Max(Math.Min(_currentHealth + amount, Stats.MaxHealthPoints), 0);
         if (_currentHealth <= 0)
         {
             OnHealthDepleted();

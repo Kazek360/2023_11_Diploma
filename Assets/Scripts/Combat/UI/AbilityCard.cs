@@ -32,7 +32,7 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
     public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
         Ability = abilityScriptableObject;
-        ActionText.text = Ability.GetAbilityActionText();
+        // ActionText.text = Ability.GetAbilityActionText();
         CooldownText.text = Ability.GetAbilityCooldownText();
         RangeText.text = Ability.GetAbilityRangeText();
         AbilityNameField.GetComponent<TextMeshProUGUI>().text = Ability.AbilityName;

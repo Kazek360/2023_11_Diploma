@@ -62,12 +62,11 @@ public class CombatUI : MonoBehaviour
     {
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
-            var container = Instantiate(AbilityCardPrefab);
+            var container = Instantiate(AbilityCardPrefab, AbilitiesScrollContent.transform);
             AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
             abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
             abilityCard.SetController(this);
             container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            container.transform.SetParent(AbilitiesScrollContent.transform);
             if (_combatSystem2.ActionsLeft <= 0)
             {
                 container.GetComponent<Toggle>().interactable = false;
