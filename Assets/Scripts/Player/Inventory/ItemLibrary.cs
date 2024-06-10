@@ -84,7 +84,7 @@ public class ItemLibrary
             itemID: 4, 
             "Proca", 
             "Brzydki kuzyn łuku. Pozwala na używanie zdolności dystansowej Strzał", 
-            Resources.Load<Sprite>("ItemSprites/Heart1"),
+            Resources.Load<Sprite>("ItemSprites/child-wooden-slingshot-vector-14608075"),
             delegate
             {
                 UnlockableAbility slingshot = new UnlockableAbility();

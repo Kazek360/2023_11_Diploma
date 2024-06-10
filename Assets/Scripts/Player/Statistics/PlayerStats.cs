@@ -97,6 +97,10 @@ public class PlayerStats
     public void AddSkillTreeModifier(SkillTreeStatModifier modifier)
     {
         _skillTreeStatModifiers.Add(modifier);
+        if (modifier.StatType == StatType.WitHealth)
+        {
+            _witHp += modifier.Modifier;
+        }
     }
 
     public int GetCurrentXp()
