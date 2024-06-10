@@ -39,13 +39,13 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        // for (int i = 0; i < abilities.Count; i++)
-        // {
-        //     UnlockableAbility tmp = new UnlockableAbility();
-        //     tmp.Recipient = playerType;
-        //     tmp.AbilitySO = abilities[i];
-        //     UnlockedAbilities.GetInstance().UnlockAbility(tmp);
-        // }
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            UnlockableAbility tmp = new UnlockableAbility();
+            tmp.Recipient = playerType;
+            tmp.AbilitySO = abilities[i];
+            UnlockedAbilities.GetInstance().UnlockAbility(tmp);
+        }
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         if (IsMaterial() && partner is not null)

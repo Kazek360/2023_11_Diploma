@@ -118,6 +118,9 @@ public class CombatUI : MonoBehaviour
         {
             target.ActivateTargetClickArea();
         }
+        
+        _combatSystem2.ClearGrid();
+        //TODO hide
     }
 
     private void HideTargets()
@@ -128,6 +131,10 @@ public class CombatUI : MonoBehaviour
             target.DeactivateTargetClickArea();
         }
 
+        if (MaterialToggle.isOn && _combatSystem2.GetCurrentIsMaterial() || ImmaterialToggle.isOn && !_combatSystem2.GetCurrentIsMaterial())
+        {
+            _combatSystem2.ReturnToMovement();
+        }
         _currentTarget = null;
     }
 
@@ -160,6 +167,7 @@ public class CombatUI : MonoBehaviour
         _combatSystem2.ActionsLeft--;
         ShowCombatUI(_currentEntity);
         ShowAbilities();
+        
         SetActionCounter(_combatSystem2.ActionsLeft);
     }
 
