@@ -410,7 +410,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("ŻYCIE: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
         return str.ToString();
     }
 }
