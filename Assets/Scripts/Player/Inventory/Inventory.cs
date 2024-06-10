@@ -116,7 +116,6 @@ public class Inventory : MonoBehaviour, IDataPersistence
     public void Load()
     {
         AddItem(2, 1);
-        AddItem(1, 1);
         AddItem(4, 1);
     }
 
