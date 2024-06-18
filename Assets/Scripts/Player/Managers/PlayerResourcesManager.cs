@@ -42,7 +42,12 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData gameData)
     {
+        PlayerStats.GetInstance();
         SkillPoints = gameData.resources["SkillPoints"];
+        PlayerStats.GetInstance().Level = gameData.resources["Level"];
+        PlayerStats.GetInstance().CurrentXp = gameData.resources["ExperiencePoints"];
+        PlayerStats.GetInstance().WitHp = gameData.resources["WitHP"];
+        PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
     }
 
     public void SaveData(ref GameData gameData)
@@ -50,6 +55,22 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
         if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))
         {
             gameData.resources["SkillPoints"] = SkillPoints;
+        }
+        if (!gameData.resources.TryAdd("WitHP", PlayerStats.GetInstance().WitHp))
+        {
+            gameData.resources["WitHP"] = PlayerStats.GetInstance().WitHp;
+        }
+        if (!gameData.resources.TryAdd("NestorHP", PlayerStats.GetInstance().NestorHp))
+        {
+            gameData.resources["NestorHP"] = PlayerStats.GetInstance().NestorHp;
+        }
+        if (!gameData.resources.TryAdd("Level", PlayerStats.GetInstance().Level))
+        {
+            gameData.resources["SkillPoints"] = PlayerStats.GetInstance().Level;
+        }
+        if (!gameData.resources.TryAdd("ExperiencePoints", PlayerStats.GetInstance().CurrentXp))
+        {
+            gameData.resources["SkillPoints"] = PlayerStats.GetInstance().CurrentXp;
         }
     }
 }
