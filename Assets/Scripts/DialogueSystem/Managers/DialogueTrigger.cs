@@ -69,7 +69,7 @@ namespace DialogueSystem.Managers
             }
             else 
             {
-                if (other.CompareTag("Player"))
+                if (other.name.Equals("Player"))
                 {
                     interactionKeyImage.SetActive(true);
                     _playerInRange = true;   
@@ -79,7 +79,7 @@ namespace DialogueSystem.Managers
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (autoTrigger || !other.CompareTag("Player"))
+            if (autoTrigger || !other.name.Equals("Player"))
             {
                 return;
             }

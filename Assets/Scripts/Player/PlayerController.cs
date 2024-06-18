@@ -1,21 +1,17 @@
-using System.Collections.Generic;
 using Cutscenes;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
 using InputSystem;
-using SaveSystem;
-using SaveSystem.Data;
 using UnityEngine;
 
 namespace Player
 {
-    public class PlayerController : MonoBehaviour, IDataPersistence
+    public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float walkSpeed;
 
         [SerializeField] private float runSpeed;
         
-        private SpriteRenderer _spriteRenderer;
         private Rigidbody2D _rigidbody;
         private Animator _animator;
 
@@ -47,7 +43,6 @@ namespace Player
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _isPlayerSprinting = false;
             _animator = GetComponent<Animator>();
         }
@@ -86,16 +81,6 @@ namespace Player
         private void StopMovement(CutsceneSO cutscene)
         {
             _rigidbody.velocity = Vector2.zero;
-        }
-
-        public void LoadData(GameData gameData)
-        {
-            transform.position = new Vector3(gameData.playerPosition[0], gameData.playerPosition[1], 0);
-        }
-
-        public void SaveData(ref GameData gameData)
-        {
-            gameData.playerPosition = new[] { transform.position.x, transform.position.y };
         }
     }
 }
