@@ -7,6 +7,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/**
+ * A script managing behaviour of a physical player in combat
+ */
 public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 {
     [SerializeField] private UnlockableAbility.PlayerType playerType;
@@ -72,6 +75,12 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         
     }
 
+    /**
+     * Cast an ability upon a target
+     *
+     * <param name="i">Position of ability in the ability list</param>
+     * <param name="target">Intended target entity</param>
+     */
     public void CastAbility(int i, IHittable target)
     {
         var ability = abilities[i];
@@ -80,7 +89,9 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     }
     
     
-
+    /**
+     * Prepare player for a turn and begin it
+     */
     public void ProcessTurn()
     {
         for (int i = 0; i < _cooldowns.Count; i++)
@@ -102,9 +113,9 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         return PlayerStats.GetInstance().GetStat(StatType.WitHealth);
     }
 
+    
     public virtual void ModifyHealth(int amount)
     {
-        
         //Debug.Log("HP CHANGED BY " + amount);
         if (_partnerIsKilled && amount < 0)
         {
@@ -128,6 +139,11 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         return maxPsychePoints;
     }
 
+    /**
+     * Modify psyche of the player
+     *
+     * <param name="amount">Numeric change to be applied to player psyche</param>
+     */
     public void ModifyPsyche(int amount)
     {
         //Debug.Log("PP CHANGED BY " + amount);
@@ -138,6 +154,9 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
     }
 
+    /**
+     * Log death of a player and trigger appropriate actions in other scripts
+     */
     public virtual void OnHealthDepleted()
     {
         Debug.Log( "Wit has lost all health");
@@ -145,6 +164,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         gameObject.SetActive(false);
     }
 
+    
     public virtual void OnPartnerDeath()
     {
         _partner = null;

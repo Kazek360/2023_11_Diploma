@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/**
+ * Controller for combat UI
+ */
 public class CombatUI : MonoBehaviour
 {
     [SerializeField] private GameObject SummaryDisplay;
@@ -46,8 +49,9 @@ public class CombatUI : MonoBehaviour
     }
 
     /**
-     * Called when a player turn begins(enemies don't need it)
-     */
+    * Displays UI for the player
+    * <param name='entity'>currently active player</param>
+    */
     public void ShowCombatUI(IHittable entity)
     {
         AbilitiesScrollContent.SetActive(true);
@@ -59,6 +63,9 @@ public class CombatUI : MonoBehaviour
         _currentEntity = (PlayerScript)entity;
     }
 
+    /**
+    * Populate UI with ability cards
+    */
     public void ShowAbilities()
     {
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
@@ -77,10 +84,9 @@ public class CombatUI : MonoBehaviour
 
     
     /**
-     * After choosing an ability show possible targets
-     *
-     * 
-     */
+    * Show targets and range for the selected ability
+    * <param name='ability'>selected ability</param>
+    */
     public void ShowTargets(AbilityScriptableObject ability)
     {
         List<IHittable> candidateTargets = new List<IHittable>();
@@ -133,6 +139,9 @@ public class CombatUI : MonoBehaviour
         //TODO hide
     }
 
+    /**
+    * Hide target indicators and clear grid
+    */
     private void HideTargets()
     {
         foreach (var target in _possibleTargets)
@@ -164,6 +173,9 @@ public class CombatUI : MonoBehaviour
         EndTurnButton.SetActive(false);
     }
     
+    /**
+    * Re-enable normal UI after casting an ability
+    */
     public void OnCastAbility()
     {
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
@@ -237,13 +249,18 @@ public class CombatUI : MonoBehaviour
         OnCastAbility();
     }
 
+    /**
+    * Reset UI and switch to material layer
+    */
     public void ToggleMaterial()
     {
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem2.ShowStage(true);
     }
-    
+    /**
+    * Reset UI and switch to immaterial layer
+    */
     public void ToggleImmaterial()
     {
         HideTargets();
@@ -251,12 +268,23 @@ public class CombatUI : MonoBehaviour
         _combatSystem2.ShowStage(false);
     }
 
+    /**
+    * Set material toggle without notifying connected methods
+     *
+     * <param name="isMaterial">Is the layer the toggle is set to material</param>
+    */
     public void SetMaterialToggle(bool isMaterial)
     {
         MaterialToggle.SetIsOnWithoutNotify(isMaterial);
         ImmaterialToggle.SetIsOnWithoutNotify(!isMaterial);
     }
 
+    /**
+    * Disable normal UI and display summary of combat
+     * <param name="IsVictory">Whether player has won</param>
+     * <param name="players">List of all players in combat</param>
+     * <param name="enemies">List of all enemies in combat</param>
+    */
     public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
     {
         UpperScreen.SetActive(false);

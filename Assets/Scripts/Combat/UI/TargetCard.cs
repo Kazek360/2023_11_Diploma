@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/**
+ * Largely redundant controller for old target cards, superseded by TargetClickArea
+ */
 public class TargetCard : MonoBehaviour
 {
     private IHittable _target;

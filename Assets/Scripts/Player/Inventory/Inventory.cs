@@ -3,6 +3,11 @@ using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
 
+/**
+ * Player inventory script
+ *
+ * Allows for equipping items, dropping and picking them up, as well as other interactions
+ */
 public class Inventory : MonoBehaviour, IDataPersistence
 {
     private ItemLibrary _itemLibrary;
@@ -31,15 +36,26 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
         if (_inventorySlots[0,0].Item is null)
         {
-            Load();
+            LoadDefault();
         }
     }
 
+    /**
+     * Get a slot in given coordinates of inventory grid
+     *
+     * <param name="x">X coordinate</param>
+     * <param name="y">Y coordinate</param>
+     */
     public InventorySlot GetSlot(int x, int y)
     {
         return _inventorySlots[x, y];
     }
 
+    /**
+     * Get an equipment slot for given equipment type
+     *
+     * <param name="slotType">Equipment slot type</param>
+     */
     public EquipmentSlot GetEquipmentSlot(EquipmentSlotType slotType)
     {
         foreach (EquipmentSlot slot in _equipmentSlots)
@@ -52,21 +68,48 @@ public class Inventory : MonoBehaviour, IDataPersistence
         return null;
     }
 
+    /**
+     * Use item on given position in inventory
+     *
+     * <param name="x">X coordinate in inventory grid</param>
+     * <param name="y">Y coordinate in inventory grid</param>
+     */
     public void UseItem(int x, int y)
     {
         _inventorySlots[x, y].Use();
     }
 
+    /**
+     * Drop multiple of an item on given position in inventory
+     *
+     * <param name="x">X coordinate in inventory grid</param>
+     * <param name="y">Y coordinate in inventory grid</param>
+     * <param name="amount">How many instances of said item are to be dropped</param>
+     */
     public void DropItem(int x, int y, int amount)
     {
         _inventorySlots[x, y].RemoveItem(amount);
     }
     
+    /**
+     * Drop item on given position in inventory
+     *
+     * <param name="x">X coordinate in inventory grid</param>
+     * <param name="y">Y coordinate in inventory grid</param>
+     */
     public void DropItem(int x, int y)
     {
         _inventorySlots[x, y].RemoveItem();
     }
 
+    /**
+     * Place items in given position in inventory
+     *
+     * <param name="itemID">ID of the desired item</param>
+     * <param name="amount">Amount of the desired item</param>
+     * <param name="x">X coordinate in inventory grid</param>
+     * <param name="y">Y coordinate in inventory grid</param>
+     */
     public void AddItem(int itemID, int amount, int x, int y)
     {
         bool success = _inventorySlots[x, y].AddItem(_itemLibrary.GetItem(itemID), amount);
@@ -77,12 +120,12 @@ public class Inventory : MonoBehaviour, IDataPersistence
     }
     
     /**
-     * Funkcja służąca do dodawania do ekwipunku wielu identycznych przedmiotów.
+     * Add multiple of a given item to inventory
+     * Generally used in most cases of item acquisition
      *
-     * Używana w przypadku dodawania przedmiotu do ekwipunku.
-     *
-     * Zwracana liczba to ilość przedmiotów,
-     * które nie zostały dodane, np. z powodu braku miejsc.
+     * <param name="itemID">ID of an item to be added</param>
+     * <param name="amount">Amount of an item to be added</param>
+     * <returns>Amount of items which the function was unable to add</returns>
      */
     public int AddItem(int itemID, int amount)
     {
@@ -113,7 +156,10 @@ public class Inventory : MonoBehaviour, IDataPersistence
         return amount;
     }
 
-    public void Load()
+    /**
+     * Adds the default inventory items
+     */
+    private void LoadDefault()
     {
         AddItem(2, 1);
         AddItem(4, 1);
