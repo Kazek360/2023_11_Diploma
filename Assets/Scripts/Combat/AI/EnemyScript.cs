@@ -77,7 +77,9 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         
     }
 
-    
+    /**
+     * Log beginning of an entity turn and start turn logic for it
+     */
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
@@ -105,8 +107,6 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     /**
      * Returns a random ability from among those possible to be cast according to cooldown
-     *
-     * TODO: Add distance check when hextiles added
      */
     private int ChoosePossibleAbility()
     {
@@ -121,7 +121,6 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
         
         int result = candidates.Count - 1;
-        //Debug.Log(result);
         int weightChosen = Random.Range(1, maxWeight + 1);
         int weightCurrent = 0;
         for (int i = 0; i < candidates.Count; i++)
@@ -145,7 +144,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     /**
      * Casts an ability to a random target from among viable ones
      *
-     * i - index of the chosen ability
+     * <param name="i">index of the chosen ability</param>
      */
     private void CastAbility(int i)
     {
