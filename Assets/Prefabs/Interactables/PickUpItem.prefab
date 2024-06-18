@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1885869810847078250}
   m_Layer: 0
   m_Name: PickUpItem
-  m_TagString: Untagged
+  m_TagString: Collectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,9 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033bc8d2b2f5e7642a6098aa0e0d02d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemId: 1
-  Amount: 1
-  _pickupIndicatorSprite: {fileID: 4062064913172318031}
+  itemId: 1
+  amount: 1
+  pickupIndicatorSprite: {fileID: 4062064913172318031}
 --- !u!50 &1885869810847078250
 Rigidbody2D:
   serializedVersion: 4

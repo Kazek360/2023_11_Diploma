@@ -24,15 +24,15 @@ namespace Location
 
         public void LoadData(GameData gameData)
         {
-            if (gameData.characterPositions.ContainsKey(_currentScene))
+            if (gameData.charactersPosition.ContainsKey(_currentScene))
             {
-                var playerPosition = gameData.characterPositions[_currentScene][_player.name];
+                var playerPosition = gameData.charactersPosition[_currentScene][_player.name];
                 _player.transform.position = new Vector3(playerPosition.Item1, playerPosition.Item2);
                 foreach (var npc in _npcs)
                 {
-                    if (gameData.characterPositions[_currentScene].ContainsKey(npc.name))
+                    if (gameData.charactersPosition[_currentScene].ContainsKey(npc.name))
                     {
-                        var characterPosition = gameData.characterPositions[_currentScene][npc.name];
+                        var characterPosition = gameData.charactersPosition[_currentScene][npc.name];
                         npc.transform.position = new Vector3(characterPosition.Item1, characterPosition.Item2);
                     }
                 }
@@ -44,20 +44,20 @@ namespace Location
             gameData.currentScene = _currentScene;
             gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
 
-            if (!gameData.characterPositions.ContainsKey(_currentScene))
+            if (!gameData.charactersPosition.ContainsKey(_currentScene))
             {
-                gameData.characterPositions.Add(_currentScene, new Dictionary<string, Tuple<float, float>>());
+                gameData.charactersPosition.Add(_currentScene, new Dictionary<string, Tuple<float, float>>());
             }
 
             var playerPosition = _player.transform.position;
-            if (!gameData.characterPositions[_currentScene].ContainsKey(_player.name))
+            if (!gameData.charactersPosition[_currentScene].ContainsKey(_player.name))
             {
-                gameData.characterPositions[_currentScene].Add(_player.name,
+                gameData.charactersPosition[_currentScene].Add(_player.name,
                     new Tuple<float, float>(playerPosition.x, playerPosition.y));
             }
             else
             {
-                gameData.characterPositions[_currentScene][_player.name] =
+                gameData.charactersPosition[_currentScene][_player.name] =
                     new Tuple<float, float>(playerPosition.x, playerPosition.y);
             }
 
@@ -66,14 +66,14 @@ namespace Location
                 foreach (var character in _npcs)
                 {
                     var characterPosition = character.transform.position;
-                    if (!gameData.characterPositions[_currentScene].ContainsKey(character.name))
+                    if (!gameData.charactersPosition[_currentScene].ContainsKey(character.name))
                     {
-                        gameData.characterPositions[_currentScene].Add(character.name,
+                        gameData.charactersPosition[_currentScene].Add(character.name,
                             new Tuple<float, float>(characterPosition.x, characterPosition.y));
                     }
                     else
                     {
-                        gameData.characterPositions[_currentScene][character.name] =
+                        gameData.charactersPosition[_currentScene][character.name] =
                             new Tuple<float, float>(characterPosition.x, characterPosition.y);
                     }
                 }
