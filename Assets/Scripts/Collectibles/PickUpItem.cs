@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Collectibles
 {
+    /**
+     * Controller for an item that can be picked up by a player
+     */
     public class PickUpItem : MonoBehaviour, ITooltippable
     {
         [SerializeField] private int itemId;

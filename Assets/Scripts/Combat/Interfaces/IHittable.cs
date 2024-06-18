@@ -22,11 +22,15 @@ public interface IHittable
      */
     public int GetMaxHealth();
     /**
-     * Modifies health of an entity by a desired amount
+     * Modify health of the entity
+     *
+     * <param name="amount">Numeric change to be applied to entity health</param>
      */
     public void ModifyHealth(int amount);
     /**
      * Gets the current psyche of an entity
+     *
+     * <returns>Psyche numeric value</returns>
      */
     public int GetCurrentPsyche();
     /**
@@ -36,7 +40,9 @@ public interface IHittable
      */
     public int GetMaxPsyche();
     /**
-     * Modifies psyche of an entity by a desired amount
+     * Modify psyche of the entity
+     *
+     * <param name="amount">Numeric change to be applied to entity psyche</param>
      */
     public void ModifyPsyche(int amount);
     /**
@@ -73,7 +79,7 @@ public interface IHittable
      * Returns a unit combat component assigned to this object
      */
     public UnitCombat GetUnitCombatScript();
-
+    
     public void ActivateTargetClickArea();
     public void TargetClickAreaDeselected();
     public void DeactivateTargetClickArea();
@@ -82,6 +88,10 @@ public interface IHittable
 
     public IHittable GetPartner();
 
+    /**
+     * If material: disconnect partner and begin multiplying taken damage
+     * Else: disable entity
+     */
     public void OnPartnerDeath();
 
     public void Activate(bool setActive);

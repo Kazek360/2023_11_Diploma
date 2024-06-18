@@ -33,13 +33,17 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
             button.enabled = false;
             button.image.color = Color.gray;
         }
+        var node = SkillTreeManager.GetNodeByName(skillTreeNodeInfo.name);
+        if (node.state == SkillTreeNode.State.Activated)
+        {
+            ActivateNode();
+        }
     }
 
     private void CheckIfNodeCanBeEnabled(int value)
     {
-        var node = SkillTreeManager.GetNodeById(skillTreeNodeInfo.id);
-        if (node.state == SkillTreeNode.State.Activated ||
-            node.state == SkillTreeNode.State.CannotBeActivated)
+        var node = SkillTreeManager.GetNodeByName(skillTreeNodeInfo.name);
+        if (node.state == SkillTreeNode.State.Activated || node.state == SkillTreeNode.State.CannotBeActivated)
         {
             return;
         }
@@ -56,7 +60,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
                 break;
         }
     }
-    public void ActivateNode()
+    private void ActivateNode()
     {
         button.enabled = false;
         button.image.color = Color.cyan;
@@ -68,9 +72,14 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         {
             UnlockedAbilities.GetInstance().UnlockAbility(ability);
         }
-        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.id);
-        
     }
+    
+    public void ActivateNodeUsingSkillPoint()
+    {
+        ActivateNode();
+        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
+    }
+    
 
     public string GetTooltipHeader()
     {

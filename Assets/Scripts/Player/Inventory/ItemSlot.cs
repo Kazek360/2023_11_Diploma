@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/**
+ * Basic container class for an item
+ */
 public class ItemSlot
 {
     protected Item _item = null;
@@ -10,7 +12,9 @@ public class ItemSlot
 
     public virtual void Use(){}
 }
-
+/**
+ * Slots used in inventory
+ */
 public class InventorySlot : ItemSlot
 {
     private int _count = 0;
@@ -47,12 +51,12 @@ public class InventorySlot : ItemSlot
     }
 
     /**
-     * AddItem służy do dodawania przedmiotu do wybranego Slotu.Zwracana wartość bool daje znać, czy operacja powiodła
-     * się / jest możliwa.
+     * AddItem adds items to given slot. Operation is possible only when slot has no assigned item or assigned item
+     * has the same ID as the added one
      *
-     * Operacja dodania przedmiotu jest możliwa tylko wtedy, gdy slot nie ma przypisanego przedmiotu, lub przypisany
-     * przedmiot jest taki sam jak dodawany.
-     * 
+     * <param name="item">Object of an item to be added</param>
+     * <param name="count">Amount of an item to be added</param>
+     * <returns>Whether the operation worked/is even possible</returns>
      */
     public bool AddItem(Item item, int count)
     {
@@ -72,13 +76,12 @@ public class InventorySlot : ItemSlot
     }
 
     /**
-     * RemoveItem służy do zmniejszania ilości przedmiotów w slocie. Zwracana wartość bool daje znać, czy operacja powiodła
-     * się / jest możliwa.
-     *
-     * Jeśli po usunięciu ilość przedmiotów w slocie spadnie do zera, jest on zwalniany.
-     *
-     * Operacja jest możliwa tylko wtedy, gdy usuwana ilość jest mniejsza lub równa ilości w slocie.
-     *
+     * RemoveItem lowers amount of item in the slot.
+     * If amount falls to 0, slot is freed.
+     * Operation is possible only if deleted amount is lower or equal to amount in slot.
+     * 
+     * <param name="count">Amount of an item to be removed</param>
+     *<returns>Whether the operation worked/is even possible</returns>
      */
     public bool RemoveItem(int count)
     {
@@ -102,6 +105,9 @@ public class InventorySlot : ItemSlot
     }
 }
 
+/**
+ * Slot used for equipment items
+ */
 public class EquipmentSlot : ItemSlot
 {
     private EquipmentSlotType _slotType;

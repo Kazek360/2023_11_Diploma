@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats
@@ -24,13 +21,14 @@ public class PlayerStats
     {
         Load();
     }
-
-
+    
     private List<ItemStatModifier> _itemStatModifiers;
     private List<SkillTreeStatModifier> _skillTreeStatModifiers;
     private List<BaseStat> _baseStats;
+    
     private int _witHp;
     private int _nestorHp;
+    private int _level;
     private int _currentXp;
 
     public int GetBaseStat(StatType statType)
@@ -103,36 +101,59 @@ public class PlayerStats
         }
     }
 
-    public int GetCurrentXp()
+    public int WitHp
     {
-        return _currentXp;
+        get => _witHp;
+        set => _witHp = value;
+    }
+
+    public int NestorHp
+    {
+        get => _nestorHp;
+        set => _nestorHp = value;
+    }
+
+    public int Level
+    {
+        get => _level;
+        set => _level = value;
+    }
+
+    public int CurrentXp
+    {
+        get => _currentXp;
+        set => _currentXp = value;
     }
 
     public void AddXp(int xp)
     {
         _currentXp += xp;
-        Debug.Log(_currentXp);
         if (_currentXp >= 1000)
         {
             PlayerEvents.LevelUp();
+            _level++;
             _currentXp -= 1000;
         }
-    }
-
-
-    public void Save()
-    {
-        //TODO: To be done by Oskar during data persistence development
     }
     
     public void Load()
     {
-        //TODO: To be done by Oskar during data persistence development
-
+        _level = 1;
         _itemStatModifiers = new List<ItemStatModifier>();
         _skillTreeStatModifiers = new List<SkillTreeStatModifier>();
         _baseStats = new List<BaseStat>();
         
+        BasicSetup();
+
+        _witHp = GetStat(StatType.WitHealth);
+        _nestorHp = GetStat(StatType.NestorHealth);
+    }
+
+    /**
+     * Inserts default skill values into stat containers
+     */
+    private void BasicSetup()
+    {
         _baseStats.Add(new BaseStat(StatType.WitAgility, 2));
         _baseStats.Add(new BaseStat(StatType.WitStrength, 3));
         _baseStats.Add(new BaseStat(StatType.WitLuck, 3));
@@ -143,11 +164,12 @@ public class PlayerStats
         _baseStats.Add(new BaseStat(StatType.NestorLuck, 1));
         _baseStats.Add(new BaseStat(StatType.NestorImagination, 2));
         _baseStats.Add(new BaseStat(StatType.NestorHealth, 10));
-
-        _witHp = GetStat(StatType.WitHealth);
-        _nestorHp = GetStat(StatType.NestorHealth);
     }
 
+    /**
+     * Prints all player stats values.
+     * Useful for debugging.
+     */
     public string GetPlayerStatsString()
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -160,6 +182,12 @@ public class PlayerStats
         return stringBuilder.ToString();
     }
 
+    /**
+     * Turn a StatType enum into a normal string
+     *
+     * <param name="statType">StatType enum to be turned into a String</param>
+     * <returns>A string representation of a stat type.</returns>
+     */
     public static string TranslateStatType(StatType statType)
     {
         switch (statType)
@@ -188,6 +216,7 @@ public class PlayerStats
     {
         _witHp = val;
     }
+    
     
     public void ModifyWitHealth(int val)
     {

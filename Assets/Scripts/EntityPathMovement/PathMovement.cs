@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Controller allowing an object on a normal map to move along a predefined path
+ */
 public class PathMovement : MonoBehaviour
 {
     [SerializeField] private PathScript PathScript;
@@ -22,6 +25,9 @@ public class PathMovement : MonoBehaviour
         PathEvents.OnMovementStarted -= StartMovement;
     }
 
+    /**
+     * Pseudo thread making a bit of movement on every update
+     */
     private IEnumerator Movement()
     {
         List<Vector3> targets = PathScript.GetTargets();

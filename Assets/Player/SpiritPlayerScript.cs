@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * A script managing behaviour of an  immaterial player in combat
+ */
 public class SpiritPlayerScript : PlayerScript, IHittable
 {
     public new void SetPartnerEntity(IHittable partner)

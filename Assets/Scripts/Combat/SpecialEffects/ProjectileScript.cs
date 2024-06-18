@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/**
+ * Simple script making a projectile move steadily from one point to the other
+ */
 public class ProjectileScript : MonoBehaviour
 {
     private GameObject _target;

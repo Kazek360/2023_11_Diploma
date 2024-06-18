@@ -5,6 +5,9 @@ using UnityEngine;
 
 public enum EquipmentSlotType {head, torso, hand, legs, feet}
 
+/**
+ * Class defining a basic item
+ */
 public class Item
 {
     private int _itemID;
@@ -26,6 +29,11 @@ public class Item
 
     public string ItemName => _itemName;
 
+    /**
+     *
+     * 
+     * <returns>Item description string</returns>
+     */
     public virtual string ItemDesc()
     {
         return _itemDesc;
@@ -36,7 +44,9 @@ public class Item
     public int MaxStackSize => _maxStackSize;
 }
 
-
+/**
+ * Class defining an item which can be equipped in equipment slot
+ */
 public class EquipmentItem: Item
 {
     private Action _equip, _unequip;
@@ -50,7 +60,9 @@ public class EquipmentItem: Item
         _equipmentSlotType = equipmentSlotType;
         _modifiers = modifiers;
     }
-
+    /**
+     * Item adds all appropriate modifiers and performs equip behaviour
+     */
     public void Equip()
     {
         foreach (var modifier in _modifiers)
@@ -59,7 +71,9 @@ public class EquipmentItem: Item
         }
         _equip();
     }
-
+    /**
+    * Item removes all appropriate modifiers and performs unequip behaviour
+    */
     public void Unequip()
     {
         _unequip();
@@ -80,6 +94,9 @@ public class EquipmentItem: Item
     public EquipmentSlotType EquipmentSlotType => _equipmentSlotType;
 }
 
+/**
+ * Class defining an item which can be used in inventory
+ */
 public class UsableItem: Item
 {
     private Action _use;
@@ -91,6 +108,9 @@ public class UsableItem: Item
         _destroyOnUse = destroyOnUse;
     }
 
+    /**
+     * Behaviour of an item when used
+     */
     public void Use()
     {
         _use();

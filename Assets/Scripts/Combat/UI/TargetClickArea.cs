@@ -1,9 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/**
+ * Controller for Target click area UI, which allows player to select a target for an ability
+ */
 public class TargetClickArea : MonoBehaviour
 {
     private IHittable _parent;

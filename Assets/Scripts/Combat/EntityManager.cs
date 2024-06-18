@@ -1,12 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Combat;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
+/**
+ * Class managing state of entities in combat as well as their turn order logic
+ */
 public class EntityManager : MonoBehaviour
 {
     private CombatSystem_2 _combatSystem2;
@@ -53,6 +54,10 @@ public class EntityManager : MonoBehaviour
         StartCoroutine(NextTurnCoroutine());
     }
 
+    /**
+    * A coroutine switching current player.
+     * TODO: AFTER ANIMATIONS WILL BE ADDED, HERE WAIT FOR THEM TO FINISH
+    */  
     private IEnumerator NextTurnCoroutine()
     {
         _currentEntity = (_currentEntity + 1) % _turnOrder.Count;
@@ -171,6 +176,10 @@ public class EntityManager : MonoBehaviour
         }
     }
 
+    /**
+    * Make appropriate entities visible
+    * <param name='showMaterial'>Whether displayed entities should be material</param>
+    */   
     public void ShowEntities(bool showMaterial)
     {
         foreach (var entity in _turnOrder)
@@ -189,8 +198,6 @@ public class EntityManager : MonoBehaviour
     public void PlayerDied()
     {
         ShowCombatSummary(false);
-        //TODO: EXIT
-        Debug.Log("AAAAAA");
     }
 
     public void OnCombatWin()
@@ -204,7 +211,10 @@ public class EntityManager : MonoBehaviour
     }
     
     
-
+    /**
+    * End combat and pass entities to function displaying results
+    * <param name='IsVictory'>whether the player has won an encounter</param>
+    */    
     private void ShowCombatSummary(bool IsVictory)
     {
         

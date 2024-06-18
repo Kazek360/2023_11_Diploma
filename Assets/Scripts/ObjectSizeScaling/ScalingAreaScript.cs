@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/**
+ * A script for scaling area allowing game to modify objects scale based on
+ * distance from predefined points using a method based on Phong shading
+ */
 public class ScalingAreaScript : MonoBehaviour
 {
     private List<ScalingPoint> _scalingPoints;
@@ -50,6 +53,13 @@ public class ScalingAreaScript : MonoBehaviour
         }
     }
 
+    /**
+     * Rescale object based on distance from objects with modified Phong shading algorithm, which uses
+     * ScalingPoints in place of shape corners and their predefined scale modifiers instead
+     * of light value
+     *
+     * <param name="objectWithTransform">Object to be re-scaled</param>
+     */
     private void RescaleObject(ObjectWithTransform objectWithTransform)
     {
         Vector2 objectPos = objectWithTransform.GameObject.transform.position;
