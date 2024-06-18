@@ -25,9 +25,9 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
     /**
      * Sets attributes for ability card
      *
-     * abilityScriptableObject - scriptable object containing ability information
-     * cooldown - if ability is on cooldown, how many turns are left
-     * orderNumber - what place ability takes in players ability list
+     * <param name="abilityScriptableObject">scriptable object containing ability information</param>
+     * <param name="cooldown">if ability is on cooldown, how many turns are left</param>
+     * <param name="orderNumber">what place ability takes in players ability list</param>
      */
     public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
     {
@@ -48,6 +48,8 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
 
     /**
      * Sets 'controller' - CombatUI class within which this object is
+     *
+     * <param name="newController">Controller for this object</param>
      */
     public void SetController(CombatUI newController)
     {
