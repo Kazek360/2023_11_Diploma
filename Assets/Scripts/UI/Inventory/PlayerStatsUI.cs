@@ -3,19 +3,22 @@ using UnityEngine;
 
 public class PlayerStatsUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI HealthText;
-    [SerializeField] private TextMeshProUGUI AgilityText;
-    [SerializeField] private TextMeshProUGUI StrengthText;
-    [SerializeField] private TextMeshProUGUI LuckText;
-    [SerializeField] private TextMeshProUGUI ImaginationText;
-
-
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI experienceText;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI strengthText;
+    [SerializeField] private TextMeshProUGUI agilityText;
+    [SerializeField] private TextMeshProUGUI luckText;
+    [SerializeField] private TextMeshProUGUI imaginationText;
+    
     public void UpdateDisplay()
     {
-        HealthText.text = "Życie: " + PlayerStats.GetInstance().GetWitHp() + "/" + PlayerStats.GetInstance().GetStat(StatType.WitHealth);
-        AgilityText.text = "Zręczność: " + PlayerStats.GetInstance().GetStat(StatType.WitAgility);
-        StrengthText.text = "Siła: " + PlayerStats.GetInstance().GetStat(StatType.WitStrength);
-        LuckText.text = "Szczęście: " + PlayerStats.GetInstance().GetStat(StatType.WitLuck);
-        ImaginationText.text = "Wyobraźnia: " + PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        levelText.text = $"Poziom: {PlayerStats.GetInstance().Level}";
+        experienceText.text = $"XP: {PlayerStats.GetInstance().CurrentXp}/1000";
+        healthText.text = $"Życie: {PlayerStats.GetInstance().WitHp}/{PlayerStats.GetInstance().GetStat(StatType.WitHealth)}";
+        strengthText.text = $"Siła: {PlayerStats.GetInstance().GetStat(StatType.WitStrength)}";
+        agilityText.text = $"Zręczność: {PlayerStats.GetInstance().GetStat(StatType.WitAgility)}";
+        luckText.text = $"Szczęście: {PlayerStats.GetInstance().GetStat(StatType.WitLuck)}";
+        imaginationText.text = $"Wyobraźnia: {PlayerStats.GetInstance().GetStat(StatType.WitImagination)}";
     }
 }

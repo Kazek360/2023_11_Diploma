@@ -1,20 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStats
 {
     private static PlayerStats _instance;
-    private List<ItemStatModifier> _itemStatModifiers;
-    private List<SkillTreeStatModifier> _skillTreeStatModifiers;
-    private List<BaseStat> _baseStats;
-    private int _witHp;
-    private int _nestorHp;
-    private int _currentXp;
 
     public static PlayerStats GetInstance()
     {
@@ -31,6 +22,14 @@ public class PlayerStats
         Load();
     }
     
+    private List<ItemStatModifier> _itemStatModifiers;
+    private List<SkillTreeStatModifier> _skillTreeStatModifiers;
+    private List<BaseStat> _baseStats;
+    
+    private int _witHp;
+    private int _nestorHp;
+    private int _level;
+    private int _currentXp;
 
     public int GetBaseStat(StatType statType)
     {
@@ -102,32 +101,44 @@ public class PlayerStats
         }
     }
 
-    public int GetCurrentXp()
+    public int WitHp
     {
-        return _currentXp;
+        get => _witHp;
+        set => _witHp = value;
+    }
+
+    public int NestorHp
+    {
+        get => _nestorHp;
+        set => _nestorHp = value;
+    }
+
+    public int Level
+    {
+        get => _level;
+        set => _level = value;
+    }
+
+    public int CurrentXp
+    {
+        get => _currentXp;
+        set => _currentXp = value;
     }
 
     public void AddXp(int xp)
     {
         _currentXp += xp;
-        Debug.Log(_currentXp);
         if (_currentXp >= 1000)
         {
             PlayerEvents.LevelUp();
+            _level++;
             _currentXp -= 1000;
         }
-    }
-
-
-    public void Save()
-    {
-        //TODO: To be done by Oskar during data persistence development
     }
     
     public void Load()
     {
-        //TODO: To be done by Oskar during data persistence development
-
+        _level = 1;
         _itemStatModifiers = new List<ItemStatModifier>();
         _skillTreeStatModifiers = new List<SkillTreeStatModifier>();
         _baseStats = new List<BaseStat>();
