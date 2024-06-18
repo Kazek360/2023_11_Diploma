@@ -121,6 +121,15 @@ public class CombatUI : MonoBehaviour
         }
         
         _combatSystem2.ClearGrid();
+        
+        if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyImmaterial)))
+        {
+            _combatSystem2.UnityTargetingHighlight(ability.Range);
+        } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyMaterial)))
+        {
+            _combatSystem2.UnityTargetingHighlight(ability.Range);
+        }
+        
         //TODO hide
     }
 
@@ -132,6 +141,7 @@ public class CombatUI : MonoBehaviour
             target.DeactivateTargetClickArea();
         }
 
+        _combatSystem2.ClearGrid();
         if (MaterialToggle.isOn && _combatSystem2.GetCurrentIsMaterial() || ImmaterialToggle.isOn && !_combatSystem2.GetCurrentIsMaterial())
         {
             _combatSystem2.ReturnToMovement();
