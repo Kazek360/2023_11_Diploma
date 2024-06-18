@@ -44,13 +44,13 @@ public class RaceWithHryc : DialogueAreaQuestStep
     
     private void OnAreaEnter(string areaName, string objectName)
     {
-        if (areaName.Equals(areaToEnterName) && (objectName.Equals("Wit") || objectName.Equals("Hryc_Visual")))
+        if (areaName.Equals(areaToEnterName) && (objectName.Equals("Player") || objectName.Equals("Hryc")))
         {
-            if (objectName.Equals("Wit"))
+            if (objectName.Equals("Player"))
             {
                 _witFinished = true;
             }
-            else if (objectName.Equals("Hryc_Visual"))
+            else if (objectName.Equals("Hryc"))
             {
                 _hrycFinished = true;
             
@@ -58,11 +58,11 @@ public class RaceWithHryc : DialogueAreaQuestStep
             if (!_raceFinished)
             {
                 StringValue winner = null;
-                if (objectName.Equals("Wit"))
+                if (objectName.Equals("Player"))
                 {
                     winner = new StringValue("wit");
                 }
-                else if (objectName.Equals("Hryc_Visual"))
+                else if (objectName.Equals("Hryc"))
                 {
                     winner = new StringValue("hryc");
             
