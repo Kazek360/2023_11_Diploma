@@ -10,8 +10,7 @@ namespace SaveSystem.Data
         public long lastUpdated;
         public string saveDate;
         public string currentScene;
-        public float[] playerPosition;
-        public float[] hrycPosition;
+        public Dictionary<string, Dictionary<string, Tuple<float, float>>> characterPositions;
         public Tuple<int, int>[,] inventory;
         public int[] equipment;
         public Dictionary<string, Quest> quests;
@@ -20,8 +19,7 @@ namespace SaveSystem.Data
 
         public GameData()
         {
-            hrycPosition = new[] {-1409.893f, 592.45f};
-            playerPosition = new[] {-1423.72f, 609.44f};
+            characterPositions = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
             inventory = new Tuple<int, int>[7, 5];
             equipment = new int[5];
             saveDate = "";

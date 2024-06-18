@@ -21,7 +21,7 @@ public class DeathDialogue : DialogueQuestStep
         
         _deathRealmToTeleport = GameObject.Find("DeathArea");
         _shoreToTeleport = GameObject.Find("ShoreArea");
-        _playerToTeleport = GameObject.Find("Wit");
+        _playerToTeleport = GameObject.Find("Player");
         
         DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
