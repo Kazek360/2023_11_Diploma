@@ -7,6 +7,9 @@ using UnityEngine.Serialization;
 
 namespace Combat
 {
+    /**
+     * A class managing backend side of all combat actions an entity can perform
+     */
     public class CombatSystem_2 : MonoBehaviour
     {
         [FormerlySerializedAs("hexPrefab")] [SerializeField] private Transform HexPrefab;

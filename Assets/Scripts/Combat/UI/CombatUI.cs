@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/**
+ * Controller for combat UI
+ */
 public class CombatUI : MonoBehaviour
 {
     [SerializeField] private GameObject SummaryDisplay;

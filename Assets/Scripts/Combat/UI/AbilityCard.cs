@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+/**
+ * A controller for AbilityCard - information container for a selectable ability
+ */
 public class AbilityCard : MonoBehaviour,   ITooltippable
 {
     [FormerlySerializedAs("ability")] [SerializeField] private AbilityScriptableObject Ability;

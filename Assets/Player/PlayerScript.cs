@@ -7,6 +7,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+/**
+ * A script managing behaviour of a physical player in combat
+ */
 public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 {
     [SerializeField] private UnlockableAbility.PlayerType playerType;

@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 
 /**
  * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
- * TODO: if such a thing shall be done, make sure to change everything private in here to protected
  */
 public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 {

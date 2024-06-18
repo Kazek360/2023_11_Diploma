@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
+/**
+ * Class managing state of entities in combat as well as their turn order logic
+ */
 public class EntityManager : MonoBehaviour
 {
     private CombatSystem_2 _combatSystem2;

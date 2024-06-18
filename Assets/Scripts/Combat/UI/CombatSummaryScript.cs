@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * Controller for combat summary  script
+ */
 public class CombatSummaryScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI ResultText;
