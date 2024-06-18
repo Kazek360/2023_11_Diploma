@@ -4,11 +4,13 @@ using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SaveSlotMenu : MonoBehaviour
 {
     [SerializeField] private GameObject backMenu;
     [SerializeField] private TextMeshProUGUI screenName;
+    [SerializeField] private Button autosaveButton;
     private SaveSlot[] _saveSlots;
 
     private string _currentOperation;
@@ -32,13 +34,20 @@ public class SaveSlotMenu : MonoBehaviour
 
             if (_currentOperation.Equals("load"))
             {
-                screenName.text = "Wczytaj grę";
+                if (screenName is not null)
+                {
+                    screenName.text = "Wczytaj grę";
+                }
                 saveSlot.SetInteractable(profileData != null);
             }
             else if (_currentOperation.Equals("save"))
             {
-                screenName.text = "Zapisz grę";
+                if (screenName is not null)
+                {
+                    screenName.text = "Zapisz grę";
+                }
                 saveSlot.SetInteractable(true);
+                autosaveButton.interactable = false;
             }
         }
     }
@@ -55,7 +64,6 @@ public class SaveSlotMenu : MonoBehaviour
         else if (_currentOperation.Equals("save"))
         {
             DataPersistenceManager.Instance.SaveGame(saveSlot.profileId);
-            DataPersistenceManager.Instance.ChangeSelectedProfileId("autosave");
             DeactivateMenu();
         }
     }

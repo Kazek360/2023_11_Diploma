@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Health1
   m_EditorClassIdentifier: 
   id: Health1
-  displayName: 
-  description: 
+  displayName: Pierwsza pomoc
+  description: "Pot\u0119ga banda\u017Cy jest w twoim zasi\u0119gu! I na twoim kolanie..."
   requiredNodes: []
   appliedModifiers:
   - _statType: 0
     _modifier: 3
-  unlockedAbilities: []
+  unlockedAbilities:
+  - recipient: 0
+    _abilityScriptableObject: {fileID: 11400000, guid: aeb67c2f12ad6e849ac4f358c888afd1, type: 2}

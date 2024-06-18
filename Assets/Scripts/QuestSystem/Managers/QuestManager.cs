@@ -62,6 +62,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         var quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(transform);
         ChangeQuestState(id, QuestState.InProgress);
+        GameConfig.QuestTracker.TrackQuest(id);
     }
     
     private void ProgressQuest(string id)
@@ -76,10 +77,23 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 ChangeQuestState(id, QuestState.CanFinish);
             }
         }
+        if (GameConfig.QuestTracker.trackedQuest is not null)
+        {
+            if (GetQuestById(id).Equals(GameConfig.QuestTracker.trackedQuest))
+            {
+                GameConfig.QuestTracker.UpdateText();
+            }
+        }
     }
     
     private void FinishQuest(string id)
     {
+        PlayerStats.GetInstance().AddXp(_quests[id].Info.experience);
+        foreach (var item in _quests[id].Info.items)
+        {
+            GameConfig.PlayerInventory.AddItem(item, 1);
+        }
+        
         ChangeQuestState(id, QuestState.Finished);
         foreach (var quest in _quests.Values)
         {
@@ -135,10 +149,15 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 quest.InstantiateCurrentQuestStep(transform);
             }
         }
+        if (gameData.trackedQuest is not null)
+        {
+            GameConfig.QuestTracker.TrackQuest(gameData.trackedQuest);
+        }
     }
 
     public void SaveData(ref GameData gameData)
     {
         gameData.quests = _quests;
+        gameData.trackedQuest = GameConfig.QuestTracker.trackedQuest.Info.id;
     }
 }

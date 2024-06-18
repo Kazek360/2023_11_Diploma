@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour, IHittable
+public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 {
     [SerializeField] private UnlockableAbility.PlayerType playerType;
     [SerializeField] private GameObject partner;
@@ -19,29 +21,31 @@ public class PlayerScript : MonoBehaviour, IHittable
     private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private UnitCombat _unitCombat;
+    private SpriteRenderer _spriteRenderer;
 
     [SerializeField] private TargetClickArea targetClickArea;
-    [SerializeField] private TextMeshPro hpText;
+    [SerializeField] private TooltipObject tooltipArea;
+    [SerializeField] protected TextMeshPro hpText;
     
-    private int _currentHealth;
     private int _currentPsyche;
-    private bool _partnerIsKilled;
+    protected bool _partnerIsKilled;
+    private bool _isVisible;
     
     // Start is called before the first frame update
     void Start()
     {
         _unitCombat = GetComponent<UnitCombat>();
-        _currentHealth = GameConfig.PlayerStats.GetStat(StatType.Health);
         _currentPsyche = maxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
-        for (int i = 0; i < abilities.Count; i++)
-        {
-            UnlockableAbility tmp = new UnlockableAbility();
-            tmp.Recipient = playerType;
-            tmp.AbilitySO = abilities[i];
-            UnlockedAbilities.GetInstance().UnlockAbility(tmp);
-        }
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        // for (int i = 0; i < abilities.Count; i++)
+        // {
+        //     UnlockableAbility tmp = new UnlockableAbility();
+        //     tmp.Recipient = playerType;
+        //     tmp.AbilitySO = abilities[i];
+        //     UnlockedAbilities.GetInstance().UnlockAbility(tmp);
+        // }
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         if (IsMaterial() && partner is not null)
@@ -58,6 +62,11 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     // Update is called once per frame
     void Update()
+    {
+        
+    }
+
+    public virtual void Setup()
     {
         
     }
@@ -82,26 +91,27 @@ public class PlayerScript : MonoBehaviour, IHittable
     }
 
 
-    public int GetCurrentHealth()
+    public virtual int GetCurrentHealth()
     {
-        return _currentHealth;
+        return PlayerStats.GetInstance().GetWitHp();
     }
 
-    public int GetMaxHealth()
+    public virtual int GetMaxHealth()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Health);
+        return PlayerStats.GetInstance().GetStat(StatType.WitHealth);
     }
 
-    public void ModifyHealth(int amount)
+    public virtual void ModifyHealth(int amount)
     {
+        
         //Debug.Log("HP CHANGED BY " + amount);
         if (_partnerIsKilled && amount < 0)
         {
             amount *= 2;
         }
-        _currentHealth = _currentHealth + amount;
+        PlayerStats.GetInstance().ModifyWitHealth(amount);
         UpdateHpText();
-        if (_currentHealth <= 0)
+        if (PlayerStats.GetInstance().GetWitHp() <= 0)
         {
             OnHealthDepleted();
         }
@@ -145,24 +155,24 @@ public class PlayerScript : MonoBehaviour, IHittable
         Debug.Log("Wit has lost all psyche");
     }
 
-    public int GetStrength()
+    public virtual int GetStrength()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Strength);
+        return PlayerStats.GetInstance().GetStat(StatType.WitStrength);
     }
 
-    public int GetAgility()
+    public virtual int GetAgility()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Agility);
+        return PlayerStats.GetInstance().GetStat(StatType.WitAgility);
     }
 
-    public int GetLuck()
+    public virtual int GetLuck()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Luck);
+        return PlayerStats.GetInstance().GetStat(StatType.WitLuck);
     }
 
-    public int GetImagination()
+    public virtual int GetImagination()
     {
-        return GameConfig.PlayerStats.GetStat(StatType.Imagination);
+        return PlayerStats.GetInstance().GetStat(StatType.WitImagination);
     }
 
     public string GetEntityName()
@@ -197,22 +207,34 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void ActivateTargetClickArea()
     {
-        targetClickArea.EnableClick(_combatUI, this);
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(false);
+            targetClickArea.EnableClick(_combatUI, this);
+        }
     }
 
     public void DeactivateTargetClickArea()
     {
-        targetClickArea.DisableClick();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            targetClickArea.DisableClick();
+        }
     }
     
     public void TargetClickAreaDeselected()
     {
-        targetClickArea.Deselect();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            targetClickArea.DisableClick();
+        }
     }
     
-    private void UpdateHpText()
+    protected virtual void UpdateHpText()
     {
-        hpText.text = "" + _currentHealth;
+        hpText.text = "" + PlayerStats.GetInstance().GetWitHp();
     }
 
     public virtual bool IsMaterial()
@@ -227,7 +249,36 @@ public class PlayerScript : MonoBehaviour, IHittable
 
     public void Activate(bool setActive)
     {
-        gameObject.SetActive(setActive);
+        if (GetCurrentHealth() < 0 || IsDead())
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        if (setActive)
+        {
+            _isVisible = true;
+            hpText.gameObject.SetActive(true);
+            tooltipArea.gameObject.SetActive(true);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, 1);
+            Color color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            _isVisible = false;
+            hpText.gameObject.SetActive(false);
+            tooltipArea.gameObject.SetActive(false);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, -1);
+            Color color = _spriteRenderer.color;
+            color.a = 0.4f;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 0;
+        }
+        //gameObject.SetActive(setActive);
     }
     
     public GameObject GetGameObject()
@@ -243,5 +294,17 @@ public class PlayerScript : MonoBehaviour, IHittable
     public virtual bool IsDead()
     {
         return false;
+    }
+
+    public string GetTooltipHeader()
+    {
+        return GetEntityName();
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
+        return str.ToString();
     }
 }

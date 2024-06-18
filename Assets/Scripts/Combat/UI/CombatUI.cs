@@ -62,12 +62,11 @@ public class CombatUI : MonoBehaviour
     {
         for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
         {
-            var container = Instantiate(AbilityCardPrefab);
+            var container = Instantiate(AbilityCardPrefab, AbilitiesScrollContent.transform);
             AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
             abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
             abilityCard.SetController(this);
             container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            container.transform.SetParent(AbilitiesScrollContent.transform);
             if (_combatSystem2.ActionsLeft <= 0)
             {
                 container.GetComponent<Toggle>().interactable = false;
@@ -119,6 +118,9 @@ public class CombatUI : MonoBehaviour
         {
             target.ActivateTargetClickArea();
         }
+        
+        _combatSystem2.ClearGrid();
+        //TODO hide
     }
 
     private void HideTargets()
@@ -129,6 +131,10 @@ public class CombatUI : MonoBehaviour
             target.DeactivateTargetClickArea();
         }
 
+        if (MaterialToggle.isOn && _combatSystem2.GetCurrentIsMaterial() || ImmaterialToggle.isOn && !_combatSystem2.GetCurrentIsMaterial())
+        {
+            _combatSystem2.ReturnToMovement();
+        }
         _currentTarget = null;
     }
 
@@ -161,6 +167,7 @@ public class CombatUI : MonoBehaviour
         _combatSystem2.ActionsLeft--;
         ShowCombatUI(_currentEntity);
         ShowAbilities();
+        
         SetActionCounter(_combatSystem2.ActionsLeft);
     }
 
@@ -221,11 +228,15 @@ public class CombatUI : MonoBehaviour
 
     public void ToggleMaterial()
     {
+        HideTargets();
+        _abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem2.ShowStage(true);
     }
     
     public void ToggleImmaterial()
     {
+        HideTargets();
+        _abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem2.ShowStage(false);
     }
 

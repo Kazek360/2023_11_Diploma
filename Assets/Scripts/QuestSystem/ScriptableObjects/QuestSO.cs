@@ -16,6 +16,11 @@ public class QuestSO : ScriptableObject
     [SerializeField] public List<QuestSO> requirements;
     [SerializeField] public List<GameObject> steps;
 
+    [Header("Rewards")] 
+    [SerializeField] public int experience;
+    [SerializeField] public List<int> items;
+    
+
     private void OnValidate()
     {
         #if UNITY_EDITOR

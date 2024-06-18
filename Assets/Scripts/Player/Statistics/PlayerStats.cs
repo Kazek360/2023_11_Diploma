@@ -3,26 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats
 {
+    private static PlayerStats _instance;
+
+    public static PlayerStats GetInstance()
+    {
+        if (_instance is null)
+        {
+            _instance = new PlayerStats();
+        }
+
+        return _instance;
+    }
+
+    private PlayerStats()
+    {
+        Load();
+    }
+
 
     private List<ItemStatModifier> _itemStatModifiers;
     private List<SkillTreeStatModifier> _skillTreeStatModifiers;
     private List<BaseStat> _baseStats;
-    // Start is called before the first frame update
-    void OnEnable()
-    {
-        GameConfig.PlayerStats = this;
-        Load();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private int _witHp;
+    private int _nestorHp;
+    private int _currentXp;
 
     public int GetBaseStat(StatType statType)
     {
@@ -88,9 +97,28 @@ public class PlayerStats : MonoBehaviour
     public void AddSkillTreeModifier(SkillTreeStatModifier modifier)
     {
         _skillTreeStatModifiers.Add(modifier);
+        if (modifier.StatType == StatType.WitHealth)
+        {
+            _witHp += modifier.Modifier;
+        }
     }
-    
-    
+
+    public int GetCurrentXp()
+    {
+        return _currentXp;
+    }
+
+    public void AddXp(int xp)
+    {
+        _currentXp += xp;
+        Debug.Log(_currentXp);
+        if (_currentXp >= 1000)
+        {
+            PlayerEvents.LevelUp();
+            _currentXp -= 1000;
+        }
+    }
+
 
     public void Save()
     {
@@ -105,11 +133,19 @@ public class PlayerStats : MonoBehaviour
         _skillTreeStatModifiers = new List<SkillTreeStatModifier>();
         _baseStats = new List<BaseStat>();
         
-        _baseStats.Add(new BaseStat(StatType.Agility, 2));
-        _baseStats.Add(new BaseStat(StatType.Strength, 3));
-        _baseStats.Add(new BaseStat(StatType.Luck, 3));
-        _baseStats.Add(new BaseStat(StatType.Imagination, 2));
-        _baseStats.Add(new BaseStat(StatType.Health, 8));
+        _baseStats.Add(new BaseStat(StatType.WitAgility, 2));
+        _baseStats.Add(new BaseStat(StatType.WitStrength, 3));
+        _baseStats.Add(new BaseStat(StatType.WitLuck, 3));
+        _baseStats.Add(new BaseStat(StatType.WitImagination, 2));
+        _baseStats.Add(new BaseStat(StatType.WitHealth, 8));
+        _baseStats.Add(new BaseStat(StatType.NestorAgility, 3));
+        _baseStats.Add(new BaseStat(StatType.NestorStrength, 4));
+        _baseStats.Add(new BaseStat(StatType.NestorLuck, 1));
+        _baseStats.Add(new BaseStat(StatType.NestorImagination, 2));
+        _baseStats.Add(new BaseStat(StatType.NestorHealth, 10));
+
+        _witHp = GetStat(StatType.WitHealth);
+        _nestorHp = GetStat(StatType.NestorHealth);
     }
 
     public string GetPlayerStatsString()
@@ -128,17 +164,57 @@ public class PlayerStats : MonoBehaviour
     {
         switch (statType)
         {
-            case StatType.Health: return "Życie";
-            case StatType.Strength: return "Siła";
-            case StatType.Agility: return "Zręczność";
-            case StatType.Luck: return "Szczęście";
-            case StatType.Imagination: return "Wyobraźnia";
+            case StatType.WitHealth: return "Życie Wita";
+            case StatType.WitStrength: return "Siła Wita";
+            case StatType.WitAgility: return "Zręczność Wita";
+            case StatType.WitLuck: return "Szczęście Wita";
+            case StatType.WitImagination: return "Wyobraźnia Wita";
+            case StatType.NestorHealth: return "Życie Nestora";
+            case StatType.NestorStrength: return "Siła Nestora";
+            case StatType.NestorAgility: return "Zręczność Nestora";
+            case StatType.NestorLuck: return "Szczęście Nestora";
+            case StatType.NestorImagination: return "Wyobraźnia Nestora";
             default: return "STAT_NAME_NOT_FOUND";
         }
         
     }
+
+    public int GetWitHp()
+    {
+        return _witHp;
+    }
+    
+    public void SetWitHp(int val)
+    {
+        _witHp = val;
+    }
+    
+    public void ModifyWitHealth(int val)
+    {
+        _witHp = Math.Min(Math.Max(0, _witHp + val), GetStat(StatType.WitHealth));
+    }
+    
+    public int GetNestorHp()
+    {
+        return _nestorHp;
+    }
+    
+    public void SetNestorHp(int val)
+    {
+        _nestorHp = val;
+    }
+
+    public void ModifyNestorHealth(int val)
+    {
+        _nestorHp = Math.Min(Math.Max(0, _nestorHp + val), GetStat(StatType.NestorHealth));
+    }
 }
-public enum StatType{Health, Strength, Agility, Luck, Imagination}
+
+public enum StatType
+{
+    WitHealth, WitStrength, WitAgility, WitLuck, WitImagination,
+    NestorHealth, NestorStrength, NestorAgility, NestorLuck, NestorImagination
+}
 
 public class ItemStatModifier
 {

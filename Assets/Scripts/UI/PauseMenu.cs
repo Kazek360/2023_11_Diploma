@@ -1,5 +1,4 @@
 using InputSystem;
-using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,10 +27,16 @@ public class PauseMenu : MonoBehaviour
         if (contentParent.activeSelf)
         {
             contentParent.SetActive(false);
+            saveSlotMenu.gameObject.SetActive(false);
+            buttons.SetActive(true);
+            GameConfig.QuestTracker.EnableText();
+            Time.timeScale = 1;
         }
         else
         {
             contentParent.SetActive(true);
+            GameConfig.QuestTracker.DisableText();
+            Time.timeScale = 0;
         }
     }
     
@@ -49,6 +54,7 @@ public class PauseMenu : MonoBehaviour
     
     public void OnToMainMenuClicked()
     {
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync("MainMenu");
     }
     public void OnQuitGameClicked()

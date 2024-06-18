@@ -25,6 +25,7 @@ public class CombatSystem_2 : MonoBehaviour
         private int _movementLeft, _actionsLeft;
         private bool _currentIsMaterial;
         private bool _currentIsPlayer;
+        private bool _canMove;
         
         public class GridObject
         {
@@ -312,6 +313,8 @@ public class CombatSystem_2 : MonoBehaviour
             }
         }
 
+        
+
         public void MoveTo(int x, int y)
         {
             _movementLeft--;
@@ -327,6 +330,7 @@ public class CombatSystem_2 : MonoBehaviour
 
         public void PlayerTurnStart(int movement, int actions, bool isMaterial)
         {
+            _canMove = true;
             _currentIsPlayer = true;
             SetCurrentMaterial(isMaterial);
             ShowStage(isMaterial);
@@ -345,8 +349,17 @@ public class CombatSystem_2 : MonoBehaviour
             ShowStage(movedEntity.IsMaterial());
             StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
-        
-        
+
+        public void ReturnToMovement()
+        {
+            if (CurrentUnit is null)
+            {
+                return;
+            }
+            ClearGrid();
+            HighlightNeighborsInRadius(_grid.GetGridObject((int)CurrentUnit.GetGridLocation().x, (int)CurrentUnit.GetGridLocation().y), 1, 0, false);
+        }
+
 
         IEnumerator MoveAlongPath(int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
@@ -397,6 +410,12 @@ public class CombatSystem_2 : MonoBehaviour
             _currentIsMaterial = isMaterial;
             CombatUI.SetMaterialToggle(isMaterial);
         }
+
+        public bool GetCurrentIsMaterial()
+        {
+            return _currentIsMaterial;
+        }
+
         public void ShowStage(bool isMaterial)
         {
             _entityManager.ShowEntities(isMaterial);

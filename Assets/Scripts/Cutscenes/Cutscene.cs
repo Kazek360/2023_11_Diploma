@@ -1,54 +1,43 @@
-using System.Collections.Generic;
-using InputSystem;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace Cutscenes
 {
     public class Cutscene : MonoBehaviour
     {
         [SerializeField] private GameObject contentParent;
-        [SerializeField] private Image cutsceneImage;
-        private List<Sprite> _cutsceneImages;
-        private int _currentCutsceneIndex;
+        [SerializeField] private VideoPlayer videoPlayer;
         
         private void OnEnable()
         {
             CutsceneEvents.OnCutsceneStarted += StartCutscene;
-            InputEvents.OnCutsceneContinueInput += ContinueCutscene;
+            videoPlayer.loopPointReached += FinishCutscene;
         }
         
         private void OnDisable()
         {
             CutsceneEvents.OnCutsceneStarted -= StartCutscene;
-            InputEvents.OnCutsceneContinueInput -= ContinueCutscene;
+            videoPlayer.loopPointReached -= FinishCutscene;
         }
         
         private void Start()
         {
             contentParent.SetActive(false);
         }
+
         private void StartCutscene(CutsceneSO cutsceneInfo)
         {
-            _cutsceneImages = cutsceneInfo.cutsceneImages;
-            _currentCutsceneIndex = 0;
-            cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
-            _currentCutsceneIndex++;
+            GameConfig.QuestTracker.DisableText();
+            videoPlayer.clip = cutsceneInfo.clip;
             contentParent.SetActive(true);
+            videoPlayer.Play();
         }
-
-        private void ContinueCutscene()
+        
+        private void FinishCutscene(VideoPlayer player)
         {
-            if (_currentCutsceneIndex < _cutsceneImages.Count)
-            {
-                cutsceneImage.sprite = _cutsceneImages[_currentCutsceneIndex];
-                _currentCutsceneIndex++;
-            }
-            else
-            {
-                contentParent.SetActive(false);
-                CutsceneEvents.FinishCutscene();
-            }
+            contentParent.SetActive(false);
+            GameConfig.QuestTracker.EnableText();
+            CutsceneEvents.FinishCutscene();
         }
     }
 }

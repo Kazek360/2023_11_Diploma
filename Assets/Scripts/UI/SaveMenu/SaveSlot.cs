@@ -33,7 +33,16 @@ public class SaveSlot : MonoBehaviour
             noSaveData.SetActive(false);
             hasSaveData.SetActive(true);
 
-            saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}";
+            if (profileId.Equals("autosave"))
+            {
+                saveSlotText.fontSize = 30;
+                saveSlotText.text = $"(automatyczny zapis)\n{gameData.currentScene} - {gameData.saveDate}"; 
+            }
+            else
+            {
+                saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
+            }
+            
         }
     }
 

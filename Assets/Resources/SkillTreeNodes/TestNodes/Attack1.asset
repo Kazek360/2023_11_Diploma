@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Attack1
   m_EditorClassIdentifier: 
   id: Attack1
-  displayName: 
-  description: 
+  displayName: "Atak z li\u015Bcia"
+  description: "Bo ka\u017Cdy musi gdzie\u015B zacz\u0105\u0107."
   requiredNodes: []
   appliedModifiers:
   - _statType: 1
-    _modifier: 2
-  unlockedAbilities: []
+    _modifier: 1
+  unlockedAbilities:
+  - recipient: 0
+    _abilityScriptableObject: {fileID: 11400000, guid: 439fec42259a00a44b773070ed1446ae, type: 2}

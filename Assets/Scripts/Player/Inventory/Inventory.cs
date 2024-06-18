@@ -28,6 +28,11 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
+
+        if (_inventorySlots[0,0].Item is null)
+        {
+            Load();
+        }
     }
 
     public InventorySlot GetSlot(int x, int y)
@@ -110,15 +115,28 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
     public void Load()
     {
-        AddItem(0, 2);
-        AddItem(0, 10);
         AddItem(2, 1);
-        AddItem(1, 1);
-        AddItem(3, 1);
+        AddItem(4, 1);
     }
 
     public void LoadData(GameData gameData)
     {
+        _inventorySlots = new InventorySlot[7,5];
+        _equipmentSlots = new[] { 
+            new EquipmentSlot(EquipmentSlotType.feet),
+            new EquipmentSlot(EquipmentSlotType.hand),
+            new EquipmentSlot(EquipmentSlotType.head),
+            new EquipmentSlot(EquipmentSlotType.legs),
+            new EquipmentSlot(EquipmentSlotType.torso)
+        };
+        for (int i = 0; i < _inventorySlots.GetLength(0); i++)
+        {
+            for (int j = 0; j < _inventorySlots.GetLength(1); j++)
+            {
+                _inventorySlots[i, j] = new InventorySlot();
+            }
+        }
+        
         for (var i = 0; i < gameData.inventory.GetLength(0); i++)
         {
             for (var j = 0; j < gameData.inventory.GetLength(1); j++)
@@ -128,6 +146,11 @@ public class Inventory : MonoBehaviour, IDataPersistence
                     AddItem(gameData.inventory[i, j].Item1, gameData.inventory[i, j].Item2, i, j);
                 }
             }
+        }
+
+        for (int i = 0; i < gameData.equipment.GetLength(0); i++)
+        {
+            _equipmentSlots[i].EquipItem((EquipmentItem)ItemLibrary.GetInstance().GetItem(gameData.equipment[i]));
         }
     }
 

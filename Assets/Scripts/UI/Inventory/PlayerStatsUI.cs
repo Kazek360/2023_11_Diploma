@@ -12,10 +12,10 @@ public class PlayerStatsUI : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        HealthText.text = "Życie: " + GameConfig.PlayerStats.GetStat(StatType.Health);
-        AgilityText.text = "Zręczność: " + GameConfig.PlayerStats.GetStat(StatType.Agility);
-        StrengthText.text = "Siła: " + GameConfig.PlayerStats.GetStat(StatType.Strength);
-        LuckText.text = "Szczęście: " + GameConfig.PlayerStats.GetStat(StatType.Luck);
-        ImaginationText.text = "Wyobraźnia: " + GameConfig.PlayerStats.GetStat(StatType.Imagination);
+        HealthText.text = "Życie: " + PlayerStats.GetInstance().GetWitHp() + "/" + PlayerStats.GetInstance().GetStat(StatType.WitHealth);
+        AgilityText.text = "Zręczność: " + PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        StrengthText.text = "Siła: " + PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        LuckText.text = "Szczęście: " + PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        ImaginationText.text = "Wyobraźnia: " + PlayerStats.GetInstance().GetStat(StatType.WitImagination);
     }
 }

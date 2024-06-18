@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -37,5 +38,17 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         _triggered = false;
         _tooltip.Delete();
+    }
+    
+    public void OnDisable()
+    {
+        if (_tooltip is null || _tooltip.IsDestroyed())
+        {
+            return;
+        }
+        if (_tooltip.isActiveAndEnabled)
+        {
+            Destroy(_tooltip.gameObject);
+        }
     }
 }

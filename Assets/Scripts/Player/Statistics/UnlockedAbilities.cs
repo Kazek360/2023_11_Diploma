@@ -27,7 +27,26 @@ public class UnlockedAbilities
 
     public void UnlockAbility(UnlockableAbility ability)
     {
+        foreach (var unlockedAbility in _unlockedAbilities)
+        {
+            if (unlockedAbility.AbilitySO.Equals(ability.AbilitySO))
+            {
+                return;
+            }
+        }
         _unlockedAbilities.Add(ability);
+    }
+
+    public void RemoveAbility(UnlockableAbility ability)
+    {
+        foreach (var unlockedAbility in _unlockedAbilities)
+        {
+            if (unlockedAbility.AbilitySO.Equals(ability.AbilitySO))
+            {
+                _unlockedAbilities.Remove(unlockedAbility);
+                return;
+            }
+        }
     }
 
     public List<AbilityScriptableObject> GetAbilities(UnlockableAbility.PlayerType playerType)

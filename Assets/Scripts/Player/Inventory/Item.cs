@@ -39,13 +39,14 @@ public class Item
 
 public class EquipmentItem: Item
 {
-    private Action _equip;
+    private Action _equip, _unequip;
     private EquipmentSlotType _equipmentSlotType;
     private List<ItemStatModifier> _modifiers;
 
-    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
+    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
     {
         _equip = equip;
+        _unequip = unequip;
         _equipmentSlotType = equipmentSlotType;
         _modifiers = modifiers;
     }
@@ -54,9 +55,14 @@ public class EquipmentItem: Item
     {
         foreach (var modifier in _modifiers)
         {
-            GameConfig.PlayerStats.AddItemModifier(modifier);
+            PlayerStats.GetInstance().AddItemModifier(modifier);
         }
         _equip();
+    }
+
+    public void Unequip()
+    {
+        _unequip();
     }
 
     public override string ItemDesc()

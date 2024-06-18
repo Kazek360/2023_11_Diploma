@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,13 +12,14 @@ using Random = UnityEngine.Random;
  * Enemy script with only the most basic of functionalities. In case of need it may be extended by another class.
  * TODO: if such a thing shall be done, make sure to change everything private in here to protected
  */
-public class EnemyScript : MonoBehaviour, IHittable
+public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 {
     [FormerlySerializedAs("partner")] [SerializeField] private GameObject Partner;
     [FormerlySerializedAs("stats")] [SerializeField] private EnemyStats Stats;
     [FormerlySerializedAs("targetClickArea")] [SerializeField] private TargetClickArea TargetClickArea;
     [FormerlySerializedAs("hpText")] [SerializeField] private TextMeshPro HpText;
     [FormerlySerializedAs("material")] [SerializeField] private bool Material;
+    [SerializeField] private TooltipObject tooltipArea;
     protected IHittable _partner;
     
     private List<AbilityScriptableObject> _abilities;
@@ -27,13 +29,15 @@ public class EnemyScript : MonoBehaviour, IHittable
     private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private EntityManager _entityManager;
+    private SpriteRenderer _spriteRenderer;
 
     private IHittable _currentTarget;
 
-    private int _currentHealth;
+    protected int _currentHealth;
     private int _currentPsyche;
     private bool _isDead;
     private bool _partnerIsKilled;
+    private bool _isVisible;
     
     // Start is called before the first frame update
     private void Start()
@@ -44,6 +48,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         if (IsMaterial() && Partner is not null)
         {
             _partner = Partner.GetComponent<IHittable>();
@@ -202,7 +207,7 @@ public class EnemyScript : MonoBehaviour, IHittable
         {
             amount *= 2;
         }
-        _currentHealth = _currentHealth + amount;
+        _currentHealth = Math.Max(Math.Min(_currentHealth + amount, Stats.MaxHealthPoints), 0);
         if (_currentHealth <= 0)
         {
             OnHealthDepleted();
@@ -308,17 +313,29 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     public void ActivateTargetClickArea()
     {
-        TargetClickArea.EnableClick(_combatUI, this);
+        if (tooltipArea.gameObject.activeInHierarchy)
+        {
+            tooltipArea.gameObject.SetActive(false);
+            TargetClickArea.EnableClick(_combatUI, this);
+        }
     }
 
     public void DeactivateTargetClickArea()
     {
-        TargetClickArea.DisableClick();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            TargetClickArea.DisableClick();
+        }
     }
 
     public void TargetClickAreaDeselected()
     {
-        TargetClickArea.Deselect();
+        if (_isVisible)
+        {
+            tooltipArea.gameObject.SetActive(true);
+            TargetClickArea.DisableClick();
+        }
     }
 
     private void UpdateHpText()
@@ -338,10 +355,36 @@ public class EnemyScript : MonoBehaviour, IHittable
     
     public void Activate(bool setActive)
     {
-        if (!setActive || !_isDead)
+        if (_currentHealth < 0 || _isDead)
         {
-            gameObject.SetActive(setActive);
+            gameObject.SetActive(false);
+            return;
         }
+        if (setActive)
+        {
+            _isVisible = true;
+            HpText.gameObject.SetActive(true);
+            tooltipArea.gameObject.SetActive(true);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, 1);
+            Color color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 1;
+        }
+        else
+        {
+            _isVisible = false;
+            HpText.gameObject.SetActive(false);
+            tooltipArea.gameObject.SetActive(false);
+            Vector3 pos = gameObject.transform.position;
+            pos.Set(pos.x, pos.y, -1);
+            Color color = _spriteRenderer.color;
+            color.a = 0.4f;
+            _spriteRenderer.color = color;
+            _spriteRenderer.sortingOrder = 0;
+        }
+        //gameObject.SetActive(setActive);
     }
 
     public GameObject GetGameObject()
@@ -357,5 +400,17 @@ public class EnemyScript : MonoBehaviour, IHittable
     public bool IsDead()
     {
         return _isDead;
+    }
+
+    public string GetTooltipHeader()
+    {
+        return Stats.EnemyName;
+    }
+
+    public string GetTooltipDesc()
+    {
+        StringBuilder str = new StringBuilder();
+        str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        return str.ToString();
     }
 }

@@ -45,8 +45,10 @@ Idź za moim głosem
 
 
 *[(Idź w stronę światła)]
-    ~death_choice = "death"
+    #speaker:Tajemniczy głos w oddali #portrait:none
+        Powiedziałem nie idź w stronę światła.
 *[(Idź za tajemniczym głosem)]
-    ~death_choice = "life"
+    #speaker:Tajemniczy głos w oddali #portrait:none
+        Chodź do mnie.
 -
 ->END

@@ -24,7 +24,7 @@ public class TargetClickArea : MonoBehaviour
     private void OnMouseDown()
     {
         _combatUI.SetTarget(_parent);
-        Indicator.color = Color.green;
+        //Indicator.color = Color.green;
     }
 
     public void Deselect()

@@ -29,23 +29,40 @@ public class ItemLibrary
         _items.Add(new UsableItem(
             itemID: 1, 
             "Piwo", 
-            "PIWO PJATK", 
+            "PIWO PJATK leczy 1 HP", 
             Resources.Load<Sprite>("ItemSprites/piwo"), 
             10,
-            delegate { Debug.Log("Piwo wypite"); },
+            delegate
+            {
+                Debug.Log("Piwo wypite"); 
+                PlayerStats.GetInstance().ModifyWitHealth(1);
+            },
             true
         ));
         
         _items.Add(new EquipmentItem(
             itemID: 2, 
-            "Miecz", 
-            "Można nim machać", 
+            "Scyzoryk", 
+            "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Scyzoryk", 
             Resources.Load<Sprite>("ItemSprites/Sword1"), 
-            delegate { }, 
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
+            },
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
+            }, 
             EquipmentSlotType.hand ,
             new List<ItemStatModifier>()
             {
-                new ItemStatModifier(StatType.Strength, 2, 2)
+                new ItemStatModifier(StatType.WitStrength, 2, 2)
             }
         ));
         
@@ -55,10 +72,37 @@ public class ItemLibrary
             "Daj kamienia", 
             Resources.Load<Sprite>("ItemSprites/Heart1"), 
             delegate { }, 
+            delegate {  }, 
             EquipmentSlotType.hand,
             new List<ItemStatModifier>()
             {
-                new ItemStatModifier(StatType.Agility, 1, 3)
+                new ItemStatModifier(StatType.WitAgility, 1, 3)
+            }
+        ));
+        
+        _items.Add(new EquipmentItem(
+            itemID: 4, 
+            "Proca", 
+            "Brzydki kuzyn łuku. Pozwala na używanie zdolności dystansowej Strzał", 
+            Resources.Load<Sprite>("ItemSprites/child-wooden-slingshot-vector-14608075"),
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
+            },
+            delegate
+            {
+                UnlockableAbility slingshot = new UnlockableAbility();
+                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
+                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
+            }, 
+            EquipmentSlotType.hand,
+            new List<ItemStatModifier>()
+            {
+                new ItemStatModifier(StatType.WitAgility, 1, 3)
             }
         ));
     }

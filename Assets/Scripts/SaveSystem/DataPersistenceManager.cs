@@ -16,7 +16,6 @@ namespace SaveSystem
         private FileDataHandler _dataHandler;
         private static List<IDataPersistence> _dataPersistenceObjects;
         private string _selectedProfileId = "";
-        private bool _startedNewGame;
 
         private void Awake()
         {
@@ -47,7 +46,10 @@ namespace SaveSystem
         {
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
-            ChangeSelectedProfileId("autosave");
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
+            {
+                _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+            }
         }
         private void OnSceneUnloaded(Scene scene)
         {
@@ -60,7 +62,8 @@ namespace SaveSystem
         }
         
         public void NewGame()
-        { 
+        {
+            _gameData = new GameData();
             ChangeSelectedProfileId("newGame");
         }
 
@@ -71,16 +74,21 @@ namespace SaveSystem
         
         public void LoadGame()
         {
-            _gameData = _dataHandler.LoadData(_selectedProfileId);
-            if (_gameData is null)
+            if (_selectedProfileId is null)
             {
-                _gameData = new GameData();
                 return;
             }
-            
-            foreach (var dataPersistenceObject in _dataPersistenceObjects)
+            if (_selectedProfileId.Equals("newGame"))
             {
-                dataPersistenceObject.LoadData(_gameData);
+                return;
+            }
+            _gameData = _dataHandler.LoadData(_selectedProfileId);
+            if (_gameData is not null)
+            {
+                foreach (var dataPersistenceObject in _dataPersistenceObjects)
+                {
+                    dataPersistenceObject.LoadData(_gameData);
+                }
             }
         }
 

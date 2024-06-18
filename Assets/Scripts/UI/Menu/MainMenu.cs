@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button continueButton;
     [SerializeField] private SaveSlotMenu saveSlotMenu;
+    [SerializeField] private SettingsMenu settingsMenu;
     private void Start()
     {
         if (!DataPersistenceManager.Instance.HasGameData())
@@ -17,6 +18,8 @@ public class MainMenu : MonoBehaviour
 
     public void OnNewGameClicked()
     {
+        GameConfig.abilityLibrary.Load();
+        PlayerStats.GetInstance().Load();
         DataPersistenceManager.Instance.NewGame();
         SceneManager.LoadSceneAsync("Las");
     }
@@ -33,7 +36,8 @@ public class MainMenu : MonoBehaviour
     }
     public void OnSettingsClicked()
     {
-        Debug.Log("Settings");
+        gameObject.SetActive(false);
+        settingsMenu.gameObject.SetActive(true);
     }
     
     public void QuitGame()

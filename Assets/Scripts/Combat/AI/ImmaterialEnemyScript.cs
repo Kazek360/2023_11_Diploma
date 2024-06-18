@@ -18,6 +18,7 @@ public class ImmaterialEnemyScript : EnemyScript, IHittable
 
     public override void OnPartnerDeath()
     {
+        _currentHealth = 0;
         Debug.Log("DED");
         OnHealthDepleted();
     }
