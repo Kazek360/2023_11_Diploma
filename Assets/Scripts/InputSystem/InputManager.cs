@@ -64,6 +64,8 @@ namespace InputSystem
             _controlls.Player.Enable();
             _controlls.UI.Enable();
             _controlls.PauseMenu.Enable();
+
+            Time.timeScale = 1;
         }
 
         public void OnMovement(InputAction.CallbackContext context)
