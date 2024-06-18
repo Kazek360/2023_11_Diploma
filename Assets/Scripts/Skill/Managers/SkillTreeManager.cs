@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using SaveSystem;
+using SaveSystem.Data;
 using Skill.Events;
 using UnityEngine;
 
 namespace Skill.Managers
 {
-    public class SkillTreeManager : MonoBehaviour
+    public class SkillTreeManager : MonoBehaviour, IDataPersistence
     {
         private static Dictionary<string, SkillTreeNode> _skillTreeNodesDictionary;
         
@@ -19,22 +21,17 @@ namespace Skill.Managers
         private void Awake()
         {
             _skillTreeNodesDictionary = CreateSkillTreeNodesDictionary();
-        }
-        private void Start()
-        {
-            _skillTreeNodesDictionary = CreateSkillTreeNodesDictionary();
-            foreach (var node in _skillTreeNodesDictionary.Values)
-            {
-                if (node.state == SkillTreeNode.State.CannotBeActivated && CheckRequirementsMet(node))
-                {
-                    node.state = SkillTreeNode.State.NotActivated;
-                }
-            }
+            EnableActivation();
         }
         
         private void ActivateNode(string id)
         {
             _skillTreeNodesDictionary[id].state = SkillTreeNode.State.Activated;
+            EnableActivation();
+        }
+
+        private void EnableActivation()
+        {
             foreach (var node in _skillTreeNodesDictionary.Values)
             {
                 if (node.state == SkillTreeNode.State.CannotBeActivated && CheckRequirementsMet(node))
@@ -49,7 +46,7 @@ namespace Skill.Managers
             bool meetsRequirements = true;
             foreach (var nodeRequirement in node.Info.requiredNodes)
             {
-                if (GetNodeById(nodeRequirement.id).state != SkillTreeNode.State.Activated)
+                if (GetNodeByName(nodeRequirement.name).state != SkillTreeNode.State.Activated)
                 {
                     meetsRequirements = false;
                 }
@@ -63,16 +60,16 @@ namespace Skill.Managers
             Dictionary<string, SkillTreeNode> idToDictionary = new Dictionary<string, SkillTreeNode>();
             foreach (var nodeInfo in allNodes)
             {
-                if (idToDictionary.ContainsKey(nodeInfo.id))
+                if (idToDictionary.ContainsKey(nodeInfo.name))
                 {
-                    Debug.LogWarning($"Found Duplicate ID: {nodeInfo.id}");
+                    Debug.LogWarning($"Found Duplicate ID: {nodeInfo.name}");
                 }
-                idToDictionary.Add(nodeInfo.id, new SkillTreeNode(nodeInfo));
+                idToDictionary.Add(nodeInfo.name, new SkillTreeNode(nodeInfo));
             }
             return idToDictionary;
         }
         
-        public static SkillTreeNode GetNodeById(string id)
+        public static SkillTreeNode GetNodeByName(string id)
         {
             var skillTreeNode = _skillTreeNodesDictionary[id];
             if (skillTreeNode == null)
@@ -80,6 +77,30 @@ namespace Skill.Managers
                 Debug.LogError($"There is no quest with ID: {skillTreeNode.Info}");
             }
             return skillTreeNode;
+        }
+
+        public void LoadData(GameData gameData)
+        {
+            foreach (var skillTreeNode in gameData.skillTreeNodesState)
+            {
+                if (skillTreeNode.Value)
+                {
+                    _skillTreeNodesDictionary[skillTreeNode.Key].state = SkillTreeNode.State.Activated;
+                }
+            }
+            EnableActivation();
+        }
+
+        public void SaveData(ref GameData gameData)
+        {
+            foreach (var skillTreeNode in _skillTreeNodesDictionary)
+            {
+                var isActivated = skillTreeNode.Value.state == SkillTreeNode.State.Activated;
+                if (!gameData.skillTreeNodesState.TryAdd(skillTreeNode.Key, isActivated))
+                {
+                    gameData.skillTreeNodesState[skillTreeNode.Key] = isActivated;
+                }
+            }
         }
     }
 }

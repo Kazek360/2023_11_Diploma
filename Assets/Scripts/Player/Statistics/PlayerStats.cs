@@ -111,7 +111,6 @@ public class PlayerStats
     public void AddXp(int xp)
     {
         _currentXp += xp;
-        Debug.Log(_currentXp);
         if (_currentXp >= 1000)
         {
             PlayerEvents.LevelUp();

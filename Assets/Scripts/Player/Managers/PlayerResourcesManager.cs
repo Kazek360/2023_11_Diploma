@@ -1,7 +1,9 @@
+using SaveSystem;
+using SaveSystem.Data;
 using Skill.Events;
 using UnityEngine;
 
-public class PlayerResourcesManager : MonoBehaviour
+public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
 {
     public static PlayerResourcesManager Instance { get; private set; }
     public int SkillPoints { get; private set; }
@@ -36,5 +38,18 @@ public class PlayerResourcesManager : MonoBehaviour
     {
         SkillPoints--;
         PlayerResourcesEvents.ChangeSkillPointsValue(SkillPoints);
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        SkillPoints = gameData.resources["SkillPoints"];
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))
+        {
+            gameData.resources["SkillPoints"] = SkillPoints;
+        }
     }
 }
