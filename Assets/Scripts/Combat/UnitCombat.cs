@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+/**
+ * A class representing an entity present on hex map in combat
+ */
 public class UnitCombat : MonoBehaviour
 {
     public enum State
@@ -39,6 +42,11 @@ public class UnitCombat : MonoBehaviour
                 break;
         }
     }
+    /**
+     * Set destination of the entity and change current state into 'Moving'.
+     *
+     * <param name="movePosition">Destination of the entity</param>
+     */
     public void StartMoving(Vector3 movePosition)
     {
         if (currentState == State.Idling)
@@ -47,6 +55,10 @@ public class UnitCombat : MonoBehaviour
             currentState = State.Moving;
         }
     }
+    
+    /**
+     * A single tick of movement towards currently set destination if one is present. Ending movement if close enough.
+     */
     private void MoveTo()
     {
         if (Vector2.Distance(transform.position, _currentDestination) < .2f)

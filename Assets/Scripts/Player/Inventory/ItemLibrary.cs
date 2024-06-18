@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * ItemLibrary is used to instantiate predefined items
+ * Will soon be replaced with Resources based SOs
+ */
 public class ItemLibrary
 {
     private static ItemLibrary _instance;
@@ -107,6 +111,12 @@ public class ItemLibrary
         ));
     }
 
+    /**
+     * Get a reference to item object
+     *
+     * <param name="id">ID of desired item</param>
+     * <returns>Requested item object</returns>
+     */
     public Item GetItem(int id)
     {
         foreach (Item item in _items)
