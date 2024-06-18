@@ -49,4 +49,14 @@ public class MainMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
+    
+    public void onNestorClicked()
+    {
+        SceneManager.LoadSceneAsync("BlueMainMenu");
+    }
+    
+    public void onWitClicked()
+    {
+        SceneManager.LoadSceneAsync("MainMenu");
+    }
 }
