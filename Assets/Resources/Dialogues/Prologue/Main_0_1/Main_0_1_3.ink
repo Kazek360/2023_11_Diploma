@@ -102,17 +102,17 @@ Masz. I tak zamierzałem ci go jutro oddać.
 
 == HrycWinsSling ==
 #speaker:Hryc #portrait:hryc_neutral
-H: Chyba twoja proca zostanie u mnie. Nie martw się, dobrze się nią zaopiekuję.
+Chyba twoja proca zostanie u mnie. Nie martw się, dobrze się nią zaopiekuję.
 
 #speaker:Wit #portrait:wit_angry
-W: Jak ją połamiesz to, to...
+Jak ją połamiesz to, to...
 
 #speaker:Hryc #portrait:hryc_neutral
-H: To co?
+To co?
 
 #speaker:Wit #portrait:wit_angry
-W: To jajco. Masz jej pilnować.
+To jajco. Masz jej pilnować.
 
 #speaker:Hryc #portrait:hryc_neutral
-H: A myślisz, że co ja robię.
+A myślisz, że co ja robię.
 -> END

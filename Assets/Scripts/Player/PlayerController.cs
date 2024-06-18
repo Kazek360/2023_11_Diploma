@@ -76,11 +76,15 @@ namespace Player
         private void StopMovement(DialogueSO dialogue)
         {
             _rigidbody.velocity = Vector2.zero;
+            _animator.SetBool(IsWalking, false);
+            _animator.SetBool(IsRunning, false);
         }
 
         private void StopMovement(CutsceneSO cutscene)
         {
             _rigidbody.velocity = Vector2.zero;
+            _animator.SetBool(IsWalking, false);
+            _animator.SetBool(IsRunning, false);
         }
     }
 }
