@@ -94,7 +94,7 @@ namespace SaveSystem
 
         public void SaveGame(string profile)
         {
-            if (_gameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu"))
+            if (_gameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
             {
                 return;
             }
