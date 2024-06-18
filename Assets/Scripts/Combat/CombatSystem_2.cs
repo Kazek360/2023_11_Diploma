@@ -65,6 +65,29 @@ namespace Combat
                 IsHighlighted = false;
                 Hex.GetChild(1).gameObject.SetActive(false);
             }
+            /**
+             * Only highlight the hex
+             */
+            public void TargetingHighlight()
+            {
+                SpriteRenderer renderer = Hex.GetChild(1).GetComponent<SpriteRenderer>();
+                Color color = renderer.color;
+                color = new Color(1f, 0.3349057f, 0.4224552f, 1f);
+                renderer.color = color;
+                Hex.GetChild(1).gameObject.SetActive(true);
+            }
+
+            /**
+             * Remove the highlight
+             */
+            public void HideTargetingHighlight()
+            {
+                SpriteRenderer renderer = Hex.GetChild(1).GetComponent<SpriteRenderer>();
+                Color color = renderer.color;
+                color = new Color(1f, 1f, 1f, 1f);
+                renderer.color = color;
+                Hex.GetChild(1).gameObject.SetActive(false);
+            }
             
             public void Select()
             {
@@ -159,14 +182,15 @@ namespace Combat
                 for (int j = 0; j < Height; j++)
                 {
                     _grid.GetGridObject(i, j).HideHighlight();
+                    _grid.GetGridObject(i, j).HideTargetingHighlight();
                     _grid.GetGridObject(i, j).HideSelect();
                 }
             }
         }
 
         /**
-         * Highlights every hex in a radius
-         * <param name='gridObject'> of the hex circle</param>
+         * Highlights every hex in a radius and makes it active
+         * <param name='gridObject'> center of the hex circle</param>
          * <param name='radius'> - radius of the highlighted area</param>
          * <param name='highlightCenter'> should the center be highlighted</param>
          * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
@@ -192,6 +216,45 @@ namespace Combat
                 }
             }
             
+        }
+        
+        /**
+         * Highlights every hex in a radius
+         * <param name='gridObject'> center of the hex circle</param>
+         * <param name='radius'> - radius of the highlighted area</param>
+         * <param name='highlightCenter'> should the center be highlighted</param>
+         * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
+         */
+        private void TargetingHighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter, int currentIter = 0)
+        {
+            if ((highlightCenter || currentIter != 0))
+            {
+                gridObject.TargetingHighlight();
+            }
+            
+            
+            if (currentIter == radius)
+            {
+                return;
+            }
+            
+            foreach (GridObject neighbor in _grid.GetGridObjectNeighbours(gridObject.X, gridObject.Y))
+            {
+                if (neighbor != null)
+                {
+                    TargetingHighlightNeighborsInRadius(neighbor, radius, highlightCenter, currentIter+1);
+                }
+            }
+        }
+
+        /**
+         * Highlights every hex in the range of an ability
+         *
+         * <param name="range">Range of the ability</param>
+         */
+        public void UnityTargetingHighlight(int range)
+        {
+            TargetingHighlightNeighborsInRadius(_grid.GetGridObject((int)CurrentUnit.GetGridLocation().x, (int)CurrentUnit.GetGridLocation().y), range, true);
         }
 
         /**
