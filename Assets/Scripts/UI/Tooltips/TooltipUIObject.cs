@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,7 +9,6 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private TooltipUI _tooltip;
     [SerializeField] private GameObject TooltipPrefab;
     
-    // Start is called before the first frame update
     void Start()
     {
         _target = GetComponentInParent<ITooltippable>();
