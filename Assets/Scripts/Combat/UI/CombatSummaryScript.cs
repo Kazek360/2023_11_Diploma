@@ -13,6 +13,12 @@ public class CombatSummaryScript : MonoBehaviour
     [SerializeField] private GameObject ProceedWin;
     [SerializeField] private GameObject ProceedLoss;
 
+    /**
+    * UI setup for combat summary
+    * &lt;param name='IsVictory'&gt;whether the player has won an encounter&lt;/param&gt;
+    * &lt;param name='players'&gt;list of players in combat&lt;/param&gt;
+    * &lt;param name='enemies'&gt;list of enemies in combat&lt;/param&gt;
+    */
     public void SetValues(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
     {
         if (IsVictory)
