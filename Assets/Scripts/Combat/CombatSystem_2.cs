@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class CombatSystem_2 : MonoBehaviour
+namespace Combat
 {
+    public class CombatSystem_2 : MonoBehaviour
+    {
         [FormerlySerializedAs("hexPrefab")] [SerializeField] private Transform HexPrefab;
         [FormerlySerializedAs("mainCamera")] [SerializeField] private Camera MainCamera;
         private Grid<GridObject> _grid;
@@ -21,11 +22,9 @@ public class CombatSystem_2 : MonoBehaviour
 
         private EntityManager _entityManager;
         private GridObject _currentGridObject;
-        private List<GridObject> _currentGridObjectNeighbours;
         private int _movementLeft, _actionsLeft;
         private bool _currentIsMaterial;
         private bool _currentIsPlayer;
-        private bool _canMove;
         
         public class GridObject
         {
@@ -49,12 +48,18 @@ public class CombatSystem_2 : MonoBehaviour
                 IsOccupiedMaterial = false;
             }
 
+            /**
+             * Highlight the hex and make it active for movement
+             */
             public void Highlight()
             {
                 IsHighlighted = true;
                 Hex.GetChild(1).gameObject.SetActive(true);
             }
 
+            /**
+             * Remove the highlight and deactivate
+             */
             public void HideHighlight()
             {
                 IsHighlighted = false;
@@ -71,6 +76,12 @@ public class CombatSystem_2 : MonoBehaviour
                 Hex.GetChild(2).gameObject.SetActive(false);
             }
 
+            /**
+             * Set the occupation state of hex
+             *
+             * <param name='occupied'> whether hex is occupied or not</param>
+             * <param name='isMaterial'> which layer the occupant belongs to</param>
+             */
             public void SetOccupied(bool occupied, bool isMaterial)
             {
                 if (isMaterial)
@@ -82,7 +93,11 @@ public class CombatSystem_2 : MonoBehaviour
                     IsOccupiedImmaterial = occupied;
                 }
             }
-
+            /**
+             * Get the occupation state of hex
+             *
+             * <param name='isMaterial'> which layer the occupation is checked upon</param>
+             */
             public bool GetOccupied(bool isMaterial)
             {
                 if (isMaterial)
@@ -151,13 +166,12 @@ public class CombatSystem_2 : MonoBehaviour
 
         /**
          * Highlights every hex in a radius
-         *
-         * gridObject - center
-         * radius - highlight radius
-         * currentIter - how long has algorithm gone on(0 by default)
-         * highlight center - should we highlight center?
+         * <param name='gridObject'> of the hex circle</param>
+         * <param name='radius'> - radius of the highlighted area</param>
+         * <param name='highlightCenter'> should the center be highlighted</param>
+         * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
          */
-        private void HighlightNeighborsInRadius(GridObject gridObject, int radius, int currentIter, bool highlightCenter)
+        private void HighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter, int currentIter = 0)
         {
             if ((highlightCenter || currentIter != 0) && !gridObject.GetOccupied(_currentIsMaterial))
             {
@@ -174,12 +188,17 @@ public class CombatSystem_2 : MonoBehaviour
             {
                 if (neighbor != null)
                 {
-                    HighlightNeighborsInRadius(neighbor, radius, currentIter+1, highlightCenter);
+                    HighlightNeighborsInRadius(neighbor, radius, highlightCenter, currentIter+1);
                 }
             }
             
         }
 
+        /**
+         * A function measuring distance between currently active unit and a target unit
+         * <param name='to'>targeted unit</param>
+         * <returns>a distance measured in hex map moves</returns>
+         */
         public int GetDistance(UnitCombat to)
         {
             var vec = CurrentUnit.GetGridLocation();
@@ -189,21 +208,27 @@ public class CombatSystem_2 : MonoBehaviour
             return Math.Max(Math.Max((int)Math.Abs(coord.x - coord2.x), (int)Math.Abs(coord.y - coord2.y)), (int)Math.Abs(coord.z - coord2.z));
         }
         
-        public int GetDistance(GridObject from, GridObject to)
+        /**
+         * A function measuring distance between to units
+         * <param name='to'>source unit</param>
+         * <param name='from'>targeted unit</param>
+         * <returns>a distance measured in hex map moves</returns>
+         */
+        private int GetDistance(GridObject from, GridObject to)
         {
             var coord = from.XYZCoordinates;
             var coord2 = to.XYZCoordinates;
             return Math.Max(Math.Max((int)Math.Abs(coord.x - coord2.x), (int)Math.Abs(coord.y - coord2.y)), (int)Math.Abs(coord.z - coord2.z));
         }
 
+
         /**
          * A* algorithm for finding best path between units
-         *
-         * startHex, finishHex - beginning and ending points of a path
-         * 
-         * WARNING: RETURNED LIST CONTAINS BOTH STARTING AND FINISH HEX
+         * <param name='startHex'>beginning point of the path</param>
+         * <param name='finishHex'>ending point of the path</param>
+         * <returns>a list of hexes comprising the path, containing start and finish hexes</returns>
          */
-        public List<GridObject> FindShortestPathTo(GridObject startHex, GridObject finishHex)
+        private List<GridObject> FindShortestPathTo(GridObject startHex, GridObject finishHex)
         {
             List<GridObject> openPathHexes = new List<GridObject>();
             List<GridObject> closedPathHexes = new List<GridObject>();
@@ -280,6 +305,11 @@ public class CombatSystem_2 : MonoBehaviour
             return finalPathHexes;
         }
         
+        /**
+         * Algorithm moving an object to its correct place on a hex map
+         * <param name='unitCombat'>moved unit</param>
+         * <param name='isMaterial'>is the moved unit material</param>
+         */
         public void SetEntityToGrid(UnitCombat unitCombat, bool isMaterial)
         {
             var vec = unitCombat.GetGridLocation();
@@ -287,16 +317,23 @@ public class CombatSystem_2 : MonoBehaviour
             unitCombat.gameObject.transform.position = _grid.GetGridObject((int)vec[0], (int)vec[1]).Hex.position;
         }
 
+        /**
+         * Set the currently active unit
+         * <param name='newUnit'>moved unit</param>
+         */
         public void SetCurrentUnit(UnitCombat newUnit)
         {
             ClearGrid();
             CurrentUnit = newUnit;
             var vec = CurrentUnit.GetGridLocation();
             _currentGridObject = _grid.GetGridObject((int)vec[0], (int)vec[1]);
-            _currentGridObjectNeighbours = _grid.GetGridObjectNeighbours((int)vec[0], (int)vec[1]);
         }
 
-        public void MoveToSelected()
+        /**
+         * Moves the currently active unit to a selected hex and highlights the surrounding hexes.
+         * To be used for player controlled entities only.
+         */
+        private void MoveToSelected()
         {
             _movementLeft--;
             UpdateUICounters();
@@ -309,13 +346,18 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObject.SetOccupied(true, _currentIsMaterial);
             if (_movementLeft > 0)
             {
-                HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+                HighlightNeighborsInRadius(_currentGridObject, 1, false);
             }
         }
 
         
-
-        public void MoveTo(int x, int y)
+        /**
+         * Moves the currently active unit to a specified position on the grid.
+         * To be used for player controlled entities only.
+         * <param name='x'>x coordinate on hex map</param>
+         * <param name='y'>y coordinate on hex map</param>
+         */
+        private void MoveTo(int x, int y)
         {
             _movementLeft--;
             var vec = CurrentUnit.GetGridLocation();
@@ -328,9 +370,14 @@ public class CombatSystem_2 : MonoBehaviour
             _currentGridObject.SetOccupied(true, _currentIsMaterial);
         }
 
+        /**
+         * Begins the player turn by activating the UI and highlighting possible movement hexes
+         * <param name='movement'>movement for the turn</param>
+         * <param name='actions'>actions for the turn</param>
+         * <param name='isMaterial'>is the player material</param>
+         */
         public void PlayerTurnStart(int movement, int actions, bool isMaterial)
         {
-            _canMove = true;
             _currentIsPlayer = true;
             SetCurrentMaterial(isMaterial);
             ShowStage(isMaterial);
@@ -338,9 +385,16 @@ public class CombatSystem_2 : MonoBehaviour
             _actionsLeft = actions;
             UpdateUICounters();
             CombatUI.ShowAbilities();
-            HighlightNeighborsInRadius(_currentGridObject, 1, 0, false);
+            HighlightNeighborsInRadius(_currentGridObject, 1, false);
         }
 
+        /**
+         * Begins the enemy turn.
+         * <param name='movement'>movement for the turn</param>
+         * <param name='prefRange'>preferred range of the enemy</param>
+         * <param name='target'>which player shall the enemy target</param>
+         * <param name='movedEntity'>which entity is being moved</param>
+         */
         public void MovementStage(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
             _currentIsPlayer = false;
@@ -350,17 +404,26 @@ public class CombatSystem_2 : MonoBehaviour
             StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
 
+        /**
+         * Reinitializes movement after previous break
+         */
         public void ReturnToMovement()
         {
-            if (CurrentUnit is null)
+            if (CurrentUnit is null || _movementLeft <= 0)
             {
                 return;
             }
             ClearGrid();
-            HighlightNeighborsInRadius(_grid.GetGridObject((int)CurrentUnit.GetGridLocation().x, (int)CurrentUnit.GetGridLocation().y), 1, 0, false);
+            HighlightNeighborsInRadius(_grid.GetGridObject((int)CurrentUnit.GetGridLocation().x, (int)CurrentUnit.GetGridLocation().y), 1, false);
         }
 
 
+        /**
+         * A coroutine moving the enemy along the path to a hex on the preferred range from target player
+         * <param name='prefRange'>preferred range of the enemy</param>
+         * <param name='target'>which player shall the enemy target</param>
+         * <param name='movedEntity'>which entity is being moved</param>
+         */
         IEnumerator MoveAlongPath(int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
             var vec = CurrentUnit.GetGridLocation();
@@ -388,6 +451,9 @@ public class CombatSystem_2 : MonoBehaviour
             movedEntity.TurnAfterMovement();
         }
 
+        /**
+         * Update UI counters with current values
+         */
         private void UpdateUICounters()
         {
             CombatUI.SetMovementCounter(_movementLeft);
@@ -399,13 +465,22 @@ public class CombatSystem_2 : MonoBehaviour
             return CombatUI;
         }
 
+        /**
+         * Called when an enemy is defeated in order to clear the occupation of their hex
+         * <param name='unitDefeated'>which enemy has been defeated</param>
+         * <param name='isMaterial'>is the entity material</param>
+         */
         public void EnemyDefeated(UnitCombat unitDefeated, bool isMaterial)
         {
             var pos = unitDefeated.GetGridLocation();
             _grid.GetGridObject((int)pos.x, (int)pos.y).SetOccupied(false, isMaterial);
         }
 
-        public void SetCurrentMaterial(bool isMaterial)
+        /**
+         * Set material state of current entity and adjust UI
+         * <param name='isMaterial'>is the entity material</param>
+         */
+        private void SetCurrentMaterial(bool isMaterial)
         {
             _currentIsMaterial = isMaterial;
             CombatUI.SetMaterialToggle(isMaterial);
@@ -416,6 +491,10 @@ public class CombatSystem_2 : MonoBehaviour
             return _currentIsMaterial;
         }
 
+        /**
+         * Show an appropriate stage and adjust UI to its material state
+         * <param name='isMaterial'>is the displayed stage material</param>
+         */
         public void ShowStage(bool isMaterial)
         {
             _entityManager.ShowEntities(isMaterial);
@@ -427,7 +506,7 @@ public class CombatSystem_2 : MonoBehaviour
                 {
                     if (_currentIsMaterial && _movementLeft > 0)
                     {
-                        HighlightNeighborsInRadius(currPos, 1, 0, false);
+                        HighlightNeighborsInRadius(currPos, 1, false);
                     }
                     else
                     {
@@ -439,7 +518,7 @@ public class CombatSystem_2 : MonoBehaviour
                 {
                     if (!_currentIsMaterial && _movementLeft > 0)
                     {
-                        HighlightNeighborsInRadius(currPos, 1, 0, false);
+                        HighlightNeighborsInRadius(currPos, 1, false);
                     }
                     else
                     {
@@ -449,6 +528,12 @@ public class CombatSystem_2 : MonoBehaviour
             }
         }
         
+        /**
+         * Show  the summary of a finished combat
+         * <param name='IsVictory'>whether the player has won an encounter</param>
+         * <param name='players'>list of players in combat</param>
+         * <param name='enemies'>list of enemies in combat</param>
+         */
         public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
         {
             CombatUI.DisableCombatUI();
@@ -461,4 +546,5 @@ public class CombatSystem_2 : MonoBehaviour
             get => _actionsLeft;
             set => _actionsLeft = value;
         }
+    }
 }
