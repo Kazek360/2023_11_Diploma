@@ -26,7 +26,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
 
-    private CombatSystem_2 _combatSystem2;
+    private CombatSystem _combatSystem2;
     private CombatUI _combatUI;
     private EntityManager _entityManager;
     private SpriteRenderer _spriteRenderer;
@@ -46,7 +46,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = Stats.MaxHealthPoints;
         _currentPsyche = Stats.MaxPsychePoints;
-        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
+        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (IsMaterial() && Partner is not null)

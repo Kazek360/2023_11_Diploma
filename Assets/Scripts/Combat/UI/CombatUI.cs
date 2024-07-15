@@ -24,7 +24,7 @@ public class CombatUI : MonoBehaviour
     [FormerlySerializedAs("materialToggle")] [SerializeField] private Toggle MaterialToggle;
     [FormerlySerializedAs("immaterialToggle")] [SerializeField] private Toggle ImmaterialToggle;
     private EntityManager _entityManager;
-    private CombatSystem_2 _combatSystem2;
+    private CombatSystem _combatSystem;
     private ToggleGroup _abilitiesToggleGroup;
 
     private TextMeshProUGUI _movementCounter, _actionCounter;
@@ -44,7 +44,7 @@ public class CombatUI : MonoBehaviour
     {
         _possibleTargets = new List<IHittable>();
         _entityManager = EntityManager.GetComponent<EntityManager>();
-        _combatSystem2 = EntityManager.GetComponent<CombatSystem_2>();
+        _combatSystem = EntityManager.GetComponent<CombatSystem>();
         _abilitiesToggleGroup = AbilitiesScrollContent.GetComponent<ToggleGroup>();
     }
 
@@ -75,7 +75,7 @@ public class CombatUI : MonoBehaviour
             abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
             abilityCard.SetController(this);
             container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            if (_combatSystem2.ActionsLeft <= 0)
+            if (_combatSystem.ActionsLeft <= 0)
             {
                 container.GetComponent<Toggle>().interactable = false;
             }
@@ -115,7 +115,7 @@ public class CombatUI : MonoBehaviour
         _possibleTargets = new List<IHittable>();
         foreach (var target in candidateTargets)
         {
-            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            if (_combatSystem.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
             {
                 _possibleTargets.Add(target);
             }
@@ -126,14 +126,14 @@ public class CombatUI : MonoBehaviour
             target.ActivateTargetClickArea();
         }
         
-        _combatSystem2.ClearGrid();
+        _combatSystem.ClearGrid();
         
         if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyImmaterial)))
         {
-            _combatSystem2.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability.Range);
         } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyMaterial)))
         {
-            _combatSystem2.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability.Range);
         }
         
         //TODO hide
@@ -150,10 +150,10 @@ public class CombatUI : MonoBehaviour
             target.DeactivateTargetClickArea();
         }
 
-        _combatSystem2.ClearGrid();
-        if (MaterialToggle.isOn && _combatSystem2.GetCurrentIsMaterial() || ImmaterialToggle.isOn && !_combatSystem2.GetCurrentIsMaterial())
+        _combatSystem.ClearGrid();
+        if (MaterialToggle.isOn && _combatSystem.GetCurrentIsMaterial() || ImmaterialToggle.isOn && !_combatSystem.GetCurrentIsMaterial())
         {
-            _combatSystem2.ReturnToMovement();
+            _combatSystem.ReturnToMovement();
         }
         _currentTarget = null;
     }
@@ -187,11 +187,11 @@ public class CombatUI : MonoBehaviour
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
         DisableCombatUI();
-        _combatSystem2.ActionsLeft--;
+        _combatSystem.ActionsLeft--;
         ShowCombatUI(_currentEntity);
         ShowAbilities();
         
-        SetActionCounter(_combatSystem2.ActionsLeft);
+        SetActionCounter(_combatSystem.ActionsLeft);
     }
 
     /**
@@ -256,7 +256,7 @@ public class CombatUI : MonoBehaviour
     {
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
-        _combatSystem2.ShowStage(true);
+        _combatSystem.ShowStage(true);
     }
     /**
     * Reset UI and switch to immaterial layer
@@ -265,7 +265,7 @@ public class CombatUI : MonoBehaviour
     {
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
-        _combatSystem2.ShowStage(false);
+        _combatSystem.ShowStage(false);
     }
 
     /**
