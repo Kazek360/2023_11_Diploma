@@ -1,5 +1,6 @@
 using SaveSystem;
 using UnityEngine;
+using QuestSystem;
 
 public abstract class BaseQuestStep : MonoBehaviour
 {
