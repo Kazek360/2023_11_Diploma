@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
  */
 public class EntityManager : MonoBehaviour
 {
-    private CombatSystem _combatSystem2;
+    private CombatSystem_2 _combatSystem2;
     [FormerlySerializedAs("turnOrder")] [SerializeField] private List<GameObject> TurnOrder;
     
     private List<IHittable> _turnOrder;
@@ -25,7 +25,7 @@ public class EntityManager : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        _combatSystem2 = GetComponent<CombatSystem>();
+        _combatSystem2 = GetComponent<CombatSystem_2>();
         _currentEntity = -1;
         _turnOrder = new List<IHittable>();
         _combatUnits = new List<UnitCombat>();

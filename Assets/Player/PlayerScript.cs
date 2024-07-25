@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     
     [SerializeField] private List<AbilityScriptableObject> abilities;
     private List<int> _cooldowns;
-    private CombatSystem _combatSystem2;
+    private CombatSystem_2 _combatSystem2;
     private CombatUI _combatUI;
     private UnitCombat _unitCombat;
     private SpriteRenderer _spriteRenderer;
@@ -40,7 +40,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     {
         _unitCombat = GetComponent<UnitCombat>();
         _currentPsyche = maxPsychePoints;
-        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem>();
+        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
         _combatUI = _combatSystem2.GetCombatUI();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         // for (int i = 0; i < abilities.Count; i++)
