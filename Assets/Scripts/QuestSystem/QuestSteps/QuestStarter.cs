@@ -1,4 +1,5 @@
 using UnityEngine;
+using QuestSystem;
 
 public class QuestStarter : MonoBehaviour
 {
