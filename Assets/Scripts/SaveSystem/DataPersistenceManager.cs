@@ -16,6 +16,14 @@ namespace SaveSystem
         private FileDataHandler _dataHandler;
         private static List<IDataPersistence> _dataPersistenceObjects;
         private string _selectedProfileId = "";
+        
+        
+        private bool _initialLoad = false;
+        public bool InitialLoad
+        {
+            get => _initialLoad;
+            set => _initialLoad = value;
+        }
 
         private void Awake()
         {
@@ -48,6 +56,7 @@ namespace SaveSystem
             LoadGame();
             if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
             {
+                _initialLoad = false;
                 _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
             }
         }
@@ -74,14 +83,14 @@ namespace SaveSystem
         
         public void LoadGame()
         {
-            if (_selectedProfileId is null)
+            switch (_selectedProfileId)
             {
-                return;
+                case null:
+                    return;
+                case "newGame":
+                    return;
             }
-            if (_selectedProfileId.Equals("newGame"))
-            {
-                return;
-            }
+            
             _gameData = _dataHandler.LoadData(_selectedProfileId);
             if (_gameData is not null)
             {
@@ -90,6 +99,7 @@ namespace SaveSystem
                     dataPersistenceObject.LoadData(_gameData);
                 }
             }
+            _initialLoad = true;
         }
 
         public void SaveGame(string profile)
