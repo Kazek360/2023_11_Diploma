@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3815446748179167621}
   - component: {fileID: 4917257802411376706}
-  - component: {fileID: 1032253120614778597}
+  - component: {fileID: 8440659529418416235}
   m_Layer: 0
   m_Name: EntityManager
   m_TagString: Untagged
@@ -61,7 +61,7 @@ MonoBehaviour:
   EnemiesToDefeat: 2
   SceneToOpenAfterVictory: 4
   SceneToOpenAfterLoss: 4
---- !u!114 &1032253120614778597
+--- !u!114 &8440659529418416235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,12 +70,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4375681277603676382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 848893a54febf0d4797589f2a1b7843f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8636b406f9ad60a49a8e38753f1fbe21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hexPrefab: {fileID: 4220744316967080218, guid: edd7f0828a0b64c40ac48c06eb624abd, type: 3}
   mainCamera: {fileID: 0}
-  currentUnit: {fileID: 2136620133954103011}
+  currentUnit: {fileID: 0}
   combatUI: {fileID: 0}
   width: 5
   height: 4
@@ -745,14 +745,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7904647406454164839, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
   m_PrefabInstance: {fileID: 9065473545893921492}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2136620133954103011 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6947300064825795639, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
-  m_PrefabInstance: {fileID: 9065473545893921492}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478057074010539591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b6a5e90673d7244ba73b670ba747a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
