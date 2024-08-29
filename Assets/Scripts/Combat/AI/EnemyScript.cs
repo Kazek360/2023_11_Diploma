@@ -26,7 +26,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
 
-    private CombatSystem_2 _combatSystem2;
+    private CombatSystem _combatSystem;
     private CombatUI _combatUI;
     private EntityManager _entityManager;
     private SpriteRenderer _spriteRenderer;
@@ -46,7 +46,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _unitCombat = GetComponent<UnitCombat>();
         _currentHealth = Stats.MaxHealthPoints;
         _currentPsyche = Stats.MaxPsychePoints;
-        _combatSystem2 = gameObject.GetComponentInParent<CombatSystem_2>();
+        _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         if (IsMaterial() && Partner is not null)
@@ -54,7 +54,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _partner = Partner.GetComponent<IHittable>();
             _partner.SetPartnerEntity(this);
         }
-        _combatUI = _combatSystem2.GetCombatUI();
+        _combatUI = _combatSystem.GetCombatUI();
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
@@ -82,7 +82,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        _combatSystem2.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _combatSystem.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
     }
 
     /**
@@ -175,7 +175,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
         foreach (var target in targetCandidates)
         {
-            if (_combatSystem2.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
+            if (_combatSystem.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
             {
                 possibleTargets.Add(target);
             }
@@ -244,7 +244,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         {
             _entityManager.OnEnemyDefeated();
         }
-        _combatSystem2.EnemyDefeated(_unitCombat, IsMaterial());
+        _combatSystem.EnemyDefeated(_unitCombat, IsMaterial());
         Debug.Log(Stats.EnemyName + " has lost all health");
         gameObject.SetActive(false);
     }

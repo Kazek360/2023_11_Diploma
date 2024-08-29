@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
  */
 public class EntityManager : MonoBehaviour
 {
-    private CombatSystem_2 _combatSystem2;
+    private CombatSystem _combatSystem;
     [FormerlySerializedAs("turnOrder")] [SerializeField] private List<GameObject> TurnOrder;
     
     private List<IHittable> _turnOrder;
@@ -25,7 +25,7 @@ public class EntityManager : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        _combatSystem2 = GetComponent<CombatSystem_2>();
+        _combatSystem = GetComponent<CombatSystem>();
         _currentEntity = -1;
         _turnOrder = new List<IHittable>();
         _combatUnits = new List<UnitCombat>();
@@ -36,7 +36,7 @@ public class EntityManager : MonoBehaviour
             _turnOrder.Add(hittable);
 
             var unit = entity.GetComponent<UnitCombat>();
-            _combatSystem2.SetEntityToGrid(unit, hittable.IsMaterial());
+            _combatSystem.SetEntityToGrid(unit, hittable.IsMaterial());
             _combatUnits.Add(unit);
         }
         NextTurn();
@@ -50,7 +50,7 @@ public class EntityManager : MonoBehaviour
 
     public void NextTurn()
     {
-        _combatSystem2.ClearGrid();
+        _combatSystem.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
     }
 
@@ -68,7 +68,7 @@ public class EntityManager : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(0.3f);
-            _combatSystem2.SetCurrentUnit(_combatUnits[_currentEntity]);
+            _combatSystem.SetCurrentUnit(_combatUnits[_currentEntity]);
             _turnOrder[_currentEntity].ProcessTurn();
         }
     }
@@ -238,6 +238,6 @@ public class EntityManager : MonoBehaviour
             }
         }
 
-        _combatSystem2.ShowCombatSummary(IsVictory, players, enemies);
+        _combatSystem.ShowCombatSummary(IsVictory, players, enemies);
     }
 }
