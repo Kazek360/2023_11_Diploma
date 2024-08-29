@@ -11,7 +11,10 @@ namespace QuestSystem
 
         private void Awake()
         {
-            _quests = CreateQuestDictionary();
+            if (_quests is null)
+            {
+                _quests = CreateQuestDictionary();
+            }
         }
 
         private void OnEnable()
@@ -99,6 +102,7 @@ namespace QuestSystem
             }
 
             ChangeQuestState(id, QuestState.Finished);
+            
             foreach (var quest in _quests.Values)
             {
                 if (quest.State == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))

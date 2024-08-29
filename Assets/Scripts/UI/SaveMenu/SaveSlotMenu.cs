@@ -59,6 +59,7 @@ public class SaveSlotMenu : MonoBehaviour
         {
             DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.profileId);
             DataPersistenceManager.Instance.LoadGameData();
+            DataPersistenceManager.Instance.InitialLoad = false;
             SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.GameData.currentScene);
         }
         else if (_currentOperation.Equals("save"))
