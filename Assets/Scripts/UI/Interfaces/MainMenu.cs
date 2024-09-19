@@ -34,6 +34,7 @@ namespace UI.Interfaces
         
         public void OnContinueClicked()
         {
+            DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
             SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.CurrentGameData.currentScene);
         }
         

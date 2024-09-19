@@ -13,9 +13,13 @@ namespace Quests
 
         public Dictionary<string, Quest> Quests => _quests;
         
-        private new void Awake()
+        protected override void Awake()
         {
             base.Awake();
+            if (Instance.Quests is null)
+            {
+                _quests = CreateQuestDictionary();
+            }
         }
 
         private void OnEnable()
@@ -139,12 +143,12 @@ namespace Quests
 
         public void InitializeOnNewGame()
         {
-            _quests = CreateQuestDictionary();
             QuestEvents.StartQuest("prologue_1");
         }
 
         public void LoadDataFromSaveFile(GameData gameData)
         {
+            QuestEvents.DeleteQuestSteps();
             var loadedQuests = gameData.Quests;
             if (loadedQuests is not null)
             {
@@ -154,6 +158,14 @@ namespace Quests
                 }
                 _quests = loadedQuests;
             }
+            
+            foreach (var quest in Instance.Quests.Values)
+            {
+                if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
+                {
+                    quest.InstantiateCurrentQuestStep(transform);
+                }
+            }
             LoadDataBetweenScenes(gameData);
         }
 
@@ -162,10 +174,6 @@ namespace Quests
             foreach (var quest in Instance.Quests.Values)
             {
                 QuestEvents.ChangeQuestState(quest);
-                if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
-                {
-                    quest.InstantiateCurrentQuestStep(transform);
-                }
             }
             if (gameData.trackedQuest is not null)
             {

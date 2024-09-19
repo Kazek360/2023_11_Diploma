@@ -17,7 +17,7 @@ namespace Shared {
             protected set => _instance = value;
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             if (_instance is null && dontDestroyOnLoad)
             {

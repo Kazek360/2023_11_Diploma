@@ -1,20 +1,18 @@
 using Cutscenes;
-using DialogueSystem.Events;
 using Unity.VisualScripting;
 using UnityEngine;
 using DialogueSystem.ScriptableObjects;
 
-public class DeathDialogue : BaseQuestStep
+public class DeathDialogue : DialogueQuestStep
 {
     [SerializeField] protected DialogueSO dialoguesInfo;
     
     private GameObject _deathRealmToTeleport;
     private GameObject _shoreToTeleport;
     private GameObject _playerToTeleport;
-    protected void OnEnable()
+    protected override void OnEnable()
     {
-        DialogueEvents.OnDialogueFinished += FinishStep;
-        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
+        base.OnEnable();
         AreaEvent.OnAreaEnter += AreaEntered;
         CutsceneEvents.OnCutsceneFinished += TeleportPlayer;
         _deathRealmToTeleport = GameObject.Find("DeathArea");
@@ -25,7 +23,6 @@ public class DeathDialogue : BaseQuestStep
     {
         AreaEvent.OnAreaEnter -= AreaEntered;
         CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
-        DialogueEvents.OnDialogueFinished -= FinishStep;
     }
     
     private void TeleportPlayer()
@@ -39,9 +36,8 @@ public class DeathDialogue : BaseQuestStep
             AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
         }
     }
-    protected void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueSO dialogue)
     {
-        
         if (dialoguesInfo.name == dialogue.name)
         {
             Finish();

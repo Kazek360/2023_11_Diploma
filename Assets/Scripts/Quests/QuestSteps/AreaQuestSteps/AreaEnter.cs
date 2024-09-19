@@ -5,8 +5,9 @@ public class AreaEnter : BaseQuestStep
     [SerializeField] protected string areaToEnterName;
     protected GameObject area;
     
-    protected void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         AreaEvent.OnAreaEnter += FinishStep;
         area = GameObject.Find(areaToEnterName);
     }
