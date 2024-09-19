@@ -91,6 +91,20 @@ namespace Skill.Managers
             EnableActivation();
         }
 
+        public void InitializeOnNewGame()
+        {
+        }
+
+        public void LoadDataFromSaveFile(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
+        public void LoadDataBetweenScenes(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
         public void SaveData(ref GameData gameData)
         {
             foreach (var skillTreeNode in _skillTreeNodesDictionary)

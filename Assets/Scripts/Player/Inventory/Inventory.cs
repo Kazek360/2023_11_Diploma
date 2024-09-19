@@ -200,6 +200,20 @@ public class Inventory : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void InitializeOnNewGame()
+    {
+    }
+
+    public void LoadDataFromSaveFile(GameData gameData)
+    {
+        LoadData(gameData);
+    }
+
+    public void LoadDataBetweenScenes(GameData gameData)
+    {
+        LoadData(gameData);
+    }
+
     public void SaveData(ref GameData gameData)
     {
         for (var i = 0; i < _inventorySlots.GetLength(0); i++)

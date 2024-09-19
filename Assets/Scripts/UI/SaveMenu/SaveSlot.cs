@@ -1,54 +1,62 @@
 using System;
+using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+[RequireComponent(typeof(Button))]
 public class SaveSlot : MonoBehaviour
 {
-    [Header("Profile")] 
-    [SerializeField] public string profileId;
-
-    [Header("Components")] 
-    [SerializeField] private GameObject noSaveData;
-    [SerializeField] private GameObject hasSaveData;
-    [SerializeField] private TextMeshProUGUI saveSlotText;
-
+    private GameData _profileData;
     private Button _saveSlotButton;
+    private TextMeshProUGUI _saveSlotText;
 
     private void Awake()
     {
         _saveSlotButton = GetComponent<Button>();
+        _saveSlotText = GetComponentInChildren<TextMeshProUGUI>();
     }
     
-    public void SetData(GameData gameData)
+    public void SetData(string buttonMode, string profile, GameData gameData)
     {
         if (gameData is null)
         {
-            noSaveData.SetActive(true);
-            hasSaveData.SetActive(false);
+            _saveSlotText.text = "Brak Zapisu"; 
+            _saveSlotButton.interactable = false;
         }
         else
         {
-            noSaveData.SetActive(false);
-            hasSaveData.SetActive(true);
-
-            if (profileId.Equals("autosave"))
+            _saveSlotButton.interactable = true;
+            if (profile.Equals("autosave"))
             {
-                saveSlotText.fontSize = 30;
-                saveSlotText.text = $"(automatyczny zapis)\n{gameData.currentScene} - {gameData.saveDate}"; 
+                _saveSlotText.fontSize = 30;
+                _saveSlotText.text = $"(automatyczny zapis)\n{gameData.currentScene} - {gameData.saveDate}"; 
             }
             else
             {
-                saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
+                _saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
             }
             
+            _profileData = gameData;
+
+            if (buttonMode.Equals("load"))
+            {
+                _saveSlotButton.onClick.AddListener(LoadAction);
+            }
+            else if (buttonMode.Equals("save"))
+            {
+                
+            }
         }
     }
-
-    public void SetInteractable(bool interactable)
+    
+    private void LoadAction()
     {
-        _saveSlotButton.interactable = interactable;
+        DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
+        DataPersistenceManager.Instance.ChangeCurrentGameData(_profileData);
+        SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.CurrentGameData.currentScene);
     }
-
 }

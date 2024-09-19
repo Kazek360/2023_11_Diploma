@@ -50,6 +50,20 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
         PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
     }
 
+    public void InitializeOnNewGame()
+    {
+    }
+
+    public void LoadDataFromSaveFile(GameData gameData)
+    {
+        LoadData(gameData);
+    }
+
+    public void LoadDataBetweenScenes(GameData gameData)
+    {
+        LoadData(gameData);
+    }
+
     public void SaveData(ref GameData gameData)
     {
         if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))

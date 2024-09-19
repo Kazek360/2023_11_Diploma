@@ -33,6 +33,21 @@ namespace Collectibles
                 }
             }
         }
+
+        public void InitializeOnNewGame()
+        {
+        }
+
+        public void LoadDataFromSaveFile(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
+        public void LoadDataBetweenScenes(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
         public void SaveData(ref GameData gameData)
         {
             if (!gameData.collectiblesState.ContainsKey(_currentScene))

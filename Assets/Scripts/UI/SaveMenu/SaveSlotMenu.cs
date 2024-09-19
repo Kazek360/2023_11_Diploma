@@ -26,11 +26,11 @@ public class SaveSlotMenu : MonoBehaviour
         _currentOperation = operation;
         gameObject.SetActive(true);
         
-        _profilesGameData = DataPersistenceManager.Instance.GetAllGameData();
+        _profilesGameData = DataPersistenceManager.Instance.LoadAllGameData();
         foreach (var saveSlot in _saveSlots)
         {
-            _profilesGameData.TryGetValue(saveSlot.profileId, out var profileData);
-            saveSlot.SetData(profileData);
+            //_profilesGameData.TryGetValue(saveSlot.profileId, out var profileData);
+            //saveSlot.SetData(profileData);
 
             if (_currentOperation.Equals("load"))
             {
@@ -38,7 +38,7 @@ public class SaveSlotMenu : MonoBehaviour
                 {
                     screenName.text = "Wczytaj grę";
                 }
-                saveSlot.SetInteractable(profileData != null);
+                //saveSlot.SetInteractable(profileData != null);
             }
             else if (_currentOperation.Equals("save"))
             {
@@ -46,7 +46,7 @@ public class SaveSlotMenu : MonoBehaviour
                 {
                     screenName.text = "Zapisz grę";
                 }
-                saveSlot.SetInteractable(true);
+                //saveSlot.SetInteractable(true);
                 autosaveButton.interactable = false;
             }
         }
@@ -57,14 +57,13 @@ public class SaveSlotMenu : MonoBehaviour
         
         if (_currentOperation.Equals("load"))
         {
-            DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.profileId);
-            DataPersistenceManager.Instance.LoadGameData();
-            DataPersistenceManager.Instance.InitialLoad = false;
-            SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.GameData.currentScene);
+            //DataPersistenceManager.Instance.ChangeSelectedProfileId(saveSlot.profileId);
+            //DataPersistenceManager.Instance.LoadMostRecentGameData();
+            SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.CurrentGameData.currentScene);
         }
         else if (_currentOperation.Equals("save"))
         {
-            DataPersistenceManager.Instance.SaveGame(saveSlot.profileId);
+            //DataPersistenceManager.Instance.SaveGame(saveSlot.profileId);
             DeactivateMenu();
         }
     }

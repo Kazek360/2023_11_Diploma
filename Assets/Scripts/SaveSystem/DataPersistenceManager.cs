@@ -2,40 +2,42 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveSystem.Data;
+using Shared;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SaveSystem
 {
-    public class DataPersistenceManager : MonoBehaviour
+    public class DataPersistenceManager : Singleton<DataPersistenceManager>
     {
         [Header("Data Storage Config")]
         [SerializeField] private string fileName;
-        public static DataPersistenceManager Instance { get; private set; }
-        private GameData _gameData;
+        
+        [Header("Development Options")]
+        [SerializeField] private bool useMostRecentGameData;
+        
         private FileDataHandler _dataHandler;
+        
+        private GameData _currentGameData;
+        public GameData CurrentGameData => _currentGameData;
+
         private static List<IDataPersistence> _dataPersistenceObjects;
-        private string _selectedProfileId = "";
         
-        
-        private bool _initialLoad = false;
-        public bool InitialLoad
+        private LoadMode _currentLoadMode = LoadMode.DirectlyFromScene;
+
+        public LoadMode CurrentLoadMode
         {
-            get => _initialLoad;
-            set => _initialLoad = value;
+            get => _currentLoadMode;
+            set => _currentLoadMode = value;
         }
 
-        private void Awake()
+        private new void Awake()
         {
-            if (Instance is not null)
+            base.Awake();
+            if (_dataHandler is null)
             {
-                Destroy(gameObject);
-                return;
+                _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             }
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
         }
 
         private void OnEnable()
@@ -52,72 +54,122 @@ namespace SaveSystem
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
+            {
+                _currentLoadMode = LoadMode.MainMenu;
+            }
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
-            if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
-            {
-                _initialLoad = false;
-                _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
-            }
+            _currentLoadMode = LoadMode.BetweenScenes;
         }
+        
         private void OnSceneUnloaded(Scene scene)
         {
-            SaveGame("autosave");
-        }
-
-        public void ChangeSelectedProfileId(string newProfile)
-        {
-            _selectedProfileId = newProfile;
-        }
-        
-        public void NewGame()
-        {
-            _gameData = new GameData();
-            ChangeSelectedProfileId("newGame");
-        }
-
-        public void LoadGameData()
-        {
-            _gameData = _dataHandler.LoadData(_selectedProfileId);
-        }
-        
-        public void LoadGame()
-        {
-            switch (_selectedProfileId)
-            {
-                case null:
-                    return;
-                case "newGame":
-                    return;
-            }
-            
-            _gameData = _dataHandler.LoadData(_selectedProfileId);
-            if (_gameData is not null)
-            {
-                foreach (var dataPersistenceObject in _dataPersistenceObjects)
-                {
-                    dataPersistenceObject.LoadData(_gameData);
-                }
-            }
-            _initialLoad = true;
-        }
-
-        public void SaveGame(string profile)
-        {
-            if (_gameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
             {
                 return;
             }
+            if (_currentLoadMode == LoadMode.BetweenScenes)
+            {
+                UpdateGameData();
+            }
+        }
+        
+        public Dictionary<string, GameData> LoadAllGameData()
+        {
+            return _dataHandler.LoadAllData();
+        }
+        
+        public void ChangeCurrentGameData(GameData gameData)
+        {
+            _currentGameData = gameData;
+        }
+        
+        private void ChangeCurrentGameDataToMostRecent()
+        {
+            _currentGameData = _dataHandler.LoadMostRecentData();
+        }
+        private void LoadGame()
+        {
+            switch (_currentLoadMode)
+            {
+                case LoadMode.MainMenu:
+                    ChangeCurrentGameDataToMostRecent();
+                    break;
+                case LoadMode.NewGame:
+                    _currentGameData = new GameData();
+                    InitializeDataOnNewGame();
+                    break;
+                case LoadMode.FromSaveFile:
+                    LoadGameDataFromSaveFile();
+                    break;
+                case LoadMode.DirectlyFromScene:
+                    if (useMostRecentGameData)
+                    {
+                        ChangeCurrentGameDataToMostRecent();
+                        LoadGameDataFromSaveFile();
+                    }
+                    if (_currentGameData is null)
+                    {
+                        _currentGameData = new GameData();
+                        InitializeDataOnNewGame();
+                    }
+                    break;
+                case LoadMode.BetweenScenes:
+                    LoadGameDataBetweenScenes();
+                    break;
+            }
+        }
 
-            _gameData.lastUpdated = DateTime.Now.ToBinary();
-            _gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
-            _gameData.currentScene = SceneManager.GetActiveScene().name;
-            
+        private void InitializeDataOnNewGame()
+        {
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
-                dataPersistenceObject.SaveData(ref _gameData);
+                dataPersistenceObject.InitializeOnNewGame();
             }
-            _dataHandler.SaveData(_gameData, profile);
+        }
+        
+        private void LoadGameDataFromSaveFile()
+        {
+            if (_currentGameData is not null)
+            {
+                foreach (var dataPersistenceObject in _dataPersistenceObjects)
+                {
+                    dataPersistenceObject.LoadDataFromSaveFile(_currentGameData);
+                }
+            }
+        }
+        
+        private void LoadGameDataBetweenScenes()
+        {
+            if (_currentGameData is not null)
+            {
+                foreach (var dataPersistenceObject in _dataPersistenceObjects)
+                {
+                    dataPersistenceObject.LoadDataBetweenScenes(_currentGameData);
+                }
+            }
+        }
+        
+        private void UpdateGameData()
+        {
+            if (_currentGameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
+            {
+                return;
+            }
+            _currentGameData.lastUpdated = DateTime.Now.ToBinary();
+            _currentGameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            _currentGameData.currentScene = SceneManager.GetActiveScene().name;
+            foreach (var dataPersistenceObject in _dataPersistenceObjects)
+            {
+                dataPersistenceObject.SaveData(ref _currentGameData);
+            }
+        }
+        
+        public void SaveGame(string profile)
+        {
+            UpdateGameData();
+            _dataHandler.SaveData(_currentGameData, profile);
         }
         
         private List<IDataPersistence> FindAllDataPersistenceObjects()
@@ -126,16 +178,15 @@ namespace SaveSystem
                 FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
-
-        public Dictionary<string, GameData> GetAllGameData()
-        {
-            return _dataHandler.LoadAllData();
-        }
         
         public bool HasGameData()
         {
-            return _gameData is not null;
+            return _currentGameData is not null;
         }
-        public GameData GameData => _gameData;
+    }
+
+    public enum LoadMode
+    {
+        DirectlyFromScene, FromSaveFile, BetweenScenes, NewGame, MainMenu
     }
 }

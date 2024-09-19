@@ -106,7 +106,7 @@ namespace SaveSystem
             return profileDictionary;
         }
 
-        public string GetMostRecentlyUpdatedProfileId()
+        public GameData LoadMostRecentData()
         {
             string mostRecentProfileId = null;
             
@@ -135,7 +135,7 @@ namespace SaveSystem
                 }
             }
 
-            return mostRecentProfileId;
+            return profileGameData[mostRecentProfileId];
         }
     }
 }

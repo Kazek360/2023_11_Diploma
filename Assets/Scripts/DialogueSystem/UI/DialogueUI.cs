@@ -259,7 +259,21 @@ namespace DialogueSystem.UI
         
             _dialogueVariables.LoadVariables(loadGlobalsJSON, gameData.inkVariables);
         }
-        
+
+        public void InitializeOnNewGame()
+        {
+        }
+
+        public void LoadDataFromSaveFile(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
+        public void LoadDataBetweenScenes(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
         public void SaveData(ref GameData gameData)
         {
             gameData.inkVariables = _dialogueVariables.SaveVariables();

@@ -1,55 +1,38 @@
 using InputSystem;
+using UI;
+using UI.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : UserInterface
 {
-    [SerializeField] private GameObject contentParent;
+    public override GameState State => GameState.PauseMenu;
+    
     [SerializeField] private SaveSlotMenu saveSlotMenu;
     [SerializeField] private GameObject buttons;
     
-    private void OnEnable()
-    {
-        InputEvents.OnPauseToggle += TogglePause;
-    }
-    private void OnDisable()
-    {
-        InputEvents.OnPauseToggle -= TogglePause;
-    }
 
-    private void Start()
+    public override void OnEnter()
     {
-        contentParent.SetActive(false);
+        base.OnEnter();
+        Time.timeScale = 0;
+        GameConfig.QuestTracker.DisableText();
+        InputManager.Instance.Controlls.Player.Disable();
+        InputManager.Instance.Controlls.UI.Disable();
     }
-
-    private void TogglePause()
+    public override void OnExit()
     {
-        if (contentParent.activeSelf)
-        {
-            contentParent.SetActive(false);
-            saveSlotMenu.gameObject.SetActive(false);
-            buttons.SetActive(true);
-            GameConfig.QuestTracker.EnableText();
-            Time.timeScale = 1;
-        }
-        else
-        {
-            contentParent.SetActive(true);
-            GameConfig.QuestTracker.DisableText();
-            Time.timeScale = 0;
-        }
+        base.OnExit();
+        Time.timeScale = 1;
+        GameConfig.QuestTracker.EnableText();
+        InputManager.Instance.Controlls.Player.Enable();
+        InputManager.Instance.Controlls.UI.Enable();
     }
     
     public void OnSaveGameClicked()
     {
         buttons.SetActive(false);
         saveSlotMenu.ActivateMenu("save");
-    }
-    
-    public void OnLoadGameClicked()
-    {
-        buttons.SetActive(false);
-        saveSlotMenu.ActivateMenu("load");
     }
     
     public void OnToMainMenuClicked()

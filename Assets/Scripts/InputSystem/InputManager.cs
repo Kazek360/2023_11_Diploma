@@ -1,19 +1,22 @@
 using Cutscenes;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
+using Shared;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace InputSystem
 {
-    public class InputManager : MonoBehaviour, 
+    public class InputManager : Singleton<InputManager>, 
         PlayerControlls.IPlayerActions, PlayerControlls.IDialogueActions,
         PlayerControlls.IUIActions, PlayerControlls.IPauseMenuActions
     {
         private PlayerControlls _controlls;
+        public PlayerControlls Controlls => _controlls;
+
         private bool _uiOpened;
         private string _uiName;
-        private bool _gamePaused;
         
         private void OnEnable()
         {
@@ -53,7 +56,6 @@ namespace InputSystem
         {
             _controlls = new PlayerControlls();
             _uiOpened = false;
-            _gamePaused = false;
             _uiName = "";
             
             _controlls.Player.SetCallbacks(this);
@@ -213,19 +215,14 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                if (_gamePaused)
+                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
                 {
-                    _controlls.Player.Enable();
-                    _controlls.UI.Enable();
-                    
-;                }
-                else
-                {
-                    _controlls.Player.Disable();
-                    _controlls.UI.Disable();
+                    UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
                 }
-                _gamePaused = !_gamePaused;
-                InputEvents.TogglePause();
+                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.PauseMenu)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+                }
             }
         }
     }

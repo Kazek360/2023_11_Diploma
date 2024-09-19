@@ -39,6 +39,20 @@ namespace Location
             }
         }
 
+        public void InitializeOnNewGame()
+        {
+        }
+
+        public void LoadDataFromSaveFile(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
+        public void LoadDataBetweenScenes(GameData gameData)
+        {
+            LoadData(gameData);
+        }
+
         public void SaveData(ref GameData gameData)
         {
             gameData.currentScene = _currentScene;

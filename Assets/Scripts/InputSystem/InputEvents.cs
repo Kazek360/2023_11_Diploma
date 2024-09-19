@@ -47,11 +47,6 @@ namespace InputSystem
         {
             OnInterfaceClosed?.Invoke();
         }
-        public static event Action OnPauseToggle;
-        public static void TogglePause()
-        {
-            OnPauseToggle?.Invoke();
-        }
         public static event Action OnAbilityViewToggle;
         public static void ToggleAbilityView()
         {

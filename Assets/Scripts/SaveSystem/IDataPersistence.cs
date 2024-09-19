@@ -4,7 +4,9 @@ namespace SaveSystem
 {
     public interface IDataPersistence
     {
-        void LoadData(GameData gameData);
+        void InitializeOnNewGame();
+        void LoadDataFromSaveFile(GameData gameData);
+        void LoadDataBetweenScenes(GameData gameData);
         void SaveData(ref GameData gameData);
     }
 

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
+using Quests;
 using UnityEngine;
-using QuestSystem;
 
 namespace DialogueSystem.Managers
 {
@@ -91,7 +91,7 @@ namespace DialogueSystem.Managers
             {
                 if (dialogue.info.startsQuest)
                 {
-                    if (QuestManager.GetQuestById(dialogue.info.relatedQuest.id).State != QuestState.CanStart)
+                    if (QuestManager.Instance.GetQuestById(dialogue.info.relatedQuest.id).State != QuestState.CanStart)
                     {
                         return false;
                     }

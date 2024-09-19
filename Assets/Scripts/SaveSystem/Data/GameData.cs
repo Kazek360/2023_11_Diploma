@@ -16,7 +16,7 @@ namespace SaveSystem.Data
         public Dictionary<string, int> resources;
         public Tuple<int, int>[,] inventory;
         public int[] equipment;
-        public Dictionary<string, Quest> quests;
+        public Dictionary<string, Quest> Quests;
         public string trackedQuest;
         public string inkVariables;
 
