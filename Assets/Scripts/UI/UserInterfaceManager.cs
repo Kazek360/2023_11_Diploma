@@ -13,6 +13,8 @@ namespace UI
 
         [SerializeField] private GameState initialState;
         private GameState _previousState;
+        public GameState PreviousState => _previousState;
+        
         private UserInterface _currentState;
         public GameState CurrentStateType => _currentState.State;
         
@@ -43,7 +45,7 @@ namespace UI
                 Debug.LogError("Tried to change UI state to non-existing one!");
                 return;
             }
-            if (_currentState != null){
+            if (_currentState is not null){
                 _previousState = _currentState.State;
                 _currentState.OnExit();
             }

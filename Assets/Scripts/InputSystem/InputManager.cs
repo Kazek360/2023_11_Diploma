@@ -215,13 +215,14 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
+                switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
-                }
-                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.PauseMenu)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+                    case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
+                        UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
+                        break;
+                    case GameState.PauseMenu:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+                        break;
                 }
             }
         }
