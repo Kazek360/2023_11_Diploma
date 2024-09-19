@@ -39,7 +39,7 @@ namespace InputSystem
             _controlls.PauseMenu.RemoveCallbacks(this);
         }
         
-        private void Awake()
+        protected override void Awake()
         {
             PrepareInputSystem();
         }

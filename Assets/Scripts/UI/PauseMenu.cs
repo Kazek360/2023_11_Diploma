@@ -7,10 +7,6 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : UserInterface
 {
     public override GameState State => GameState.PauseMenu;
-    
-    [SerializeField] private SaveSlotMenu saveSlotMenu;
-    [SerializeField] private GameObject buttons;
-    
 
     public override void OnEnter()
     {
@@ -27,12 +23,6 @@ public class PauseMenu : UserInterface
         GameConfig.QuestTracker.EnableText();
         InputManager.Instance.Controlls.Player.Enable();
         InputManager.Instance.Controlls.UI.Enable();
-    }
-    
-    public void OnSaveGameClicked()
-    {
-        buttons.SetActive(false);
-        saveSlotMenu.ActivateMenu("save");
     }
     
     public void OnToMainMenuClicked()

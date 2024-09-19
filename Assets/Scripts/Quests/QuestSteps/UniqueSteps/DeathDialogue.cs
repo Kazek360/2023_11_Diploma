@@ -5,8 +5,6 @@ using DialogueSystem.ScriptableObjects;
 
 public class DeathDialogue : DialogueQuestStep
 {
-    [SerializeField] protected DialogueSO dialoguesInfo;
-    
     private GameObject _deathRealmToTeleport;
     private GameObject _shoreToTeleport;
     private GameObject _playerToTeleport;
@@ -19,7 +17,7 @@ public class DeathDialogue : DialogueQuestStep
         _shoreToTeleport = GameObject.Find("ShoreArea");
         _playerToTeleport = GameObject.Find("Player");
     }
-    protected void OnDisable()
+    protected override void OnDisable()
     {
         AreaEvent.OnAreaEnter -= AreaEntered;
         CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;

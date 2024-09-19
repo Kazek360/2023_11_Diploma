@@ -51,5 +51,5 @@ namespace UI
             _currentState.OnEnter();
         }
     }
-    public enum GameState { MainMenu, PauseMenu, LoadGame, Settings, Exploration, BuildingUI, EventUI, EndingUI }
+    public enum GameState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, BuildingUI, EventUI, EndingUI }
 }

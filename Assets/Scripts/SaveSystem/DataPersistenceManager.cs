@@ -71,7 +71,7 @@ namespace SaveSystem
             }
             if (_currentLoadMode == LoadMode.BetweenScenes)
             {
-                UpdateGameData();
+                SaveGameData();
             }
         }
         
@@ -151,7 +151,7 @@ namespace SaveSystem
             }
         }
         
-        private void UpdateGameData()
+        private void SaveGameData()
         {
             if (_currentGameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
             {
@@ -168,7 +168,7 @@ namespace SaveSystem
         
         public void SaveGame(string profile)
         {
-            UpdateGameData();
+            SaveGameData();
             _dataHandler.SaveData(_currentGameData, profile);
         }
         
