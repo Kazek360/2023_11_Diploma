@@ -23,12 +23,10 @@ public class AbilityDisplaySwitch : MonoBehaviour
         if (abilityScreen.activeSelf)
         {
             abilityScreen.SetActive(false);
-            GameConfig.QuestTracker.EnableText();
         }
         else
         {
             abilityScreen.SetActive(true);
-            GameConfig.QuestTracker.DisableText();
         }
     }
     

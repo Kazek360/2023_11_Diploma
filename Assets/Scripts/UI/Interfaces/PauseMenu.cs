@@ -12,7 +12,6 @@ public class PauseMenu : UserInterface
     {
         base.OnEnter();
         Time.timeScale = 0;
-        GameConfig.QuestTracker.DisableText();
         InputManager.Instance.Controlls.Player.Disable();
         InputManager.Instance.Controlls.UI.Disable();
     }
@@ -20,7 +19,6 @@ public class PauseMenu : UserInterface
     {
         base.OnExit();
         Time.timeScale = 1;
-        GameConfig.QuestTracker.EnableText();
         InputManager.Instance.Controlls.Player.Enable();
         InputManager.Instance.Controlls.UI.Enable();
     }

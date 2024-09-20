@@ -30,13 +30,17 @@ namespace Quests
             OnQuestStateChange?.Invoke(quest);
         }
         
+        public static event Action OnQuestTracking;
+        public static void TrackQuest()
+        {
+            OnQuestTracking?.Invoke();
+        }
+        
         public static event Action OnQuestStepsDelete;
         public static void DeleteQuestSteps()
         {
             OnQuestStepsDelete?.Invoke();
         }
-        
-        
     }
    
 }

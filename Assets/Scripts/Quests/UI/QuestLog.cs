@@ -1,16 +1,19 @@
 using System.Linq;
 using InputSystem;
-using Quests;
+using QuestSystem;
 using TMPro;
+using UI;
+using UI.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QuestSystem.UI
+namespace Quests.UI
 {
-    public class QuestLog : MonoBehaviour
+    public class QuestLog : UserInterface
     {
+        public override GameState State => GameState.Quests;
+        
         [Header("Components")] 
-        [SerializeField] private GameObject contentParent;
         [SerializeField] private QuestLogScrollingList scrollingList;
         [SerializeField] private TextMeshProUGUI displayNameText;
         [SerializeField] private TextMeshProUGUI descriptionText;
@@ -24,48 +27,31 @@ namespace QuestSystem.UI
 
         private void OnEnable()
         {
-            InputEvents.OnQuestLogToggle += ToggleQuestLog;
-            InputEvents.OnInterfaceClosed += CloseQuestLog;
-
             QuestEvents.OnQuestStateChange += QuestStateChange;
         }
 
         private void OnDisable()
         {
-            InputEvents.OnQuestLogToggle -= ToggleQuestLog;
-            InputEvents.OnInterfaceClosed -= CloseQuestLog;
-
             QuestEvents.OnQuestStateChange -= QuestStateChange;
         }
-
-        private void Start()
+        
+        public override void OnEnter()
         {
-            contentParent.SetActive(false);
-        }
-
-        private void ToggleQuestLog()
-        {
-            if (contentParent.activeSelf)
+            base.OnEnter();
+            Time.timeScale = 0;
+            InputManager.Instance.Controlls.Player.Disable();
+            if (_defaultSelectedButton is not null)
             {
-                contentParent.SetActive(false);
-                GameConfig.QuestTracker.EnableText();
-            }
-            else
-            {
-                contentParent.SetActive(true);
-                GameConfig.QuestTracker.DisableText();
-                if (_defaultSelectedButton is not null)
-                {
-                    _defaultSelectedButton.Select();
-                }
+                _defaultSelectedButton.Select();
             }
         }
-
-        private void CloseQuestLog()
+        public override void OnExit()
         {
-            contentParent.SetActive(false);
+            base.OnExit();
+            Time.timeScale = 1;
+            InputManager.Instance.Controlls.Player.Enable();
         }
-
+        
         private void QuestStateChange(Quest quest)
         {
             if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
@@ -114,23 +100,20 @@ namespace QuestSystem.UI
                 currentStepText.color = Color.white;
             }
 
-            trackQuestButtonText.text = quest.isTracked ?  "Przestań śledzić" : "Śledź";
+            trackQuestButtonText.text = _selectedQuest.Equals(QuestManager.Instance.TrackedQuest) ? "Przestań śledzić" : "Śledź";
         }
 
         public void SetTrackedQuest()
         {
-            if (_selectedQuest.isTracked)
+            if (_selectedQuest.Equals(QuestManager.Instance.TrackedQuest))
             {
-                _selectedQuest.isTracked = false;
-                GameConfig.QuestTracker.trackedQuest = null;
+                QuestManager.Instance.TrackedQuest = null;
                 trackQuestButtonText.text = "Śledź";
             }
             else
             {
-                GameConfig.QuestTracker.trackedQuest = _selectedQuest;
-                _selectedQuest.isTracked = true;
+                QuestManager.Instance.TrackedQuest = _selectedQuest;
                 trackQuestButtonText.text = "Przestań śledzić";
-                GameConfig.QuestTracker.UpdateText();
             }
         }
     }

@@ -30,6 +30,7 @@ namespace SaveSystem.Data
             equipment = new int[5];
             saveDate = "";
             currentScene = "Las";
+            trackedQuest = "";
         }
     }
 }

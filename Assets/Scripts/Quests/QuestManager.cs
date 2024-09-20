@@ -10,9 +10,19 @@ namespace Quests
     public class QuestManager : Singleton<QuestManager>, IDataPersistence
     {
         private Dictionary<string, Quest> _quests;
-
         public Dictionary<string, Quest> Quests => _quests;
-        
+
+        private Quest _trackedQuest;
+        public Quest TrackedQuest
+        {
+            get => _trackedQuest;
+            set
+            {
+                _trackedQuest = value;
+                QuestEvents.TrackQuest();
+            }
+        }
+
         protected override void Awake()
         {
             base.Awake();
@@ -62,7 +72,7 @@ namespace Quests
             var quest = GetQuestById(id);
             quest.InstantiateCurrentQuestStep(transform);
             ChangeQuestState(id, QuestState.InProgress);
-            GameConfig.QuestTracker.TrackQuest(id);
+            TrackedQuest = quest;
         }
 
         private void ProgressQuest(string id)
@@ -78,12 +88,9 @@ namespace Quests
                 }
             }
 
-            if (GameConfig.QuestTracker.trackedQuest is not null)
+            if (GetQuestById(id).Equals(TrackedQuest))
             {
-                if (GetQuestById(id).Equals(GameConfig.QuestTracker.trackedQuest))
-                {
-                    GameConfig.QuestTracker.UpdateText();
-                }
+                QuestEvents.TrackQuest();
             }
         }
 
@@ -163,10 +170,19 @@ namespace Quests
             {
                 if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
                 {
+                    QuestEvents.ChangeQuestState(quest);
                     quest.InstantiateCurrentQuestStep(transform);
                 }
             }
-            LoadDataBetweenScenes(gameData);
+            
+            if (!gameData.trackedQuest.Equals(""))
+            {
+                TrackedQuest = GetQuestById(gameData.trackedQuest);
+            }
+            else
+            {
+                TrackedQuest = null;
+            }
         }
 
         public void LoadDataBetweenScenes(GameData gameData)
@@ -175,16 +191,13 @@ namespace Quests
             {
                 QuestEvents.ChangeQuestState(quest);
             }
-            if (gameData.trackedQuest is not null)
-            {
-                GameConfig.QuestTracker.TrackQuest(gameData.trackedQuest);
-            }
+            QuestEvents.TrackQuest();
         }
 
         public void SaveData(ref GameData gameData)
         {
             gameData.Quests = _quests;
-            gameData.trackedQuest = GameConfig.QuestTracker.trackedQuest.Info.id;
+            gameData.trackedQuest = TrackedQuest.Info.id;
         }
     }
 }

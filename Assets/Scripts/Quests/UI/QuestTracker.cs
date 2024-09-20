@@ -1,50 +1,44 @@
 using System.Linq;
-using Quests;
 using TMPro;
 using UnityEngine;
 
-namespace QuestSystem.UI
+namespace Quests.UI
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class QuestTracker : MonoBehaviour
     {
-        public Quest trackedQuest;
         private TextMeshProUGUI _text;
-        [SerializeField] private GameObject panel;
-        
+        private CanvasGroup _canvasGroup;
+        public CanvasGroup CanvasGroup => _canvasGroup;
+
         public void Awake()
         {
-            GameConfig.QuestTracker = this;
             _text = GetComponentInChildren<TextMeshProUGUI>();
-            DisableText();
-        }
-
-        public void TrackQuest(string id)
-        {
-            if (trackedQuest is not null)
-            {
-                trackedQuest.isTracked = false; 
-            }
-            trackedQuest = QuestManager.Instance.GetQuestById(id);
-            trackedQuest.isTracked = true;
-            UpdateText();
-            EnableText();
+            _canvasGroup = GetComponent<CanvasGroup>();
         }
         
-        public void EnableText()
+        public void OnEnable()
         {
-            if (trackedQuest is not null)
+            QuestEvents.OnQuestTracking += SetTrackQuestInfo;
+        }
+        
+        public void OnDisable()
+        {
+            QuestEvents.OnQuestTracking -= SetTrackQuestInfo;
+        }
+        
+        private void SetTrackQuestInfo()
+        {
+            if (QuestManager.Instance.TrackedQuest is null)
             {
-                panel.SetActive(true);
+                CanvasGroup.alpha = 0;
             }
-        }
-        public void DisableText()
-        {
-            panel.SetActive(false);
-        }
-
-        public void UpdateText()
-        {
-            _text.text = $"{trackedQuest.Info.displayName}\n{trackedQuest.stepsDescriptions.Last()}";
+            else
+            {
+                CanvasGroup.alpha = 1;
+                _text.text = $"{QuestManager.Instance.TrackedQuest.Info.displayName}" +
+                             $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
+            }
         }
     }
 }

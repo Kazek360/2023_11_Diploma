@@ -142,7 +142,10 @@ namespace InputSystem
             {
                 _uiName = uiName;
                 _controlls.Player.Disable();
-                _controlls.PauseMenu.Disable();
+                if (!uiName.Equals("QuestLog"))
+                {
+                    _controlls.PauseMenu.Disable();
+                }
             }
             _uiOpened = !_uiOpened;
         }
@@ -156,7 +159,14 @@ namespace InputSystem
                     return;
                 }
                 PrepareInterfaceValues("QuestLog");
-                InputEvents.ToggleQuestLog();
+                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Quests);    
+                }
+                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Quests)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                }
             }
         }
         
@@ -220,7 +230,7 @@ namespace InputSystem
                     case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
                         UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
                         break;
-                    case GameState.PauseMenu:
+                    case GameState.PauseMenu or GameState.Quests:
                         UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
                         break;
                 }

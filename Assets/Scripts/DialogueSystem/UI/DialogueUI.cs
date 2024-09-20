@@ -75,7 +75,6 @@ namespace DialogueSystem.UI
         
         private void StartDialogue(DialogueSO dialogueInfo)
         {
-            GameConfig.QuestTracker.DisableText();
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
@@ -123,7 +122,6 @@ namespace DialogueSystem.UI
         
         private void EndDialogue()
         {
-            GameConfig.QuestTracker.EnableText();
             _dialogueVariables.StopListening(_currentStory);
             dialoguePanel.SetActive(false);
             DialogueEvents.FinishDialogue(_currentDialogue);

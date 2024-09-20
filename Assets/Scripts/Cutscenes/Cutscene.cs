@@ -27,7 +27,6 @@ namespace Cutscenes
 
         private void StartCutscene(CutsceneSO cutsceneInfo)
         {
-            GameConfig.QuestTracker.DisableText();
             videoPlayer.clip = cutsceneInfo.clip;
             contentParent.SetActive(true);
             videoPlayer.Play();
@@ -36,7 +35,6 @@ namespace Cutscenes
         private void FinishCutscene(VideoPlayer player)
         {
             contentParent.SetActive(false);
-            GameConfig.QuestTracker.EnableText();
             CutsceneEvents.FinishCutscene();
         }
     }
