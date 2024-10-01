@@ -8,7 +8,7 @@ namespace UI.Interfaces
         public override GameState State => GameState.LoadGame;
         private LoadSlot[] _loadSlots;
         
-        private new void Awake()
+        protected override void Awake()
         {
             base.Awake();
             _loadSlots = GetComponentsInChildren<LoadSlot>();

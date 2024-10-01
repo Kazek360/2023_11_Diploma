@@ -136,11 +136,11 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Dialogue"",
+            ""name"": ""Story"",
             ""id"": ""98321d1b-b324-4c58-83c9-f89eda9ac226"",
             ""actions"": [
                 {
-                    ""name"": ""ContinueDialogue"",
+                    ""name"": ""Skip"",
                     ""type"": ""Button"",
                     ""id"": ""aedd7ef5-ff28-4488-b7a3-1c272b6d2b28"",
                     ""expectedControlType"": ""Button"",
@@ -157,7 +157,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -168,7 +168,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -179,7 +179,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -190,7 +190,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -340,9 +340,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        // Dialogue
-        m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
-        m_Dialogue_ContinueDialogue = m_Dialogue.FindAction("ContinueDialogue", throwIfNotFound: true);
+        // Story
+        m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
+        m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
@@ -473,51 +473,51 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // Dialogue
-    private readonly InputActionMap m_Dialogue;
-    private List<IDialogueActions> m_DialogueActionsCallbackInterfaces = new List<IDialogueActions>();
-    private readonly InputAction m_Dialogue_ContinueDialogue;
-    public struct DialogueActions
+    // Story
+    private readonly InputActionMap m_Story;
+    private List<IStoryActions> m_StoryActionsCallbackInterfaces = new List<IStoryActions>();
+    private readonly InputAction m_Story_Skip;
+    public struct StoryActions
     {
         private @PlayerControlls m_Wrapper;
-        public DialogueActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ContinueDialogue => m_Wrapper.m_Dialogue_ContinueDialogue;
-        public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
+        public StoryActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Skip => m_Wrapper.m_Story_Skip;
+        public InputActionMap Get() { return m_Wrapper.m_Story; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DialogueActions set) { return set.Get(); }
-        public void AddCallbacks(IDialogueActions instance)
+        public static implicit operator InputActionMap(StoryActions set) { return set.Get(); }
+        public void AddCallbacks(IStoryActions instance)
         {
-            if (instance == null || m_Wrapper.m_DialogueActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_DialogueActionsCallbackInterfaces.Add(instance);
-            @ContinueDialogue.started += instance.OnContinueDialogue;
-            @ContinueDialogue.performed += instance.OnContinueDialogue;
-            @ContinueDialogue.canceled += instance.OnContinueDialogue;
+            if (instance == null || m_Wrapper.m_StoryActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StoryActionsCallbackInterfaces.Add(instance);
+            @Skip.started += instance.OnSkip;
+            @Skip.performed += instance.OnSkip;
+            @Skip.canceled += instance.OnSkip;
         }
 
-        private void UnregisterCallbacks(IDialogueActions instance)
+        private void UnregisterCallbacks(IStoryActions instance)
         {
-            @ContinueDialogue.started -= instance.OnContinueDialogue;
-            @ContinueDialogue.performed -= instance.OnContinueDialogue;
-            @ContinueDialogue.canceled -= instance.OnContinueDialogue;
+            @Skip.started -= instance.OnSkip;
+            @Skip.performed -= instance.OnSkip;
+            @Skip.canceled -= instance.OnSkip;
         }
 
-        public void RemoveCallbacks(IDialogueActions instance)
+        public void RemoveCallbacks(IStoryActions instance)
         {
-            if (m_Wrapper.m_DialogueActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_StoryActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IDialogueActions instance)
+        public void SetCallbacks(IStoryActions instance)
         {
-            foreach (var item in m_Wrapper.m_DialogueActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_StoryActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_DialogueActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_StoryActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public DialogueActions @Dialogue => new DialogueActions(this);
+    public StoryActions @Story => new StoryActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
@@ -648,9 +648,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
     }
-    public interface IDialogueActions
+    public interface IStoryActions
     {
-        void OnContinueDialogue(InputAction.CallbackContext context);
+        void OnSkip(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 namespace InputSystem
 {
     public class InputManager : Singleton<InputManager>, 
-        PlayerControlls.IPlayerActions, PlayerControlls.IDialogueActions,
+        PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions,
         PlayerControlls.IUIActions, PlayerControlls.IPauseMenuActions
     {
         private PlayerControlls _controlls;
@@ -22,19 +22,15 @@ namespace InputSystem
         {
             DialogueEvents.OnDialogueStarted += OnDialogueStarted;
             DialogueEvents.OnDialogueFinished += OnDialogueFinished;
-            CutsceneEvents.OnCutsceneStarted += OnCutsceneStarted;
-            CutsceneEvents.OnCutsceneFinished += OnCutsceneFinished;
         }
         
         private void OnDisable()
         {
             DialogueEvents.OnDialogueStarted -= OnDialogueStarted;
             DialogueEvents.OnDialogueFinished -= OnDialogueFinished;
-            CutsceneEvents.OnCutsceneStarted -= OnCutsceneStarted;
-            CutsceneEvents.OnCutsceneFinished -= OnCutsceneFinished;
             
             _controlls.Player.RemoveCallbacks(this);
-            _controlls.Dialogue.RemoveCallbacks(this);
+            _controlls.Story.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
             _controlls.PauseMenu.RemoveCallbacks(this);
         }
@@ -59,7 +55,7 @@ namespace InputSystem
             _uiName = "";
             
             _controlls.Player.SetCallbacks(this);
-            _controlls.Dialogue.SetCallbacks(this);
+            _controlls.Story.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
             _controlls.PauseMenu.SetCallbacks(this);
             
@@ -100,33 +96,32 @@ namespace InputSystem
             _controlls.Player.Disable();
             _controlls.UI.Disable();
             _controlls.PauseMenu.Disable();
-            _controlls.Dialogue.Enable();
+            _controlls.Story.Enable();
         }
         private void OnDialogueFinished(DialogueSO dialogue)
         {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
             _controlls.PauseMenu.Enable();
-            _controlls.Dialogue.Disable();
-        }
-        private void OnCutsceneStarted(CutsceneSO cutscene)
-        {
-            _controlls.Player.Disable();
-            _controlls.UI.Disable();
-            _controlls.PauseMenu.Disable();
-        }
-        private void OnCutsceneFinished()
-        {
-            _controlls.Player.Enable();
-            _controlls.UI.Enable();
-            _controlls.PauseMenu.Enable();
+            _controlls.Story.Disable();
         }
         
-        public void OnContinueDialogue(InputAction.CallbackContext context)
+        public void OnSkip(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                InputEvents.InputDialogueContinue();
+                switch (UserInterfaceManager.Instance.CurrentStateType)
+                {
+                    case GameState.Dialogue:
+                        InputEvents.InputDialogueContinue();
+                        break;
+                    case GameState.Cutscene:
+                        CutsceneEvents.SkipCutscene();
+                        break;
+                    default:
+                        InputEvents.InputDialogueContinue();
+                        break;
+                }
             }
         }
 
