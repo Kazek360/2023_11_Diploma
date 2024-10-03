@@ -1,6 +1,5 @@
 using Cutscenes;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
 using Shared;
 using UI;
 using UnityEngine;
@@ -18,17 +17,8 @@ namespace InputSystem
         private bool _uiOpened;
         private string _uiName;
         
-        private void OnEnable()
-        {
-            DialogueEvents.OnDialogueStarted += OnDialogueStarted;
-            DialogueEvents.OnDialogueFinished += OnDialogueFinished;
-        }
-        
         private void OnDisable()
         {
-            DialogueEvents.OnDialogueStarted -= OnDialogueStarted;
-            DialogueEvents.OnDialogueFinished -= OnDialogueFinished;
-            
             _controlls.Player.RemoveCallbacks(this);
             _controlls.Story.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
@@ -91,21 +81,6 @@ namespace InputSystem
             }
         }
         
-        private void OnDialogueStarted(DialogueSO dialogue)
-        {
-            _controlls.Player.Disable();
-            _controlls.UI.Disable();
-            _controlls.PauseMenu.Disable();
-            _controlls.Story.Enable();
-        }
-        private void OnDialogueFinished(DialogueSO dialogue)
-        {
-            _controlls.Player.Enable();
-            _controlls.UI.Enable();
-            _controlls.PauseMenu.Enable();
-            _controlls.Story.Disable();
-        }
-        
         public void OnSkip(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -113,13 +88,10 @@ namespace InputSystem
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
                     case GameState.Dialogue:
-                        InputEvents.InputDialogueContinue();
+                        DialogueEvents.ContinueDialogue();
                         break;
                     case GameState.Cutscene:
                         CutsceneEvents.SkipCutscene();
-                        break;
-                    default:
-                        InputEvents.InputDialogueContinue();
                         break;
                 }
             }
