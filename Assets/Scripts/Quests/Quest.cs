@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,9 +11,11 @@ namespace QuestSystem
     {
         [NonSerialized] public QuestSO Info;
         public QuestState State;
-        public List<string> stepsDescriptions = new List<string>();
+        [NonSerialized] public List<string> stepsDescriptions = new List<string>();
+        
+        [NonSerialized] private BaseQuestStep _currentStep;
         [JsonProperty] private int _currentStepIndex;
-
+        [JsonProperty] private int _currentStepProgress;
         public Quest(QuestSO info)
         {
             Info = info;
@@ -20,7 +23,7 @@ namespace QuestSystem
             _currentStepIndex = 0;
         }
 
-        public bool CurrentStepExists()
+        private bool CurrentStepExists()
         {
             return _currentStepIndex < Info.steps.Count;
         }
@@ -35,29 +38,65 @@ namespace QuestSystem
             _currentStepIndex++;
         }
 
-        public void InstantiateCurrentQuestStep(Transform parentTransform)
+        private void AddDescription()
         {
-            if (CurrentStepExists())
+            if (_currentStep.Amount > 1)
             {
-                var questStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-                questStep.InitializeQuestStep(Info.id);
-
-                if (stepsDescriptions.Count > 0)
-                {
-                    if (!stepsDescriptions[stepsDescriptions.Count - 1].Equals(questStep.description))
-                    {
-                        stepsDescriptions.Add(questStep.description);
-                    }
-                }
-                else
-                {
-                    stepsDescriptions.Add(questStep.description);
-                }
+                stepsDescriptions.Add($"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})");
             }
             else
             {
-                Debug.LogWarning($"Quest with id: {Info.id} does not have step: {_currentStepIndex}");
+                stepsDescriptions.Add($"{_currentStep.description}");
             }
+        }
+        
+        public void AddDescriptionsOnLoad()
+        {
+            for (var i = 0; i < Info.steps.Count; i++)
+            {
+                var step = Info.steps[i].GetComponent<BaseQuestStep>();
+                
+                if (step.Amount > 1)
+                {
+                    stepsDescriptions.Add($"{step.description} ({step.Amount}/{step.Amount})");
+                }
+                else
+                {
+                    stepsDescriptions.Add($"{step.description}");
+                }
+            }
+        }
+        
+        public void UpdateDescription()
+        {
+            if (_currentStep.Amount > 1)
+            {
+                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})";
+            }
+            else
+            {
+                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description}";
+            }
+        }
+
+        public void UpdateProgress()
+        {
+            _currentStepProgress = _currentStep.Progress;
+        }
+        
+        public void InstantiateCurrentStep(Transform parentTransform)
+        {
+            _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(Info.id);
+            _currentStepProgress = 0;
+            AddDescription();
+        }
+        public void InstantiateCurrentStepFromSaveFile(Transform parentTransform)
+        {
+            _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(Info.id);
+            _currentStep.Progress = _currentStepProgress;
+            AddDescriptionsOnLoad();
         }
     }
 

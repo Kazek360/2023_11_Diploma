@@ -37,6 +37,7 @@ namespace Quests
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
             QuestEvents.OnQuestFinish += FinishQuest;
+            QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
         }
 
         private void OnDisable()
@@ -44,6 +45,7 @@ namespace Quests
             QuestEvents.OnQuestStart -= StartQuest;
             QuestEvents.OnQuestProgress -= ProgressQuest;
             QuestEvents.OnQuestFinish -= FinishQuest;
+            QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
         }
 
         private bool CheckRequirementsMet(Quest quest)
@@ -70,7 +72,7 @@ namespace Quests
         private void StartQuest(string id)
         {
             var quest = GetQuestById(id);
-            quest.InstantiateCurrentQuestStep(transform);
+            quest.InstantiateCurrentStep(transform);
             ChangeQuestState(id, QuestState.InProgress);
             TrackedQuest = quest;
         }
@@ -78,14 +80,15 @@ namespace Quests
         private void ProgressQuest(string id)
         {
             var quest = GetQuestById(id);
-            quest.MoveToNextStep();
-            if (quest.CurrentStepExists())
+            
+            if (quest.NextStepExists())
             {
-                quest.InstantiateCurrentQuestStep(transform);
-                if (!quest.NextStepExists())
-                {
-                    ChangeQuestState(id, QuestState.CanFinish);
-                }
+                quest.MoveToNextStep();
+                quest.InstantiateCurrentStep(transform);
+            }
+            else
+            {
+                FinishQuest(id);
             }
 
             if (GetQuestById(id).Equals(TrackedQuest))
@@ -120,6 +123,17 @@ namespace Quests
             }
         }
 
+        private void UpdateQuestStepProgress(string id)
+        {
+            var quest = GetQuestById(id);
+            quest.UpdateDescription();
+            quest.UpdateProgress();
+            if (GetQuestById(id).Equals(TrackedQuest))
+            {
+                QuestEvents.TrackQuest();
+            }
+        }
+        
         private Dictionary<string, Quest> CreateQuestDictionary()
         {
             QuestSO[] allQuests = Resources.LoadAll<QuestSO>("Quests");
@@ -150,7 +164,8 @@ namespace Quests
 
         public void InitializeOnNewGame()
         {
-            QuestEvents.StartQuest("prologue_1");
+            //QuestEvents.StartQuest("prologue_1");
+            QuestEvents.StartQuest("collect_test");
         }
 
         public void LoadDataFromSaveFile(GameData gameData)
@@ -165,13 +180,16 @@ namespace Quests
                 }
                 _quests = loadedQuests;
             }
-            
             foreach (var quest in Instance.Quests.Values)
             {
-                if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
+                if (quest.State == QuestState.InProgress)
                 {
                     QuestEvents.ChangeQuestState(quest);
-                    quest.InstantiateCurrentQuestStep(transform);
+                    quest.InstantiateCurrentStepFromSaveFile(transform);
+                }
+                else if (quest.State == QuestState.Finished)
+                {
+                    quest.AddDescriptionsOnLoad();
                 }
             }
             
@@ -183,6 +201,8 @@ namespace Quests
             {
                 TrackedQuest = null;
             }
+
+            LoadDataBetweenScenes(gameData);
         }
 
         public void LoadDataBetweenScenes(GameData gameData)

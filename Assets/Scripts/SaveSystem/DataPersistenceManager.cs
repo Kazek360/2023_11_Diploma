@@ -58,7 +58,6 @@ namespace SaveSystem
             {
                 _currentLoadMode = LoadMode.MainMenu;
             }
-            _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
             _currentLoadMode = LoadMode.BetweenScenes;
         }
@@ -91,6 +90,8 @@ namespace SaveSystem
         }
         private void LoadGame()
         {
+            _dataPersistenceObjects = FindAllDataPersistenceObjects();
+            Debug.Log(_dataPersistenceObjects.Count);
             switch (_currentLoadMode)
             {
                 case LoadMode.MainMenu:

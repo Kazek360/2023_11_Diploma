@@ -24,6 +24,7 @@ namespace Collectibles
         {
             if (Input.GetKeyDown(KeyCode.E) && _inRange)
             {
+                CollectibleEvents.PickupCollectible(itemId);
                 GameConfig.PlayerInventory.AddItem(itemId, amount);
                 gameObject.SetActive(false);
             }

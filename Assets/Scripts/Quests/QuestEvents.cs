@@ -35,7 +35,12 @@ namespace Quests
         {
             OnQuestTracking?.Invoke();
         }
-        
+         
+        public static event Action<string> OnQuestStepProgress;
+        public static void ProgressQuestStep(string questID)
+        {
+            OnQuestStepProgress?.Invoke(questID);
+        }
         public static event Action OnQuestStepsDelete;
         public static void DeleteQuestSteps()
         {
