@@ -170,6 +170,8 @@ namespace Quests
 
         public void LoadDataFromSaveFile(GameData gameData)
         {
+            Debug.Log(name);
+            Debug.Log(Instance == this);
             QuestEvents.DeleteQuestSteps();
             var loadedQuests = gameData.Quests;
             if (loadedQuests is not null)

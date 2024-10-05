@@ -91,7 +91,6 @@ namespace SaveSystem
         private void LoadGame()
         {
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
-            Debug.Log(_dataPersistenceObjects.Count);
             switch (_currentLoadMode)
             {
                 case LoadMode.MainMenu:
@@ -177,6 +176,7 @@ namespace SaveSystem
         {
             IEnumerable<IDataPersistence> dataPersistenceObjects =
                 FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+            
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
         
