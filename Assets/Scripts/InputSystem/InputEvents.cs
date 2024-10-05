@@ -22,16 +22,6 @@ namespace InputSystem
         {
             OnInteractionInput?.Invoke();
         }
-        public static event Action OnDialogueContinueInput;
-        public static void InputDialogueContinue()
-        {
-            OnDialogueContinueInput?.Invoke();
-        }
-        public static event Action OnQuestLogToggle;
-        public static void ToggleQuestLog()
-        {
-            OnQuestLogToggle?.Invoke();
-        }
         public static event Action OnSkillTreeToggle;
         public static void ToggleSkillTree()
         {

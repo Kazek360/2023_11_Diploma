@@ -1,5 +1,6 @@
 using Cutscenes;
 using DialogueSystem.Events;
+using Interactions;
 using Shared;
 using UI;
 using UnityEngine;
@@ -77,7 +78,7 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                InputEvents.InputInteraction();
+                InteractionEvents.TriggerInteraction();
             }
         }
         
