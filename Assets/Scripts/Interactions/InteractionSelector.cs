@@ -36,12 +36,10 @@ namespace Interactions
         private void AddToAvailableInteractions(IInteractable newInteractionObject)
         {
             _availableInteractions.Add(newInteractionObject);
-            Debug.Log("Interactions: " + _availableInteractions.Count);
         }
         private void RemoveFromAvailableInteractions(IInteractable newInteractionObject)
         {
             _availableInteractions.Remove(newInteractionObject);
-            Debug.Log("Interactions: " + _availableInteractions.Count);
         }
 
         private void CalculateClosestInteraction()
