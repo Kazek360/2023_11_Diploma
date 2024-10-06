@@ -10,6 +10,7 @@ namespace SaveSystem.Data
         public long lastUpdated;
         public string saveDate;
         public string currentScene;
+        public Tuple<float, float> playerPosition;
         public Dictionary<string, Dictionary<string, Tuple<float, float>>> charactersPosition;
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
         public Dictionary<string, bool> skillTreeNodesState;
@@ -22,6 +23,7 @@ namespace SaveSystem.Data
 
         public GameData()
         {
+            playerPosition = new Tuple<float, float>(0, 0);
             charactersPosition = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();

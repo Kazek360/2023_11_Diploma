@@ -2,32 +2,32 @@ using System;
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using Shared;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Location
 {
-    public class CharacterPositionManager : MonoBehaviour, IDataPersistence
+    public class CharacterPositionManager : Singleton<CharacterPositionManager>, IDataPersistence
     {
-        private string _currentScene;
         [SerializeField] private string tagToSearchNpc;
+        private string _currentScene;
         private GameObject _player;
         private GameObject[] _npcs;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _currentScene = SceneManager.GetActiveScene().name;
 
             _player = GameObject.FindGameObjectWithTag("Player");
             _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
         }
 
-        public void LoadData(GameData gameData)
+        private void LoadData(GameData gameData)
         {
             if (gameData.charactersPosition.ContainsKey(_currentScene))
             {
-                var playerPosition = gameData.charactersPosition[_currentScene][_player.name];
-                _player.transform.position = new Vector3(playerPosition.Item1, playerPosition.Item2);
                 foreach (var npc in _npcs)
                 {
                     if (gameData.charactersPosition[_currentScene].ContainsKey(npc.name))
@@ -45,6 +45,8 @@ namespace Location
 
         public void LoadDataFromSaveFile(GameData gameData)
         {
+            var playerPosition = gameData.playerPosition;
+            _player.transform.position = new Vector3(playerPosition.Item1, playerPosition.Item2);
             LoadData(gameData);
         }
 
@@ -57,24 +59,15 @@ namespace Location
         {
             gameData.currentScene = _currentScene;
             gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            
+            var playerPosition = _player.transform.position;
+            gameData.playerPosition = new Tuple<float, float>(playerPosition.x, playerPosition.y);
 
             if (!gameData.charactersPosition.ContainsKey(_currentScene))
             {
                 gameData.charactersPosition.Add(_currentScene, new Dictionary<string, Tuple<float, float>>());
             }
-
-            var playerPosition = _player.transform.position;
-            if (!gameData.charactersPosition[_currentScene].ContainsKey(_player.name))
-            {
-                gameData.charactersPosition[_currentScene].Add(_player.name,
-                    new Tuple<float, float>(playerPosition.x, playerPosition.y));
-            }
-            else
-            {
-                gameData.charactersPosition[_currentScene][_player.name] =
-                    new Tuple<float, float>(playerPosition.x, playerPosition.y);
-            }
-
+            
             if (_npcs.Length > 0)
             {
                 foreach (var character in _npcs)
