@@ -10,6 +10,7 @@ namespace UI.Interfaces
         public override GameState State => GameState.MainMenu;
         
         [SerializeField] private Button continueButton;
+        [SerializeField] private string startScene;
         
         private void Start()
         {
@@ -24,7 +25,7 @@ namespace UI.Interfaces
             GameConfig.abilityLibrary.Load();
             PlayerStats.GetInstance().Load();
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.NewGame;
-            SceneManager.LoadSceneAsync("Las");
+            SceneManager.LoadSceneAsync(startScene);
         }
         
         public void OnContinueClicked()
