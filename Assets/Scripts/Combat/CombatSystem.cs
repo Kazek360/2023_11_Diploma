@@ -141,9 +141,22 @@ namespace Combat
                     _grid.GetGridObject(x, y).HideHighlight();
                 }
             }
-
         }
-    
+
+        private void OnEnable()
+        {
+            RescaleCamera();
+        }
+
+        private void RescaleCamera()
+        {
+            print(Camera.main.gameObject.transform.position);
+            Camera.main.gameObject.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -10);
+            Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3;
+            print(width * cellSize / 2 + " " + height * cellSize / 4 + " " + -10);
+            print(Camera.main.gameObject.transform.position);
+        }
+
         private void Update()
         {
             if (_currentGridObject is not null)
