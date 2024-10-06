@@ -78,6 +78,10 @@ namespace Interactions
                     _closestInteraction.ShowIndicator();
                 }
             }
+            else if (_closestInteraction is not null)
+            {
+                _closestInteraction.HideIndicator();
+            }
         }
     }
 }

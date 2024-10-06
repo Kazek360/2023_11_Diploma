@@ -33,7 +33,6 @@ namespace Collectibles
             if (other.CompareTag("Player"))
             {
                 InteractionEvents.ExitInteractionArea(this);
-                
             }
         }
     
