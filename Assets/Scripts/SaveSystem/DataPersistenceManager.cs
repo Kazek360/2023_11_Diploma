@@ -58,7 +58,6 @@ namespace SaveSystem
             {
                 _currentLoadMode = LoadMode.MainMenu;
             }
-            _dataPersistenceObjects = FindAllDataPersistenceObjects();
             LoadGame();
             _currentLoadMode = LoadMode.BetweenScenes;
         }
@@ -91,6 +90,7 @@ namespace SaveSystem
         }
         private void LoadGame()
         {
+            _dataPersistenceObjects = FindAllDataPersistenceObjects();
             switch (_currentLoadMode)
             {
                 case LoadMode.MainMenu:
@@ -176,6 +176,7 @@ namespace SaveSystem
         {
             IEnumerable<IDataPersistence> dataPersistenceObjects =
                 FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+            
             return new List<IDataPersistence>(dataPersistenceObjects);
         }
         

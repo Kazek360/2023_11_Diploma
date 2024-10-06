@@ -5,6 +5,7 @@ using TMPro;
 using UI;
 using UI.Interfaces;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Quests.UI
@@ -28,6 +29,7 @@ namespace Quests.UI
         private void OnEnable()
         {
             QuestEvents.OnQuestStateChange += QuestStateChange;
+            QuestEvents.OnQuestStepProgress += QuestProgressChange;
         }
 
         private void OnDisable()
@@ -42,6 +44,7 @@ namespace Quests.UI
             InputManager.Instance.Controlls.Player.Disable();
             if (_defaultSelectedButton is not null)
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 _defaultSelectedButton.Select();
             }
         }
@@ -54,7 +57,7 @@ namespace Quests.UI
         
         private void QuestStateChange(Quest quest)
         {
-            if (quest.State == QuestState.InProgress || quest.State == QuestState.CanFinish)
+            if (quest.State == QuestState.InProgress)
             {
                 var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
 
@@ -69,6 +72,11 @@ namespace Quests.UI
             }
         }
 
+        private void QuestProgressChange(string id)
+        {
+            
+        }
+
         private void SetQuestInfo(Quest quest)
         {
             _selectedQuest = quest;
@@ -78,7 +86,7 @@ namespace Quests.UI
             currentStepText.text = quest.stepsDescriptions.Last();
             if (quest.stepsDescriptions.Count > 1)
             {
-                stepsText.text = quest.stepsDescriptions[0];
+                stepsText.text =  $"{quest.stepsDescriptions[0]}";
                 for (int i = 1; i < quest.stepsDescriptions.Count - 1; i++)
                 {
                     stepsText.text = $"{quest.stepsDescriptions[i]}\n{stepsText.text}";

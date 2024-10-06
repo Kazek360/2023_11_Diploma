@@ -14,7 +14,6 @@ namespace Shared {
                 if (_instance) return _instance;
                 return _instance = FindObjectOfType<T>();
             }
-            protected set => _instance = value;
         }
 
         protected virtual void Awake()
@@ -23,12 +22,9 @@ namespace Shared {
             {
                 DontDestroyOnLoad(gameObject); 
             }
-            else
+            else if (dontDestroyOnLoad)
             {
-                if (dontDestroyOnLoad)
-                {
-                    Destroy(gameObject);
-                }
+                DestroyImmediate(gameObject);
             }
         }
     }

@@ -9,12 +9,16 @@ using Ink.Runtime;
 using InputSystem;
 using SaveSystem;
 using SaveSystem.Data;
+using UI;
+using UI.Interfaces;
 
 namespace DialogueSystem.UI
 {
     //Class managing the currently triggered dialogue.
-    public class DialogueUI : MonoBehaviour, IDataPersistence
+    public class DialogueUI : UserInterface, IDataPersistence
     {
+        public override GameState State => GameState.Dialogue;
+        
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
 
@@ -22,7 +26,6 @@ namespace DialogueSystem.UI
         [SerializeField] private TextAsset loadGlobalsJSON;
         
         [Header("Components")] 
-        [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private Animator portraitAnimator;
         [SerializeField] private TextMeshProUGUI speakerName;
         [SerializeField] private TextMeshProUGUI dialogueText;
@@ -43,22 +46,41 @@ namespace DialogueSystem.UI
 
         private static DialogueVariables _dialogueVariables;
         
-        private void Awake()
+        protected override void Awake()
         {
-            GameConfig.DialogueUI = this;  
+            base.Awake();
+            GameConfig.DialogueUI = this;
             _dialogueVariables = new DialogueVariables(loadGlobalsJSON);
         }
         
         private void OnEnable()
         {
             DialogueEvents.OnDialogueStarted += StartDialogue;
-            InputEvents.OnDialogueContinueInput += ContinueDialogue;
+            DialogueEvents.OnDialogueContinued += ContinueDialogue;
         }
 
         private void OnDisable()
         {
             DialogueEvents.OnDialogueStarted -= StartDialogue;
-            InputEvents.OnDialogueContinueInput -= ContinueDialogue;
+            DialogueEvents.OnDialogueContinued -= ContinueDialogue;
+        }
+        
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.Controlls.UI.Disable();
+            InputManager.Instance.Controlls.PauseMenu.Disable();
+            InputManager.Instance.Controlls.Story.Enable();   
+        }
+        
+        public override void OnExit()
+        {
+            base.OnExit();
+            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.Controlls.UI.Enable();
+            InputManager.Instance.Controlls.PauseMenu.Enable();
+            InputManager.Instance.Controlls.Story.Disable();   
         }
         
         private void Start()
@@ -66,7 +88,6 @@ namespace DialogueSystem.UI
             _choicesText = new List<TextMeshProUGUI>();
             _canContinueToNextLine = false;
             _submitButtonPressedThisLine = false;
-            dialoguePanel.SetActive(false);
             foreach (var choice in choices)
             {
                 _choicesText.Add(choice.GetComponentInChildren<TextMeshProUGUI>());
@@ -75,12 +96,12 @@ namespace DialogueSystem.UI
         
         private void StartDialogue(DialogueSO dialogueInfo)
         {
+            UserInterfaceManager.Instance.ChangeState(GameState.Dialogue);
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
             _dialogueVariables.StartListening(_currentStory);
             
-            dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
             ContinueDialogue();
@@ -122,8 +143,8 @@ namespace DialogueSystem.UI
         
         private void EndDialogue()
         {
+            UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
             _dialogueVariables.StopListening(_currentStory);
-            dialoguePanel.SetActive(false);
             DialogueEvents.FinishDialogue(_currentDialogue);
             dialogueText.text = "";
         }

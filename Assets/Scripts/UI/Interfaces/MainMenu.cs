@@ -10,11 +10,6 @@ namespace UI.Interfaces
         public override GameState State => GameState.MainMenu;
         
         [SerializeField] private Button continueButton;
-
-        protected new void Awake()
-        {
-            base.Awake();
-        }
         
         private void Start()
         {
