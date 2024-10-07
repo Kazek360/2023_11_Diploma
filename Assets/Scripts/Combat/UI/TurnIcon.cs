@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +5,17 @@ public class TurnIcon : MonoBehaviour
 {
     [SerializeField] private GameObject turnIndicator;
     [SerializeField] private Image entityImage;
-    // Start is called before the first frame update
-    void Start()
+
+    private int _entityOrder;
+
+    public void SetEntity(int entityOrder, IHittable entity)
     {
-        
+        _entityOrder = entityOrder;
+        entityImage.sprite = entity.GetImage();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwitchTurnIndicator(bool isEnabled)
     {
-        
+        turnIndicator.SetActive(isEnabled);
     }
 }
