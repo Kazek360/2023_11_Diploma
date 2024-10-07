@@ -614,5 +614,10 @@ namespace Combat
             get => _actionsLeft;
             set => _actionsLeft = value;
         }
+        
+        public void DisplayQueue(List<IHittable> entities)
+        {
+            combatUI.FillQueue(entities);
+        }
     }
 }

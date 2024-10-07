@@ -26,6 +26,7 @@ public class CombatUI : MonoBehaviour
     private EntityManager _entityManager;
     private CombatSystem _combatSystem;
     private ToggleGroup _abilitiesToggleGroup;
+    [SerializeField] private TurnQueue _turnQueue;
 
     private TextMeshProUGUI _movementCounter, _actionCounter;
 
@@ -291,5 +292,14 @@ public class CombatUI : MonoBehaviour
         LowerScreen.SetActive(false);
         SummaryDisplay.GetComponent<CombatSummaryScript>().SetValues(IsVictory, players, enemies);
         SummaryDisplay.SetActive(true);
+    }
+
+    public void FillQueue(List<IHittable> entities)
+    {
+        _turnQueue.Initialize();
+        foreach (var entity in entities)
+        {
+            _turnQueue.AddTurnIcon(entity);
+        }
     }
 }

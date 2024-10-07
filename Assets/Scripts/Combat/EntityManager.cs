@@ -39,6 +39,7 @@ public class EntityManager : MonoBehaviour
             _combatSystem.SetEntityToGrid(unit, hittable.IsMaterial());
             _combatUnits.Add(unit);
         }
+        _combatSystem.DisplayQueue(_turnOrder);
         NextTurn();
     }
 
