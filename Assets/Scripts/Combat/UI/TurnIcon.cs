@@ -5,6 +5,7 @@ public class TurnIcon : MonoBehaviour
 {
     [SerializeField] private GameObject turnIndicator;
     [SerializeField] private Image entityImage;
+    [SerializeField] private GameObject defeatedImage;
 
     private int _entityOrder;
 
@@ -17,5 +18,10 @@ public class TurnIcon : MonoBehaviour
     public void SwitchTurnIndicator(bool isEnabled)
     {
         turnIndicator.SetActive(isEnabled);
+    }
+
+    public void SwitchDefeat(bool isDefeated)
+    {
+        defeatedImage.SetActive(isDefeated);
     }
 }
