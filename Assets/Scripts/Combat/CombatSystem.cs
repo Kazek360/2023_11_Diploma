@@ -389,12 +389,13 @@ namespace Combat
          * Set the currently active unit
          * <param name='newUnit'>moved unit</param>
          */
-        public void SetCurrentUnit(UnitCombat newUnit)
+        public void SetCurrentUnit(UnitCombat newUnit, int placeInQueue)
         {
             ClearGrid();
             currentUnit = newUnit;
             var vec = currentUnit.GetGridLocation();
             _currentGridObject = _grid.GetGridObject((int)vec[0], (int)vec[1]);
+            combatUI.ActivateEntityInQueue(placeInQueue);
         }
 
         /**
@@ -618,6 +619,10 @@ namespace Combat
         public void DisplayQueue(List<IHittable> entities)
         {
             combatUI.FillQueue(entities);
+        }
+        
+        public void DisableDeadEntityInQueue(int n) {
+            combatUI.DisableDeadEntityInQueue(n);
         }
     }
 }

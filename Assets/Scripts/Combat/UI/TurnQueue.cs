@@ -20,4 +20,30 @@ public class TurnQueue : MonoBehaviour
         iconScript.SetEntity(_turnIcons.Count ,entity);
         _turnIcons.Add(iconScript);
     }
+
+    public void SetActiveEntity(int n)
+    {
+        foreach (var turnIcon in _turnIcons)
+        {
+            if (turnIcon.EntityOrder == n)
+            {
+                turnIcon.SwitchTurnIndicator(true);
+            }
+            else
+            {
+                turnIcon.SwitchTurnIndicator(false);
+            }
+        }
+    }
+
+    public void DisableEntity(int n)
+    {
+        foreach (var turnIcon in _turnIcons)
+        {
+            if (turnIcon.EntityOrder == n)
+            {
+                turnIcon.SwitchDefeat(true);
+            }
+        }
+    }
 }

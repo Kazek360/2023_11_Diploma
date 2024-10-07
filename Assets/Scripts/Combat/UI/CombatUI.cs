@@ -302,4 +302,14 @@ public class CombatUI : MonoBehaviour
             _turnQueue.AddTurnIcon(entity);
         }
     }
+    
+    public void ActivateEntityInQueue(int place)
+    {
+        _turnQueue.SetActiveEntity(place);
+    }
+
+    public void DisableDeadEntityInQueue(int n)
+    {
+        _turnQueue.DisableEntity(n);
+    }
 }

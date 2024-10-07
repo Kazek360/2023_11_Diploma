@@ -24,4 +24,6 @@ public class TurnIcon : MonoBehaviour
     {
         defeatedImage.SetActive(isDefeated);
     }
+
+    public int EntityOrder => _entityOrder;
 }
