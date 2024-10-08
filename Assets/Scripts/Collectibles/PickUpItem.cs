@@ -22,7 +22,7 @@ namespace Collectibles
     
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("InteractionArea"))
             {
                 InteractionEvents.EnterInteractionArea(this);
             }
@@ -30,7 +30,7 @@ namespace Collectibles
     
         public void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("InteractionArea"))
             {
                 InteractionEvents.ExitInteractionArea(this);
             }

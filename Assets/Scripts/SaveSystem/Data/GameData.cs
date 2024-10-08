@@ -23,7 +23,6 @@ namespace SaveSystem.Data
 
         public GameData()
         {
-            playerPosition = new Tuple<float, float>(0, 0);
             charactersPosition = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
@@ -31,7 +30,7 @@ namespace SaveSystem.Data
             inventory = new Tuple<int, int>[7, 5];
             equipment = new int[5];
             saveDate = "";
-            currentScene = "Las";
+            currentScene = "ForestPrologue";
             trackedQuest = "";
         }
     }
