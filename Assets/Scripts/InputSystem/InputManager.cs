@@ -110,7 +110,7 @@ namespace InputSystem
             {
                 _uiName = uiName;
                 _controlls.Player.Disable();
-                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree"))
+                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree") && !uiName.Equals("AbilitiesView"))
                 {
                     _controlls.PauseMenu.Disable();
                 }
@@ -158,6 +158,26 @@ namespace InputSystem
             }
         }
 
+        public void OnToggleAbilitiesView(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                if (!_uiName.Equals("AbilitiesView") && !_uiName.Equals(""))
+                {
+                    return;
+                }
+                PrepareInterfaceValues("AbilitiesView");
+                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Abilities);    
+                }
+                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Abilities)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                }
+            }
+        }
+        
         public void OnToggleInventory(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -170,20 +190,7 @@ namespace InputSystem
                 InputEvents.ToggleInventory();
             }
         }
-
-        public void OnToggleAbilityView(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                if (!_uiName.Equals("AbilityView") && !_uiName.Equals(""))
-                {
-                    return;
-                }
-                PrepareInterfaceValues("AbilityView");
-                InputEvents.ToggleAbilityView();
-            }
-        }
-
+        
         public void OnCloseUI(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -205,7 +212,7 @@ namespace InputSystem
                     case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
                         UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
                         break;
-                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree:
+                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree or GameState.Abilities:
                         UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
                         break;
                 }

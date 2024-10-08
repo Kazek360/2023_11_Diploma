@@ -54,5 +54,5 @@ namespace UI
         }
     }
     public enum GameState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
-        SkillTree }
+        SkillTree, Abilities }
 }

@@ -219,18 +219,18 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Toggle Inventory"",
+                    ""name"": ""Toggle Abilities View"",
                     ""type"": ""Button"",
-                    ""id"": ""2ce3c231-f361-48a3-ba32-d87c3497377e"",
+                    ""id"": ""f487ba15-2880-482e-ae7e-d2918a7f2549"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Toggle Ability View"",
+                    ""name"": ""Toggle Inventory"",
                     ""type"": ""Button"",
-                    ""id"": ""f487ba15-2880-482e-ae7e-d2918a7f2549"",
+                    ""id"": ""2ce3c231-f361-48a3-ba32-d87c3497377e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -298,7 +298,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Toggle Ability View"",
+                    ""action"": ""Toggle Abilities View"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -347,8 +347,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
         m_UI_ToggleSkillTree = m_UI.FindAction("Toggle Skill Tree", throwIfNotFound: true);
+        m_UI_ToggleAbilitiesView = m_UI.FindAction("Toggle Abilities View", throwIfNotFound: true);
         m_UI_ToggleInventory = m_UI.FindAction("Toggle Inventory", throwIfNotFound: true);
-        m_UI_ToggleAbilityView = m_UI.FindAction("Toggle Ability View", throwIfNotFound: true);
         m_UI_CloseUI = m_UI.FindAction("Close UI", throwIfNotFound: true);
         // Pause Menu
         m_PauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
@@ -524,8 +524,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_ToggleQuestLog;
     private readonly InputAction m_UI_ToggleSkillTree;
+    private readonly InputAction m_UI_ToggleAbilitiesView;
     private readonly InputAction m_UI_ToggleInventory;
-    private readonly InputAction m_UI_ToggleAbilityView;
     private readonly InputAction m_UI_CloseUI;
     public struct UIActions
     {
@@ -533,8 +533,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public UIActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleQuestLog => m_Wrapper.m_UI_ToggleQuestLog;
         public InputAction @ToggleSkillTree => m_Wrapper.m_UI_ToggleSkillTree;
+        public InputAction @ToggleAbilitiesView => m_Wrapper.m_UI_ToggleAbilitiesView;
         public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
-        public InputAction @ToggleAbilityView => m_Wrapper.m_UI_ToggleAbilityView;
         public InputAction @CloseUI => m_Wrapper.m_UI_CloseUI;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -551,12 +551,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleSkillTree.started += instance.OnToggleSkillTree;
             @ToggleSkillTree.performed += instance.OnToggleSkillTree;
             @ToggleSkillTree.canceled += instance.OnToggleSkillTree;
+            @ToggleAbilitiesView.started += instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.performed += instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.canceled += instance.OnToggleAbilitiesView;
             @ToggleInventory.started += instance.OnToggleInventory;
             @ToggleInventory.performed += instance.OnToggleInventory;
             @ToggleInventory.canceled += instance.OnToggleInventory;
-            @ToggleAbilityView.started += instance.OnToggleAbilityView;
-            @ToggleAbilityView.performed += instance.OnToggleAbilityView;
-            @ToggleAbilityView.canceled += instance.OnToggleAbilityView;
             @CloseUI.started += instance.OnCloseUI;
             @CloseUI.performed += instance.OnCloseUI;
             @CloseUI.canceled += instance.OnCloseUI;
@@ -570,12 +570,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleSkillTree.started -= instance.OnToggleSkillTree;
             @ToggleSkillTree.performed -= instance.OnToggleSkillTree;
             @ToggleSkillTree.canceled -= instance.OnToggleSkillTree;
+            @ToggleAbilitiesView.started -= instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.performed -= instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.canceled -= instance.OnToggleAbilitiesView;
             @ToggleInventory.started -= instance.OnToggleInventory;
             @ToggleInventory.performed -= instance.OnToggleInventory;
             @ToggleInventory.canceled -= instance.OnToggleInventory;
-            @ToggleAbilityView.started -= instance.OnToggleAbilityView;
-            @ToggleAbilityView.performed -= instance.OnToggleAbilityView;
-            @ToggleAbilityView.canceled -= instance.OnToggleAbilityView;
             @CloseUI.started -= instance.OnCloseUI;
             @CloseUI.performed -= instance.OnCloseUI;
             @CloseUI.canceled -= instance.OnCloseUI;
@@ -656,8 +656,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     {
         void OnToggleQuestLog(InputAction.CallbackContext context);
         void OnToggleSkillTree(InputAction.CallbackContext context);
+        void OnToggleAbilitiesView(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
-        void OnToggleAbilityView(InputAction.CallbackContext context);
         void OnCloseUI(InputAction.CallbackContext context);
     }
     public interface IPauseMenuActions
