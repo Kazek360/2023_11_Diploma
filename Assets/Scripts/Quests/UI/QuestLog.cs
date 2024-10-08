@@ -29,7 +29,6 @@ namespace Quests.UI
         private void OnEnable()
         {
             QuestEvents.OnQuestStateChange += QuestStateChange;
-            QuestEvents.OnQuestStepProgress += QuestProgressChange;
         }
 
         private void OnDisable()
@@ -70,11 +69,6 @@ namespace Quests.UI
                     scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () => { SetQuestInfo(quest); });
                 _defaultSelectedButton = questLogButton.button;
             }
-        }
-
-        private void QuestProgressChange(string id)
-        {
-            
         }
 
         private void SetQuestInfo(Quest quest)

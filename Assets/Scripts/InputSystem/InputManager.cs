@@ -110,7 +110,7 @@ namespace InputSystem
             {
                 _uiName = uiName;
                 _controlls.Player.Disable();
-                if (!uiName.Equals("QuestLog"))
+                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree"))
                 {
                     _controlls.PauseMenu.Disable();
                 }
@@ -147,7 +147,14 @@ namespace InputSystem
                     return;
                 }
                 PrepareInterfaceValues("SkillTree");
-                InputEvents.ToggleSkillTree();
+                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.SkillTree);    
+                }
+                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.SkillTree)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                }
             }
         }
 
@@ -198,7 +205,7 @@ namespace InputSystem
                     case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
                         UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
                         break;
-                    case GameState.PauseMenu or GameState.Quests:
+                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree:
                         UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
                         break;
                 }
