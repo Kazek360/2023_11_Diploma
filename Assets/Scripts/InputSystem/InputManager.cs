@@ -9,21 +9,16 @@ using UnityEngine.InputSystem;
 namespace InputSystem
 {
     public class InputManager : Singleton<InputManager>, 
-        PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions,
-        PlayerControlls.IUIActions, PlayerControlls.IPauseMenuActions
+        PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions, PlayerControlls.IUIActions
     {
         private PlayerControlls _controlls;
         public PlayerControlls Controlls => _controlls;
-
-        private bool _uiOpened;
-        private string _uiName;
         
         private void OnDisable()
         {
             _controlls.Player.RemoveCallbacks(this);
             _controlls.Story.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
-            _controlls.PauseMenu.RemoveCallbacks(this);
         }
         
         protected override void Awake()
@@ -42,17 +37,13 @@ namespace InputSystem
         private void PrepareInputSystem()
         {
             _controlls = new PlayerControlls();
-            _uiOpened = false;
-            _uiName = "";
             
             _controlls.Player.SetCallbacks(this);
             _controlls.Story.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
-            _controlls.PauseMenu.SetCallbacks(this);
             
             _controlls.Player.Enable();
             _controlls.UI.Enable();
-            _controlls.PauseMenu.Enable();
 
             Time.timeScale = 1;
         }
@@ -97,43 +88,19 @@ namespace InputSystem
                 }
             }
         }
-
-        private void PrepareInterfaceValues(string uiName)
-        {
-            if (_uiOpened)
-            {
-                _uiName = ""; 
-                _controlls.Player.Enable();
-                _controlls.PauseMenu.Enable();
-            }
-            else
-            {
-                _uiName = uiName;
-                _controlls.Player.Disable();
-                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree") && !uiName.Equals("AbilitiesView") && !uiName.Equals("Inventory"))
-                {
-                    _controlls.PauseMenu.Disable();
-                }
-            }
-            _uiOpened = !_uiOpened;
-        }
         
         public void OnToggleQuestLog(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                if (!_uiName.Equals("QuestLog") && !_uiName.Equals(""))
+                switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    return;
-                }
-                PrepareInterfaceValues("QuestLog");
-                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Quests);    
-                }
-                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Quests)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case GameState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Quests);
+                        break;
+                    case GameState.Quests:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                        break;
                 }
             }
         }
@@ -142,18 +109,14 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                if (!_uiName.Equals("SkillTree") && !_uiName.Equals(""))
+                switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    return;
-                }
-                PrepareInterfaceValues("SkillTree");
-                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.SkillTree);    
-                }
-                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.SkillTree)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case GameState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(GameState.SkillTree);
+                        break;
+                    case GameState.SkillTree:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                        break;
                 }
             }
         }
@@ -162,18 +125,14 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                if (!_uiName.Equals("AbilitiesView") && !_uiName.Equals(""))
+                switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    return;
-                }
-                PrepareInterfaceValues("AbilitiesView");
-                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Abilities);    
-                }
-                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Abilities)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case GameState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Abilities);
+                        break;
+                    case GameState.Abilities:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                        break;
                 }
             }
         }
@@ -182,35 +141,19 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                if (!_uiName.Equals("Inventory") && !_uiName.Equals(""))
+                switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    return;
-                }
-                PrepareInterfaceValues("Inventory");
-                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Inventory);    
-                }
-                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Inventory)
-                {
-                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case GameState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Inventory);
+                        break;
+                    case GameState.Inventory:
+                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                        break;
                 }
             }
         }
         
-        public void OnCloseUI(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                _controlls.Player.Enable();
-                _controlls.PauseMenu.Enable();
-                _uiOpened = false;
-                _uiName = ""; 
-                InputEvents.CloseInterface();
-            }
-        }
-
-        public void OnTogglePauseMenu(InputAction.CallbackContext context)
+        public void OnToggleEscape(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
