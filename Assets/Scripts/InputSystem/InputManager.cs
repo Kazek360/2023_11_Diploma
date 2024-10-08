@@ -110,7 +110,7 @@ namespace InputSystem
             {
                 _uiName = uiName;
                 _controlls.Player.Disable();
-                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree") && !uiName.Equals("AbilitiesView"))
+                if (!uiName.Equals("QuestLog") && !uiName.Equals("SkillTree") && !uiName.Equals("AbilitiesView") && !uiName.Equals("Inventory"))
                 {
                     _controlls.PauseMenu.Disable();
                 }
@@ -187,7 +187,14 @@ namespace InputSystem
                     return;
                 }
                 PrepareInterfaceValues("Inventory");
-                InputEvents.ToggleInventory();
+                if (UserInterfaceManager.Instance.CurrentStateType == GameState.Exploration)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Inventory);    
+                }
+                else if (UserInterfaceManager.Instance.CurrentStateType == GameState.Inventory)
+                {
+                    UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                }
             }
         }
         
@@ -212,7 +219,8 @@ namespace InputSystem
                     case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
                         UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
                         break;
-                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree or GameState.Abilities:
+                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree or GameState.Abilities 
+                        or GameState.Inventory:
                         UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
                         break;
                 }
