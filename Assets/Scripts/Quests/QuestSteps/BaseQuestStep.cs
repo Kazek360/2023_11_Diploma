@@ -1,3 +1,4 @@
+using System;
 using Quests;
 using SaveSystem;
 using UnityEngine;
@@ -22,6 +23,11 @@ public abstract class BaseQuestStep : MonoBehaviour
         progress = 0;
     }
 
+    protected virtual void OnDestroy()
+    {
+        QuestEvents.OnQuestStepsDelete -= Delete;
+    }
+    
     public void InitializeQuestStep(string id)
     {
         _questId = id;
@@ -35,7 +41,6 @@ public abstract class BaseQuestStep : MonoBehaviour
 
     protected void Delete()
     {
-        QuestEvents.OnQuestStepsDelete -= Delete;
         Destroy(gameObject);
     }
     protected void FinishAndDelete()

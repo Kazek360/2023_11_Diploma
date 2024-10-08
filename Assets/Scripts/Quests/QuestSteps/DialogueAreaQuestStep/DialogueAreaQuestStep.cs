@@ -12,11 +12,6 @@ public class DialogueAreaQuestStep : DialogueQuestStep
         AreaEvent.OnAreaEnter += AreaEntered;
         area = GameObject.Find(areaToEnterName);
     }
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        AreaEvent.OnAreaEnter -= AreaEntered;
-    }
 
     protected virtual void AreaEntered(string areaName, string objectName)
     {
@@ -25,7 +20,13 @@ public class DialogueAreaQuestStep : DialogueQuestStep
             AreaEvent.EnterCorrectArea(areaToEnterName);
         }
     }
-    
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        AreaEvent.OnAreaEnter -= AreaEntered;
+    }
+
     protected override void FinishStep(DialogueSO dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
