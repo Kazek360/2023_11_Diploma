@@ -30,7 +30,10 @@ namespace Interactions
 
         private void TriggerClosestInteraction()
         {
-            _closestInteraction.TriggerInteraction();
+            if (_closestInteraction is not null)
+            {
+                _closestInteraction.TriggerInteraction();                
+            }
         }
         
         private void AddToAvailableInteractions(IInteractable newInteractionObject)
