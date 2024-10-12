@@ -164,8 +164,8 @@ namespace Quests
 
         public void InitializeOnNewGame()
         {
-            //QuestEvents.StartQuest("prologue_1");
-            QuestEvents.StartQuest("collect_test");
+            QuestEvents.StartQuest("prologue_1");
+            //QuestEvents.StartQuest("collect_test");
         }
 
         public void LoadDataFromSaveFile(GameData gameData)
