@@ -22,11 +22,6 @@ namespace QuestSystem
             State = QuestState.RequirementsNotMet;
             _currentStepIndex = 0;
         }
-
-        private bool CurrentStepExists()
-        {
-            return _currentStepIndex < Info.steps.Count;
-        }
     
         public bool NextStepExists()
         {
@@ -50,7 +45,19 @@ namespace QuestSystem
             }
         }
         
-        public void AddDescriptionsOnLoad()
+        public void UpdateDescription()
+        {
+            if (_currentStep.Amount > 1)
+            {
+                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})";
+            }
+            else
+            {
+                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description}";
+            }
+        }
+        
+        public void AddCompletedDescriptions()
         {
             for (var i = 0; i < Info.steps.Count; i++)
             {
@@ -67,18 +74,25 @@ namespace QuestSystem
             }
         }
         
-        public void UpdateDescription()
+        private void AddDescriptionsToQuestInProgress()
         {
-            if (_currentStep.Amount > 1)
+            for (var i = 0; i < Info.steps.Count - 1; i++)
             {
-                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})";
+                var step = Info.steps[i].GetComponent<BaseQuestStep>();
+                
+                if (step.Amount > 1)
+                {
+                    stepsDescriptions.Add($"{step.description} ({step.Amount}/{step.Amount})");
+                }
+                else
+                {
+                    stepsDescriptions.Add($"{step.description}");
+                }
             }
-            else
-            {
-                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description}";
-            }
+            AddDescription();
         }
-
+        
+        
         public void UpdateProgress()
         {
             _currentStepProgress = _currentStep.Progress;
@@ -96,7 +110,7 @@ namespace QuestSystem
             _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
             _currentStep.InitializeQuestStep(Info.id);
             _currentStep.Progress = _currentStepProgress;
-            AddDescriptionsOnLoad();
+            AddDescriptionsToQuestInProgress();
         }
     }
 

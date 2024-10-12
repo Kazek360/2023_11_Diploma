@@ -24,7 +24,7 @@ namespace Location
             _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
         }
 
-        private void LoadData(GameData gameData)
+        private void LoadNpcPosition(GameData gameData)
         {
             if (gameData.charactersPosition.ContainsKey(_currentScene))
             {
@@ -47,12 +47,12 @@ namespace Location
         {
             var playerPosition = gameData.playerPosition;
             _player.transform.position = new Vector3(playerPosition.Item1, playerPosition.Item2);
-            LoadData(gameData);
+            LoadNpcPosition(gameData);
         }
 
         public void LoadDataBetweenScenes(GameData gameData)
         {
-            LoadData(gameData);
+            LoadNpcPosition(gameData);
         }
 
         public void SaveData(ref GameData gameData)

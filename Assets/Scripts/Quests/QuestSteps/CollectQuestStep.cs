@@ -12,10 +12,9 @@ namespace Quests.QuestSteps
             base.OnEnable();
             CollectibleEvents.OnCollectiblePickup += IncreaseProgress;
         }
-        
-        protected void OnDisable()
+        protected override void OnDestroy()
         {
-            base.OnEnable();
+            base.OnDestroy();
             CollectibleEvents.OnCollectiblePickup -= IncreaseProgress;
         }
         

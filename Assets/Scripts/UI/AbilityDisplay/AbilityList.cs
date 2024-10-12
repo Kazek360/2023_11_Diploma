@@ -38,8 +38,8 @@ public class AbilityList : MonoBehaviour
         for (int i = 0; i < UnlockedAbilities.GetInstance().GetAbilities(UnlockableAbility.PlayerType.WIT).Count; i++)
         {
             var container = Instantiate(AbilityDisplay, AbilitiesScrollContent.transform);
-            AbilityDisplayContainer abilityDisplayContainer = container.gameObject.GetComponent<AbilityDisplayContainer>();
-            abilityDisplayContainer.SetAbility(UnlockedAbilities.GetInstance().GetAbilities(UnlockableAbility.PlayerType.WIT)[i]);
+            AbilitiesViewContainer abilitiesViewContainer = container.gameObject.GetComponent<AbilitiesViewContainer>();
+            abilitiesViewContainer.SetAbility(UnlockedAbilities.GetInstance().GetAbilities(UnlockableAbility.PlayerType.WIT)[i]);
         }
     }
 }

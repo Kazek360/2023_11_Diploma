@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class AbilityDisplayContainer : MonoBehaviour
+public class AbilitiesViewContainer : MonoBehaviour
 {
     [SerializeField] private AbilityScriptableObject Ability;
     [SerializeField] private TextMeshProUGUI AbilityNameField;

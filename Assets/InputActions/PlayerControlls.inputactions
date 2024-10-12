@@ -197,6 +197,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Toggle Abilities View",
+                    "type": "Button",
+                    "id": "f487ba15-2880-482e-ae7e-d2918a7f2549",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Toggle Inventory",
                     "type": "Button",
                     "id": "2ce3c231-f361-48a3-ba32-d87c3497377e",
@@ -206,16 +215,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Toggle Ability View",
-                    "type": "Button",
-                    "id": "f487ba15-2880-482e-ae7e-d2918a7f2549",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Close UI",
+                    "name": "Toggle Escape",
                     "type": "Button",
                     "id": "c8dfe1e8-d7ea-41fd-9b42-d506b55f6304",
                     "expectedControlType": "Button",
@@ -243,7 +243,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Close UI",
+                    "action": "Toggle Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -276,35 +276,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Toggle Ability View",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Pause Menu",
-            "id": "1c3d21b1-38bb-4d90-8cd5-4a32b3091a46",
-            "actions": [
-                {
-                    "name": "TogglePauseMenu",
-                    "type": "Button",
-                    "id": "0df7f974-fdd0-438e-9fb1-b5289e0de6d2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "b4db4619-f207-46e8-8660-3590622a0ae9",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "TogglePauseMenu",
+                    "action": "Toggle Abilities View",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

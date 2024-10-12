@@ -165,13 +165,10 @@ namespace Quests
         public void InitializeOnNewGame()
         {
             QuestEvents.StartQuest("prologue_1");
-            //QuestEvents.StartQuest("collect_test");
         }
 
         public void LoadDataFromSaveFile(GameData gameData)
         {
-            Debug.Log(name);
-            Debug.Log(Instance == this);
             QuestEvents.DeleteQuestSteps();
             var loadedQuests = gameData.Quests;
             if (loadedQuests is not null)
@@ -191,7 +188,7 @@ namespace Quests
                 }
                 else if (quest.State == QuestState.Finished)
                 {
-                    quest.AddDescriptionsOnLoad();
+                    quest.AddCompletedDescriptions();
                 }
             }
             

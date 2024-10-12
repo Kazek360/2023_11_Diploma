@@ -11,10 +11,14 @@ public class AreaEnter : BaseQuestStep
         AreaEvent.OnAreaEnter += FinishStep;
         area = GameObject.Find(areaToEnterName);
     }
-    protected void OnDisable()
+
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         AreaEvent.OnAreaEnter -= FinishStep;
     }
+
+
     protected virtual void FinishStep(string areaName, string objectName)
     {
         if (areaName.Equals(areaToEnterName))
