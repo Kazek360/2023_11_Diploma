@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class QuestFinisher : MonoBehaviour
 {
-    [SerializeField] private QuestSO quest;
+    [SerializeField] private QuestInfo quest;
     
     private void Start()
     {
-        QuestEvents.FinishQuest(quest.id);
+        QuestEvents.FinishQuest(quest.name);
         Destroy(gameObject);
     }
 }

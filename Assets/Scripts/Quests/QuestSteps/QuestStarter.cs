@@ -4,14 +4,14 @@ using QuestSystem;
 
 public class QuestStarter : MonoBehaviour
 {
-    [SerializeField] private QuestSO quest;
+    [SerializeField] private QuestInfo quest;
     
     private void Start()
     {
-        if(QuestManager.Instance.GetQuestById(quest.id).State != QuestState.InProgress && 
-           QuestManager.Instance.GetQuestById(quest.id).State != QuestState.Finished)
+        if(QuestManager.Instance.GetQuestById(quest.name).state != QuestState.InProgress && 
+           QuestManager.Instance.GetQuestById(quest.name).state != QuestState.Finished)
         {
-            QuestEvents.StartQuest(quest.id);
+            QuestEvents.StartQuest(quest.name);
         }
         Destroy(gameObject);
     }

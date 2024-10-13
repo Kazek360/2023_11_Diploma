@@ -1,6 +1,5 @@
 using System.Linq;
 using InputSystem;
-using QuestSystem;
 using TMPro;
 using UI;
 using UI.Interfaces;
@@ -56,13 +55,13 @@ namespace Quests.UI
         
         private void QuestStateChange(Quest quest)
         {
-            if (quest.State == QuestState.InProgress)
+            if (quest.state == QuestState.InProgress)
             {
                 var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
 
                 _defaultSelectedButton = questLogButton.button;
             }
-            else if (quest.State == QuestState.Finished)
+            else if (quest.state == QuestState.Finished)
             {
                 var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
                 questLogButton =
@@ -75,8 +74,8 @@ namespace Quests.UI
         {
             _selectedQuest = quest;
             
-            displayNameText.text = quest.Info.displayName;
-            descriptionText.text = quest.Info.description;
+            displayNameText.text = quest.info.displayName;
+            descriptionText.text = quest.info.description;
             currentStepText.text = quest.stepsDescriptions.Last();
             if (quest.stepsDescriptions.Count > 1)
             {
@@ -91,7 +90,7 @@ namespace Quests.UI
                 stepsText.text = "";
             }
 
-            if (quest.State == QuestState.Finished)
+            if (quest.state == QuestState.Finished)
             {
                 trackQuestButton.gameObject.SetActive(false);
                 currentStepText.color = Color.gray;

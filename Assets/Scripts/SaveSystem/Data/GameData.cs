@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using QuestSystem;
+using Quests;
+using Quests.Flags;
 
 namespace SaveSystem.Data
 {
@@ -19,6 +20,7 @@ namespace SaveSystem.Data
         public int[] equipment;
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
+        public Dictionary<string, Flag> Flags;
         public string inkVariables;
 
         public GameData()
@@ -31,7 +33,6 @@ namespace SaveSystem.Data
             equipment = new int[5];
             saveDate = "";
             currentScene = "ForestPrologue";
-            trackedQuest = "";
         }
     }
 }

@@ -71,5 +71,5 @@ Gotowy?
 === HrycDelay ===
 #speaker:Hryc #portrait:hryc_neutral
 Ej!
-~race_delay = true
+~race_delay = "yes"
 -> END

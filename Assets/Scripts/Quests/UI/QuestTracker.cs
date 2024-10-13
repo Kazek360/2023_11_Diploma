@@ -36,7 +36,7 @@ namespace Quests.UI
             else
             {
                 CanvasGroup.alpha = 1;
-                _text.text = $"{QuestManager.Instance.TrackedQuest.Info.displayName}" +
+                _text.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}" +
                              $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
             }
         }
