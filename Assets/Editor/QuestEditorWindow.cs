@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Quests;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class QuestEditorWindow : EditorWindow
     private string fileName = "";
     private string displayName = "";
     private string description = "";
-    private QuestSO requiredQuest;
+    private QuestInfo requiredQuest;
     
     // Otwiera okno edytora
     [MenuItem("Window/Quest Creator")]
@@ -29,7 +30,7 @@ public class QuestEditorWindow : EditorWindow
         description = EditorGUILayout.TextArea(description, GUILayout.Height(60));
         
         GUILayout.Label("Required Quest");
-        requiredQuest = (QuestSO)EditorGUILayout.ObjectField(requiredQuest, typeof(QuestSO), false);
+        requiredQuest = (QuestInfo)EditorGUILayout.ObjectField(requiredQuest, typeof(QuestInfo), false);
         
         if (GUILayout.Button("Create new Quest"))
         {
@@ -48,14 +49,14 @@ public class QuestEditorWindow : EditorWindow
         }
     
         // Tworzymy instancję ScriptableObject
-        var newQuest = CreateInstance<QuestSO>();
+        var newQuest = CreateInstance<QuestInfo>();
         newQuest.displayName = displayName;
         newQuest.description = description;
     
         if (requiredQuest != null)
         {
-            newQuest.requirements = new List<QuestSO>();
-            newQuest.requirements.Add(requiredQuest);
+            newQuest.requiredQuests = new List<QuestInfo>();
+            newQuest.requiredQuests.Add(requiredQuest);
         }
         
         // Ścieżka, w której zapisujemy obiekt

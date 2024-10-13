@@ -1,31 +1,30 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QuestSystem
+namespace Quests
 {
     public class Quest
     {
-        [NonSerialized] public QuestSO Info;
-        public QuestState State;
+        [NonSerialized] public QuestInfo info;
+        public QuestState state;
         [NonSerialized] public List<string> stepsDescriptions = new List<string>();
         
         [NonSerialized] private BaseQuestStep _currentStep;
         [JsonProperty] private int _currentStepIndex;
         [JsonProperty] private int _currentStepProgress;
-        public Quest(QuestSO info)
+        public Quest(QuestInfo info)
         {
-            Info = info;
-            State = QuestState.RequirementsNotMet;
+            this.info = info;
+            state = QuestState.RequirementsNotMet;
             _currentStepIndex = 0;
         }
     
         public bool NextStepExists()
         {
-            return _currentStepIndex + 1 < Info.steps.Count;
+            return _currentStepIndex + 1 < info.steps.Count;
         }
     
         public void MoveToNextStep()
@@ -59,9 +58,9 @@ namespace QuestSystem
         
         public void AddCompletedDescriptions()
         {
-            for (var i = 0; i < Info.steps.Count; i++)
+            for (var i = 0; i < info.steps.Count; i++)
             {
-                var step = Info.steps[i].GetComponent<BaseQuestStep>();
+                var step = info.steps[i].GetComponent<BaseQuestStep>();
                 
                 if (step.Amount > 1)
                 {
@@ -76,9 +75,9 @@ namespace QuestSystem
         
         private void AddDescriptionsToQuestInProgress()
         {
-            for (var i = 0; i < Info.steps.Count - 1; i++)
+            for (var i = 0; i < info.steps.Count - 1; i++)
             {
-                var step = Info.steps[i].GetComponent<BaseQuestStep>();
+                var step = info.steps[i].GetComponent<BaseQuestStep>();
                 
                 if (step.Amount > 1)
                 {
@@ -100,15 +99,15 @@ namespace QuestSystem
         
         public void InstantiateCurrentStep(Transform parentTransform)
         {
-            _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(Info.name);
+            _currentStep = Object.Instantiate(info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(info.name);
             _currentStepProgress = 0;
             AddDescription();
         }
         public void InstantiateCurrentStepFromSaveFile(Transform parentTransform)
         {
-            _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(Info.name);
+            _currentStep = Object.Instantiate(info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(info.name);
             _currentStep.Progress = _currentStepProgress;
             AddDescriptionsToQuestInProgress();
         }

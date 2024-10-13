@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using QuestSystem;
+using Quests;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -34,39 +34,39 @@ public class QuestLogScrollingList : MonoBehaviour
     }
     public QuestLogButton GetQuestLogButton(Quest quest, UnityAction selectAction)
     {
-        var index = GetIndexFromQuestCategory(quest.Info.questCategory);
+        var index = GetIndexFromQuestCategory(quest.info.questCategory);
         
-        var questLogButton = _questDictionary[index].ContainsKey(quest.Info.name)?
-            _questDictionary[index][quest.Info.name] : InstantiateQuestLogButton(quest, selectAction);
+        var questLogButton = _questDictionary[index].ContainsKey(quest.info.name)?
+            _questDictionary[index][quest.info.name] : InstantiateQuestLogButton(quest, selectAction);
         
         return questLogButton;
     }
 
     private QuestLogButton InstantiateQuestLogButton(Quest quest, UnityAction selectAction)
     {
-        var index = GetIndexFromQuestCategory(quest.Info.questCategory);
+        var index = GetIndexFromQuestCategory(quest.info.questCategory);
         
         var questLogButton =
             Instantiate(questLogButtonPrefab, categoryContentParents[index].transform).GetComponent<QuestLogButton>();
-        questLogButton.GameObject().name = $"{quest.Info.name}_button";
-        questLogButton.Initialize(quest.Info.displayName, selectAction);
+        questLogButton.GameObject().name = $"{quest.info.name}_button";
+        questLogButton.Initialize(quest.info.displayName, selectAction);
         
-        _questDictionary[index][quest.Info.name] = questLogButton;
+        _questDictionary[index][quest.info.name] = questLogButton;
         return questLogButton;
     }
 
     public QuestLogButton MoveQuestLogButtonToFinishedCategory(Quest quest, UnityAction selectAction)
     {
-        var index = GetIndexFromQuestCategory(quest.Info.questCategory);
-        Destroy(_questDictionary[index][quest.Info.name].gameObject);
-        _questDictionary[index].Remove(quest.Info.name);
+        var index = GetIndexFromQuestCategory(quest.info.questCategory);
+        Destroy(_questDictionary[index][quest.info.name].gameObject);
+        _questDictionary[index].Remove(quest.info.name);
         
         var questLogButton =
             Instantiate(questLogButtonPrefab, categoryContentParents.Last().transform).GetComponent<QuestLogButton>();
-        questLogButton.GameObject().name = $"{quest.Info.name}_button";
-        questLogButton.Initialize(quest.Info.displayName, selectAction);
+        questLogButton.GameObject().name = $"{quest.info.name}_button";
+        questLogButton.Initialize(quest.info.displayName, selectAction);
         
-        _questDictionary[categoryContentParents.Count() - 1][quest.Info.name] = questLogButton;
+        _questDictionary[categoryContentParents.Count() - 1][quest.info.name] = questLogButton;
         return questLogButton;
     }
 

@@ -91,7 +91,7 @@ namespace DialogueSystem.Managers
             {
                 if (dialogue.info.startsQuest)
                 {
-                    if (QuestManager.Instance.GetQuestById(dialogue.info.relatedQuest.name).State != QuestState.CanStart)
+                    if (QuestManager.Instance.GetQuestById(dialogue.info.relatedQuest.name).state != QuestState.CanStart)
                     {
                         return false;
                     }
