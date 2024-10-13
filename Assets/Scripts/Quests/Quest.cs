@@ -101,14 +101,14 @@ namespace QuestSystem
         public void InstantiateCurrentStep(Transform parentTransform)
         {
             _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(Info.id);
+            _currentStep.InitializeQuestStep(Info.name);
             _currentStepProgress = 0;
             AddDescription();
         }
         public void InstantiateCurrentStepFromSaveFile(Transform parentTransform)
         {
             _currentStep = Object.Instantiate(Info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(Info.id);
+            _currentStep.InitializeQuestStep(Info.name);
             _currentStep.Progress = _currentStepProgress;
             AddDescriptionsToQuestInProgress();
         }

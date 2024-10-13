@@ -53,7 +53,7 @@ namespace Quests
             var meetsRequirements = true;
             foreach (var questRequirement in quest.Info.requirements)
             {
-                if (GetQuestById(questRequirement.id).State != QuestState.Finished)
+                if (GetQuestById(questRequirement.name).State != QuestState.Finished)
                 {
                     meetsRequirements = false;
                 }
@@ -113,11 +113,11 @@ namespace Quests
                 {
                     if (quest.Info.questCategory == QuestCategory.MainQuest)
                     {
-                        QuestEvents.StartQuest(quest.Info.id);
+                        QuestEvents.StartQuest(quest.Info.name);
                     }
                     else
                     {
-                        ChangeQuestState(quest.Info.id, QuestState.CanStart);
+                        ChangeQuestState(quest.Info.name, QuestState.CanStart);
                     }
                 }
             }
@@ -140,12 +140,29 @@ namespace Quests
             Dictionary<string, Quest> idToDictionary = new Dictionary<string, Quest>();
             foreach (var questInfo in allQuests)
             {
-                if (idToDictionary.ContainsKey(questInfo.id))
+                if (idToDictionary.ContainsKey(questInfo.name))
                 {
-                    Debug.LogWarning($"Found Duplicate ID: {questInfo.id}");
+                    Debug.LogWarning($"Found Duplicate ID: {questInfo.name}");
                 }
 
-                idToDictionary.Add(questInfo.id, new Quest(questInfo));
+                idToDictionary.Add(questInfo.name, new Quest(questInfo));
+            }
+
+            return idToDictionary;
+        }
+        
+        private Dictionary<string, Quest> CreateFlagDictionary()
+        {
+            QuestSO[] allQuests = Resources.LoadAll<QuestSO>("Quests");
+            Dictionary<string, Quest> idToDictionary = new Dictionary<string, Quest>();
+            foreach (var questInfo in allQuests)
+            {
+                if (idToDictionary.ContainsKey(questInfo.name))
+                {
+                    Debug.LogWarning($"Found Duplicate ID: {questInfo.name}");
+                }
+
+                idToDictionary.Add(questInfo.name, new Quest(questInfo));
             }
 
             return idToDictionary;
@@ -216,7 +233,7 @@ namespace Quests
         public void SaveData(ref GameData gameData)
         {
             gameData.Quests = _quests;
-            gameData.trackedQuest = TrackedQuest.Info.id;
+            gameData.trackedQuest = TrackedQuest.Info.name;
         }
     }
 }

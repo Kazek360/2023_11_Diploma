@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quests/Quest")]
 public class QuestSO : ScriptableObject
 {
-    public string id;
-    
     [Header("General")]
     [SerializeField] public string displayName;
     [SerializeField] public QuestCategory questCategory;
@@ -19,13 +17,4 @@ public class QuestSO : ScriptableObject
     [Header("Rewards")] 
     [SerializeField] public int experience;
     [SerializeField] public List<int> items;
-    
-
-    private void OnValidate()
-    {
-        #if UNITY_EDITOR
-            id = name;
-            UnityEditor.EditorUtility.SetDirty(this);
-        #endif
-    }
 }

@@ -7,7 +7,7 @@ public class QuestFinisher : MonoBehaviour
     
     private void Start()
     {
-        QuestEvents.FinishQuest(quest.id);
+        QuestEvents.FinishQuest(quest.name);
         Destroy(gameObject);
     }
 }

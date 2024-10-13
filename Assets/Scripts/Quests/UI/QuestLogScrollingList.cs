@@ -36,8 +36,8 @@ public class QuestLogScrollingList : MonoBehaviour
     {
         var index = GetIndexFromQuestCategory(quest.Info.questCategory);
         
-        var questLogButton = _questDictionary[index].ContainsKey(quest.Info.id)?
-            _questDictionary[index][quest.Info.id] : InstantiateQuestLogButton(quest, selectAction);
+        var questLogButton = _questDictionary[index].ContainsKey(quest.Info.name)?
+            _questDictionary[index][quest.Info.name] : InstantiateQuestLogButton(quest, selectAction);
         
         return questLogButton;
     }
@@ -48,25 +48,25 @@ public class QuestLogScrollingList : MonoBehaviour
         
         var questLogButton =
             Instantiate(questLogButtonPrefab, categoryContentParents[index].transform).GetComponent<QuestLogButton>();
-        questLogButton.GameObject().name = $"{quest.Info.id}_button";
+        questLogButton.GameObject().name = $"{quest.Info.name}_button";
         questLogButton.Initialize(quest.Info.displayName, selectAction);
         
-        _questDictionary[index][quest.Info.id] = questLogButton;
+        _questDictionary[index][quest.Info.name] = questLogButton;
         return questLogButton;
     }
 
     public QuestLogButton MoveQuestLogButtonToFinishedCategory(Quest quest, UnityAction selectAction)
     {
         var index = GetIndexFromQuestCategory(quest.Info.questCategory);
-        Destroy(_questDictionary[index][quest.Info.id].gameObject);
-        _questDictionary[index].Remove(quest.Info.id);
+        Destroy(_questDictionary[index][quest.Info.name].gameObject);
+        _questDictionary[index].Remove(quest.Info.name);
         
         var questLogButton =
             Instantiate(questLogButtonPrefab, categoryContentParents.Last().transform).GetComponent<QuestLogButton>();
-        questLogButton.GameObject().name = $"{quest.Info.id}_button";
+        questLogButton.GameObject().name = $"{quest.Info.name}_button";
         questLogButton.Initialize(quest.Info.displayName, selectAction);
         
-        _questDictionary[categoryContentParents.Count() - 1][quest.Info.id] = questLogButton;
+        _questDictionary[categoryContentParents.Count() - 1][quest.Info.name] = questLogButton;
         return questLogButton;
     }
 
