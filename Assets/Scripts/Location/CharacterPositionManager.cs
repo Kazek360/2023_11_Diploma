@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Quests;
 using SaveSystem;
 using SaveSystem.Data;
 using Shared;
@@ -14,6 +15,13 @@ namespace Location
         private string _currentScene;
         private GameObject _player;
         private GameObject[] _npcs;
+        
+        private string _gatewayID;
+        public string GatewayID
+        {
+            get => _gatewayID;
+            set => _gatewayID = value;
+        }
 
         protected override void Awake()
         {
@@ -53,6 +61,22 @@ namespace Location
         public void LoadDataBetweenScenes(GameData gameData)
         {
             LoadNpcPosition(gameData);
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
+            
+            if (_gatewayID is not null)
+            {
+                var allGatewaysInScene = FindObjectsOfType<LocationGateway>();
+                foreach (var gateway in allGatewaysInScene)
+                {
+                    if (gateway.GatewayID.Equals(_gatewayID))
+                    {
+                        _player.transform.position = gateway.transform.position;
+                        _gatewayID = null;
+                        break;
+                    }
+                }
+            }
         }
 
         public void SaveData(ref GameData gameData)
@@ -60,28 +84,33 @@ namespace Location
             gameData.currentScene = _currentScene;
             gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
             
-            var playerPosition = _player.transform.position;
-            gameData.playerPosition = new Tuple<float, float>(playerPosition.x, playerPosition.y);
-
-            if (!gameData.charactersPosition.ContainsKey(_currentScene))
+            if (_player.gameObject != null)
             {
-                gameData.charactersPosition.Add(_currentScene, new Dictionary<string, Tuple<float, float>>());
+                var playerPosition = _player.transform.position;
+                gameData.playerPosition = new Tuple<float, float>(playerPosition.x, playerPosition.y);
             }
             
             if (_npcs.Length > 0)
             {
-                foreach (var character in _npcs)
+                if (_npcs[0].gameObject != null)
                 {
-                    var characterPosition = character.transform.position;
-                    if (!gameData.charactersPosition[_currentScene].ContainsKey(character.name))
+                    if (!gameData.charactersPosition.ContainsKey(_currentScene))
                     {
-                        gameData.charactersPosition[_currentScene].Add(character.name,
-                            new Tuple<float, float>(characterPosition.x, characterPosition.y));
+                        gameData.charactersPosition.Add(_currentScene, new Dictionary<string, Tuple<float, float>>());
                     }
-                    else
+                    foreach (var character in _npcs)
                     {
-                        gameData.charactersPosition[_currentScene][character.name] =
-                            new Tuple<float, float>(characterPosition.x, characterPosition.y);
+                        var characterPosition = character.transform.position;
+                        if (!gameData.charactersPosition[_currentScene].ContainsKey(character.name))
+                        {
+                            gameData.charactersPosition[_currentScene].Add(character.name,
+                                new Tuple<float, float>(characterPosition.x, characterPosition.y));
+                        }
+                        else
+                        {
+                            gameData.charactersPosition[_currentScene][character.name] =
+                                new Tuple<float, float>(characterPosition.x, characterPosition.y);
+                        }
                     }
                 }
             }
