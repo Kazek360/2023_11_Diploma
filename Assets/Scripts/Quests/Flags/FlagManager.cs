@@ -47,6 +47,7 @@ namespace Quests.Flags
             {
                 _inkVariablesDictionary.Remove(name);
                 _inkVariablesDictionary.Add(name, value);
+                _flagDictionary[name].value = value.ToString();
             }
         }
 
