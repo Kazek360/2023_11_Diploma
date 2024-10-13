@@ -11,26 +11,35 @@ public class CombatEnvironmentManager : MonoBehaviour
     [SerializeField] private int height;
     [SerializeField] private float cellSize;
     [SerializeField] private Vector2 offset;
+    [SerializeField] private Camera mainCamera;
 
     [SerializeField] private GameObject background;
     
     private Grid<GridObject> _grid;
+    private GridObject _currentGridObject;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        // _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
-        // for (int x = 0; x < width; x++)
-        // {
-        //     for (int y = 0; y < height; y++)
-        //     {
-        //         Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
-        //             gameObject.transform);
-        //         _grid.GetGridObject(x, y).Hex = visual;
-        //         _grid.GetGridObject(x, y).HideSelect();
-        //         _grid.GetGridObject(x, y).HideHighlight();
-        //     }
-        // }
+        InitGrid();
+    }
+    
+    private void Update()
+    {
+        if (_currentGridObject is not null)
+        {
+            _currentGridObject.HideSelect();
+        }
+            
+        Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f;
+            
+        _currentGridObject = _grid.GetGridObject(mousePosition);
+        
+        if (_currentGridObject != null && _currentGridObject.IsHighlighted)
+        {
+            _currentGridObject.Select();
+        }
     }
 
     private void OnEnable()
@@ -70,7 +79,7 @@ public class CombatEnvironmentManager : MonoBehaviour
      * <param name='highlightCenter'> should the center be highlighted</param>
      * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
      */
-    private void HighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter,
+    public void HighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter,
         bool _currentIsMaterial, int currentIter = 0)
     {
         if ((highlightCenter || currentIter != 0) && !gridObject.GetOccupied(_currentIsMaterial))
@@ -100,7 +109,7 @@ public class CombatEnvironmentManager : MonoBehaviour
      * <param name='highlightCenter'> should the center be highlighted</param>
      * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
      */
-    private void TargetingHighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter,
+    public void TargetingHighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter,
         int currentIter = 0)
     {
         if ((highlightCenter || currentIter != 0))
@@ -158,7 +167,7 @@ public class CombatEnvironmentManager : MonoBehaviour
      * <param name='from'>targeted unit</param>
      * <returns>a distance measured in hex map moves</returns>
      */
-    private int GetDistance(GridObject from, GridObject to)
+    public int GetDistance(GridObject from, GridObject to)
     {
         var coord = from.XYZCoordinates;
         var coord2 = to.XYZCoordinates;
@@ -173,7 +182,7 @@ public class CombatEnvironmentManager : MonoBehaviour
      * <param name='finishHex'>ending point of the path</param>
      * <returns>a list of hexes comprising the path, containing start and finish hexes</returns>
      */
-    private List<GridObject> FindShortestPathTo(GridObject startHex, GridObject finishHex, bool _currentIsMaterial)
+    public List<GridObject> FindShortestPathTo(GridObject startHex, GridObject finishHex, bool _currentIsMaterial)
     {
         List<GridObject> openPathHexes = new List<GridObject>();
         List<GridObject> closedPathHexes = new List<GridObject>();
@@ -262,6 +271,41 @@ public class CombatEnvironmentManager : MonoBehaviour
         var vec = unitCombat.GetGridLocation();
         _grid.GetGridObject((int)vec[0], (int)vec[1]).SetOccupied(true, isMaterial);
         unitCombat.gameObject.transform.position = _grid.GetGridObject((int)vec[0], (int)vec[1]).Hex.position;
+    }
+
+    public GridObject GetCurrentGridObject()
+    {
+        return _currentGridObject;
+    }
+
+    public Grid<GridObject> GetGrid()
+    {
+        return _grid;
+    }
+    
+    public GridObject GetGridObject(int x, int y)
+    {
+        InitGrid();
+        return _grid.GetGridObject(x, y);
+    }
+
+    private void InitGrid()
+    {
+        if (_grid is null)
+        {
+            _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
+                        gameObject.transform);
+                    _grid.GetGridObject(x, y).Hex = visual;
+                    _grid.GetGridObject(x, y).HideSelect();
+                    _grid.GetGridObject(x, y).HideHighlight();
+                }
+            }
+        }
     }
 }
 
