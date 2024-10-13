@@ -19,18 +19,18 @@ public class CombatEnvironmentManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
-                    gameObject.transform);
-                _grid.GetGridObject(x, y).Hex = visual;
-                _grid.GetGridObject(x, y).HideSelect();
-                _grid.GetGridObject(x, y).HideHighlight();
-            }
-        }
+        // _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
+        // for (int x = 0; x < width; x++)
+        // {
+        //     for (int y = 0; y < height; y++)
+        //     {
+        //         Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
+        //             gameObject.transform);
+        //         _grid.GetGridObject(x, y).Hex = visual;
+        //         _grid.GetGridObject(x, y).HideSelect();
+        //         _grid.GetGridObject(x, y).HideHighlight();
+        //     }
+        // }
     }
 
     private void OnEnable()
