@@ -1,3 +1,4 @@
+using Interactions;
 using UnityEngine;
 
 namespace Collectibles
@@ -5,14 +6,13 @@ namespace Collectibles
     /**
      * Controller for an item that can be picked up by a player
      */
-    public class PickUpItem : MonoBehaviour, ITooltippable
+    public class PickUpItem : MonoBehaviour, ITooltippable, IInteractable
     {
         [SerializeField] private int itemId;
         [SerializeField] private int amount;
         [SerializeField] private GameObject pickupIndicatorSprite;
         
         private SpriteRenderer _spriteRenderer;
-        private bool _inRange;
         
         public void OnEnable()
         {
@@ -20,30 +20,19 @@ namespace Collectibles
             _spriteRenderer.sprite = ItemLibrary.GetInstance().GetItem(itemId).ItemSprite;
         }
     
-        public void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.E) && _inRange)
-            {
-                GameConfig.PlayerInventory.AddItem(itemId, amount);
-                gameObject.SetActive(false);
-            }
-        }
-    
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("InteractionArea"))
             {
-                _inRange = true;
-                pickupIndicatorSprite.SetActive(true);
+                InteractionEvents.EnterInteractionArea(this);
             }
         }
     
         public void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("InteractionArea"))
             {
-                _inRange = false;
-                pickupIndicatorSprite.SetActive(false);
+                InteractionEvents.ExitInteractionArea(this);
             }
         }
     
@@ -56,6 +45,28 @@ namespace Collectibles
         {
             return ItemLibrary.GetInstance().GetItem(itemId).ItemDesc();
         }
-    }
 
+        public void TriggerInteraction()
+        {
+            CollectibleEvents.PickupCollectible(itemId);
+            InteractionEvents.RemoveInteraction(this);
+            GameConfig.PlayerInventory.AddItem(itemId, amount);
+            gameObject.SetActive(false);
+        }
+
+        public Vector3 GetCoordinates()
+        {
+            return transform.position;
+        }
+
+        public void ShowIndicator()
+        {
+            pickupIndicatorSprite.SetActive(true);
+        }
+
+        public void HideIndicator()
+        {
+            pickupIndicatorSprite.SetActive(false);
+        }
+    }
 }

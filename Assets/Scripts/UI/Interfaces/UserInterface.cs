@@ -12,7 +12,7 @@ namespace UI.Interfaces
         public abstract GameState State { get; }
 
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
         }

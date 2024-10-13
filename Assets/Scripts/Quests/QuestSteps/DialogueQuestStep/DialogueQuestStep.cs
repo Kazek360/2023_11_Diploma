@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
@@ -12,11 +11,13 @@ public class DialogueQuestStep : BaseQuestStep
         DialogueEvents.OnDialogueFinished += FinishStep;
         DialogueEvents.UnlockDialogue(dialoguesInfo.name);
     }
-    protected virtual void OnDisable()
+
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         DialogueEvents.OnDialogueFinished -= FinishStep;
     }
-    
+
     protected virtual void FinishStep(DialogueSO dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)

@@ -136,11 +136,11 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Dialogue"",
+            ""name"": ""Story"",
             ""id"": ""98321d1b-b324-4c58-83c9-f89eda9ac226"",
             ""actions"": [
                 {
-                    ""name"": ""ContinueDialogue"",
+                    ""name"": ""Skip"",
                     ""type"": ""Button"",
                     ""id"": ""aedd7ef5-ff28-4488-b7a3-1c272b6d2b28"",
                     ""expectedControlType"": ""Button"",
@@ -157,7 +157,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -168,7 +168,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -179,7 +179,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -190,7 +190,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ContinueDialogue"",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -219,6 +219,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Toggle Abilities View"",
+                    ""type"": ""Button"",
+                    ""id"": ""f487ba15-2880-482e-ae7e-d2918a7f2549"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Toggle Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""2ce3c231-f361-48a3-ba32-d87c3497377e"",
@@ -228,16 +237,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Toggle Ability View"",
-                    ""type"": ""Button"",
-                    ""id"": ""f487ba15-2880-482e-ae7e-d2918a7f2549"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Close UI"",
+                    ""name"": ""Toggle Escape"",
                     ""type"": ""Button"",
                     ""id"": ""c8dfe1e8-d7ea-41fd-9b42-d506b55f6304"",
                     ""expectedControlType"": ""Button"",
@@ -265,7 +265,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Close UI"",
+                    ""action"": ""Toggle Escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -298,35 +298,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Toggle Ability View"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Pause Menu"",
-            ""id"": ""1c3d21b1-38bb-4d90-8cd5-4a32b3091a46"",
-            ""actions"": [
-                {
-                    ""name"": ""TogglePauseMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""0df7f974-fdd0-438e-9fb1-b5289e0de6d2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b4db4619-f207-46e8-8660-3590622a0ae9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""TogglePauseMenu"",
+                    ""action"": ""Toggle Abilities View"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -340,19 +312,16 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        // Dialogue
-        m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
-        m_Dialogue_ContinueDialogue = m_Dialogue.FindAction("ContinueDialogue", throwIfNotFound: true);
+        // Story
+        m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
+        m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
         m_UI_ToggleSkillTree = m_UI.FindAction("Toggle Skill Tree", throwIfNotFound: true);
+        m_UI_ToggleAbilitiesView = m_UI.FindAction("Toggle Abilities View", throwIfNotFound: true);
         m_UI_ToggleInventory = m_UI.FindAction("Toggle Inventory", throwIfNotFound: true);
-        m_UI_ToggleAbilityView = m_UI.FindAction("Toggle Ability View", throwIfNotFound: true);
-        m_UI_CloseUI = m_UI.FindAction("Close UI", throwIfNotFound: true);
-        // Pause Menu
-        m_PauseMenu = asset.FindActionMap("Pause Menu", throwIfNotFound: true);
-        m_PauseMenu_TogglePauseMenu = m_PauseMenu.FindAction("TogglePauseMenu", throwIfNotFound: true);
+        m_UI_ToggleEscape = m_UI.FindAction("Toggle Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -473,69 +442,69 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
-    // Dialogue
-    private readonly InputActionMap m_Dialogue;
-    private List<IDialogueActions> m_DialogueActionsCallbackInterfaces = new List<IDialogueActions>();
-    private readonly InputAction m_Dialogue_ContinueDialogue;
-    public struct DialogueActions
+    // Story
+    private readonly InputActionMap m_Story;
+    private List<IStoryActions> m_StoryActionsCallbackInterfaces = new List<IStoryActions>();
+    private readonly InputAction m_Story_Skip;
+    public struct StoryActions
     {
         private @PlayerControlls m_Wrapper;
-        public DialogueActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ContinueDialogue => m_Wrapper.m_Dialogue_ContinueDialogue;
-        public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
+        public StoryActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Skip => m_Wrapper.m_Story_Skip;
+        public InputActionMap Get() { return m_Wrapper.m_Story; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DialogueActions set) { return set.Get(); }
-        public void AddCallbacks(IDialogueActions instance)
+        public static implicit operator InputActionMap(StoryActions set) { return set.Get(); }
+        public void AddCallbacks(IStoryActions instance)
         {
-            if (instance == null || m_Wrapper.m_DialogueActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_DialogueActionsCallbackInterfaces.Add(instance);
-            @ContinueDialogue.started += instance.OnContinueDialogue;
-            @ContinueDialogue.performed += instance.OnContinueDialogue;
-            @ContinueDialogue.canceled += instance.OnContinueDialogue;
+            if (instance == null || m_Wrapper.m_StoryActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StoryActionsCallbackInterfaces.Add(instance);
+            @Skip.started += instance.OnSkip;
+            @Skip.performed += instance.OnSkip;
+            @Skip.canceled += instance.OnSkip;
         }
 
-        private void UnregisterCallbacks(IDialogueActions instance)
+        private void UnregisterCallbacks(IStoryActions instance)
         {
-            @ContinueDialogue.started -= instance.OnContinueDialogue;
-            @ContinueDialogue.performed -= instance.OnContinueDialogue;
-            @ContinueDialogue.canceled -= instance.OnContinueDialogue;
+            @Skip.started -= instance.OnSkip;
+            @Skip.performed -= instance.OnSkip;
+            @Skip.canceled -= instance.OnSkip;
         }
 
-        public void RemoveCallbacks(IDialogueActions instance)
+        public void RemoveCallbacks(IStoryActions instance)
         {
-            if (m_Wrapper.m_DialogueActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_StoryActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IDialogueActions instance)
+        public void SetCallbacks(IStoryActions instance)
         {
-            foreach (var item in m_Wrapper.m_DialogueActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_StoryActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_DialogueActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_StoryActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public DialogueActions @Dialogue => new DialogueActions(this);
+    public StoryActions @Story => new StoryActions(this);
 
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
     private readonly InputAction m_UI_ToggleQuestLog;
     private readonly InputAction m_UI_ToggleSkillTree;
+    private readonly InputAction m_UI_ToggleAbilitiesView;
     private readonly InputAction m_UI_ToggleInventory;
-    private readonly InputAction m_UI_ToggleAbilityView;
-    private readonly InputAction m_UI_CloseUI;
+    private readonly InputAction m_UI_ToggleEscape;
     public struct UIActions
     {
         private @PlayerControlls m_Wrapper;
         public UIActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleQuestLog => m_Wrapper.m_UI_ToggleQuestLog;
         public InputAction @ToggleSkillTree => m_Wrapper.m_UI_ToggleSkillTree;
+        public InputAction @ToggleAbilitiesView => m_Wrapper.m_UI_ToggleAbilitiesView;
         public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
-        public InputAction @ToggleAbilityView => m_Wrapper.m_UI_ToggleAbilityView;
-        public InputAction @CloseUI => m_Wrapper.m_UI_CloseUI;
+        public InputAction @ToggleEscape => m_Wrapper.m_UI_ToggleEscape;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -551,15 +520,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleSkillTree.started += instance.OnToggleSkillTree;
             @ToggleSkillTree.performed += instance.OnToggleSkillTree;
             @ToggleSkillTree.canceled += instance.OnToggleSkillTree;
+            @ToggleAbilitiesView.started += instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.performed += instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.canceled += instance.OnToggleAbilitiesView;
             @ToggleInventory.started += instance.OnToggleInventory;
             @ToggleInventory.performed += instance.OnToggleInventory;
             @ToggleInventory.canceled += instance.OnToggleInventory;
-            @ToggleAbilityView.started += instance.OnToggleAbilityView;
-            @ToggleAbilityView.performed += instance.OnToggleAbilityView;
-            @ToggleAbilityView.canceled += instance.OnToggleAbilityView;
-            @CloseUI.started += instance.OnCloseUI;
-            @CloseUI.performed += instance.OnCloseUI;
-            @CloseUI.canceled += instance.OnCloseUI;
+            @ToggleEscape.started += instance.OnToggleEscape;
+            @ToggleEscape.performed += instance.OnToggleEscape;
+            @ToggleEscape.canceled += instance.OnToggleEscape;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -570,15 +539,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleSkillTree.started -= instance.OnToggleSkillTree;
             @ToggleSkillTree.performed -= instance.OnToggleSkillTree;
             @ToggleSkillTree.canceled -= instance.OnToggleSkillTree;
+            @ToggleAbilitiesView.started -= instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.performed -= instance.OnToggleAbilitiesView;
+            @ToggleAbilitiesView.canceled -= instance.OnToggleAbilitiesView;
             @ToggleInventory.started -= instance.OnToggleInventory;
             @ToggleInventory.performed -= instance.OnToggleInventory;
             @ToggleInventory.canceled -= instance.OnToggleInventory;
-            @ToggleAbilityView.started -= instance.OnToggleAbilityView;
-            @ToggleAbilityView.performed -= instance.OnToggleAbilityView;
-            @ToggleAbilityView.canceled -= instance.OnToggleAbilityView;
-            @CloseUI.started -= instance.OnCloseUI;
-            @CloseUI.performed -= instance.OnCloseUI;
-            @CloseUI.canceled -= instance.OnCloseUI;
+            @ToggleEscape.started -= instance.OnToggleEscape;
+            @ToggleEscape.performed -= instance.OnToggleEscape;
+            @ToggleEscape.canceled -= instance.OnToggleEscape;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -596,72 +565,22 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
-
-    // Pause Menu
-    private readonly InputActionMap m_PauseMenu;
-    private List<IPauseMenuActions> m_PauseMenuActionsCallbackInterfaces = new List<IPauseMenuActions>();
-    private readonly InputAction m_PauseMenu_TogglePauseMenu;
-    public struct PauseMenuActions
-    {
-        private @PlayerControlls m_Wrapper;
-        public PauseMenuActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @TogglePauseMenu => m_Wrapper.m_PauseMenu_TogglePauseMenu;
-        public InputActionMap Get() { return m_Wrapper.m_PauseMenu; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PauseMenuActions set) { return set.Get(); }
-        public void AddCallbacks(IPauseMenuActions instance)
-        {
-            if (instance == null || m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Add(instance);
-            @TogglePauseMenu.started += instance.OnTogglePauseMenu;
-            @TogglePauseMenu.performed += instance.OnTogglePauseMenu;
-            @TogglePauseMenu.canceled += instance.OnTogglePauseMenu;
-        }
-
-        private void UnregisterCallbacks(IPauseMenuActions instance)
-        {
-            @TogglePauseMenu.started -= instance.OnTogglePauseMenu;
-            @TogglePauseMenu.performed -= instance.OnTogglePauseMenu;
-            @TogglePauseMenu.canceled -= instance.OnTogglePauseMenu;
-        }
-
-        public void RemoveCallbacks(IPauseMenuActions instance)
-        {
-            if (m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IPauseMenuActions instance)
-        {
-            foreach (var item in m_Wrapper.m_PauseMenuActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_PauseMenuActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public PauseMenuActions @PauseMenu => new PauseMenuActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
     }
-    public interface IDialogueActions
+    public interface IStoryActions
     {
-        void OnContinueDialogue(InputAction.CallbackContext context);
+        void OnSkip(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
         void OnToggleQuestLog(InputAction.CallbackContext context);
         void OnToggleSkillTree(InputAction.CallbackContext context);
+        void OnToggleAbilitiesView(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
-        void OnToggleAbilityView(InputAction.CallbackContext context);
-        void OnCloseUI(InputAction.CallbackContext context);
-    }
-    public interface IPauseMenuActions
-    {
-        void OnTogglePauseMenu(InputAction.CallbackContext context);
+        void OnToggleEscape(InputAction.CallbackContext context);
     }
 }

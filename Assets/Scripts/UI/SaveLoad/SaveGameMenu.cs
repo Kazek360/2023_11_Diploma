@@ -1,5 +1,6 @@
 ﻿using SaveSystem;
 using UI.SaveLoad;
+using UnityEngine;
 
 namespace UI.Interfaces
 {
@@ -8,7 +9,7 @@ namespace UI.Interfaces
         public override GameState State => GameState.SaveGame;
         private SaveSlot[] _saveSlots;
         
-        private new void Awake()
+        protected override void Awake()
         {
             base.Awake();
             _saveSlots = GetComponentsInChildren<SaveSlot>();

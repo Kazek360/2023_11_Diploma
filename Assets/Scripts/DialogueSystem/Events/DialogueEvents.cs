@@ -20,6 +20,12 @@ namespace DialogueSystem.Events
         {
             OnDialogueFinished?.Invoke(dialogue);
         }
+        public static event Action OnDialogueContinued;
+        public static void ContinueDialogue()
+        {
+            OnDialogueContinued?.Invoke();
+        }
+        
         public static event Action<string> OnDialogueUnlocked;
         public static void UnlockDialogue(string id)
         {

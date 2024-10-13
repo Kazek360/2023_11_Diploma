@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using Quests;
 using UnityEngine;
 
 namespace DialogueSystem.ScriptableObjects
@@ -11,7 +11,7 @@ namespace DialogueSystem.ScriptableObjects
         [SerializeField] public string triggerName;
     
         [Header("Quest")]
-        [SerializeField] public QuestSO relatedQuest;
+        [SerializeField] public QuestInfo relatedQuest;
         [SerializeField] public bool startsQuest;
     
         [Header("Dialogue Text")]

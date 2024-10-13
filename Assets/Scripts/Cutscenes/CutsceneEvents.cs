@@ -14,6 +14,12 @@ namespace Cutscenes
         {
             OnCutsceneFinished?.Invoke();
         }
+        
+        public static event Action OnCutsceneSkipped;
+        public static void SkipCutscene()
+        {
+            OnCutsceneSkipped?.Invoke();
+        }
     }
  
 }

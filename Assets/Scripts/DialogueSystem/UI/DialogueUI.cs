@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.Managers;
 using DialogueSystem.ScriptableObjects;
 using Ink.Runtime;
 using InputSystem;
-using SaveSystem;
-using SaveSystem.Data;
+using Quests;
+using UI;
+using UI.Interfaces;
 
 namespace DialogueSystem.UI
 {
     //Class managing the currently triggered dialogue.
-    public class DialogueUI : MonoBehaviour, IDataPersistence
+    public class DialogueUI : UserInterface
     {
+        public override GameState State => GameState.Dialogue;
+        
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
-
-        [Header("Load Globals JSON")] 
-        [SerializeField] private TextAsset loadGlobalsJSON;
         
         [Header("Components")] 
-        [SerializeField] private GameObject dialoguePanel;
         [SerializeField] private Animator portraitAnimator;
         [SerializeField] private TextMeshProUGUI speakerName;
         [SerializeField] private TextMeshProUGUI dialogueText;
@@ -41,24 +39,38 @@ namespace DialogueSystem.UI
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
 
-        private static DialogueVariables _dialogueVariables;
-        
-        private void Awake()
+        protected override void Awake()
         {
-            GameConfig.DialogueUI = this;  
-            _dialogueVariables = new DialogueVariables(loadGlobalsJSON);
+            base.Awake();
+            GameConfig.DialogueUI = this;
         }
         
         private void OnEnable()
         {
             DialogueEvents.OnDialogueStarted += StartDialogue;
-            InputEvents.OnDialogueContinueInput += ContinueDialogue;
+            DialogueEvents.OnDialogueContinued += ContinueDialogue;
         }
 
         private void OnDisable()
         {
             DialogueEvents.OnDialogueStarted -= StartDialogue;
-            InputEvents.OnDialogueContinueInput -= ContinueDialogue;
+            DialogueEvents.OnDialogueContinued -= ContinueDialogue;
+        }
+        
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.Controlls.UI.Disable();
+            InputManager.Instance.Controlls.Story.Enable();   
+        }
+        
+        public override void OnExit()
+        {
+            base.OnExit();
+            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.Controlls.UI.Enable();
+            InputManager.Instance.Controlls.Story.Disable();   
         }
         
         private void Start()
@@ -66,7 +78,6 @@ namespace DialogueSystem.UI
             _choicesText = new List<TextMeshProUGUI>();
             _canContinueToNextLine = false;
             _submitButtonPressedThisLine = false;
-            dialoguePanel.SetActive(false);
             foreach (var choice in choices)
             {
                 _choicesText.Add(choice.GetComponentInChildren<TextMeshProUGUI>());
@@ -75,12 +86,12 @@ namespace DialogueSystem.UI
         
         private void StartDialogue(DialogueSO dialogueInfo)
         {
+            UserInterfaceManager.Instance.ChangeState(GameState.Dialogue);
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
-            _dialogueVariables.StartListening(_currentStory);
+            QuestManager.Instance.FlagManager.StartListening(_currentStory);
             
-            dialoguePanel.SetActive(true);
             speakerName.text = "???";
             portraitAnimator.Play("none");
             ContinueDialogue();
@@ -122,8 +133,8 @@ namespace DialogueSystem.UI
         
         private void EndDialogue()
         {
-            _dialogueVariables.StopListening(_currentStory);
-            dialoguePanel.SetActive(false);
+            UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+            QuestManager.Instance.FlagManager.StopListening(_currentStory);
             DialogueEvents.FinishDialogue(_currentDialogue);
             dialogueText.text = "";
         }
@@ -223,58 +234,6 @@ namespace DialogueSystem.UI
                         break;
                 }
             }
-        }
-
-        public Ink.Runtime.Object GetVariableState(string variableName)
-        {
-            Ink.Runtime.Object variableValue;
-            _dialogueVariables._variablesDictionary.TryGetValue(variableName, out variableValue);
-            if (variableValue == null)
-            {
-                Debug.LogWarning($"Ink Variable was not found: {variableName}");
-            }
-
-            return variableValue;
-        }
-        
-        public void SetVariableState(string variableName, Ink.Runtime.Object variableValue)
-        {
-            if (_dialogueVariables._variablesDictionary.ContainsKey(variableName))
-            {
-                var globalStory = new Story(loadGlobalsJSON.text);
-                _dialogueVariables.StartListening(globalStory);
-                globalStory.variablesState.SetGlobal(variableName, variableValue);
-                _dialogueVariables.StopListening(globalStory);
-            }
-        }
-
-        public void LoadData(GameData gameData)
-        {
-            if (gameData.inkVariables is null)
-            {
-                return;
-            }
-        
-            _dialogueVariables.LoadVariables(loadGlobalsJSON, gameData.inkVariables);
-        }
-
-        public void InitializeOnNewGame()
-        {
-        }
-
-        public void LoadDataFromSaveFile(GameData gameData)
-        {
-            LoadData(gameData);
-        }
-
-        public void LoadDataBetweenScenes(GameData gameData)
-        {
-            LoadData(gameData);
-        }
-
-        public void SaveData(ref GameData gameData)
-        {
-            gameData.inkVariables = _dialogueVariables.SaveVariables();
         }
     }
 }

@@ -17,11 +17,6 @@ public class DeathDialogue : DialogueQuestStep
         _shoreToTeleport = GameObject.Find("ShoreArea");
         _playerToTeleport = GameObject.Find("Player");
     }
-    protected override void OnDisable()
-    {
-        AreaEvent.OnAreaEnter -= AreaEntered;
-        CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
-    }
     
     private void TeleportPlayer()
     {
@@ -41,6 +36,8 @@ public class DeathDialogue : DialogueQuestStep
             Finish();
             Destroy(_deathRealmToTeleport);
             _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
+            AreaEvent.OnAreaEnter -= AreaEntered;
+            CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
             Delete();
         }
     }

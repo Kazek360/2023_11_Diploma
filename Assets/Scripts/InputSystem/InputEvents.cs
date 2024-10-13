@@ -10,47 +10,10 @@ namespace InputSystem
         {
             OnSprintInput?.Invoke(isPlayerSprinting);
         }
-        
         public static event Action<Vector2> OnMovementInput;
         public static void InputMovement(Vector2 movementVector)
         {
             OnMovementInput?.Invoke(movementVector);
-        }
-        
-        public static event Action OnInteractionInput;
-        public static void InputInteraction()
-        {
-            OnInteractionInput?.Invoke();
-        }
-        public static event Action OnDialogueContinueInput;
-        public static void InputDialogueContinue()
-        {
-            OnDialogueContinueInput?.Invoke();
-        }
-        public static event Action OnQuestLogToggle;
-        public static void ToggleQuestLog()
-        {
-            OnQuestLogToggle?.Invoke();
-        }
-        public static event Action OnSkillTreeToggle;
-        public static void ToggleSkillTree()
-        {
-            OnSkillTreeToggle?.Invoke();
-        }
-        public static event Action OnInventoryToggle;
-        public static void ToggleInventory()
-        {
-            OnInventoryToggle?.Invoke();
-        }
-        public static event Action OnInterfaceClosed;
-        public static void CloseInterface()
-        {
-            OnInterfaceClosed?.Invoke();
-        }
-        public static event Action OnAbilityViewToggle;
-        public static void ToggleAbilityView()
-        {
-            OnAbilityViewToggle?.Invoke();
         }
     }
 }

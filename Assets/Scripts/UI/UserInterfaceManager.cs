@@ -53,5 +53,6 @@ namespace UI
             _currentState.OnEnter();
         }
     }
-    public enum GameState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests }
+    public enum GameState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
+        SkillTree, Abilities, Inventory }
 }
