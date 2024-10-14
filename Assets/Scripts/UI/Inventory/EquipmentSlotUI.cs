@@ -82,6 +82,7 @@ public class EquipmentSlotUI : MonoBehaviour
             AddImaginationButton.gameObject.SetActive(false);
         }
         LowerImaginationButton.gameObject.SetActive(true);
+        GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ChangeImagination(_imaginationInvested);
         EquipmentSlots.ForceUiUpdate();
     } 
     
@@ -94,6 +95,7 @@ public class EquipmentSlotUI : MonoBehaviour
             LowerImaginationButton.gameObject.SetActive(false);
         }
         AddImaginationButton.gameObject.SetActive(true);
+        GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ChangeImagination(_imaginationInvested);
         EquipmentSlots.ForceUiUpdate();
     } 
 }
