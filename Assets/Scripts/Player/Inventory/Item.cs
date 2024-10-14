@@ -90,7 +90,11 @@ public class EquipmentItem: Item
         {
             builder.Append(modifier.StatString() + "\n");
         }
-        
+        builder.Append("Na jednostkę wyobraźni:\n");
+        foreach (var modifier in _imaginationModifiers)
+        {
+            builder.Append(modifier.StatString() + "\n");
+        }
         return builder.ToString();
     }
 
