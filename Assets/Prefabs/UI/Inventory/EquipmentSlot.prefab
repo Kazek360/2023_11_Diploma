@@ -119,6 +119,9 @@ MonoBehaviour:
   Toggle: {fileID: 8158844467271823400}
   SlotType: 0
   EquipmentSlots: {fileID: 0}
+  AddImaginationButton: {fileID: 7407268474239815709}
+  LowerImaginationButton: {fileID: 259023893147550511}
+  ImaginationInvested: {fileID: 2464327206857373487}
 --- !u!1 &2889959430378226189
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +601,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8074095066405590762}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3628153760013263711}
+        m_TargetAssemblyTypeName: EquipmentSlotUI, Assembly-CSharp
+        m_MethodName: LowerImagination
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6082120534592906631
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,7 +868,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8432364569549097539}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3628153760013263711}
+        m_TargetAssemblyTypeName: EquipmentSlotUI, Assembly-CSharp
+        m_MethodName: AddImagination
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8444187577048315551
 GameObject:
   m_ObjectHideFlags: 0
