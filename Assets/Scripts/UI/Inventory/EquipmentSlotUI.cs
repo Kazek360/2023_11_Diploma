@@ -17,6 +17,7 @@ public class EquipmentSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ImaginationInvested;
 
     private int _imaginationInvested = 0;
+    private int _lastItemId;
 
     public void EquipItem(Item item)
     {
@@ -39,6 +40,7 @@ public class EquipmentSlotUI : MonoBehaviour
         EquipmentSlot actualSlot = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType);
         LowerImaginationButton.gameObject.SetActive(false);
         Item item = actualSlot.Item;
+        
         if (item is null)
         {
             PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
@@ -56,7 +58,12 @@ public class EquipmentSlotUI : MonoBehaviour
             ItemImage.enabled = true;
             ItemImage.sprite = item.ItemSprite;
             Toggle.interactable = true;
-
+            if (_lastItemId != item.ItemID)
+            {
+                PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
+                _imaginationInvested = 0;
+                _lastItemId = item.ItemID;
+            }
             LowerImaginationButton.gameObject.SetActive(_imaginationInvested != 0);
             AddImaginationButton.gameObject.SetActive(PlayerStats.GetInstance().FreeImagination != 0);
         }
