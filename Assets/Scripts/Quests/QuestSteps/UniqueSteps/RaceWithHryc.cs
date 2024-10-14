@@ -2,6 +2,7 @@ using System.Collections;
 using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
 using Ink.Runtime;
+using Quests;
 using UnityEngine;
 
 public class RaceWithHryc : DialogueAreaQuestStep
@@ -23,7 +24,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
     
     private IEnumerator StartMovement()
     {
-        if (((BoolValue) GameConfig.DialogueUI.GetVariableState(delayFlag)).value)
+        if (QuestManager.Instance.FlagManager.GetFlagValue(delayFlag).Equals("yes"))
         {
             yield return new WaitForSeconds(1f);
         }
@@ -45,17 +46,17 @@ public class RaceWithHryc : DialogueAreaQuestStep
             }
             if (!_raceFinished)
             {
-                StringValue winner = null;
+                string winner = "";
                 if (objectName.Equals("Player"))
                 {
-                    winner = new StringValue("wit");
+                    winner = "wit";
                 }
                 else if (objectName.Equals("Hryc"))
                 {
-                    winner = new StringValue("hryc");
+                    winner = "hryc";
             
                 }
-                GameConfig.DialogueUI.SetVariableState("race_winner", winner);
+                QuestManager.Instance.FlagManager.SetFlagValue("race_winner", winner);
                 _raceFinished = true;
             }
 

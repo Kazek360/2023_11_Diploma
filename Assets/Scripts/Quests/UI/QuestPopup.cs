@@ -45,13 +45,13 @@ namespace QuestSystem.UI
         private void AddStartQuestPopup(string questID)
         {
             var quest = QuestManager.Instance.GetQuestById(questID);
-            _popupQueue.Enqueue($"Zadanie rozpoczęte\n{quest.Info.displayName}");
+            _popupQueue.Enqueue($"Zadanie rozpoczęte\n{quest.info.displayName}");
         }
         
         private void AddFinishQuestPopup(string questID)
         {
             var quest = QuestManager.Instance.GetQuestById(questID);
-            _popupQueue.Enqueue($"Zadanie zakończone\n{quest.Info.displayName}");
+            _popupQueue.Enqueue($"Zadanie zakończone\n{quest.info.displayName}");
         }
         
         private IEnumerator ShowPopup()

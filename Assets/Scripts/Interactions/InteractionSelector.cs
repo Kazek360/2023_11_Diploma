@@ -30,9 +30,9 @@ namespace Interactions
 
         private void TriggerClosestInteraction()
         {
-            if (_closestInteraction is not null)
+            if (_closestInteraction != null)
             {
-                _closestInteraction.TriggerInteraction();                
+                _closestInteraction.TriggerInteraction();
             }
         }
         

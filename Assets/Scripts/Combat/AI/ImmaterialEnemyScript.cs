@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ImmaterialEnemyScript : EnemyScript, IHittable
@@ -14,8 +11,7 @@ public class ImmaterialEnemyScript : EnemyScript, IHittable
     {
         return false;
     }
-
-
+    
     public override void OnPartnerDeath()
     {
         _currentHealth = 0;
