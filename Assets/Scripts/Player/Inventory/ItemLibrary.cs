@@ -67,6 +67,10 @@ public class ItemLibrary
             new List<ItemStatModifier>()
             {
                 new ItemStatModifier(StatType.WitStrength, 2, 2)
+            },
+            new List<ItemStatModifier>()
+            {
+                new ItemStatModifier(StatType.WitStrength, 1, 2)
             }
         ));
         
@@ -78,6 +82,10 @@ public class ItemLibrary
             delegate { }, 
             delegate {  }, 
             EquipmentSlotType.hand,
+            new List<ItemStatModifier>()
+            {
+                new ItemStatModifier(StatType.WitAgility, 1, 3)
+            },
             new List<ItemStatModifier>()
             {
                 new ItemStatModifier(StatType.WitAgility, 1, 3)
@@ -106,7 +114,11 @@ public class ItemLibrary
             EquipmentSlotType.hand,
             new List<ItemStatModifier>()
             {
-                new ItemStatModifier(StatType.WitAgility, 1, 3)
+                new ItemStatModifier(StatType.WitAgility, 1, 4)
+            },
+            new List<ItemStatModifier>()
+            {
+                new ItemStatModifier(StatType.WitStrength, 1, 4)
             }
         ));
     }

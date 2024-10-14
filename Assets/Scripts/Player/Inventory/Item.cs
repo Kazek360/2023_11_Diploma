@@ -52,13 +52,16 @@ public class EquipmentItem: Item
     private Action _equip, _unequip;
     private EquipmentSlotType _equipmentSlotType;
     private List<ItemStatModifier> _modifiers;
+    private List<ItemStatModifier> _imaginationModifiers;
 
-    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
+    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, 
+        EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers, List<ItemStatModifier> imaginationModifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
     {
         _equip = equip;
         _unequip = unequip;
         _equipmentSlotType = equipmentSlotType;
         _modifiers = modifiers;
+        _imaginationModifiers = imaginationModifiers;
     }
     /**
      * Item adds all appropriate modifiers and performs equip behaviour
@@ -89,6 +92,23 @@ public class EquipmentItem: Item
         }
         
         return builder.ToString();
+    }
+
+    public void ChangeImagination(int currImagination)
+    {
+        PlayerStats.GetInstance().ItemRemoved(ItemID);
+        foreach (var modifier in _modifiers)
+        {
+            PlayerStats.GetInstance().AddItemModifier(modifier);
+        }
+
+        for (int i = 0; i < currImagination; i++)
+        {
+            foreach (var modifier in _imaginationModifiers)
+            {
+                PlayerStats.GetInstance().AddItemModifier(modifier);
+            }
+        }
     }
 
     public EquipmentSlotType EquipmentSlotType => _equipmentSlotType;
