@@ -1,20 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Shared;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class SoundFxManager : MonoBehaviour
+public class SoundFxManager : Singleton<SoundFxManager>
 {
-    public static SoundFxManager instance;
     [SerializeField] private AudioSource soundFxObject;
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
+
     /*
      * Dla pojedyńczego dźwięku
      */

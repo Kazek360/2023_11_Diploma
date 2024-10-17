@@ -9,6 +9,6 @@ public class ButtonSoundEffect : MonoBehaviour, IPointerEnterHandler
    
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SoundFxManager.instance.PlaySoundFxClip(buttonSoundClip, transform, 1f);
+        SoundFxManager.Instance.PlaySoundFxClip(buttonSoundClip, transform, 1f);
     }
 }
