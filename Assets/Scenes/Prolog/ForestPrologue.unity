@@ -47816,6 +47816,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 211076525}
   m_CullTransparentMesh: 1
+--- !u!4 &212758628 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
+  m_PrefabInstance: {fileID: 514203457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &212772877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97118,7 +97123,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1677019295079934596, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1914020570}
   m_SourcePrefab: {fileID: 100100000, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
 --- !u!1001 &516193186
 PrefabInstance:
@@ -112772,7 +112780,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 362952979
   m_SortingLayer: 7
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ba5f53fdce7497240b94a60333015fdc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -356207,6 +356215,32 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8059424290433004517, guid: 4c139a48afad86b4e9103af8f06faf0b, type: 3}
   m_PrefabInstance: {fileID: 1575724943}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1914020569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1677019295079934596, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
+  m_PrefabInstance: {fileID: 514203457}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1914020570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1914020569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3bd08245b5f954abb1ecc0b0eb97de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 212758628}
+  cameraMoveSpeed: 1
+  maxDistanceFromPlayer: 20
+  cameraTransform: {fileID: 1914020573}
+--- !u!4 &1914020573 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4060613239028039161, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
+  m_PrefabInstance: {fileID: 514203457}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1915954494
 PrefabInstance:

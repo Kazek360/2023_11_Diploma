@@ -11,12 +11,14 @@ namespace Player
         [SerializeField] private float walkSpeed;
 
         [SerializeField] private float runSpeed;
-        
+
         private Rigidbody2D _rigidbody;
         private Animator _animator;
 
+        private Vector2 _targetPosition;
         private bool _isPlayerSprinting;
-        
+        private bool _isMouseMoving;
+
         private static readonly int X = Animator.StringToHash("X");
         private static readonly int Y = Animator.StringToHash("Y");
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
@@ -45,46 +47,96 @@ namespace Player
             _rigidbody = GetComponent<Rigidbody2D>();
             _isPlayerSprinting = false;
             _animator = GetComponent<Animator>();
+            _isMouseMoving = false;
+        }
+        
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                HandleMouseMovement();
+            }
+            FixPlayerZPosition(); 
+
         }
 
         private void MovePlayer(Vector2 movementVector)
         {
             bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift);
             var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
-            _rigidbody.velocity = movementVector.normalized * currentSpeed;
-
-            if (movementVector.x != 0 || movementVector.y != 0)
+            if (_isMouseMoving)
             {
-                _animator.SetFloat(X, movementVector.x);
-                _animator.SetFloat(Y, movementVector.y);
+                Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
+                _rigidbody.velocity = direction * currentSpeed;
 
+                _animator.SetFloat(X, direction.x);
+                _animator.SetFloat(Y, direction.y);
                 _animator.SetBool(IsWalking, true);
                 _animator.SetBool(IsRunning, isRunning);
+
+                if (Vector2.Distance(transform.position, _targetPosition) < 0.1f)
+                {
+                    _isMouseMoving = false;
+                    StopPlayerMovement();
+                }
             }
             else
             {
-                _animator.SetBool(IsWalking, false);
-                _animator.SetBool(IsRunning, false);
+                _rigidbody.velocity = movementVector * currentSpeed;
+                if (movementVector != Vector2.zero)
+                {
+                    _animator.SetFloat(X, movementVector.x);
+                    _animator.SetFloat(Y, movementVector.y);
+                    _animator.SetBool(IsWalking, true);
+                    _animator.SetBool(IsRunning, isRunning);
+                }
+                else
+                {
+                    StopPlayerMovement();
+                }
+            }
+
+        }
+        
+        private void HandleMouseMovement()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _targetPosition = new Vector2(mousePosition.x, mousePosition.y);
+                _isMouseMoving = true;
             }
         }
+
+        
 
         private void ChangeSprintState(bool isPlayerSprinting)
         {
             _isPlayerSprinting = isPlayerSprinting;
         }
-
-        private void StopMovement(DialogueSO dialogue)
+        
+        private void StopPlayerMovement()
         {
             _rigidbody.velocity = Vector2.zero;
             _animator.SetBool(IsWalking, false);
             _animator.SetBool(IsRunning, false);
         }
 
+        private void StopMovement(DialogueSO dialogue)
+        {
+            StopPlayerMovement();
+        }
+
         private void StopMovement(CutsceneSO cutscene)
         {
-            _rigidbody.velocity = Vector2.zero;
-            _animator.SetBool(IsWalking, false);
-            _animator.SetBool(IsRunning, false);
+            StopPlayerMovement();
+        }
+        
+        private void FixPlayerZPosition()
+        {
+            Vector3 position = transform.position;
+            position.z = 0;
+            transform.position = position;
         }
     }
 }
