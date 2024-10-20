@@ -11,7 +11,6 @@ using UnityEngine;
  */
 public class GameConfig
 {
-    public static DialogueUI DialogueUI;
     public static Inventory PlayerInventory;
     public static Canvas canvas;
     public static AbilityLibrary abilityLibrary;

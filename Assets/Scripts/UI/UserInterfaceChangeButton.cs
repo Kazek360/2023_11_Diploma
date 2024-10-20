@@ -7,7 +7,7 @@ namespace UI
     [RequireComponent(typeof(Button))]
     public class UserInterfaceChangeButton : MonoBehaviour
     {
-        [SerializeField] private GameState stateToChange;
+        [SerializeField] private UserInterfaceState stateToChange;
         private void Awake()
         {
             GetComponent<Button>().onClick.AddListener(() =>

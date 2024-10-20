@@ -79,10 +79,10 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Dialogue:
+                    case UserInterfaceState.Dialogue:
                         DialogueEvents.ContinueDialogue();
                         break;
-                    case GameState.Cutscene:
+                    case UserInterfaceState.Cutscene:
                         CutsceneEvents.SkipCutscene();
                         break;
                 }
@@ -95,11 +95,11 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Exploration:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Quests);
+                    case UserInterfaceState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Quests);
                         break;
-                    case GameState.Quests:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case UserInterfaceState.Quests:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
                         break;
                 }
             }
@@ -111,11 +111,11 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Exploration:
-                        UserInterfaceManager.Instance.ChangeState(GameState.SkillTree);
+                    case UserInterfaceState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.SkillTree);
                         break;
-                    case GameState.SkillTree:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case UserInterfaceState.SkillTree:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
                         break;
                 }
             }
@@ -127,11 +127,11 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Exploration:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Abilities);
+                    case UserInterfaceState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Abilities);
                         break;
-                    case GameState.Abilities:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case UserInterfaceState.Abilities:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
                         break;
                 }
             }
@@ -143,11 +143,11 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Exploration:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Inventory);
+                    case UserInterfaceState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Inventory);
                         break;
-                    case GameState.Inventory:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);  
+                    case UserInterfaceState.Inventory:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
                         break;
                 }
             }
@@ -159,12 +159,12 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case GameState.Exploration or GameState.LoadGame or GameState.SaveGame:
-                        UserInterfaceManager.Instance.ChangeState(GameState.PauseMenu);
+                    case UserInterfaceState.Exploration or UserInterfaceState.LoadGame or UserInterfaceState.SaveGame:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.PauseMenu);
                         break;
-                    case GameState.PauseMenu or GameState.Quests or GameState.SkillTree or GameState.Abilities 
-                        or GameState.Inventory:
-                        UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+                    case UserInterfaceState.PauseMenu or UserInterfaceState.Quests or UserInterfaceState.SkillTree or UserInterfaceState.Abilities 
+                        or UserInterfaceState.Inventory:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
                         break;
                 }
             }

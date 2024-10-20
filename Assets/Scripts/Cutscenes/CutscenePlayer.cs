@@ -29,7 +29,7 @@ namespace Cutscenes
         
         private void StartCutscene(CutsceneSO cutsceneInfo)
         {
-            UserInterfaceManager.Instance.ChangeState(GameState.Cutscene);
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Cutscene);
             _videoPlayer.enabled = true;
             _videoPlayer.clip = cutsceneInfo.clip;
             _videoPlayer.Play();
@@ -39,14 +39,14 @@ namespace Cutscenes
         {
             _videoPlayer.enabled = false;
             CutsceneEvents.FinishCutscene();
-            UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }
         
         private void SkipCutscene()
         {
             _videoPlayer.enabled = false;
             CutsceneEvents.FinishCutscene();
-            UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }
     }
 }

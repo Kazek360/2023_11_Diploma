@@ -8,7 +8,7 @@ namespace UI.Interfaces
 {
     public class PauseMenu : UserInterface
     {
-        public override GameState State => GameState.PauseMenu;
+        public override UserInterfaceState State => UserInterfaceState.PauseMenu;
 
         public override void OnEnter()
         {

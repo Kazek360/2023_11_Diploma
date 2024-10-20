@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Combat;
+using InputSystem;
 using TMPro;
+using UI;
+using UI.Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -10,8 +13,10 @@ using UnityEngine.UI;
 /**
  * Controller for combat UI
  */
-public class CombatUI : MonoBehaviour
+public class CombatUI : UserInterface
 {
+    public override UserInterfaceState State => UserInterfaceState.Combat;
+    
     [SerializeField] private GameObject SummaryDisplay;
     [SerializeField] private GameObject UpperScreen;
     [SerializeField] private GameObject LowerScreen;
@@ -33,14 +38,8 @@ public class CombatUI : MonoBehaviour
 
     private List<IHittable> _possibleTargets;
     private IHittable _currentTarget;
-
-    public void OnEnable()
-    {
-        GameConfig.canvas = GetComponent<Canvas>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
+    
+    private void Start()
     {
         _possibleTargets = new List<IHittable>();
         _entityManager = EntityManager.GetComponent<EntityManager>();
@@ -48,6 +47,17 @@ public class CombatUI : MonoBehaviour
         _abilitiesToggleGroup = AbilitiesScrollContent.GetComponent<ToggleGroup>();
     }
 
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        InputManager.Instance.Controlls.Player.Disable();
+    }
+    public override void OnExit()
+    {
+        base.OnExit();
+        InputManager.Instance.Controlls.Player.Enable();
+    }
+    
     /**
     * Displays UI for the player
     * <param name='entity'>currently active player</param>
@@ -281,15 +291,15 @@ public class CombatUI : MonoBehaviour
 
     /**
     * Disable normal UI and display summary of combat
-     * <param name="IsVictory">Whether player has won</param>
+     * <param name="isVictory">Whether player has won</param>
      * <param name="players">List of all players in combat</param>
      * <param name="enemies">List of all enemies in combat</param>
     */
-    public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
+    public void ShowCombatSummary(bool isVictory, List<IHittable> players, List<IHittable> enemies)
     {
         UpperScreen.SetActive(false);
         LowerScreen.SetActive(false);
-        SummaryDisplay.GetComponent<CombatSummaryScript>().SetValues(IsVictory, players, enemies);
+        SummaryDisplay.GetComponent<CombatSummaryScript>().SetValues(isVictory, players, enemies);
         SummaryDisplay.SetActive(true);
     }
 }

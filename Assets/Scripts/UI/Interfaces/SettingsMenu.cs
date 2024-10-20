@@ -3,7 +3,7 @@ namespace UI.Interfaces
 {
     public class SettingsMenu : UserInterface
     {
-        public override GameState State => GameState.Settings;
+        public override UserInterfaceState State => UserInterfaceState.Settings;
     }
  
 }

@@ -9,7 +9,7 @@ namespace UI.Interfaces
 
         public CanvasGroup CanvasGroup => _canvasGroup;
 
-        public abstract GameState State { get; }
+        public abstract UserInterfaceState State { get; }
 
 
         protected virtual void Awake()

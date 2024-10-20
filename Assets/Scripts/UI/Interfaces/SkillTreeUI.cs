@@ -6,7 +6,7 @@ namespace UI.Interfaces
 {
     public class SkillTreeUI : UserInterface
     {
-        public override GameState State => GameState.SkillTree;
+        public override UserInterfaceState State => UserInterfaceState.SkillTree;
         
         [SerializeField] private TextMeshProUGUI skillPointsValue;
     

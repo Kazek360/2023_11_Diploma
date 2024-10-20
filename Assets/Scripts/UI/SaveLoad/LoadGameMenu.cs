@@ -5,7 +5,7 @@ namespace UI.Interfaces
 {
     public class LoadGameMenu : UserInterface
     {
-        public override GameState State => GameState.LoadGame;
+        public override UserInterfaceState State => UserInterfaceState.LoadGame;
         private LoadSlot[] _loadSlots;
         
         protected override void Awake()

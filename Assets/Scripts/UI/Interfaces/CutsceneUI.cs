@@ -5,7 +5,7 @@ namespace UI.Interfaces
 {
     public class CutsceneUI : UserInterface
     {
-        public override GameState State => GameState.Cutscene;
+        public override UserInterfaceState State => UserInterfaceState.Cutscene;
         
         public override void OnEnter()
         {

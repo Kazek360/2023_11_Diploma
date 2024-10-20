@@ -15,7 +15,7 @@ namespace DialogueSystem.UI
     //Class managing the currently triggered dialogue.
     public class DialogueUI : UserInterface
     {
-        public override GameState State => GameState.Dialogue;
+        public override UserInterfaceState State => UserInterfaceState.Dialogue;
         
         [Header("Params")] 
         [SerializeField] private float typingSpeed;
@@ -42,7 +42,6 @@ namespace DialogueSystem.UI
         protected override void Awake()
         {
             base.Awake();
-            GameConfig.DialogueUI = this;
         }
         
         private void OnEnable()
@@ -86,7 +85,7 @@ namespace DialogueSystem.UI
         
         private void StartDialogue(DialogueSO dialogueInfo)
         {
-            UserInterfaceManager.Instance.ChangeState(GameState.Dialogue);
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Dialogue);
             _currentDialogue = dialogueInfo;
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
@@ -133,7 +132,7 @@ namespace DialogueSystem.UI
         
         private void EndDialogue()
         {
-            UserInterfaceManager.Instance.ChangeState(GameState.Exploration);
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             DialogueEvents.FinishDialogue(_currentDialogue);
             dialogueText.text = "";

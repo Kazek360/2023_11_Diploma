@@ -6,7 +6,7 @@ namespace UI.Interfaces
 {
     public class SaveGameMenu  : UserInterface
     {
-        public override GameState State => GameState.SaveGame;
+        public override UserInterfaceState State => UserInterfaceState.SaveGame;
         private SaveSlot[] _saveSlots;
         
         protected override void Awake()

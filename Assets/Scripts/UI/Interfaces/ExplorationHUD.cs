@@ -3,5 +3,5 @@ using UI.Interfaces;
 
 public class ExplorationHUD : UserInterface
 {
-    public override GameState State => GameState.Exploration;
+    public override UserInterfaceState State => UserInterfaceState.Exploration;
 }

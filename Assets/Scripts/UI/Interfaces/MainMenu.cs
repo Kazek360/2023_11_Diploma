@@ -7,7 +7,7 @@ namespace UI.Interfaces
 {
     public class MainMenu : UserInterface
     {
-        public override GameState State => GameState.MainMenu;
+        public override UserInterfaceState State => UserInterfaceState.MainMenu;
         
         [SerializeField] private Button continueButton;
         [SerializeField] private string startScene;

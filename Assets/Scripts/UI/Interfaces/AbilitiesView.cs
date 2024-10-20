@@ -5,7 +5,7 @@ namespace UI.Interfaces
 {
     public class AbilitiesView : UserInterface
     {
-        public override GameState State => GameState.Abilities;
+        public override UserInterfaceState State => UserInterfaceState.Abilities;
 
         public override void OnEnter()
         {

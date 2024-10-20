@@ -11,7 +11,7 @@ namespace Quests.UI
 {
     public class QuestLog : UserInterface
     {
-        public override GameState State => GameState.Quests;
+        public override UserInterfaceState State => UserInterfaceState.Quests;
         
         [Header("Components")] 
         [SerializeField] private QuestLogScrollingList scrollingList;

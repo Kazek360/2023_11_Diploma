@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Shared;
 using UI.Interfaces;
@@ -8,15 +7,15 @@ namespace UI
 {
     public class UserInterfaceManager : Singleton<UserInterfaceManager>
     {
-        private Dictionary<GameState, UserInterface> _states;
-        public Dictionary<GameState, UserInterface> States => _states;
+        private Dictionary<UserInterfaceState, UserInterface> _states;
+        public Dictionary<UserInterfaceState, UserInterface> States => _states;
 
-        [SerializeField] private GameState initialState;
-        private GameState _previousState;
-        public GameState PreviousState => _previousState;
+        [SerializeField] private UserInterfaceState initialState;
+        private UserInterfaceState _previousState;
+        public UserInterfaceState PreviousState => _previousState;
         
         private UserInterface _currentState;
-        public GameState CurrentStateType => _currentState.State;
+        public UserInterfaceState CurrentStateType => _currentState.State;
         
         private new void Awake()
         {
@@ -38,7 +37,7 @@ namespace UI
         /// Changes UI state and calls OnExit and OnEntered
         /// </summary>
         /// <param name="state"></param>
-        public void ChangeState(GameState state)
+        public void ChangeState(UserInterfaceState state)
         {
             if (!States.ContainsKey(state))
             {
@@ -53,6 +52,6 @@ namespace UI
             _currentState.OnEnter();
         }
     }
-    public enum GameState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
-        SkillTree, Abilities, Inventory }
+    public enum UserInterfaceState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
+        SkillTree, Abilities, Inventory, Combat }
 }

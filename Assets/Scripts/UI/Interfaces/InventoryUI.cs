@@ -6,7 +6,7 @@ namespace UI.Interfaces
 {
     public class InventoryUI : UserInterface
     {
-        public override GameState State => GameState.Inventory;
+        public override UserInterfaceState State => UserInterfaceState.Inventory;
         
         [SerializeField] private InventorySlotsUI InventorySlots;
         [SerializeField] private EquipmentSlotsUI EquipmentSlots;
