@@ -12,6 +12,10 @@ public class CameraController : MonoBehaviour
     private bool _isDragging = false;
     private bool _isFollowingPlayer = true;
     private const float FixedZPosition = -10f;
+    
+    [SerializeField] private float minZoom = 3.0f; // Minimalny poziom przybliżenia
+    [SerializeField] private float maxZoom = 8.0f; // Maksymalny poziom oddalenia
+    [SerializeField] private float zoomSpeed = 1.0f; // Szybkość zmiany zoomu
 
     void Start()
     {
@@ -22,14 +26,13 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         HandleMouseInput();
-
-      
+        HandleZoom();
+        
         if (_isFollowingPlayer)
         {
             FollowPlayer();
         }
-
-       
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             MoveCameraToPlayer();
@@ -101,6 +104,17 @@ public class CameraController : MonoBehaviour
         {
             Vector3 directionToPlayer = distanceFromPlayer.normalized;
             cameraTransform.position = player.position + directionToPlayer * maxDistanceFromPlayer;
+        }
+    }
+    
+    private void HandleZoom()
+    {
+        float scrollData = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollData != 0f)
+        {
+            _camera.orthographicSize -= scrollData * zoomSpeed;
+
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, minZoom, maxZoom);
         }
     }
 }
