@@ -53,6 +53,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CenterCamera"",
+                    ""type"": ""Button"",
+                    ""id"": ""db3cb28f-681a-4514-a826-1c3cb3d08677"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -130,6 +139,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b68bfcc0-da68-45d7-8184-5e809209b206"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CenterCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -312,6 +332,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_CenterCamera = m_Player.FindAction("CenterCamera", throwIfNotFound: true);
         // Story
         m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
         m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
@@ -386,6 +407,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_CenterCamera;
     public struct PlayerActions
     {
         private @PlayerControlls m_Wrapper;
@@ -393,6 +415,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -411,6 +434,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
+            @CenterCamera.started += instance.OnCenterCamera;
+            @CenterCamera.performed += instance.OnCenterCamera;
+            @CenterCamera.canceled += instance.OnCenterCamera;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -424,6 +450,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
+            @CenterCamera.started -= instance.OnCenterCamera;
+            @CenterCamera.performed -= instance.OnCenterCamera;
+            @CenterCamera.canceled -= instance.OnCenterCamera;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -570,6 +599,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnCenterCamera(InputAction.CallbackContext context);
     }
     public interface IStoryActions
     {

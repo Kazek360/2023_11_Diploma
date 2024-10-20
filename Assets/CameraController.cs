@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -13,17 +14,31 @@ public class CameraController : MonoBehaviour
     private bool _isFollowingPlayer = true;
     private const float FixedZPosition = -10f;
     
-    private float minZoom = 6.0f; 
-    private float maxZoom = 10.0f; 
+    private float _minZoom = 6.0f; 
+    private float _maxZoom = 10.0f; 
     [SerializeField] private float zoomSpeed = 1.0f; 
     private float _defaultZoom = 10.0f; 
 
+    public static event Action OnCameraCentered;
+    public static void CenterCamera()
+    {
+        OnCameraCentered?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        OnCameraCentered += MoveCameraToPlayer;
+    }
+    private void OnDisable()
+    {
+        OnCameraCentered -= MoveCameraToPlayer;
+    }
+    
     void Start()
     {
         _camera = Camera.main; 
         cameraTransform.parent = player;
         _camera.orthographicSize = _defaultZoom; 
-
     }
 
     void Update()
@@ -34,11 +49,6 @@ public class CameraController : MonoBehaviour
         if (_isFollowingPlayer)
         {
             FollowPlayer();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            MoveCameraToPlayer();
         }
 
         FixCameraZPosition();
@@ -118,7 +128,7 @@ public class CameraController : MonoBehaviour
         {
             _camera.orthographicSize -= scrollData * zoomSpeed;
 
-            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, minZoom, maxZoom);
+            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _minZoom, _maxZoom);
         }
     }
 }

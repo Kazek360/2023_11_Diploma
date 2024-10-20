@@ -72,7 +72,16 @@ namespace InputSystem
                 InteractionEvents.TriggerInteraction();
             }
         }
-        
+
+        public void OnCenterCamera(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                CameraController.CenterCamera();
+                //Jakiś Event
+            }
+        }
+
         public void OnSkip(InputAction.CallbackContext context)
         {
             if (context.performed)
