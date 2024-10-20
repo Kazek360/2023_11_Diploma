@@ -4,6 +4,7 @@ using DialogueSystem.ScriptableObjects;
 using InputSystem;
 using UnityEngine;
 
+
 namespace Player
 {
     public class PlayerController : MonoBehaviour
@@ -52,12 +53,21 @@ namespace Player
         
         private void Update()
         {
+            // Jeśli kliknięto myszką, ustaw cel ruchu
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
             }
-            FixPlayerZPosition(); 
 
+            // Jeśli gracz zaczyna poruszać się klawiaturą (WSAD), anulujemy ruch myszką
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+            {
+                _isMouseMoving = false; // Przestajemy podążać do klikniętego celu
+                Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+                MovePlayer(movementVector); // Sterowanie klawiaturą
+            }
+
+            FixPlayerZPosition();
         }
 
         private void MovePlayer(Vector2 movementVector)

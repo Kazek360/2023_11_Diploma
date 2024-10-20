@@ -39,6 +39,8 @@ public class CameraController : MonoBehaviour
         _camera = Camera.main; 
         cameraTransform.parent = player;
         _camera.orthographicSize = _defaultZoom; 
+        _targetZoom = _camera.orthographicSize; // Początkowa wartość zoomu
+
     }
 
     void Update()
@@ -103,6 +105,7 @@ public class CameraController : MonoBehaviour
         _isFollowingPlayer = true; 
         cameraTransform.parent = player; 
         _camera.orthographicSize = _defaultZoom; 
+        _targetZoom = _defaultZoom;
     }
 
     private void FixCameraZPosition()
@@ -121,14 +124,19 @@ public class CameraController : MonoBehaviour
         }
     }
     
+    private float _targetZoom; 
+    private float _zoomVelocity = 0.0f; 
+
     private void HandleZoom()
     {
         float scrollData = Input.GetAxis("Mouse ScrollWheel");
         if (scrollData != 0f)
         {
-            _camera.orthographicSize -= scrollData * zoomSpeed;
-
-            _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _minZoom, _maxZoom);
+            _targetZoom -= scrollData * zoomSpeed;
+            _targetZoom = Mathf.Clamp(_targetZoom, _minZoom, _maxZoom); 
         }
+
+        _camera.orthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _targetZoom, ref _zoomVelocity, 0.2f);
     }
+
 }
