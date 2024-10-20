@@ -40,9 +40,15 @@ public class Item
         return _itemDesc;
     }
 
-    public Sprite ItemSprite => _itemSprites[0];
-    
-    public List<Sprite> ItemSprites => _itemSprites;
+    public Sprite ItemSprite()
+    {
+        return _itemSprites[0];
+    }
+
+    public Sprite ItemSprite(int imaginationLevel)
+    {
+        return _itemSprites[Math.Min(imaginationLevel, _itemSprites.Count)];
+    }
 
     public int MaxStackSize => _maxStackSize;
 }

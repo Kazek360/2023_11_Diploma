@@ -29,7 +29,7 @@ public class EquipmentSlotUI : MonoBehaviour
         else
         {
             ItemImage.enabled = true;
-            ItemImage.sprite = item.ItemSprite;
+            ItemImage.sprite = item.ItemSprite();
             Toggle.interactable = true;
         }
         
@@ -56,7 +56,7 @@ public class EquipmentSlotUI : MonoBehaviour
         else
         {
             ItemImage.enabled = true;
-            ItemImage.sprite = item.ItemSprite;
+            ItemImage.sprite = item.ItemSprite();
             Toggle.interactable = true;
             if (_lastItemId != item.ItemID)
             {
