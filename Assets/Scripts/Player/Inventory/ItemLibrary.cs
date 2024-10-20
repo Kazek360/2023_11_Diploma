@@ -26,7 +26,7 @@ public class ItemLibrary
             itemID: 0, 
             "Kamień", 
             "Przydatny dla jaskiniowców", 
-            Resources.Load<Sprite>("ItemSprites/Heart1"), 
+            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Heart1")}, 
             10
             ));
         
@@ -34,7 +34,7 @@ public class ItemLibrary
             itemID: 1, 
             "Piwo", 
             "PIWO PJATK leczy 1 HP", 
-            Resources.Load<Sprite>("ItemSprites/piwo"), 
+            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/piwo")}, 
             10,
             delegate
             {
@@ -48,7 +48,7 @@ public class ItemLibrary
             itemID: 2, 
             "Scyzoryk", 
             "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Scyzoryk", 
-            Resources.Load<Sprite>("ItemSprites/Sword1"), 
+            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Sword/Sword1"), Resources.Load<Sprite>("ItemSprites/Sword/Sword2"), Resources.Load<Sprite>("ItemSprites/Sword/Sword3")}, 
             delegate
             {
                 UnlockableAbility slingshot = new UnlockableAbility();
@@ -78,7 +78,7 @@ public class ItemLibrary
             itemID: 3, 
             "Kamień do rzucania", 
             "Daj kamienia", 
-            Resources.Load<Sprite>("ItemSprites/Heart1"), 
+            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Heart1")}, 
             delegate { }, 
             delegate {  }, 
             EquipmentSlotType.hand,
@@ -96,7 +96,7 @@ public class ItemLibrary
             itemID: 4, 
             "Proca", 
             "Brzydki kuzyn łuku. Pozwala na używanie zdolności dystansowej Strzał", 
-            Resources.Load<Sprite>("ItemSprites/child-wooden-slingshot-vector-14608075"),
+            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/child-wooden-slingshot-vector-14608075")},
             delegate
             {
                 UnlockableAbility slingshot = new UnlockableAbility();

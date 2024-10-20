@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -13,15 +14,15 @@ public class Item
     private int _itemID;
     private string _itemName;
     protected string _itemDesc;
-    private Sprite _itemSprite;
+    private List<Sprite> _itemSprites;
     private int _maxStackSize;
 
-    public Item(int itemID, string itemName, string itemDesc, Sprite itemSprite, int maxStackSize)
+    public Item(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize)
     {
         _itemID = itemID;
         _itemName = itemName;
         _itemDesc = itemDesc;
-        _itemSprite = itemSprite;
+        _itemSprites = itemSprites;
         _maxStackSize = maxStackSize;
     }
 
@@ -39,7 +40,9 @@ public class Item
         return _itemDesc;
     }
 
-    public Sprite ItemSprite => _itemSprite;
+    public Sprite ItemSprite => _itemSprites[0];
+    
+    public List<Sprite> ItemSprites => _itemSprites;
 
     public int MaxStackSize => _maxStackSize;
 }
@@ -54,8 +57,8 @@ public class EquipmentItem: Item
     private List<ItemStatModifier> _modifiers;
     private List<ItemStatModifier> _imaginationModifiers;
 
-    public EquipmentItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, Action equip, Action unequip, 
-        EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers, List<ItemStatModifier> imaginationModifiers) : base(itemID, itemName, itemDesc, itemSprite, 1)
+    public EquipmentItem(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, Action equip, Action unequip, 
+        EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers, List<ItemStatModifier> imaginationModifiers) : base(itemID, itemName, itemDesc, itemSprites, 1)
     {
         _equip = equip;
         _unequip = unequip;
@@ -126,7 +129,7 @@ public class UsableItem: Item
     private Action _use;
     private bool _destroyOnUse;
 
-    public UsableItem(int itemID, string itemName, string itemDesc, Sprite itemSprite, int maxStackSize, Action use, bool destroyOnUse) : base(itemID, itemName, itemDesc, itemSprite, maxStackSize)
+    public UsableItem(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize, Action use, bool destroyOnUse) : base(itemID, itemName, itemDesc, itemSprites, maxStackSize)
     {
         _use = use;
         _destroyOnUse = destroyOnUse;
