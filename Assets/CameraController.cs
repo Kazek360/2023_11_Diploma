@@ -13,14 +13,17 @@ public class CameraController : MonoBehaviour
     private bool _isFollowingPlayer = true;
     private const float FixedZPosition = -10f;
     
-    [SerializeField] private float minZoom = 3.0f; // Minimalny poziom przybliżenia
-    [SerializeField] private float maxZoom = 8.0f; // Maksymalny poziom oddalenia
-    [SerializeField] private float zoomSpeed = 1.0f; // Szybkość zmiany zoomu
+    private float minZoom = 6.0f; 
+    private float maxZoom = 10.0f; 
+    [SerializeField] private float zoomSpeed = 1.0f; 
+    private float _defaultZoom = 10.0f; 
 
     void Start()
     {
         _camera = Camera.main; 
-        cameraTransform.parent = player; 
+        cameraTransform.parent = player;
+        _camera.orthographicSize = _defaultZoom; 
+
     }
 
     void Update()
@@ -89,6 +92,7 @@ public class CameraController : MonoBehaviour
         cameraTransform.position = new Vector3(player.position.x, player.position.y, FixedZPosition);
         _isFollowingPlayer = true; 
         cameraTransform.parent = player; 
+        _camera.orthographicSize = _defaultZoom; 
     }
 
     private void FixCameraZPosition()
