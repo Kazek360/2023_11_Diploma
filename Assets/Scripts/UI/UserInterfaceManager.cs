@@ -45,7 +45,10 @@ namespace UI
                 return;
             }
             if (_currentState is not null){
-                _previousState = _currentState.State;
+                if (_currentState.State is UserInterfaceState.Exploration or UserInterfaceState.Combat)
+                {
+                    _previousState = _currentState.State;
+                }
                 _currentState.OnExit();
             }
             _currentState = States[state];

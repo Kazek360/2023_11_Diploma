@@ -159,12 +159,13 @@ namespace InputSystem
             {
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
-                    case UserInterfaceState.Exploration or UserInterfaceState.LoadGame or UserInterfaceState.SaveGame:
+                    case UserInterfaceState.Exploration or UserInterfaceState.LoadGame or UserInterfaceState.SaveGame 
+                        or UserInterfaceState.Combat:
                         UserInterfaceManager.Instance.ChangeState(UserInterfaceState.PauseMenu);
                         break;
-                    case UserInterfaceState.PauseMenu or UserInterfaceState.Quests or UserInterfaceState.SkillTree or UserInterfaceState.Abilities 
-                        or UserInterfaceState.Inventory:
-                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
+                    case UserInterfaceState.PauseMenu or UserInterfaceState.Quests or UserInterfaceState.SkillTree 
+                        or UserInterfaceState.Abilities or UserInterfaceState.Inventory:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceManager.Instance.PreviousState);
                         break;
                 }
             }
