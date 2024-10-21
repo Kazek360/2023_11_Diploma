@@ -104,6 +104,7 @@ namespace Player
             }
             else
             {
+                _agent.ResetPath();
                 _rigidbody.velocity = movementVector * currentSpeed;
                 if (movementVector != Vector2.zero)
                 {
