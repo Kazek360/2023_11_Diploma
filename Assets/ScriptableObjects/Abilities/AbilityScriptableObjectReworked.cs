@@ -52,6 +52,8 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     private List<EffectContainer> effects;
     [Tooltip("What does the ability do over time")] [SerializeField] 
     private List<EffectOverTimeContainer> effectsOverTime;
+    [Tooltip("What visual effects does the ability invoke")] [SerializeField] 
+    private List<VisualEffectContainer> visualEffects;
 
 
     public string AbilityName => abilityName;
