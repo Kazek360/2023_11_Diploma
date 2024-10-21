@@ -3,6 +3,7 @@ using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
 using InputSystem;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 namespace Player
@@ -24,6 +25,9 @@ namespace Player
         private static readonly int Y = Animator.StringToHash("Y");
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
+        
+        // nevmesh
+        NavMeshAgent _agent;
 
         private void OnEnable()
         {
@@ -49,6 +53,13 @@ namespace Player
             _isPlayerSprinting = false;
             _animator = GetComponent<Animator>();
             _isMouseMoving = false;
+            
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.updateRotation = false;
+            _agent.updateUpAxis = false;
+            
+            
+            
         }
         
         private void Update()
@@ -57,6 +68,7 @@ namespace Player
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
+                SetAgentPosition();
             }
 
             // Jeśli gracz zaczyna poruszać się klawiaturą (WSAD), anulujemy ruch myszką
@@ -116,6 +128,11 @@ namespace Player
                 _targetPosition = new Vector2(mousePosition.x, mousePosition.y);
                 _isMouseMoving = true;
             }
+        }
+        
+        void SetAgentPosition()
+        {
+            _agent.SetDestination(_targetPosition);
         }
 
         
