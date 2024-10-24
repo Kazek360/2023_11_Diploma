@@ -31,7 +31,7 @@ namespace Editor.Quests.Elements
         public void Draw()
         {
             //Node Title
-            var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, callback =>
+            var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, null, callback =>
             {
                 if (group == null)
                 {

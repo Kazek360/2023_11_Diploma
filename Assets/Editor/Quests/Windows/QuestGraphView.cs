@@ -9,12 +9,33 @@ namespace Editor.Quests.Windows
 {
     public class QuestGraphView : GraphView
     {
+        private QuestEditorWindow _editorWindow;
         private Dictionary<string, List<QuestNode>> _ungroupedNodes;
         private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
         private Dictionary<string, List<QuestGroup>> _groups;
-        
-        public QuestGraphView()
+
+        private int _repeatedNamesAmount;
+
+        public int RepeatedNamesAmount
         {
+            get => _repeatedNamesAmount;
+            set
+            {
+                _repeatedNamesAmount = value;
+                if (_repeatedNamesAmount == 0)
+                {
+                    _editorWindow.EnableSaving();
+                }
+                else
+                {
+                    _editorWindow.DisableSaving();
+                }
+            }
+        }
+
+        public QuestGraphView(QuestEditorWindow editorWindow)
+        {
+            _editorWindow = editorWindow;
             _ungroupedNodes = new Dictionary<string, List<QuestNode>>();
             _groupedNodes = new Dictionary<Group, Dictionary<string, List<QuestNode>>>();
             _groups = new Dictionary<string, List<QuestGroup>>();
@@ -38,7 +59,7 @@ namespace Editor.Quests.Windows
 
         private void AddStyles()
         {
-            this.AddStyleSheets("Quests/QuestGraphViewStyles.uss", "Quests/QuestNodeStyles.uss");
+            this.AddStyleSheets("Quests/QuestGraphStyles.uss", "Quests/QuestNodeStyles.uss");
         }
         private void AddManipulators()
         {
@@ -96,6 +117,7 @@ namespace Editor.Quests.Windows
             node.SetErrorStyle(errorColor);
             if (_ungroupedNodes[nodeName].Count == 2)
             {
+                RepeatedNamesAmount++;
                 _ungroupedNodes[nodeName][0].SetErrorStyle(errorColor);
             }
         }
@@ -109,6 +131,7 @@ namespace Editor.Quests.Windows
 
             if (_ungroupedNodes[nodeName].Count == 1)
             {
+                RepeatedNamesAmount--;
                 _ungroupedNodes[nodeName][0].ResetStyle();
             }
 
@@ -139,6 +162,7 @@ namespace Editor.Quests.Windows
             
             if (_groupedNodes[group][nodeName].Count == 2)
             {
+                RepeatedNamesAmount++;
                 _groupedNodes[group][nodeName][0].SetErrorStyle(errorColor);
             }
         }
@@ -152,6 +176,7 @@ namespace Editor.Quests.Windows
 
             if (_groupedNodes[group][nodeName].Count == 1)
             {
+                RepeatedNamesAmount--;
                 _groupedNodes[group][nodeName][0].ResetStyle();
                 return;
             }
@@ -205,6 +230,7 @@ namespace Editor.Quests.Windows
             group.SetErrorStyle(errorColor);
             if (_groups[groupName].Count == 2)
             {
+                RepeatedNamesAmount++;
                 _groups[groupName][0].SetErrorStyle(errorColor);
             }
         }
@@ -219,6 +245,7 @@ namespace Editor.Quests.Windows
 
             if (_groups[oldGroupName].Count == 1)
             {
+                RepeatedNamesAmount--;
                 _groups[oldGroupName][0].ResetStyle();
             }
 

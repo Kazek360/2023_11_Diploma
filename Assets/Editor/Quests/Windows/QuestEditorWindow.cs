@@ -2,12 +2,14 @@ using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Quests;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Editor.Quests.Windows
 {
     public class QuestEditorWindow : EditorWindow
     {
+        private Button _saveButton;
         private QuestInfo requiredQuest;
 
         // Otwiera okno edytora
@@ -19,12 +21,29 @@ namespace Editor.Quests.Windows
 
         private void OnEnable()
         {
-            var questGraphView = new QuestGraphView();
-            questGraphView.StretchToParentSize();
-            rootVisualElement.Add(questGraphView);
+            AddGraphView();
+            AddToolbar();
             AddStyles();
         }
 
+        private void AddGraphView()
+        {
+            var questGraphView = new QuestGraphView(this);
+            questGraphView.StretchToParentSize();
+            rootVisualElement.Add(questGraphView);
+        }
+
+        private void AddToolbar()
+        {
+            var toolbar = new Toolbar();
+            var fieldNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
+            _saveButton = QuestGraphUtilities.CreateButton("Save");
+            toolbar.Add(fieldNameTextField);
+            toolbar.Add(_saveButton);
+            toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
+            rootVisualElement.Add(toolbar);
+        }
+        
         // Tworzenie instancji ScriptableObject
         private void CreateScriptableObject()
         {
@@ -54,6 +73,16 @@ namespace Editor.Quests.Windows
         private void AddStyles()
         {
             rootVisualElement.AddStyleSheets("Quests/QuestWindowVariables.uss");
+        }
+
+        public void EnableSaving()
+        {
+            _saveButton.SetEnabled(true);
+        }
+
+        public void DisableSaving()
+        {
+            _saveButton.SetEnabled(false);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Editor.Quests.Elements;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -8,11 +9,13 @@ namespace Editor.Quests.Utilities
 {
     public static class QuestGraphUtilities
     {
-        public static TextField CreateTextField(string value, EventCallback<ChangeEvent<string>> onValueChanged = null)
+        public static TextField CreateTextField(string value = null, string label = null, 
+            EventCallback<ChangeEvent<string>> onValueChanged = null)
         {
             var textfield = new TextField()
             {
-                value = value
+                value = value,
+                label = label
             };
             if (onValueChanged != null)
             {
@@ -22,9 +25,10 @@ namespace Editor.Quests.Utilities
             return textfield;
         }
 
-        public static TextField CreateTextArea(string value, EventCallback<ChangeEvent<string>> onValueChanged = null)
+        public static TextField CreateTextArea(string value = null, string label = null, 
+            EventCallback<ChangeEvent<string>> onValueChanged = null)
         {
-            var textArea = CreateTextField(value, onValueChanged);
+            var textArea = CreateTextField(value, label, onValueChanged);
             textArea.multiline = true;
             return textArea;
         }
@@ -38,7 +42,17 @@ namespace Editor.Quests.Utilities
             
             return foldout;
         }
-
+        
+        public static Button CreateButton(string text, Action onClick = null)
+        {
+            var button = new Button(onClick)
+            {
+                text = text
+            };
+            
+            return button;
+        }
+        
         public static Port CreatePort(this QuestNode node, string portName, 
             Direction direction, Port.Capacity capacity, Orientation orientation = Orientation.Horizontal)
         {
