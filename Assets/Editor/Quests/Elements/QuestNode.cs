@@ -9,6 +9,7 @@ namespace Editor.Quests.Elements
     public class QuestNode : Node
     {
         public QuestGraphView graphView;
+        public Group group;
         public string fileName;
         public string displayName;
         public string description;
@@ -32,9 +33,19 @@ namespace Editor.Quests.Elements
             //Node Title
             var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, callback =>
             {
-                graphView.RemoveUngroupedNode(this);
+                if (group == null)
+                {
+                    graphView.RemoveUngroupedNode(this);
+                    fileName = callback.newValue;
+                    graphView.AddUngroupedNode(this);
+                    return;
+                }
+
+                var currentGroup = group;
+                graphView.RemoveGroupedNode(this, group);
                 fileName = callback.newValue;
-                graphView.AddUngroupedNode(this);
+                graphView.AddGroupedNode(this, currentGroup);
+                
             });
             fileNameTextField.AddToClassList("quest-node__filename-textfield");
             titleContainer.Insert(0, fileNameTextField);

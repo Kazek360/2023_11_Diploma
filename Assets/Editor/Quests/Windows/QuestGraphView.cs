@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Editor.Quests.Elements;
 using Editor.Quests.Utilities;
-using NUnit.Framework;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,13 +10,17 @@ namespace Editor.Quests.Windows
     public class QuestGraphView : GraphView
     {
         private Dictionary<string, List<QuestNode>> _ungroupedNodes;
+        private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
         
         public QuestGraphView()
         {
             _ungroupedNodes = new Dictionary<string, List<QuestNode>>();
+            _groupedNodes = new Dictionary<Group, Dictionary<string, List<QuestNode>>>();
             AddManipulators();
             AddGridBackground();
             OnElementsDeleted();
+            OnGroupElementsAdded();
+            OnGroupElementsRemoved();
             AddStyles();
         }
 
@@ -79,8 +81,7 @@ namespace Editor.Quests.Windows
             var nodeName = node.fileName;
             if (!_ungroupedNodes.ContainsKey(nodeName))
             {
-                var nodeList = new List<QuestNode> { node };
-                _ungroupedNodes.Add(nodeName, nodeList);
+                _ungroupedNodes.Add(nodeName, new List<QuestNode> { node });
                 return;
             }
             
@@ -130,6 +131,54 @@ namespace Editor.Quests.Windows
             return group;
         }
 
+        public void AddGroupedNode(QuestNode node, Group group)
+        {
+            var nodeName = node.fileName;
+            node.group = group;
+            if (!_groupedNodes.ContainsKey(group))
+            {
+                _groupedNodes.Add(group, new Dictionary<string, List<QuestNode>>());
+            }
+
+            if (!_groupedNodes[group].ContainsKey(nodeName))
+            {
+                _groupedNodes[group].Add(nodeName, new List<QuestNode>() { node });
+                return;
+            }
+            
+            _groupedNodes[group][nodeName].Add(node);
+            var errorColor = new Color(200f / 255f, 1f / 255f, 1f / 255f);
+            node.SetErrorStyle(errorColor);
+            
+            if (_groupedNodes[group][nodeName].Count == 2)
+            {
+                _groupedNodes[group][nodeName][0].SetErrorStyle(errorColor);
+            }
+        }
+        public void RemoveGroupedNode(QuestNode node, Group group)
+        {
+            var nodeName = node.fileName;
+            node.group = null;
+
+            _groupedNodes[group][nodeName].Remove(node);
+            node.ResetStyle();
+
+            if (_groupedNodes[group][nodeName].Count == 1)
+            {
+                _groupedNodes[group][nodeName][0].ResetStyle();
+                return;
+            }
+
+            if (_groupedNodes[group][nodeName].Count == 0)
+            {
+                _groupedNodes[group].Remove(nodeName);
+                if (_groupedNodes[group].Count == 0)
+                {
+                    _groupedNodes.Remove(group);
+                }
+            }
+        }
+        
         private void OnElementsDeleted()
         {
             deleteSelection = (operationName, askUser) =>
@@ -145,12 +194,50 @@ namespace Editor.Quests.Windows
 
                 foreach (var node in nodesToDelete)
                 {
+                    if (node.group != null)
+                    {
+                        node.group.RemoveElement(node);
+                    }
                     RemoveUngroupedNode(node);
                     RemoveElement(node);
                 }
             };
         }
-        
+
+        private void OnGroupElementsAdded()
+        {
+            elementsAddedToGroup = (group, elements) =>
+            {
+                foreach (var element in elements)
+                {
+                    if (element is not QuestNode)
+                    {
+                        continue;
+                    }
+
+                    var node = (QuestNode)element;
+                    RemoveUngroupedNode(node);
+                    AddGroupedNode(node, group);
+                }
+            };
+        }
+        private void OnGroupElementsRemoved()
+        {
+            elementsRemovedFromGroup = (group, elements) =>
+            {
+                foreach (var element in elements)
+                {
+                    if (element is not QuestNode)
+                    {
+                        continue;
+                    }
+
+                    var node = (QuestNode)element;
+                    RemoveGroupedNode(node, group);
+                    AddUngroupedNode(node);
+                }
+            };
+        }
     }
 }
 

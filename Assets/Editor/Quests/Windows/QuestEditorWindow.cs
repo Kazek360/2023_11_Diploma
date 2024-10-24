@@ -2,16 +2,12 @@ using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Quests;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Quests.Windows
 {
     public class QuestEditorWindow : EditorWindow
     {
-        // Zmienna do przechowywania nazwy pliku
-        private string fileName = "";
-        
         private QuestInfo requiredQuest;
 
         // Otwiera okno edytora
@@ -32,17 +28,8 @@ namespace Editor.Quests.Windows
         // Tworzenie instancji ScriptableObject
         private void CreateScriptableObject()
         {
-            // Sprawdzamy, czy nazwa pliku nie jest pusta
-            if (string.IsNullOrEmpty(fileName))
-            {
-                Debug.LogError("Nazwa pliku nie może być pusta!");
-                return;
-            }
-
             // Tworzymy instancję ScriptableObject
             var newQuest = CreateInstance<QuestInfo>();
-            //newQuest.displayName = displayName;
-            //newQuest.description = description;
 
             if (requiredQuest != null)
             {
@@ -50,18 +37,18 @@ namespace Editor.Quests.Windows
                 newQuest.requiredQuests.Add(requiredQuest);
             }
 
-            // Ścieżka, w której zapisujemy obiekt
-            var assetPath = "Assets/Resources/Quests/" + fileName + ".asset";
+            // // Ścieżka, w której zapisujemy obiekt
+            // var assetPath = "Assets/Resources/Quests/" + fileName + ".asset";
 
             // Zapisujemy obiekt w zasobach (Assets)
-            AssetDatabase.CreateAsset(newQuest, assetPath);
-            AssetDatabase.SaveAssets();
+            // AssetDatabase.CreateAsset(newQuest, assetPath);
+            // AssetDatabase.SaveAssets();
 
             // Otwieramy zasób w inspektorze
             EditorUtility.FocusProjectWindow();
             Selection.activeObject = newQuest;
 
-            Debug.Log("Nowy quest został utworzony i zapisany w " + assetPath);
+            // Debug.Log("Nowy quest został utworzony i zapisany w " + assetPath);
         }
         
         private void AddStyles()
