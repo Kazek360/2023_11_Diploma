@@ -11,16 +11,21 @@ namespace Editor.Quests.Windows
     {
         private Dictionary<string, List<QuestNode>> _ungroupedNodes;
         private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
+        private Dictionary<string, List<QuestGroup>> _groups;
         
         public QuestGraphView()
         {
             _ungroupedNodes = new Dictionary<string, List<QuestNode>>();
             _groupedNodes = new Dictionary<Group, Dictionary<string, List<QuestNode>>>();
+            _groups = new Dictionary<string, List<QuestGroup>>();
             AddManipulators();
             AddGridBackground();
+            
             OnElementsDeleted();
             OnGroupElementsAdded();
             OnGroupElementsRemoved();
+            OnGroupRenamed();
+            
             AddStyles();
         }
 
@@ -113,25 +118,7 @@ namespace Editor.Quests.Windows
             }
         }
         
-        private IManipulator CreateGroupContextualMenu()
-        {
-            var contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Group", 
-                    actionEvent => AddElement(CreateGroup("Group", actionEvent.eventInfo.localMousePosition)))
-            );
-            return contextualMenuManipulator;
-        }
-        private Group CreateGroup(string title, Vector2 mousePosition)
-        {
-            var group = new Group()
-            {
-                title = title
-            };
-            group.SetPosition(new Rect(mousePosition, Vector2.zero));
-            return group;
-        }
-
-        public void AddGroupedNode(QuestNode node, Group group)
+        public void AddGroupedNode(QuestNode node, QuestGroup group)
         {
             var nodeName = node.fileName;
             node.group = group;
@@ -179,10 +166,63 @@ namespace Editor.Quests.Windows
             }
         }
         
+        private IManipulator CreateGroupContextualMenu()
+        {
+            var contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Add Group", 
+                    actionEvent => AddElement(CreateGroup("Group", actionEvent.eventInfo.localMousePosition)))
+            );
+            return contextualMenuManipulator;
+        }
+        private Group CreateGroup(string title, Vector2 mousePosition)
+        {
+            var group = new QuestGroup(title, mousePosition);
+            AddGroup(group);
+            return group;
+        }
+        public void AddGroup(QuestGroup group)
+        {
+            var groupName = group.title;
+            if (!_groups.ContainsKey(groupName))
+            {
+                _groups.Add(groupName, new List<QuestGroup> { group });
+                return;
+            }
+            
+            _groups[groupName].Add(group);
+
+            var errorColor = new Color(200f / 255f, 1f / 255f, 1f / 255f);
+            group.SetErrorStyle(errorColor);
+            if (_groups[groupName].Count == 2)
+            {
+                _groups[groupName][0].SetErrorStyle(errorColor);
+            }
+        }
+        
+        public void RemoveGroup(QuestGroup group)
+        {
+            var oldGroupName = group.oldTitle;
+
+            _groups[oldGroupName].Remove(group);
+            
+            group.ResetStyle();
+
+            if (_groups[oldGroupName].Count == 1)
+            {
+                _groups[oldGroupName][0].ResetStyle();
+            }
+
+            if (_groups[oldGroupName].Count == 0)
+            {
+                _groups.Remove(oldGroupName);
+            }
+        }
+        
         private void OnElementsDeleted()
         {
             deleteSelection = (operationName, askUser) =>
             {
+                var groupsToDelete = new List<QuestGroup>();
                 var nodesToDelete = new List<QuestNode>();
                 foreach (var element in selection)
                 {
@@ -190,8 +230,12 @@ namespace Editor.Quests.Windows
                     {
                         nodesToDelete.Add(node);
                     }
+                    else if (element is QuestGroup group)
+                    {
+                        groupsToDelete.Add(group);
+                    }
                 }
-
+                
                 foreach (var node in nodesToDelete)
                 {
                     if (node.group != null)
@@ -200,6 +244,12 @@ namespace Editor.Quests.Windows
                     }
                     RemoveUngroupedNode(node);
                     RemoveElement(node);
+                }
+                
+                foreach (var group in groupsToDelete)
+                {
+                    RemoveGroup(group);
+                    RemoveElement(group);
                 }
             };
         }
@@ -214,10 +264,12 @@ namespace Editor.Quests.Windows
                     {
                         continue;
                     }
-
+                    
+                    var nodeGroup = (QuestGroup)group;
                     var node = (QuestNode)element;
+                    
                     RemoveUngroupedNode(node);
-                    AddGroupedNode(node, group);
+                    AddGroupedNode(node, nodeGroup);
                 }
             };
         }
@@ -238,6 +290,18 @@ namespace Editor.Quests.Windows
                 }
             };
         }
+        
+        private void OnGroupRenamed()
+        {
+            groupTitleChanged = (group, newTitle) =>
+            {
+                var questGroup = (QuestGroup)group;
+                RemoveGroup(questGroup);
+                questGroup.oldTitle = newTitle;
+                AddGroup(questGroup);
+            };
+        }
+        
     }
 }
 

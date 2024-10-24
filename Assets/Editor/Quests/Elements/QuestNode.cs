@@ -9,12 +9,12 @@ namespace Editor.Quests.Elements
     public class QuestNode : Node
     {
         public QuestGraphView graphView;
-        public Group group;
+        public QuestGroup group;
         public string fileName;
         public string displayName;
         public string description;
 
-        private Color DEFAULT_BACKGROUND_COLOR = new Color(80f / 255f, 80f / 255f, 80f / 255f);
+        private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
 
         public void Initialize(QuestGraphView questGraphView, Vector2 position)
         {
@@ -93,7 +93,7 @@ namespace Editor.Quests.Elements
 
         public void ResetStyle()
         {
-            mainContainer.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
+            mainContainer.style.backgroundColor = _defaultBackgroundColor;
         }
     }
 }
