@@ -86,6 +86,24 @@ namespace Editor.Quests.Elements
             RefreshExpandedState();
         }
 
+        public void DisconnectAllPorts()
+        {
+            DisconnectPorts(inputContainer);
+            DisconnectPorts(outputContainer);
+        }
+        
+        private void DisconnectPorts(VisualElement container)
+        {
+            foreach (Port port in container.Children())
+            {
+                if (port.connected)
+                {
+                    graphView.DeleteElements(port.connections);
+                }
+            }
+        }
+        
+        
         public void SetErrorStyle(Color color)
         {
             mainContainer.style.backgroundColor = color;

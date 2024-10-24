@@ -170,7 +170,7 @@ namespace Editor.Quests.Windows
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Add Group", 
-                    actionEvent => AddElement(CreateGroup("Group", actionEvent.eventInfo.localMousePosition)))
+                    actionEvent => CreateGroup("Group", actionEvent.eventInfo.localMousePosition))
             );
             return contextualMenuManipulator;
         }
@@ -178,6 +178,16 @@ namespace Editor.Quests.Windows
         {
             var group = new QuestGroup(title, mousePosition);
             AddGroup(group);
+            AddElement(group);
+
+            foreach (var element in selection)
+            {
+                if (element is QuestNode node)
+                {
+                    group.AddElement(node);
+                }
+            }
+            
             return group;
         }
         public void AddGroup(QuestGroup group)
@@ -223,6 +233,7 @@ namespace Editor.Quests.Windows
             deleteSelection = (operationName, askUser) =>
             {
                 var groupsToDelete = new List<QuestGroup>();
+                var edgesToDelete = new List<Edge>();
                 var nodesToDelete = new List<QuestNode>();
                 foreach (var element in selection)
                 {
@@ -234,6 +245,10 @@ namespace Editor.Quests.Windows
                     {
                         groupsToDelete.Add(group);
                     }
+                    if (element is Edge edge)
+                    {
+                        edgesToDelete.Add(edge);
+                    }
                 }
                 
                 foreach (var node in nodesToDelete)
@@ -243,11 +258,23 @@ namespace Editor.Quests.Windows
                         node.group.RemoveElement(node);
                     }
                     RemoveUngroupedNode(node);
+                    node.DisconnectAllPorts();
                     RemoveElement(node);
                 }
                 
+                DeleteElements(edgesToDelete);
+                
                 foreach (var group in groupsToDelete)
                 {
+                    var groupNodes = new List<QuestNode>();
+                    foreach (var element in group.containedElements)
+                    {
+                        if (element is QuestNode node)
+                        {
+                            groupNodes.Add(node);
+                        }
+                    }
+                    group.RemoveElements(groupNodes);
                     RemoveGroup(group);
                     RemoveElement(group);
                 }
