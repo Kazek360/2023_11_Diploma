@@ -55,4 +55,9 @@ public class EquipmentSlotsUI : MonoBehaviour
     {
         InventoryUI.SlotDeselected();
     }
+
+    public void ForceUiUpdate()
+    {
+        InventoryUI.UpdateDisplay();
+    }
 }

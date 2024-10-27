@@ -30,7 +30,7 @@ public class ItemInteractionUI : MonoBehaviour
         
         UseButton.gameObject.SetActive(true);
         
-        ItemImage.sprite = item.ItemSprite;
+        ItemImage.sprite = item.ItemSprite();
         ItemName.text = item.ItemName;
         ItemDesc.text = item.ItemDesc();
         if (slot is InventorySlot)
@@ -53,7 +53,7 @@ public class ItemInteractionUI : MonoBehaviour
         }
         else
         {
-            ItemImage.sprite = item.ItemSprite;
+            ItemImage.sprite = item.ItemSprite();
             ItemName.text = item.ItemName;
             ItemDesc.text = item.ItemDesc();
         

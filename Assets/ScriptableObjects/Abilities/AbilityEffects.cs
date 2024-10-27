@@ -51,3 +51,42 @@ public class AbilityEffects : MonoBehaviour
         Debug.Log("AAAAAAA");
     }
 }
+
+public enum EffectedStat{AGILITY, HEALTH, IMAGINATION, LUCK, STRENGTH}
+public enum EffectedVariable{HEALTH, PSYCHE}
+
+[Serializable]
+public class EffectModifier
+{
+    [SerializeField] private float scaling;
+    [SerializeField] private EffectedStat modifyingStat;
+
+}
+
+
+[Serializable]
+public class EffectContainer
+{
+    [SerializeField] private int amount;
+    [SerializeField] private EffectedVariable effectedStat;
+    [SerializeField] private bool effectCaster;
+    [SerializeField] private List<EffectModifier> effectModifiers;
+    
+    public void ApplyEffect(IHittable caster, IHittable target, int damage, int duration)
+    {
+    }
+}
+
+
+[Serializable]
+public class EffectOverTimeContainer
+{
+    [SerializeField] private int amount;
+    [SerializeField] private int duration;
+    [SerializeField] private bool effectCaster;
+    [SerializeField] private EffectedVariable effectedStat;
+    
+    public void ApplyEffect(IHittable caster, IHittable target, int damage, int duration)
+    {
+    }
+}

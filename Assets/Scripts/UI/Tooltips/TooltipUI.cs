@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -5,8 +6,14 @@ public class TooltipUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI Header;
     [SerializeField] private TextMeshProUGUI Desc;
+    [SerializeField] private CanvasGroup _canvasGroup;
     private float width, height;
+    private Coroutine _visibilityCoroutine;
 
+
+    private float _visibilityChangeRate = 0.05f;
+    private float _visibilityChangeTime = 0.5f;
+    
     public void Setup(string header,  string desc)
     {
         Header.text = header;
@@ -15,6 +22,17 @@ public class TooltipUI : MonoBehaviour
         width = GetComponent<RectTransform>().rect.width;
         height = GetComponent<RectTransform>().rect.height;
         SetupPos();
+        _visibilityCoroutine = StartCoroutine(visibilityCoroutine());
+    }
+
+    private IEnumerator visibilityCoroutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        for (int i = 0; i < 1f/_visibilityChangeRate; i++)
+        {
+            _canvasGroup.alpha += _visibilityChangeRate;
+            yield return new WaitForSeconds(_visibilityChangeTime * _visibilityChangeRate);
+        }
     }
 
     private void SetupPos()
@@ -43,6 +61,7 @@ public class TooltipUI : MonoBehaviour
 
     public void Delete()
     {
+        StopCoroutine(_visibilityCoroutine);
         Destroy(gameObject);
     }
 }
