@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 32919339}
   - component: {fileID: 32919338}
   - component: {fileID: 32919337}
+  - component: {fileID: 32919340}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -228,6 +229,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &32919340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32919335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9eddb8365306194abb414049f6eb3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &229133586 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4101813812197046147, guid: d8d4b5bb94ff02c4c9dd0e987f41fb77, type: 3}
@@ -257,8 +270,6 @@ PrefabInstance:
       propertyPath: EntityManager
       value: 
       objectReference: {fileID: 566664284}
-    - target: {fileID: 1587207357688439464, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
-      propertyPath: m_SizeDelta.x
     - target: {fileID: 1127817284522994912, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -283,9 +294,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -60
       objectReference: {fileID: 0}
-    - target: {fileID: 2197481387960451542, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0
+    - target: {fileID: 1587207357688439464, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1843842358252444890, guid: 11da63a1f753e9b42b8ecb820dc26a66, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2589,5 +2600,4 @@ SceneRoots:
   - {fileID: 1224913470}
   - {fileID: 1123768921}
   - {fileID: 566664283}
-  - {fileID: 292387609}
   - {fileID: 601631616}
