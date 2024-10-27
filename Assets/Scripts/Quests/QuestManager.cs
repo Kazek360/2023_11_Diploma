@@ -179,6 +179,8 @@ namespace Quests
 
         public void InitializeOnNewGame()
         {
+            QuestEvents.DeleteQuestSteps();
+            _quests = CreateQuestDictionary();
             QuestEvents.StartQuest("prologue_1");
         }
 
