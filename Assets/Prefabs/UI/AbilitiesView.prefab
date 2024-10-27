@@ -639,7 +639,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4713713163322893866}
   m_HandleRect: {fileID: 1760822597427471871}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -970,7 +970,6 @@ GameObject:
   - component: {fileID: 8197152033771693726}
   - component: {fileID: 4058378429678258440}
   - component: {fileID: 1811753891013497084}
-  - component: {fileID: 4341457610633803511}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1038,20 +1037,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4341457610633803511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8146416423615619191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3015844f2cc644e49a76ee27399ced00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AbilitiesScrollContent: {fileID: 7553709411264293720}
-  AbilityDisplay: {fileID: 4011576498069147150, guid: 36b2d8bbcf9a04141a7922bd0f74c589, type: 3}
 --- !u!1 &8241326510704687794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,3 +1099,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb99b4d0f27b7a742a14a00575c94dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AbilitiesScrollContent: {fileID: 7553709411264293720}
+  AbilityDisplay: {fileID: 4011576498069147150, guid: 36b2d8bbcf9a04141a7922bd0f74c589, type: 3}
