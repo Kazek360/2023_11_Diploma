@@ -26,7 +26,6 @@ namespace Player
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
         
-        // nevmesh
         NavMeshAgent _agent;
 
         private void OnEnable()
@@ -64,19 +63,19 @@ namespace Player
         
         private void Update()
         {
-            // Jeśli kliknięto myszką, ustaw cel ruchu
+
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
                 SetAgentPosition();
             }
 
-            // Jeśli gracz zaczyna poruszać się klawiaturą (WSAD), anulujemy ruch myszką
+
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
-                _isMouseMoving = false; // Przestajemy podążać do klikniętego celu
+                _isMouseMoving = false; 
                 Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                MovePlayer(movementVector); // Sterowanie klawiaturą
+                MovePlayer(movementVector); 
             }
 
             FixPlayerZPosition();
