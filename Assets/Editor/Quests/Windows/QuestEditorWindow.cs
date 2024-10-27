@@ -9,7 +9,9 @@ namespace Editor.Quests.Windows
 {
     public class QuestEditorWindow : EditorWindow
     {
+        private QuestGraphView _graphView;
         private Button _saveButton;
+        private TextField _fileNameTextField;
         private QuestInfo requiredQuest;
 
         // Otwiera okno edytora
@@ -28,17 +30,21 @@ namespace Editor.Quests.Windows
 
         private void AddGraphView()
         {
-            var questGraphView = new QuestGraphView(this);
-            questGraphView.StretchToParentSize();
-            rootVisualElement.Add(questGraphView);
+            _graphView = new QuestGraphView(this);
+            _graphView.StretchToParentSize();
+            rootVisualElement.Add(_graphView);
         }
 
         private void AddToolbar()
         {
             var toolbar = new Toolbar();
-            var fieldNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
-            _saveButton = QuestGraphUtilities.CreateButton("Save");
-            toolbar.Add(fieldNameTextField);
+            _fileNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
+            _saveButton = QuestGraphUtilities.CreateButton("Save", () =>
+            {
+                QuestIoUtilities.Initialize(_graphView, _fileNameTextField.value);
+                QuestIoUtilities.Save();
+            });
+            toolbar.Add(_fileNameTextField);
             toolbar.Add(_saveButton);
             toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
             rootVisualElement.Add(toolbar);
@@ -74,7 +80,7 @@ namespace Editor.Quests.Windows
         {
             rootVisualElement.AddStyleSheets("Quests/QuestWindowVariables.uss");
         }
-
+        
         public void EnableSaving()
         {
             _saveButton.SetEnabled(true);

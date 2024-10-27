@@ -1,3 +1,4 @@
+using System;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
 using UnityEditor.Experimental.GraphView;
@@ -8,6 +9,7 @@ namespace Editor.Quests.Elements
 {
     public class QuestNode : Node
     {
+        public string ID { get; set; }
         public QuestGraphView graphView;
         public QuestGroup group;
         public string fileName;
@@ -18,6 +20,7 @@ namespace Editor.Quests.Elements
 
         public void Initialize(QuestGraphView questGraphView, Vector2 position)
         {
+            ID = Guid.NewGuid().ToString();
             graphView = questGraphView;
             fileName = "Quest";
             displayName = "";

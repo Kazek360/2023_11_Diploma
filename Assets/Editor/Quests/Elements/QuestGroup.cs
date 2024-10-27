@@ -1,16 +1,19 @@
-﻿using UnityEditor.Experimental.GraphView;
+﻿using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Editor.Quests.Elements
 {
     public class QuestGroup: Group
     {
+        public string ID { get; set; }
         public string oldTitle;
         private Color _defaultBorderColor;
         private float _defaultBorderWidth;
 
         public QuestGroup(string groupTitle, Vector2 position)
         {
+            ID = Guid.NewGuid().ToString();
             title = groupTitle;
             oldTitle = groupTitle;
             SetPosition(new Rect(position, Vector2.zero));
