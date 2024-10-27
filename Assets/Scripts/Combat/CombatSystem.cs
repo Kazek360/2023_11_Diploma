@@ -165,6 +165,16 @@ namespace Combat
                 return;
             }
             combatEnvironmentManager.ClearGrid();
+            //combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
+            StartCoroutine(AfterClickCooldown());
+        }
+        
+        /**
+     * Used in order to avoid immediately moving after click
+     */
+        private IEnumerator AfterClickCooldown()
+        {
+            yield return new WaitForSeconds(0.1f);
             combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
         }
 
