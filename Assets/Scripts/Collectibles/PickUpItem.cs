@@ -17,7 +17,7 @@ namespace Collectibles
         public void OnEnable()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.sprite = ItemLibrary.GetInstance().GetItem(itemId).ItemSprite;
+            _spriteRenderer.sprite = ItemLibrary.GetInstance().GetItem(itemId).ItemSprite();
         }
     
         public void OnTriggerEnter2D(Collider2D other)

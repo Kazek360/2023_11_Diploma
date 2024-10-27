@@ -39,6 +39,7 @@ public class EntityManager : MonoBehaviour
             _combatSystem.SetEntityToGrid(unit, hittable.IsMaterial());
             _combatUnits.Add(unit);
         }
+        _combatSystem.DisplayQueue(_turnOrder);
         NextTurn();
     }
 
@@ -68,7 +69,8 @@ public class EntityManager : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(0.3f);
-            _combatSystem.SetCurrentUnit(_combatUnits[_currentEntity]);
+            UpdateDeadEntitiesInQueue();
+            _combatSystem.SetCurrentUnit(_combatUnits[_currentEntity], _currentEntity);
             _turnOrder[_currentEntity].ProcessTurn();
         }
     }
@@ -239,5 +241,15 @@ public class EntityManager : MonoBehaviour
         }
 
         _combatSystem.ShowCombatSummary(IsVictory, players, enemies);
+    }
+    
+    public void UpdateDeadEntitiesInQueue() {
+        for (int i = 0; i < _turnOrder.Count; i++)
+        {
+            if (_turnOrder[i].GetCurrentHealth() <= 0)
+            {
+                _combatSystem.DisableDeadEntityInQueue(i);
+            }
+        }
     }
 }

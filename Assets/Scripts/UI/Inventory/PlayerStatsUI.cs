@@ -19,6 +19,6 @@ public class PlayerStatsUI : MonoBehaviour
         strengthText.text = $"Siła: {PlayerStats.GetInstance().GetStat(StatType.WitStrength)}";
         agilityText.text = $"Zręczność: {PlayerStats.GetInstance().GetStat(StatType.WitAgility)}";
         luckText.text = $"Szczęście: {PlayerStats.GetInstance().GetStat(StatType.WitLuck)}";
-        imaginationText.text = $"Wyobraźnia: {PlayerStats.GetInstance().GetStat(StatType.WitImagination)}";
+        imaginationText.text = $"Wyobraźnia: {PlayerStats.GetInstance().FreeImagination}/{PlayerStats.GetInstance().GetStat(StatType.WitImagination)}";
     }
 }

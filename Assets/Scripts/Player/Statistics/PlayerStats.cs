@@ -28,6 +28,7 @@ public class PlayerStats
     
     private int _witHp;
     private int _nestorHp;
+    private int _freeImagination;   //TODO: Tell Oskar to integrate it with saves
     private int _level;
     private int _currentXp;
 
@@ -125,6 +126,12 @@ public class PlayerStats
         set => _currentXp = value;
     }
 
+    public int FreeImagination
+    {
+        get => _freeImagination;
+        set => _freeImagination = value;
+    }
+
     public void AddXp(int xp)
     {
         _currentXp += xp;
@@ -147,6 +154,7 @@ public class PlayerStats
 
         _witHp = GetStat(StatType.WitHealth);
         _nestorHp = GetStat(StatType.NestorHealth);
+        _freeImagination = GetStat(StatType.WitImagination);
     }
 
     /**
