@@ -11,12 +11,12 @@ namespace Player
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float walkSpeed;
-
         [SerializeField] private float runSpeed;
 
         private Rigidbody2D _rigidbody;
         private Animator _animator;
 
+        private bool _canMove;
         private Vector2 _targetPosition;
         private bool _isPlayerSprinting;
         private bool _isMouseMoving;
@@ -35,6 +35,8 @@ namespace Player
 
             DialogueEvents.OnDialogueStarted += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
+            DialogueEvents.OnDialogueFinished += EnableMovement;
+            CutsceneEvents.OnCutsceneFinished += EnableMovement;
         }
 
         private void OnDisable()
@@ -44,6 +46,8 @@ namespace Player
 
             DialogueEvents.OnDialogueStarted -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
+            DialogueEvents.OnDialogueFinished -= EnableMovement;
+            CutsceneEvents.OnCutsceneFinished -= EnableMovement;
         }
 
         private void Awake()
@@ -56,26 +60,20 @@ namespace Player
             _agent = GetComponent<NavMeshAgent>();
             _agent.updateRotation = false;
             _agent.updateUpAxis = false;
-            
-            
-            
+            _canMove = true;
         }
         
         private void Update()
         {
-
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
                 SetAgentPosition();
             }
 
-
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
-                _isMouseMoving = false; 
-                Vector2 movementVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-                MovePlayer(movementVector); 
+                _isMouseMoving = false;
             }
 
             FixPlayerZPosition();
@@ -83,41 +81,43 @@ namespace Player
 
         private void MovePlayer(Vector2 movementVector)
         {
-            bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift);
-            var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
-            if (_isMouseMoving)
+            if (_canMove)
             {
-                Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
-                _rigidbody.velocity = direction * currentSpeed;
-
-                _animator.SetFloat(X, direction.x);
-                _animator.SetFloat(Y, direction.y);
-                _animator.SetBool(IsWalking, true);
-                _animator.SetBool(IsRunning, isRunning);
-
-                if (Vector2.Distance(transform.position, _targetPosition) < 0.1f)
+                bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift);
+                var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
+                if (_isMouseMoving)
                 {
-                    _isMouseMoving = false;
-                    StopPlayerMovement();
-                }
-            }
-            else
-            {
-                _agent.ResetPath();
-                _rigidbody.velocity = movementVector * currentSpeed;
-                if (movementVector != Vector2.zero)
-                {
-                    _animator.SetFloat(X, movementVector.x);
-                    _animator.SetFloat(Y, movementVector.y);
+                    Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
+                    _rigidbody.velocity = direction * currentSpeed;
+
+                    _animator.SetFloat(X, direction.x);
+                    _animator.SetFloat(Y, direction.y);
                     _animator.SetBool(IsWalking, true);
                     _animator.SetBool(IsRunning, isRunning);
+
+                    if (Vector2.Distance(transform.position, _targetPosition) < 0.1f)
+                    {
+                        _isMouseMoving = false;
+                        StopPlayerMovement();
+                    }
                 }
                 else
                 {
-                    StopPlayerMovement();
-                }
+                    _agent.ResetPath();
+                    _rigidbody.velocity = movementVector * currentSpeed;
+                    if (movementVector != Vector2.zero)
+                    {
+                        _animator.SetFloat(X, movementVector.x);
+                        _animator.SetFloat(Y, movementVector.y);
+                        _animator.SetBool(IsWalking, true);
+                        _animator.SetBool(IsRunning, isRunning);
+                    }
+                    else
+                    {
+                        StopPlayerMovement();
+                    }
+                } 
             }
-
         }
         
         private void HandleMouseMovement()
@@ -134,9 +134,7 @@ namespace Player
         {
             _agent.SetDestination(_targetPosition);
         }
-
         
-
         private void ChangeSprintState(bool isPlayerSprinting)
         {
             _isPlayerSprinting = isPlayerSprinting;
@@ -149,13 +147,25 @@ namespace Player
             _animator.SetBool(IsRunning, false);
         }
 
+        private void EnableMovement(DialogueSO dialogue)
+        {
+            _canMove = true;
+        }
+        
+        private void EnableMovement()
+        {
+            _canMove = true;
+        }
+        
         private void StopMovement(DialogueSO dialogue)
         {
+            _canMove = false;
             StopPlayerMovement();
         }
 
         private void StopMovement(CutsceneSO cutscene)
         {
+            _canMove = false;
             StopPlayerMovement();
         }
         
