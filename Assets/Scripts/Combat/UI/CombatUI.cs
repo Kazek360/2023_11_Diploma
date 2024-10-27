@@ -31,6 +31,7 @@ public class CombatUI : UserInterface
     private EntityManager _entityManager;
     private CombatSystem _combatSystem;
     private ToggleGroup _abilitiesToggleGroup;
+    [SerializeField] private TurnQueue _turnQueue;
 
     private TextMeshProUGUI _movementCounter, _actionCounter;
 
@@ -301,5 +302,24 @@ public class CombatUI : UserInterface
         LowerScreen.SetActive(false);
         SummaryDisplay.GetComponent<CombatSummaryScript>().SetValues(isVictory, players, enemies);
         SummaryDisplay.SetActive(true);
+    }
+
+    public void FillQueue(List<IHittable> entities)
+    {
+        _turnQueue.Initialize();
+        foreach (var entity in entities)
+        {
+            _turnQueue.AddTurnIcon(entity);
+        }
+    }
+    
+    public void ActivateEntityInQueue(int place)
+    {
+        _turnQueue.SetActiveEntity(place);
+    }
+
+    public void DisableDeadEntityInQueue(int n)
+    {
+        _turnQueue.DisableEntity(n);
     }
 }

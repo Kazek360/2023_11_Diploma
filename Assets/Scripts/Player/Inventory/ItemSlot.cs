@@ -143,4 +143,9 @@ public class EquipmentSlot : ItemSlot
         _item = item;
         return true;
     }
+
+    public void ChangeImagination(int currImagination)
+    {
+        ((EquipmentItem)_item).ChangeImagination(currImagination);
+    }
 }
