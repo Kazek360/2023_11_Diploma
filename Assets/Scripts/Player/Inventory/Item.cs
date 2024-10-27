@@ -47,7 +47,7 @@ public class Item
 
     public Sprite ItemSprite(int imaginationLevel)
     {
-        return _itemSprites[Math.Min(imaginationLevel, _itemSprites.Count)];
+        return _itemSprites[Math.Min(imaginationLevel, _itemSprites.Count - 1)];
     }
 
     public int MaxStackSize => _maxStackSize;
