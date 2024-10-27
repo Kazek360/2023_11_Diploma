@@ -23,15 +23,13 @@ namespace Location
             set => _gatewayID = value;
         }
 
-        protected override void Awake()
+        private void GetData()
         {
-            base.Awake();
             _currentScene = SceneManager.GetActiveScene().name;
-
             _player = GameObject.FindGameObjectWithTag("Player");
             _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
         }
-
+        
         private void LoadNpcPosition(GameData gameData)
         {
             if (gameData.charactersPosition.ContainsKey(_currentScene))
@@ -49,10 +47,12 @@ namespace Location
 
         public void InitializeOnNewGame()
         {
+            GetData();
         }
 
         public void LoadDataFromSaveFile(GameData gameData)
         {
+            GetData();
             var playerPosition = gameData.playerPosition;
             _player.transform.position = new Vector3(playerPosition.Item1, playerPosition.Item2);
             LoadNpcPosition(gameData);
@@ -60,9 +60,8 @@ namespace Location
 
         public void LoadDataBetweenScenes(GameData gameData)
         {
+            GetData();
             LoadNpcPosition(gameData);
-            _player = GameObject.FindGameObjectWithTag("Player");
-            _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
             
             if (_gatewayID is not null)
             {
