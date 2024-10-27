@@ -75,7 +75,7 @@ namespace Quests
         
         private void AddDescriptionsToQuestInProgress()
         {
-            for (var i = 0; i < info.steps.Count - 1; i++)
+            for (var i = 0; i < _currentStepIndex; i++)
             {
                 var step = info.steps[i].GetComponent<BaseQuestStep>();
                 
@@ -112,5 +112,4 @@ namespace Quests
             AddDescriptionsToQuestInProgress();
         }
     }
-
 }
