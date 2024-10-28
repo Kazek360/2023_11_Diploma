@@ -12,7 +12,7 @@ public class TooltipUI : MonoBehaviour
 
 
     private float _visibilityChangeRate = 0.05f;
-    private float _visibilityChangeTime = 0.5f;
+    private float _visibilityChangeTime = 0.4f;
     
     public void Setup(string header,  string desc)
     {
@@ -27,11 +27,19 @@ public class TooltipUI : MonoBehaviour
 
     private IEnumerator visibilityCoroutine()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return StartCoroutine(WaitForRealSeconds(0.3f));
         for (int i = 0; i < 1f/_visibilityChangeRate; i++)
         {
             _canvasGroup.alpha += _visibilityChangeRate;
-            yield return new WaitForSeconds(_visibilityChangeTime * _visibilityChangeRate);
+            yield return StartCoroutine(WaitForRealSeconds(_visibilityChangeTime * _visibilityChangeRate));
+            //yield return new WaitForSeconds(_visibilityChangeTime * _visibilityChangeRate);
+        }
+    }
+    
+    IEnumerator WaitForRealSeconds (float seconds) {
+        float startTime = Time.realtimeSinceStartup;
+        while (Time.realtimeSinceStartup - startTime < seconds) {
+            yield return null;
         }
     }
 
