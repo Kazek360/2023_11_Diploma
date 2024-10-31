@@ -32,6 +32,20 @@ namespace Editor.Quests.Utilities
             textArea.multiline = true;
             return textArea;
         }
+        
+        public static EnumField CreateEnumField(Enum value, string label = null, 
+            EventCallback<ChangeEvent<Enum>> onValueChanged = null)
+        {
+
+            var enumField = new EnumField(label, value);
+            
+            if (onValueChanged != null)
+            {
+                enumField.RegisterValueChangedCallback(onValueChanged);
+            }
+            return enumField;
+        }
+        
         public static Foldout CreateFoldout(string title, bool collapsed = false)
         {
             var foldout = new Foldout()

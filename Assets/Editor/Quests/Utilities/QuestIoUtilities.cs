@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Editor.Quests.Elements;
 using Editor.Quests.Save;
 using Editor.Quests.Windows;
+using Quests;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace Editor.Quests.Utilities
 
         private static List<QuestGroup> _groups;
         private static List<QuestNode> _nodes;
+        private static Dictionary<string, QuestInfo> _createdQuests;
 
         public static void Initialize(QuestGraphView graphView, string graphName)
         {
@@ -25,6 +27,7 @@ namespace Editor.Quests.Utilities
 
             _groups = new List<QuestGroup>();
             _nodes = new List<QuestNode>();
+            _createdQuests = new Dictionary<string, QuestInfo>();
         }
         
         public static void Save()
@@ -35,6 +38,7 @@ namespace Editor.Quests.Utilities
             graphData.Initialize(_graphFileName);
             
             SaveGroups(graphData);
+            SaveNodes(graphData);
             
             SaveAsset(graphData);
         }
@@ -47,7 +51,16 @@ namespace Editor.Quests.Utilities
                 CreateGroupFolder(group);
             }
         }
-        
+
+        private static void SaveNodes(QuestGraphSaveDataSO graphData)
+        {
+            foreach (var node in _nodes)
+            {
+                SaveNodeToGraph(node, graphData);
+                SaveNodeToScriptableObject(node);
+            }
+        }
+
         private static void SaveGroupToGraph(QuestGroup group, QuestGraphSaveDataSO graphData)
         {
             var groupData = new QuestGroupSaveData
@@ -59,14 +72,48 @@ namespace Editor.Quests.Utilities
             
             graphData.groups.Add(groupData);
         }
-        
+
+        private static void SaveNodeToGraph(QuestNode node, QuestGraphSaveDataSO graphData)
+        {
+            var nodeData = new QuestNodeSaveData
+            {
+                id = node.ID,
+                fileName = node.fileName,
+                displayName = node.displayName,
+                category = node.category,
+                description = node.description,
+                groupID = node.group?.ID,
+                position = node.GetPosition().position
+            };
+            graphData.nodes.Add(nodeData);
+        }
+
+        private static void SaveNodeToScriptableObject(QuestNode node)
+        {
+            QuestInfo quest;
+            
+            if (node.group != null)
+            {
+                quest = CreateAsset<QuestInfo>($"{_containerFolderPath}/{node.group.title}", node.fileName);
+            }
+            else
+            {
+                quest = CreateAsset<QuestInfo>($"{_containerFolderPath}/Global", node.fileName);
+            }
+
+            quest.displayName = node.displayName;
+            quest.questCategory = node.category;
+            quest.description = node.description;
+            _createdQuests.Add(node.ID, quest);
+            SaveAsset(quest);
+        }
+
         private static void CreateStaticFolders()
         {
             CreateFolder("Assets/Editor/Quests", "Graphs");
             CreateFolder("Assets/Resources", "Quests");
             CreateFolder("Assets/Resources/Quests", _graphFileName);
             CreateFolder(_containerFolderPath, "Global");
-            CreateFolder($"{_containerFolderPath}/Global", "Quests");
         }
 
         private static void CreateGroupFolder(QuestGroup group)

@@ -12,8 +12,10 @@ namespace Editor.Quests.Elements
         public string ID { get; set; }
         public QuestGraphView graphView;
         public QuestGroup group;
+        
         public string fileName;
         public string displayName;
+        public QuestCategory category;
         public string description;
 
         private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
@@ -24,6 +26,7 @@ namespace Editor.Quests.Elements
             graphView = questGraphView;
             fileName = "Quest";
             displayName = "";
+            category = QuestCategory.MainQuest;
             description = "";
             
             SetPosition(new Rect(position, Vector2.zero));
@@ -63,7 +66,10 @@ namespace Editor.Quests.Elements
             var displayNameContainer = new VisualElement();
             displayNameContainer.AddToClassList("quest-node__custom-container");
             var displayNameFoldout = QuestGraphUtilities.CreateFoldout("Display Name");
-            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName);
+            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName, null, callback =>
+            {
+                displayName = callback.newValue;
+            });
             displayNameTextField.AddToClassList("quest-node__textfield");
             displayNameFoldout.Add(displayNameTextField);
             displayNameContainer.Add(displayNameFoldout);
@@ -73,7 +79,10 @@ namespace Editor.Quests.Elements
             var categoryContainer = new VisualElement();
             categoryContainer.AddToClassList("quest-node__custom-container");
             var categoryFoldout = QuestGraphUtilities.CreateFoldout("Category");
-            var categorySelector = new EnumField(QuestCategory.MainQuest);
+            var categorySelector = QuestGraphUtilities.CreateEnumField(category, null, callback =>
+            {
+                category = (QuestCategory) callback.newValue;
+            });
             categorySelector.AddToClassList("quest-node__enum-field");
             categoryFoldout.Add(categorySelector);
             categoryContainer.Add(categoryFoldout);
@@ -81,9 +90,12 @@ namespace Editor.Quests.Elements
             
             //Quest Description
             var descriptionFoldout = QuestGraphUtilities.CreateFoldout("Description");
-            var descriptionTextField = QuestGraphUtilities.CreateTextArea(description);
-            descriptionTextField.AddToClassList("quest-node__textfield");
-            descriptionFoldout.Add(descriptionTextField);
+            var descriptionTextArea = QuestGraphUtilities.CreateTextArea(description, null, callback =>
+            {
+                description = callback.newValue;
+            });
+            descriptionTextArea.AddToClassList("quest-node__textfield");
+            descriptionFoldout.Add(descriptionTextArea);
             extensionContainer.Add(descriptionFoldout);
             
             RefreshExpandedState();
