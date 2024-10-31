@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Editor.Quests.Elements;
 using Editor.Quests.Utilities;
-using NUnit.Framework;
-using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,14 +9,44 @@ namespace Editor.Quests.Windows
 {
     public class QuestGraphView : GraphView
     {
+        private QuestEditorWindow _editorWindow;
         private Dictionary<string, List<QuestNode>> _ungroupedNodes;
-        
-        public QuestGraphView()
+        private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
+        private Dictionary<string, List<QuestGroup>> _groups;
+
+        private int _repeatedNamesAmount;
+
+        public int RepeatedNamesAmount
         {
+            get => _repeatedNamesAmount;
+            set
+            {
+                _repeatedNamesAmount = value;
+                if (_repeatedNamesAmount == 0)
+                {
+                    _editorWindow.EnableSaving();
+                }
+                else
+                {
+                    _editorWindow.DisableSaving();
+                }
+            }
+        }
+
+        public QuestGraphView(QuestEditorWindow editorWindow)
+        {
+            _editorWindow = editorWindow;
             _ungroupedNodes = new Dictionary<string, List<QuestNode>>();
+            _groupedNodes = new Dictionary<Group, Dictionary<string, List<QuestNode>>>();
+            _groups = new Dictionary<string, List<QuestGroup>>();
             AddManipulators();
             AddGridBackground();
+            
             OnElementsDeleted();
+            OnGroupElementsAdded();
+            OnGroupElementsRemoved();
+            OnGroupRenamed();
+            
             AddStyles();
         }
 
@@ -31,7 +59,7 @@ namespace Editor.Quests.Windows
 
         private void AddStyles()
         {
-            this.AddStyleSheets("Quests/QuestGraphViewStyles.uss", "Quests/QuestNodeStyles.uss");
+            this.AddStyleSheets("Quests/QuestGraphStyles.uss", "Quests/QuestNodeStyles.uss");
         }
         private void AddManipulators()
         {
@@ -79,8 +107,7 @@ namespace Editor.Quests.Windows
             var nodeName = node.fileName;
             if (!_ungroupedNodes.ContainsKey(nodeName))
             {
-                var nodeList = new List<QuestNode> { node };
-                _ungroupedNodes.Add(nodeName, nodeList);
+                _ungroupedNodes.Add(nodeName, new List<QuestNode> { node });
                 return;
             }
             
@@ -90,6 +117,7 @@ namespace Editor.Quests.Windows
             node.SetErrorStyle(errorColor);
             if (_ungroupedNodes[nodeName].Count == 2)
             {
+                RepeatedNamesAmount++;
                 _ungroupedNodes[nodeName][0].SetErrorStyle(errorColor);
             }
         }
@@ -103,6 +131,7 @@ namespace Editor.Quests.Windows
 
             if (_ungroupedNodes[nodeName].Count == 1)
             {
+                RepeatedNamesAmount--;
                 _ungroupedNodes[nodeName][0].ResetStyle();
             }
 
@@ -112,28 +141,126 @@ namespace Editor.Quests.Windows
             }
         }
         
+        public void AddGroupedNode(QuestNode node, QuestGroup group)
+        {
+            var nodeName = node.fileName;
+            node.group = group;
+            if (!_groupedNodes.ContainsKey(group))
+            {
+                _groupedNodes.Add(group, new Dictionary<string, List<QuestNode>>());
+            }
+
+            if (!_groupedNodes[group].ContainsKey(nodeName))
+            {
+                _groupedNodes[group].Add(nodeName, new List<QuestNode>() { node });
+                return;
+            }
+            
+            _groupedNodes[group][nodeName].Add(node);
+            var errorColor = new Color(200f / 255f, 1f / 255f, 1f / 255f);
+            node.SetErrorStyle(errorColor);
+            
+            if (_groupedNodes[group][nodeName].Count == 2)
+            {
+                RepeatedNamesAmount++;
+                _groupedNodes[group][nodeName][0].SetErrorStyle(errorColor);
+            }
+        }
+        public void RemoveGroupedNode(QuestNode node, Group group)
+        {
+            var nodeName = node.fileName;
+            node.group = null;
+
+            _groupedNodes[group][nodeName].Remove(node);
+            node.ResetStyle();
+
+            if (_groupedNodes[group][nodeName].Count == 1)
+            {
+                RepeatedNamesAmount--;
+                _groupedNodes[group][nodeName][0].ResetStyle();
+                return;
+            }
+
+            if (_groupedNodes[group][nodeName].Count == 0)
+            {
+                _groupedNodes[group].Remove(nodeName);
+                if (_groupedNodes[group].Count == 0)
+                {
+                    _groupedNodes.Remove(group);
+                }
+            }
+        }
+        
         private IManipulator CreateGroupContextualMenu()
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Add Group", 
-                    actionEvent => AddElement(CreateGroup("Group", actionEvent.eventInfo.localMousePosition)))
+                    actionEvent => CreateGroup("Group", actionEvent.eventInfo.localMousePosition))
             );
             return contextualMenuManipulator;
         }
         private Group CreateGroup(string title, Vector2 mousePosition)
         {
-            var group = new Group()
+            var group = new QuestGroup(title, mousePosition);
+            AddGroup(group);
+            AddElement(group);
+
+            foreach (var element in selection)
             {
-                title = title
-            };
-            group.SetPosition(new Rect(mousePosition, Vector2.zero));
+                if (element is QuestNode node)
+                {
+                    group.AddElement(node);
+                }
+            }
+            
             return group;
         }
+        public void AddGroup(QuestGroup group)
+        {
+            var groupName = group.title;
+            if (!_groups.ContainsKey(groupName))
+            {
+                _groups.Add(groupName, new List<QuestGroup> { group });
+                return;
+            }
+            
+            _groups[groupName].Add(group);
 
+            var errorColor = new Color(200f / 255f, 1f / 255f, 1f / 255f);
+            group.SetErrorStyle(errorColor);
+            if (_groups[groupName].Count == 2)
+            {
+                RepeatedNamesAmount++;
+                _groups[groupName][0].SetErrorStyle(errorColor);
+            }
+        }
+        
+        public void RemoveGroup(QuestGroup group)
+        {
+            var oldGroupName = group.oldTitle;
+
+            _groups[oldGroupName].Remove(group);
+            
+            group.ResetStyle();
+
+            if (_groups[oldGroupName].Count == 1)
+            {
+                RepeatedNamesAmount--;
+                _groups[oldGroupName][0].ResetStyle();
+            }
+
+            if (_groups[oldGroupName].Count == 0)
+            {
+                _groups.Remove(oldGroupName);
+            }
+        }
+        
         private void OnElementsDeleted()
         {
             deleteSelection = (operationName, askUser) =>
             {
+                var groupsToDelete = new List<QuestGroup>();
+                var edgesToDelete = new List<Edge>();
                 var nodesToDelete = new List<QuestNode>();
                 foreach (var element in selection)
                 {
@@ -141,13 +268,91 @@ namespace Editor.Quests.Windows
                     {
                         nodesToDelete.Add(node);
                     }
+                    else if (element is QuestGroup group)
+                    {
+                        groupsToDelete.Add(group);
+                    }
+                    if (element is Edge edge)
+                    {
+                        edgesToDelete.Add(edge);
+                    }
                 }
-
+                
                 foreach (var node in nodesToDelete)
                 {
+                    if (node.group != null)
+                    {
+                        node.group.RemoveElement(node);
+                    }
                     RemoveUngroupedNode(node);
+                    node.DisconnectAllPorts();
                     RemoveElement(node);
                 }
+                
+                DeleteElements(edgesToDelete);
+                
+                foreach (var group in groupsToDelete)
+                {
+                    var groupNodes = new List<QuestNode>();
+                    foreach (var element in group.containedElements)
+                    {
+                        if (element is QuestNode node)
+                        {
+                            groupNodes.Add(node);
+                        }
+                    }
+                    group.RemoveElements(groupNodes);
+                    RemoveGroup(group);
+                    RemoveElement(group);
+                }
+            };
+        }
+
+        private void OnGroupElementsAdded()
+        {
+            elementsAddedToGroup = (group, elements) =>
+            {
+                foreach (var element in elements)
+                {
+                    if (element is not QuestNode)
+                    {
+                        continue;
+                    }
+                    
+                    var nodeGroup = (QuestGroup)group;
+                    var node = (QuestNode)element;
+                    
+                    RemoveUngroupedNode(node);
+                    AddGroupedNode(node, nodeGroup);
+                }
+            };
+        }
+        private void OnGroupElementsRemoved()
+        {
+            elementsRemovedFromGroup = (group, elements) =>
+            {
+                foreach (var element in elements)
+                {
+                    if (element is not QuestNode)
+                    {
+                        continue;
+                    }
+
+                    var node = (QuestNode)element;
+                    RemoveGroupedNode(node, group);
+                    AddUngroupedNode(node);
+                }
+            };
+        }
+        
+        private void OnGroupRenamed()
+        {
+            groupTitleChanged = (group, newTitle) =>
+            {
+                var questGroup = (QuestGroup)group;
+                RemoveGroup(questGroup);
+                questGroup.oldTitle = newTitle;
+                AddGroup(questGroup);
             };
         }
         

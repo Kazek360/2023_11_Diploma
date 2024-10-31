@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Quests;
 using UnityEditor;
-using UnityEngine;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace Editor.Quests.Windows
 {
     public class QuestEditorWindow : EditorWindow
     {
-        // Zmienna do przechowywania nazwy pliku
-        private string fileName = "";
-        
+        private QuestGraphView _graphView;
+        private Button _saveButton;
+        private TextField _fileNameTextField;
         private QuestInfo requiredQuest;
 
         // Otwiera okno edytora
@@ -23,26 +23,38 @@ namespace Editor.Quests.Windows
 
         private void OnEnable()
         {
-            var questGraphView = new QuestGraphView();
-            questGraphView.StretchToParentSize();
-            rootVisualElement.Add(questGraphView);
+            AddGraphView();
+            AddToolbar();
             AddStyles();
         }
 
+        private void AddGraphView()
+        {
+            _graphView = new QuestGraphView(this);
+            _graphView.StretchToParentSize();
+            rootVisualElement.Add(_graphView);
+        }
+
+        private void AddToolbar()
+        {
+            var toolbar = new Toolbar();
+            _fileNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
+            _saveButton = QuestGraphUtilities.CreateButton("Save", () =>
+            {
+                QuestIoUtilities.Initialize(_graphView, _fileNameTextField.value);
+                QuestIoUtilities.Save();
+            });
+            toolbar.Add(_fileNameTextField);
+            toolbar.Add(_saveButton);
+            toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
+            rootVisualElement.Add(toolbar);
+        }
+        
         // Tworzenie instancji ScriptableObject
         private void CreateScriptableObject()
         {
-            // Sprawdzamy, czy nazwa pliku nie jest pusta
-            if (string.IsNullOrEmpty(fileName))
-            {
-                Debug.LogError("Nazwa pliku nie może być pusta!");
-                return;
-            }
-
             // Tworzymy instancję ScriptableObject
             var newQuest = CreateInstance<QuestInfo>();
-            //newQuest.displayName = displayName;
-            //newQuest.description = description;
 
             if (requiredQuest != null)
             {
@@ -50,23 +62,33 @@ namespace Editor.Quests.Windows
                 newQuest.requiredQuests.Add(requiredQuest);
             }
 
-            // Ścieżka, w której zapisujemy obiekt
-            var assetPath = "Assets/Resources/Quests/" + fileName + ".asset";
+            // // Ścieżka, w której zapisujemy obiekt
+            // var assetPath = "Assets/Resources/Quests/" + fileName + ".asset";
 
             // Zapisujemy obiekt w zasobach (Assets)
-            AssetDatabase.CreateAsset(newQuest, assetPath);
-            AssetDatabase.SaveAssets();
+            // AssetDatabase.CreateAsset(newQuest, assetPath);
+            // AssetDatabase.SaveAssets();
 
             // Otwieramy zasób w inspektorze
             EditorUtility.FocusProjectWindow();
             Selection.activeObject = newQuest;
 
-            Debug.Log("Nowy quest został utworzony i zapisany w " + assetPath);
+            // Debug.Log("Nowy quest został utworzony i zapisany w " + assetPath);
         }
         
         private void AddStyles()
         {
             rootVisualElement.AddStyleSheets("Quests/QuestWindowVariables.uss");
+        }
+        
+        public void EnableSaving()
+        {
+            _saveButton.SetEnabled(true);
+        }
+
+        public void DisableSaving()
+        {
+            _saveButton.SetEnabled(false);
         }
     }
 }

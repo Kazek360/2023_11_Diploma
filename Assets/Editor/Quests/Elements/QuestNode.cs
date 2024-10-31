@@ -1,3 +1,4 @@
+using System;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
 using UnityEditor.Experimental.GraphView;
@@ -8,15 +9,18 @@ namespace Editor.Quests.Elements
 {
     public class QuestNode : Node
     {
+        public string ID { get; set; }
         public QuestGraphView graphView;
+        public QuestGroup group;
         public string fileName;
         public string displayName;
         public string description;
 
-        private Color DEFAULT_BACKGROUND_COLOR = new Color(80f / 255f, 80f / 255f, 80f / 255f);
+        private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
 
         public void Initialize(QuestGraphView questGraphView, Vector2 position)
         {
+            ID = Guid.NewGuid().ToString();
             graphView = questGraphView;
             fileName = "Quest";
             displayName = "";
@@ -30,11 +34,21 @@ namespace Editor.Quests.Elements
         public void Draw()
         {
             //Node Title
-            var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, callback =>
+            var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, null, callback =>
             {
-                graphView.RemoveUngroupedNode(this);
+                if (group == null)
+                {
+                    graphView.RemoveUngroupedNode(this);
+                    fileName = callback.newValue;
+                    graphView.AddUngroupedNode(this);
+                    return;
+                }
+
+                var currentGroup = group;
+                graphView.RemoveGroupedNode(this, group);
                 fileName = callback.newValue;
-                graphView.AddUngroupedNode(this);
+                graphView.AddGroupedNode(this, currentGroup);
+                
             });
             fileNameTextField.AddToClassList("quest-node__filename-textfield");
             titleContainer.Insert(0, fileNameTextField);
@@ -75,6 +89,24 @@ namespace Editor.Quests.Elements
             RefreshExpandedState();
         }
 
+        public void DisconnectAllPorts()
+        {
+            DisconnectPorts(inputContainer);
+            DisconnectPorts(outputContainer);
+        }
+        
+        private void DisconnectPorts(VisualElement container)
+        {
+            foreach (Port port in container.Children())
+            {
+                if (port.connected)
+                {
+                    graphView.DeleteElements(port.connections);
+                }
+            }
+        }
+        
+        
         public void SetErrorStyle(Color color)
         {
             mainContainer.style.backgroundColor = color;
@@ -82,7 +114,7 @@ namespace Editor.Quests.Elements
 
         public void ResetStyle()
         {
-            mainContainer.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
+            mainContainer.style.backgroundColor = _defaultBackgroundColor;
         }
     }
 }
