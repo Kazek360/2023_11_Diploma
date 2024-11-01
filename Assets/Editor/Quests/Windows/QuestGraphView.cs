@@ -14,15 +14,15 @@ namespace Editor.Quests.Windows
         private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
         private Dictionary<string, List<QuestGroup>> _groups;
 
-        private int _repeatedNamesAmount;
+        private int _namesErrorErrorAmount;
 
-        public int RepeatedNamesAmount
+        public int NamesErrorAmount
         {
-            get => _repeatedNamesAmount;
+            get => _namesErrorErrorAmount;
             set
             {
-                _repeatedNamesAmount = value;
-                if (_repeatedNamesAmount == 0)
+                _namesErrorErrorAmount = value;
+                if (_namesErrorErrorAmount == 0)
                 {
                     _editorWindow.EnableSaving();
                 }
@@ -117,7 +117,7 @@ namespace Editor.Quests.Windows
             node.SetErrorStyle(errorColor);
             if (_ungroupedNodes[nodeName].Count == 2)
             {
-                RepeatedNamesAmount++;
+                NamesErrorAmount++;
                 _ungroupedNodes[nodeName][0].SetErrorStyle(errorColor);
             }
         }
@@ -131,7 +131,7 @@ namespace Editor.Quests.Windows
 
             if (_ungroupedNodes[nodeName].Count == 1)
             {
-                RepeatedNamesAmount--;
+                NamesErrorAmount--;
                 _ungroupedNodes[nodeName][0].ResetStyle();
             }
 
@@ -162,7 +162,7 @@ namespace Editor.Quests.Windows
             
             if (_groupedNodes[group][nodeName].Count == 2)
             {
-                RepeatedNamesAmount++;
+                NamesErrorAmount++;
                 _groupedNodes[group][nodeName][0].SetErrorStyle(errorColor);
             }
         }
@@ -176,7 +176,7 @@ namespace Editor.Quests.Windows
 
             if (_groupedNodes[group][nodeName].Count == 1)
             {
-                RepeatedNamesAmount--;
+                NamesErrorAmount--;
                 _groupedNodes[group][nodeName][0].ResetStyle();
                 return;
             }
@@ -230,7 +230,7 @@ namespace Editor.Quests.Windows
             group.SetErrorStyle(errorColor);
             if (_groups[groupName].Count == 2)
             {
-                RepeatedNamesAmount++;
+                NamesErrorAmount++;
                 _groups[groupName][0].SetErrorStyle(errorColor);
             }
         }
@@ -245,7 +245,7 @@ namespace Editor.Quests.Windows
 
             if (_groups[oldGroupName].Count == 1)
             {
-                RepeatedNamesAmount--;
+                NamesErrorAmount--;
                 _groups[oldGroupName][0].ResetStyle();
             }
 
@@ -350,8 +350,25 @@ namespace Editor.Quests.Windows
             groupTitleChanged = (group, newTitle) =>
             {
                 var questGroup = (QuestGroup)group;
+                questGroup.title = newTitle; 
+                
+                if (string.IsNullOrEmpty(questGroup.title))
+                {
+                    if (!string.IsNullOrEmpty(questGroup.oldTitle))
+                    {
+                        NamesErrorAmount++;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(questGroup.oldTitle))
+                    {
+                        NamesErrorAmount--;
+                    }
+                }
+                
                 RemoveGroup(questGroup);
-                questGroup.oldTitle = newTitle;
+                questGroup.oldTitle = questGroup.title;
                 AddGroup(questGroup);
             };
         }

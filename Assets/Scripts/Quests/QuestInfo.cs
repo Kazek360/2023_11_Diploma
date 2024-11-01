@@ -10,7 +10,7 @@ namespace Quests
     {
         [Header("General")]
         public string displayName;
-        [SerializeField] public QuestCategory questCategory;
+        public QuestCategory questCategory;
         [TextArea] public string description;
         
         [Header("Requirements")]
@@ -23,8 +23,10 @@ namespace Quests
             public string value;
         }
 
+        [Header("Quests")]
         public List<QuestInfo> requiredQuests;
-    
+        public List<QuestInfo> nextQuests;
+
         [Header("Steps")]
         public List<GameObject> steps;
 

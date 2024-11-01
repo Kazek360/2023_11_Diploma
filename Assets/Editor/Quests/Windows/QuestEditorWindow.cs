@@ -13,12 +13,11 @@ namespace Editor.Quests.Windows
         private Button _saveButton;
         private TextField _fileNameTextField;
         private QuestInfo requiredQuest;
-
-        // Otwiera okno edytora
-        [MenuItem("Window/Quest Creator")]
+        
+        [MenuItem("Window/Quest Graph")]
         public static void ShowWindow()
         {
-            GetWindow<QuestEditorWindow>("Quest Creator");
+            GetWindow<QuestEditorWindow>("Quest Graph");
         }
 
         private void OnEnable()
@@ -41,6 +40,11 @@ namespace Editor.Quests.Windows
             _fileNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
             _saveButton = QuestGraphUtilities.CreateButton("Save", () =>
             {
+                if (string.IsNullOrEmpty(_fileNameTextField.value))
+                {
+                    EditorUtility.DisplayDialog("Invalid File Name", "Cannot Save Graph with blank name", "Ok");
+                    return;
+                }
                 QuestIoUtilities.Initialize(_graphView, _fileNameTextField.value);
                 QuestIoUtilities.Save();
             });
@@ -48,32 +52,6 @@ namespace Editor.Quests.Windows
             toolbar.Add(_saveButton);
             toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
             rootVisualElement.Add(toolbar);
-        }
-        
-        // Tworzenie instancji ScriptableObject
-        private void CreateScriptableObject()
-        {
-            // Tworzymy instancję ScriptableObject
-            var newQuest = CreateInstance<QuestInfo>();
-
-            if (requiredQuest != null)
-            {
-                newQuest.requiredQuests = new List<QuestInfo>();
-                newQuest.requiredQuests.Add(requiredQuest);
-            }
-
-            // // Ścieżka, w której zapisujemy obiekt
-            // var assetPath = "Assets/Resources/Quests/" + fileName + ".asset";
-
-            // Zapisujemy obiekt w zasobach (Assets)
-            // AssetDatabase.CreateAsset(newQuest, assetPath);
-            // AssetDatabase.SaveAssets();
-
-            // Otwieramy zasób w inspektorze
-            EditorUtility.FocusProjectWindow();
-            Selection.activeObject = newQuest;
-
-            // Debug.Log("Nowy quest został utworzony i zapisany w " + assetPath);
         }
         
         private void AddStyles()

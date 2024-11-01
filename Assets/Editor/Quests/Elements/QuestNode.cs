@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
 using UnityEditor.Experimental.GraphView;
@@ -12,12 +13,16 @@ namespace Editor.Quests.Elements
         public string ID { get; set; }
         public QuestGraphView graphView;
         public QuestGroup group;
+        public Port inputPort;   
+        public Port outputPort;        
         
         public string fileName;
         public string displayName;
         public QuestCategory category;
         public string description;
 
+        public List<QuestNode> nextQuests;
+        
         private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
 
         public void Initialize(QuestGraphView questGraphView, Vector2 position)
@@ -28,6 +33,8 @@ namespace Editor.Quests.Elements
             displayName = "";
             category = QuestCategory.MainQuest;
             description = "";
+
+            nextQuests = new List<QuestNode>();
             
             SetPosition(new Rect(position, Vector2.zero));
             extensionContainer.AddToClassList("quest-node__extension-container");
@@ -39,6 +46,24 @@ namespace Editor.Quests.Elements
             //Node Title
             var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, null, callback =>
             {
+                var target = (TextField) callback.target;
+                target.value = callback.newValue;
+
+                if (string.IsNullOrEmpty(target.value))
+                {
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        graphView.NamesErrorAmount++;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(fileName))
+                    {
+                        graphView.NamesErrorAmount--;
+                    }
+                }
+                
                 if (group == null)
                 {
                     graphView.RemoveUngroupedNode(this);
@@ -49,7 +74,7 @@ namespace Editor.Quests.Elements
 
                 var currentGroup = group;
                 graphView.RemoveGroupedNode(this, group);
-                fileName = callback.newValue;
+                fileName = target.value;
                 graphView.AddGroupedNode(this, currentGroup);
                 
             });
@@ -57,10 +82,12 @@ namespace Editor.Quests.Elements
             titleContainer.Insert(0, fileNameTextField);
 
             //Input Port
-            inputContainer.Add(this.CreatePort("Required Quest", Direction.Input, Port.Capacity.Multi));
+            inputPort = this.CreatePort("Required Quest", Direction.Input, Port.Capacity.Multi);
+            inputContainer.Add(inputPort);
             
             //Output Port
-            outputContainer.Add(this.CreatePort("Quest Output", Direction.Output, Port.Capacity.Multi));
+            outputPort = this.CreatePort("Next Quests", Direction.Output, Port.Capacity.Multi);
+            outputContainer.Add(outputPort);
             
             //Display Name
             var displayNameContainer = new VisualElement();
@@ -117,7 +144,6 @@ namespace Editor.Quests.Elements
                 }
             }
         }
-        
         
         public void SetErrorStyle(Color color)
         {

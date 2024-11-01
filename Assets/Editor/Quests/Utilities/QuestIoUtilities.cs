@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Editor.Quests.Elements;
 using Editor.Quests.Save;
 using Editor.Quests.Windows;
 using Quests;
+using Shared;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Editor.Quests.Utilities
 {
@@ -45,20 +48,47 @@ namespace Editor.Quests.Utilities
 
         private static void SaveGroups(QuestGraphSaveDataSO graphData)
         {
+            var groupNames = new List<string>();
             foreach (var group in _groups)
             {
                 SaveGroupToGraph(group, graphData);
                 CreateGroupFolder(group);
+                groupNames.Add(group.title);
             }
+            
+            UpdateOldGroups(groupNames, graphData);
         }
 
         private static void SaveNodes(QuestGraphSaveDataSO graphData)
         {
+            var groupedNodeNames = new SerializedDictionary<string, List<string>>();
+            var ungroupedNodeNames = new List<string>();
             foreach (var node in _nodes)
             {
                 SaveNodeToGraph(node, graphData);
                 SaveNodeToScriptableObject(node);
+
+                if (node.group == null)
+                {
+                    ungroupedNodeNames.Add(node.fileName);
+                }
+                else
+                {
+                    if (groupedNodeNames[node.group.title] == null)
+                    {
+                        groupedNodeNames[node.group.title] = new List<string>();
+                    }
+                    groupedNodeNames[node.group.title].Add(node.fileName);
+                }
+                
             }
+            foreach (var node in _nodes)
+            {
+                SaveNodeConnectionsToScriptableObject(node);
+            }
+
+            UpdateOldUngroupedNodes(ungroupedNodeNames, graphData);
+            UpdateOldGroupedNodes(groupedNodeNames, graphData);
         }
 
         private static void SaveGroupToGraph(QuestGroup group, QuestGraphSaveDataSO graphData)
@@ -104,8 +134,80 @@ namespace Editor.Quests.Utilities
             quest.displayName = node.displayName;
             quest.questCategory = node.category;
             quest.description = node.description;
+            quest.requiredQuests = new List<QuestInfo>();
+            quest.nextQuests = new List<QuestInfo>();
             _createdQuests.Add(node.ID, quest);
             SaveAsset(quest);
+        }
+        
+        private static void SaveNodeConnectionsToScriptableObject(QuestNode node)
+        {
+            var quest = _createdQuests[node.ID];
+            foreach (var edge in node.inputPort.connections)
+            {
+                var outputNode = (QuestNode) edge.output.node;
+                if (outputNode != null)
+                {
+                    quest.requiredQuests.Add(_createdQuests[outputNode.ID]);
+                }
+            }
+            foreach (var edge in node.outputPort.connections)
+            {
+                var inputNode = (QuestNode) edge.input.node;
+                if (inputNode != null)
+                {
+                    quest.nextQuests.Add(_createdQuests[inputNode.ID]);
+                }
+            }
+        }
+
+        private static void UpdateOldGroups(List<string> currentGroupNames, QuestGraphSaveDataSO graphData)
+        {
+            if (graphData.oldGroupNames != null && graphData.oldGroupNames.Count > 0)
+            {
+                var groupsToRemove = graphData.oldGroupNames.Except(currentGroupNames).ToList();
+                foreach (var groupToRemove in groupsToRemove)
+                {
+                    RemoveFolder($"{_containerFolderPath}/{groupToRemove}");
+                }
+            }
+            graphData.oldGroupNames = new List<string>(currentGroupNames);
+        }
+        
+        private static void UpdateOldUngroupedNodes(List<string> currentUngroupedNodeNames, QuestGraphSaveDataSO graphData)
+        {
+            if (graphData.oldUngroupedNodeNames != null && graphData.oldUngroupedNodeNames.Count > 0)
+            {
+                var nodesToRemove = graphData.oldUngroupedNodeNames.Except(currentUngroupedNodeNames).ToList();
+                foreach (var nodeToRemove in nodesToRemove)
+                {
+                    RemoveAsset($"{_containerFolderPath}/Global", nodeToRemove);
+                }
+            }
+            graphData.oldUngroupedNodeNames = new List<string>(currentUngroupedNodeNames);
+        }
+        
+        private static void UpdateOldGroupedNodes(SerializedDictionary<string, List<string>> currentGroupedNodeNames, 
+            QuestGraphSaveDataSO graphData)
+        {
+            if (graphData.oldGroupedNodeNames != null && graphData.oldGroupedNodeNames.Count > 0)
+            {
+                foreach (var oldGroupedNode in graphData.oldGroupedNodeNames)
+                {
+                    var nodesToRemove = new List<string>();
+                    if (currentGroupedNodeNames.ContainsKey(oldGroupedNode.Key))
+                    {
+                        nodesToRemove = oldGroupedNode.Value.Except(currentGroupedNodeNames[oldGroupedNode.Key])
+                            .ToList();
+
+                        foreach (var nodeToRemove in nodesToRemove)
+                        {
+                            RemoveAsset($"{_containerFolderPath}/Global", nodeToRemove);
+                        }
+                    }
+                }
+            }
+            graphData.oldGroupedNodeNames = new SerializableDictionary<string, List<string>>(currentGroupedNodeNames);
         }
 
         private static void CreateStaticFolders()
@@ -129,6 +231,12 @@ namespace Editor.Quests.Utilities
             AssetDatabase.CreateFolder(path, folderName);
         }
 
+        private static void RemoveFolder(string fullPath)
+        {
+            FileUtil.DeleteFileOrDirectory($"{fullPath}.meta");
+            FileUtil.DeleteFileOrDirectory($"{fullPath}/");
+        }
+        
         private static void GetElementsFromGraph()
         {
             _graphView.graphElements.ForEach(graphElement =>
@@ -158,6 +266,11 @@ namespace Editor.Quests.Utilities
             return asset;
         }
 
+        private static void RemoveAsset(string path, string assetName)
+        {
+            AssetDatabase.DeleteAsset($"{path}/{assetName}.asset");
+        }
+        
         private static void SaveAsset(UnityEngine.Object asset)
         {
             EditorUtility.SetDirty(asset);
