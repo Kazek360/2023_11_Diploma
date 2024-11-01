@@ -56,25 +56,18 @@ namespace Quests
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
         }
 
-        private bool CheckRequirementsMet(Quest quest)
+        private bool CheckForRequiredFlagsState(QuestInfo questInfo)
         {
-            var meetsRequirements = true;
-            foreach (var questRequirement in quest.info.requiredQuests)
-            {
-                if (GetQuestById(questRequirement.name).state != QuestState.Finished)
-                {
-                    meetsRequirements = false;
-                }
-            }
-            foreach (var flagRequirement in quest.info.requiredFlags)
+            var allFlagsTriggered = true;
+            foreach (var flagRequirement in questInfo.requiredFlags)
             {
                 if (!flagRequirement.value.Equals(FlagManager.GetFlagValue(flagRequirement.info.name)))
                 {
-                    meetsRequirements = false;
+                    allFlagsTriggered = false;
                 }
             }
 
-            return meetsRequirements;
+            return allFlagsTriggered;
         }
 
         private void ChangeQuestState(string id, QuestState state)
@@ -114,25 +107,27 @@ namespace Quests
 
         private void FinishQuest(string id)
         {
-            PlayerStats.GetInstance().AddXp(_quests[id].info.experience);
-            foreach (var item in _quests[id].info.items)
+            var quest = GetQuestById(id);
+            
+            PlayerStats.GetInstance().AddXp(quest.info.experience);
+            foreach (var item in quest.info.items)
             {
                 GameConfig.PlayerInventory.AddItem(item, 1);
             }
 
             ChangeQuestState(id, QuestState.Finished);
-            
-            foreach (var quest in _quests.Values)
+
+            foreach (var nextQuestInfo in quest.info.nextQuests)
             {
-                if (quest.state == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
+                if (CheckForRequiredFlagsState(nextQuestInfo))
                 {
-                    if (quest.info.questCategory == QuestCategory.MainQuest)
+                    if (nextQuestInfo.questCategory == QuestCategory.MainQuest)
                     {
-                        QuestEvents.StartQuest(quest.info.name);
+                        QuestEvents.StartQuest(nextQuestInfo.name);
                     }
                     else
                     {
-                        ChangeQuestState(quest.info.name, QuestState.CanStart);
+                        ChangeQuestState(nextQuestInfo.name, QuestState.CanStart);
                     }
                 }
             }
