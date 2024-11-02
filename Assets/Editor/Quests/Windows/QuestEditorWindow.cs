@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.IO;
 using Editor.Quests.Utilities;
 using Quests;
 using UnityEditor;
@@ -11,7 +11,7 @@ namespace Editor.Quests.Windows
     {
         private QuestGraphView _graphView;
         private Button _saveButton;
-        private TextField _fileNameTextField;
+        private static TextField _fileNameTextField;
         private QuestInfo requiredQuest;
         
         [MenuItem("Window/Quest Graph")]
@@ -38,19 +38,15 @@ namespace Editor.Quests.Windows
         {
             var toolbar = new Toolbar();
             _fileNameTextField = QuestGraphUtilities.CreateTextField("", "File Name:");
-            _saveButton = QuestGraphUtilities.CreateButton("Save", () =>
-            {
-                if (string.IsNullOrEmpty(_fileNameTextField.value))
-                {
-                    EditorUtility.DisplayDialog("Invalid File Name", "Cannot Save Graph with blank name", "Ok");
-                    return;
-                }
-                QuestIoUtilities.Initialize(_graphView, _fileNameTextField.value);
-                QuestIoUtilities.Save();
-            });
+            
+            _saveButton = QuestGraphUtilities.CreateButton("Save", () => Save());
+            var loadButton = QuestGraphUtilities.CreateButton("Load", () => Load());
+            var clearButton = QuestGraphUtilities.CreateButton("Clear", () => _graphView.ClearGraph());
+
             toolbar.Add(_fileNameTextField);
             toolbar.Add(_saveButton);
-            toolbar.Add(QuestGraphUtilities.CreateButton("Clear", () => _graphView.ClearGraph()));
+            toolbar.Add(loadButton);
+            toolbar.Add(clearButton);
             toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
             rootVisualElement.Add(toolbar);
         }
@@ -68,6 +64,35 @@ namespace Editor.Quests.Windows
         public void DisableSaving()
         {
             _saveButton.SetEnabled(false);
+        }
+
+        private void Save()
+        {
+            if (string.IsNullOrEmpty(_fileNameTextField.value))
+            {
+                EditorUtility.DisplayDialog("Invalid File Name", "Cannot Save Graph with blank name", "Ok");
+                return;
+            }
+            QuestIoUtilities.Initialize(_graphView, _fileNameTextField.value);
+            QuestIoUtilities.Save();
+        }
+
+        private void Load()
+        {
+            var filePath = EditorUtility.OpenFilePanel("Quest Graphs", "Assets/Editor/Quests/Graphs", "asset");
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+
+            _graphView.ClearGraph();
+            QuestIoUtilities.Initialize(_graphView, Path.GetFileNameWithoutExtension(filePath));
+            QuestIoUtilities.Load();
+        }
+        
+        public static void UpdateFileName(string fileName)
+        {
+            _fileNameTextField.value = fileName;
         }
     }
 }

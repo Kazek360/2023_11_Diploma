@@ -89,15 +89,18 @@ namespace Editor.Quests.Windows
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Add Node", 
-                    actionEvent => AddElement(CreateNode(actionEvent.eventInfo.localMousePosition)))
+                    actionEvent => AddElement(CreateNode("quest", actionEvent.eventInfo.localMousePosition)))
                 );
             return contextualMenuManipulator;
         }
-        private QuestNode CreateNode(Vector2 position)
+        public QuestNode CreateNode(string nodeName, Vector2 position, bool shouldDraw = true)
         {
             var node = new QuestNode();
-            node.Initialize(this, position);
-            node.Draw();
+            node.Initialize(nodeName, this, position);
+            if (shouldDraw)
+            {
+                node.Draw();
+            }
             AddUngroupedNode(node);
             return node;
         }
@@ -199,7 +202,7 @@ namespace Editor.Quests.Windows
             );
             return contextualMenuManipulator;
         }
-        private Group CreateGroup(string title, Vector2 mousePosition)
+        public QuestGroup CreateGroup(string title, Vector2 mousePosition)
         {
             var group = new QuestGroup(title, mousePosition);
             AddGroup(group);
@@ -215,7 +218,7 @@ namespace Editor.Quests.Windows
             
             return group;
         }
-        public void AddGroup(QuestGroup group)
+        private void AddGroup(QuestGroup group)
         {
             var groupName = group.title;
             if (!_groups.ContainsKey(groupName))
@@ -235,7 +238,7 @@ namespace Editor.Quests.Windows
             }
         }
         
-        public void RemoveGroup(QuestGroup group)
+        private void RemoveGroup(QuestGroup group)
         {
             var oldGroupName = group.oldTitle;
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Editor.Quests.Save
@@ -12,6 +13,7 @@ namespace Editor.Quests.Save
         public QuestCategory category;
         public string description;
         public string groupID;
+        public List<string> connectedNodes;
         public Vector2 position;
     }
 }

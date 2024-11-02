@@ -13,29 +13,27 @@ namespace Editor.Quests.Elements
         public string ID { get; set; }
         public QuestGraphView graphView;
         public QuestGroup group;
+        
         public Port inputPort;   
-        public Port outputPort;        
+        public Port outputPort;
+        public List<string> connectedNodes;
         
         public string fileName;
         public string displayName;
         public QuestCategory category;
         public string description;
-
-        public List<QuestNode> nextQuests;
         
         private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
 
-        public void Initialize(QuestGraphView questGraphView, Vector2 position)
+        public void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
             ID = Guid.NewGuid().ToString();
             graphView = questGraphView;
-            fileName = "Quest";
+            fileName = nodeName;
             displayName = "";
             category = QuestCategory.MainQuest;
             description = "";
-
-            nextQuests = new List<QuestNode>();
-            
+            connectedNodes = new List<string>();
             SetPosition(new Rect(position, Vector2.zero));
             extensionContainer.AddToClassList("quest-node__extension-container");
             mainContainer.AddToClassList("quest-node__main-container");

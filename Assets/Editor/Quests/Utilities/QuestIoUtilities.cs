@@ -7,6 +7,7 @@ using Editor.Quests.Windows;
 using Quests;
 using Shared;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -20,7 +21,11 @@ namespace Editor.Quests.Utilities
 
         private static List<QuestGroup> _groups;
         private static List<QuestNode> _nodes;
+        
         private static Dictionary<string, QuestInfo> _createdQuests;
+
+        private static Dictionary<string, QuestGroup> _loadedGroups;
+        private static Dictionary<string, QuestNode> _loadedNodes;
 
         public static void Initialize(QuestGraphView graphView, string graphName)
         {
@@ -31,6 +36,8 @@ namespace Editor.Quests.Utilities
             _groups = new List<QuestGroup>();
             _nodes = new List<QuestNode>();
             _createdQuests = new Dictionary<string, QuestInfo>();
+            _loadedGroups = new Dictionary<string, QuestGroup>();
+            _loadedNodes = new Dictionary<string, QuestNode>();
         }
         
         public static void Save()
@@ -45,7 +52,7 @@ namespace Editor.Quests.Utilities
             
             SaveAsset(graphData);
         }
-
+        
         private static void SaveGroups(QuestGraphSaveDataSO graphData)
         {
             var groupNames = new List<string>();
@@ -74,9 +81,9 @@ namespace Editor.Quests.Utilities
                 }
                 else
                 {
-                    if (groupedNodeNames[node.group.title] == null)
+                    if (!groupedNodeNames.ContainsKey(node.group.title))
                     {
-                        groupedNodeNames[node.group.title] = new List<string>();
+                        groupedNodeNames.Add(node.group.title, new List<string>());
                     }
                     groupedNodeNames[node.group.title].Add(node.fileName);
                 }
@@ -105,6 +112,13 @@ namespace Editor.Quests.Utilities
 
         private static void SaveNodeToGraph(QuestNode node, QuestGraphSaveDataSO graphData)
         {
+            var connectedNodes = new List<string>();
+            foreach (var edge in node.outputPort.connections)
+            {
+                var inputNode = (QuestNode) edge.input.node;
+                connectedNodes.Add(inputNode.ID);
+            }
+            
             var nodeData = new QuestNodeSaveData
             {
                 id = node.ID,
@@ -113,6 +127,7 @@ namespace Editor.Quests.Utilities
                 category = node.category,
                 description = node.description,
                 groupID = node.group?.ID,
+                connectedNodes = connectedNodes,
                 position = node.GetPosition().position
             };
             graphData.nodes.Add(nodeData);
@@ -210,6 +225,74 @@ namespace Editor.Quests.Utilities
             graphData.oldGroupedNodeNames = new SerializableDictionary<string, List<string>>(currentGroupedNodeNames);
         }
 
+        public static void Load()
+        {
+            var graphData = AssetDatabase.LoadAssetAtPath<QuestGraphSaveDataSO>($"Assets/Editor/Quests/Graphs/{_graphFileName}.asset");
+            if (graphData == null)
+            {
+                EditorUtility.DisplayDialog(
+                    "Couldn't load the file",
+                    "The file at the following path could not be found:\n\n" + 
+                    $"Assets/Editor/Quests/Graphs/{_graphFileName}.asset",
+                    "Ok"
+                );
+                return;
+            }
+            QuestEditorWindow.UpdateFileName(graphData.fileName);
+            LoadGroups(graphData.groups);
+            LoadNodes(graphData.nodes);
+            LoadNodeConnections();
+        }
+
+        private static void LoadGroups(List<QuestGroupSaveData> groups)
+        {
+            foreach (var groupData in groups)
+            {
+                var group = _graphView.CreateGroup(groupData.name, groupData.position);
+                group.ID = groupData.id;
+                _loadedGroups.Add(group.ID, group);
+            }
+        }
+        private static void LoadNodes(List<QuestNodeSaveData> nodes)
+        {
+            foreach (var nodeData in nodes)
+            {
+                var node = _graphView.CreateNode(nodeData.fileName, nodeData.position, false);
+                node.ID = nodeData.id;
+                node.displayName = nodeData.displayName;
+                node.category = nodeData.category;
+                node.description = nodeData.description;
+                node.connectedNodes = nodeData.connectedNodes;
+                node.Draw();
+                _graphView.AddElement(node);
+
+                _loadedNodes.Add(node.ID, node);
+                
+                if (!string.IsNullOrEmpty(nodeData.groupID))
+                {
+                    var group = _loadedGroups[nodeData.groupID];
+                    node.group = group;
+                    group.AddElement(node);
+                }
+            }
+        }
+
+        private static void LoadNodeConnections()
+        {
+            foreach (var loadedNode in _loadedNodes)
+            {
+                var outputPort = (Port) loadedNode.Value.outputContainer.Children().First();
+                foreach (var connectedNode in loadedNode.Value.connectedNodes)
+                {
+                    var inputPort = (Port) _loadedNodes[connectedNode].inputContainer.Children().First();
+
+                    var edge = outputPort.ConnectTo(inputPort);
+                    _graphView.AddElement(edge);
+                    loadedNode.Value.RefreshPorts();
+                }
+            }
+        }
+        
         private static void CreateStaticFolders()
         {
             CreateFolder("Assets/Editor/Quests", "Graphs");
