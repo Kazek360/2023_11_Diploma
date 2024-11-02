@@ -42,11 +42,13 @@ namespace Editor.Quests.Windows
             _saveButton = QuestGraphUtilities.CreateButton("Save", () => Save());
             var loadButton = QuestGraphUtilities.CreateButton("Load", () => Load());
             var clearButton = QuestGraphUtilities.CreateButton("Clear", () => _graphView.ClearGraph());
-
+            var minimapButton = QuestGraphUtilities.CreateButton("Toggle Minimap", () => _graphView.ToggleMinimap());
+            
             toolbar.Add(_fileNameTextField);
             toolbar.Add(_saveButton);
             toolbar.Add(loadButton);
             toolbar.Add(clearButton);
+            toolbar.Add(minimapButton);
             toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
             rootVisualElement.Add(toolbar);
         }

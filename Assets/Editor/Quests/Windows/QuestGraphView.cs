@@ -10,6 +10,7 @@ namespace Editor.Quests.Windows
     public class QuestGraphView : GraphView
     {
         private QuestEditorWindow _editorWindow;
+        private MiniMap _minimap;
         private Dictionary<string, List<QuestNode>> _ungroupedNodes;
         private Dictionary<Group, Dictionary<string, List<QuestNode>>> _groupedNodes;
         private Dictionary<string, List<QuestGroup>> _groups;
@@ -40,6 +41,7 @@ namespace Editor.Quests.Windows
             _groupedNodes = new Dictionary<Group, Dictionary<string, List<QuestNode>>>();
             _groups = new Dictionary<string, List<QuestGroup>>();
             AddManipulators();
+            AddMinimap();
             AddGridBackground();
             
             OnElementsDeleted();
@@ -71,6 +73,30 @@ namespace Editor.Quests.Windows
             this.AddManipulator(CreateGroupContextualMenu());
         }
 
+        private void AddMinimap()
+        {
+            _minimap = new MiniMap
+            {
+                anchored = true
+            };
+            
+            _minimap.style.backgroundColor = new StyleColor(new Color32(30, 30, 30, 255));
+            var borderColor = new StyleColor(new Color32(50, 50, 50, 255));
+            _minimap.style.borderBottomColor = borderColor;
+            _minimap.style.borderTopColor = borderColor;
+            _minimap.style.borderRightColor = borderColor;
+            _minimap.style.borderLeftColor = borderColor;
+
+            _minimap.SetPosition(new Rect(15, 50, 200, 150));
+            
+            Add(_minimap);
+        }
+
+        public void ToggleMinimap()
+        {
+            _minimap.visible = !_minimap.visible;
+        }
+        
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             var compatiblePorts = new List<Port>();
@@ -89,7 +115,7 @@ namespace Editor.Quests.Windows
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
                 menuEvent => menuEvent.menu.AppendAction("Add Node", 
-                    actionEvent => AddElement(CreateNode("quest", actionEvent.eventInfo.localMousePosition)))
+                    actionEvent => AddElement(CreateNode("quest", actionEvent.eventInfo.mousePosition)))
                 );
             return contextualMenuManipulator;
         }
