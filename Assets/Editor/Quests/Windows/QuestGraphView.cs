@@ -372,6 +372,16 @@ namespace Editor.Quests.Windows
                 AddGroup(questGroup);
             };
         }
+
+        public void ClearGraph()
+        {
+            graphElements.ForEach(graphElement => RemoveElement(graphElement));
+            
+            _groups.Clear();
+            _ungroupedNodes.Clear();
+            _groupedNodes.Clear();
+            NamesErrorAmount = 0;
+        }
         
     }
 }

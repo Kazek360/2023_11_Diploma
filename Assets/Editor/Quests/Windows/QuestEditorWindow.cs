@@ -50,6 +50,7 @@ namespace Editor.Quests.Windows
             });
             toolbar.Add(_fileNameTextField);
             toolbar.Add(_saveButton);
+            toolbar.Add(QuestGraphUtilities.CreateButton("Clear", () => _graphView.ClearGraph()));
             toolbar.AddStyleSheets("Quests/QuestToolbarStyles.uss");
             rootVisualElement.Add(toolbar);
         }
