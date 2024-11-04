@@ -80,6 +80,21 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     public virtual void CastAbility(IHittable target, IHittable caster)
     {
         Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
+
+        foreach (var effect in effects)
+        {
+            effect.ApplyEffect(caster, target);
+        }
+
+        foreach (var effectOverTime in effectsOverTime)
+        {
+            //TODO: IMPLEMENT OVER TIME EFFECTS
+        }
+        
+        foreach (var visualEffect in visualEffects)
+        {
+            //TODO: PLAY ANIMS
+        }
         //TODO: Play anim here
     }
 
