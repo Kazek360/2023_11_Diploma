@@ -11,7 +11,7 @@ using UnityEngine.UI;
  */
 public class AbilityCard : MonoBehaviour,   ITooltippable
 {
-    [FormerlySerializedAs("ability")] [SerializeField] private AbilityScriptableObject Ability;
+    [FormerlySerializedAs("ability")] [SerializeField] private AbilityScriptableObjectReworked Ability;
     [FormerlySerializedAs("abilityNameField")] [SerializeField] private GameObject AbilityNameField;
     [FormerlySerializedAs("abilityImage")] [SerializeField] private GameObject AbilityImage;
     [FormerlySerializedAs("cooldownCounter")] [SerializeField] private GameObject CooldownCounter;
@@ -32,7 +32,7 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
      * <param name="cooldown">if ability is on cooldown, how many turns are left</param>
      * <param name="orderNumber">what place ability takes in players ability list</param>
      */
-    public void SetAbility(AbilityScriptableObject abilityScriptableObject, int cooldown, int orderNumber)
+    public void SetAbility(AbilityScriptableObjectReworked abilityScriptableObject, int cooldown, int orderNumber)
     {
         Ability = abilityScriptableObject;
         // ActionText.text = Ability.GetAbilityActionText();
@@ -70,7 +70,7 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
 
     public int AbilityOrderInEntityList => _abilityOrderInEntityList;
 
-    public AbilityScriptableObject GetAbility => Ability;
+    public AbilityScriptableObjectReworked GetAbility => Ability;
 
     public string GetTooltipHeader()
     {

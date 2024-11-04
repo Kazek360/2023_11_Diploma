@@ -49,9 +49,9 @@ public class UnlockedAbilities
         }
     }
 
-    public List<AbilityScriptableObject> GetAbilities(UnlockableAbility.PlayerType playerType)
+    public List<AbilityScriptableObjectReworked> GetAbilities(UnlockableAbility.PlayerType playerType)
     {
-        List<AbilityScriptableObject> result = new List<AbilityScriptableObject>();
+        List<AbilityScriptableObjectReworked> result = new List<AbilityScriptableObjectReworked>();
         foreach (UnlockableAbility ability in _unlockedAbilities)
         {
             if (ability.Recipient.Equals(playerType))
@@ -83,7 +83,7 @@ public class UnlockableAbility
     }
 
     [FormerlySerializedAs("_recipient")] [SerializeField] private PlayerType recipient;
-    [SerializeField] private AbilityScriptableObject _abilityScriptableObject;
+    [SerializeField] private AbilityScriptableObjectReworked _abilityScriptableObject;
 
     public PlayerType Recipient
     {
@@ -91,7 +91,7 @@ public class UnlockableAbility
         set => recipient = value;
     }
 
-    public AbilityScriptableObject AbilitySO
+    public AbilityScriptableObjectReworked AbilitySO
     {
         get => _abilityScriptableObject;
         set => _abilityScriptableObject = value;

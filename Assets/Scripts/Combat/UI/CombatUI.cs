@@ -98,27 +98,27 @@ public class CombatUI : UserInterface
     * Show targets and range for the selected ability
     * <param name='ability'>selected ability</param>
     */
-    public void ShowTargets(AbilityScriptableObject ability)
+    public void ShowTargets(AbilityScriptableObjectReworked ability)
     {
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetMaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetImmaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetImmaterialEnemies());
             }
@@ -139,10 +139,10 @@ public class CombatUI : UserInterface
         
         _combatSystem.ClearGrid();
         
-        if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyImmaterial)))
+        if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)))
         {
             _combatSystem.UnityTargetingHighlight(ability.Range);
-        } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyMaterial)))
+        } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)))
         {
             _combatSystem.UnityTargetingHighlight(ability.Range);
         }
@@ -225,7 +225,7 @@ public class CombatUI : UserInterface
     }
 
 
-    private AbilityScriptableObject GetCurrentlySelectedAbility()
+    private AbilityScriptableObjectReworked GetCurrentlySelectedAbility()
     {
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
         if (toggled is not null)

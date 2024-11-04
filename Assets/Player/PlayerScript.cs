@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     [SerializeField] private string entityName;
     
-    [SerializeField] private List<AbilityScriptableObject> abilities;
+    [SerializeField] private List<AbilityScriptableObjectReworked> abilities;
     private List<int> _cooldowns;
     private CombatSystem _combatSystem;
     private CombatUI _combatUI;
@@ -199,7 +199,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         return entityName;
     }
 
-    public List<AbilityScriptableObject> GetAbilities()
+    public List<AbilityScriptableObjectReworked> GetAbilities()
     {
         return abilities;
     }

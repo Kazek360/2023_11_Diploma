@@ -20,7 +20,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     [SerializeField] private TooltipObject tooltipArea;
     protected IHittable _partner;
     
-    private List<AbilityScriptableObject> _abilities;
+    private List<AbilityScriptableObjectReworked> _abilities;
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
 
@@ -108,7 +108,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private int ChoosePossibleAbility()
     {
         int maxWeight = 0;
-        List<AbilityScriptableObject> candidates = new List<AbilityScriptableObject>();
+        List<AbilityScriptableObjectReworked> candidates = new List<AbilityScriptableObjectReworked>();
         for (int i = 0; i < _abilities.Count; i++)
         {
             if (_cooldowns[i] > 0) continue;
@@ -150,22 +150,22 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
             }
@@ -283,7 +283,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         return Stats.EnemyName;
     }
     
-    public List<AbilityScriptableObject> GetAbilities()
+    public List<AbilityScriptableObjectReworked> GetAbilities()
     {
         return _abilities;
     }
