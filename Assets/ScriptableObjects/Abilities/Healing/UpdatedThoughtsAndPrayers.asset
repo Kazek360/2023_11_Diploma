@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051c029d333734945b99ff97897061af, type: 3}
+  m_Name: UpdatedThoughtsAndPrayers
+  m_EditorClassIdentifier: 
+  abilityName: "My\u015Bli i modlitwy"
+  abilityDescription: "Niekt\xF3rzy twierdz\u0105, \u017Ce nie jest to prawdziwa
+    medycyna, ale przynajmniej nie musisz sta\u0107 przy chorym\n\nULECZYSZ 2HP i
+    2PP SOJUSZNIKOWI NA TEJ SAMEJ PLANSZY"
+  sprite: {fileID: 21300000, guid: ebe05ced66005f64b9eda8399917160c, type: 3}
+  animType: 0
+  cooldown: 5
+  range: 1
+  numberOfTargets: 1
+  viableTargets: 01000000
+  baseAiUseWeight: 10
+  effects:
+  - amount: 2
+    effectedStat: 1
+    effectCaster: 0
+    effectModifiers: []
+  - amount: 2
+    effectedStat: 0
+    effectCaster: 0
+    effectModifiers: []
+  effectsOverTime: []
+  visualEffects: []
