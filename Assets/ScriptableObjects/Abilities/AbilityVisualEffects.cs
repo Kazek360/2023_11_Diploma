@@ -3,8 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityVisualEffects
+public class AbilityVisualEffects: MonoBehaviour
 {
+    public static void ApplyEffect(IHittable caster, IHittable target, float durationOrSpeed, AbilityVisualEffectTypes effectType, GameObject effectObject)
+    {
+        if (effectType == AbilityVisualEffectTypes.PROJECTILE)
+        {
+            var projectile = Instantiate(effectObject);
+            projectile.transform.position = caster.GetObject().transform.position;
+            projectile.GetComponent<ProjectileScript>().SetTarget(target.GetObject());
+        }
+    }
 }
 
 public enum AbilityVisualEffectTypes {PROJECTILE};
@@ -15,9 +24,10 @@ public class VisualEffectContainer
     [SerializeField] private float durationOrSpeed;
     [SerializeField] private AbilityVisualEffectTypes effectType;
     [SerializeField] private GameObject effectObject;
-    
-    
-    public void ApplyEffect(IHittable caster, IHittable target)
-    {
-    }
+
+    public float DurationOrSpeed => durationOrSpeed;
+
+    public AbilityVisualEffectTypes EffectType => effectType;
+
+    public GameObject EffectObject => effectObject;
 }

@@ -93,7 +93,7 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         
         foreach (var visualEffect in visualEffects)
         {
-            //TODO: PLAY ANIMS
+            AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
         }
         //TODO: Play anim here
     }
