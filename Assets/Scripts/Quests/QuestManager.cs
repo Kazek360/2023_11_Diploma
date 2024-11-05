@@ -61,10 +61,10 @@ namespace Quests
             var allFlagsTriggered = true;
             foreach (var flagRequirement in questInfo.requiredFlags)
             {
-                if (!flagRequirement.value.Equals(FlagManager.GetFlagValue(flagRequirement.info.name)))
-                {
-                    allFlagsTriggered = false;
-                }
+                // if (!flagRequirement.value.Equals(FlagManager.GetFlagValue(flagRequirement.info.name)))
+                // {
+                //     allFlagsTriggered = false;
+                // }
             }
 
             return allFlagsTriggered;

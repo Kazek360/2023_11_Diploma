@@ -14,15 +14,8 @@ namespace Quests
         [TextArea] public string description;
         
         [Header("Requirements")]
-        public List<RequiredFlag> requiredFlags;
+        public List<FlagInfo> requiredFlags;
         
-        [Serializable]
-        public class RequiredFlag
-        {
-            public FlagInfo info;
-            public string value;
-        }
-
         [Header("Quests")]
         public List<QuestInfo> requiredQuests;
         public List<QuestInfo> nextQuests;

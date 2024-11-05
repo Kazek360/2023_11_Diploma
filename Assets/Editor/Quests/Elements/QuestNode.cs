@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
+using Quests.Flags;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -19,9 +20,11 @@ namespace Editor.Quests.Elements
         public List<string> connectedNodes;
         
         public string fileName;
+        public List<FlagInfo> flags;
         public string displayName;
         public QuestCategory category;
         public string description;
+        public int experience;
         
         private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
 
@@ -33,6 +36,8 @@ namespace Editor.Quests.Elements
             displayName = "";
             category = QuestCategory.MainQuest;
             description = "";
+            experience = 0;
+            flags = new List<FlagInfo>();
             connectedNodes = new List<string>();
             SetPosition(new Rect(position, Vector2.zero));
             extensionContainer.AddToClassList("quest-node__extension-container");
@@ -87,11 +92,30 @@ namespace Editor.Quests.Elements
             outputPort = this.CreatePort("Next Quests", Direction.Output, Port.Capacity.Multi);
             outputContainer.Add(outputPort);
             
+            //Flags
+            var flagsContainer = new VisualElement();
+            flagsContainer.AddToClassList("quest-node__custom-container");
+            var flagsFoldout = QuestGraphUtilities.CreateFoldout("Flags");
+            
+            var flagsButtonContainer = 
+                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons(flagsFoldout, flags);
+            flagsFoldout.Add(flagsButtonContainer);
+            
+            foreach (var flag in flags)
+            {
+                var flagObjectField = QuestGraphUtilities.CreateObjectField(flags, flag);
+                flagsFoldout.Add(flagObjectField);
+            }
+            
+            flagsContainer.Add(flagsFoldout);
+            extensionContainer.Add(flagsContainer);
+            
             //Display Name
             var displayNameContainer = new VisualElement();
             displayNameContainer.AddToClassList("quest-node__custom-container");
             var displayNameFoldout = QuestGraphUtilities.CreateFoldout("Display Name");
-            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName, null, callback =>
+            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName, null, 
+                callback =>
             {
                 displayName = callback.newValue;
             });
@@ -104,7 +128,8 @@ namespace Editor.Quests.Elements
             var categoryContainer = new VisualElement();
             categoryContainer.AddToClassList("quest-node__custom-container");
             var categoryFoldout = QuestGraphUtilities.CreateFoldout("Category");
-            var categorySelector = QuestGraphUtilities.CreateEnumField(category, null, callback =>
+            var categorySelector = QuestGraphUtilities.CreateEnumField(category, null, 
+                callback =>
             {
                 category = (QuestCategory) callback.newValue;
             });
@@ -114,14 +139,42 @@ namespace Editor.Quests.Elements
             extensionContainer.Add(categoryContainer);
             
             //Quest Description
+            var descriptionContainer = new VisualElement();
+            descriptionContainer.AddToClassList("quest-node__custom-container");
             var descriptionFoldout = QuestGraphUtilities.CreateFoldout("Description");
-            var descriptionTextArea = QuestGraphUtilities.CreateTextArea(description, null, callback =>
+            var descriptionTextArea = QuestGraphUtilities.CreateTextArea(description, null, 
+                callback =>
             {
                 description = callback.newValue;
             });
             descriptionTextArea.AddToClassList("quest-node__textfield");
             descriptionFoldout.Add(descriptionTextArea);
-            extensionContainer.Add(descriptionFoldout);
+            descriptionContainer.Add(descriptionFoldout);
+            extensionContainer.Add(descriptionContainer);
+            
+            //Experience
+            var experienceContainer = new VisualElement();
+            experienceContainer.AddToClassList("quest-node__custom-container");
+            var experienceFoldout = QuestGraphUtilities.CreateFoldout("Experience");
+            var experienceIntegerField = QuestGraphUtilities.CreateIntegerField(experience, null,
+                callback =>
+                {
+                    experience = callback.newValue;
+                });
+            experienceIntegerField.AddToClassList("quest-node__integer-field");
+            experienceFoldout.Add(experienceIntegerField);
+            experienceContainer.Add(experienceFoldout);
+            extensionContainer.Add(experienceContainer);
+            
+            //Rewards
+            var rewardsContainer = new VisualElement();
+            flagsContainer.AddToClassList("quest-node__custom-container");
+            var rewardsFoldout = QuestGraphUtilities.CreateFoldout("Rewards");
+            var rewardsButtonContainer = 
+                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons<FlagInfo>(rewardsFoldout, new List<FlagInfo>());
+            rewardsFoldout.Add(rewardsButtonContainer);
+            rewardsContainer.Add(rewardsFoldout);
+            extensionContainer.Add(rewardsContainer);
             
             RefreshExpandedState();
         }

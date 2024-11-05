@@ -16,28 +16,34 @@ MonoBehaviour:
   groups:
   - id: 357d04fe-aebc-43cf-afd1-8a4707c31419
     name: Groupe
-    position: {x: 541, y: 76}
+    position: {x: 566, y: 69}
   - id: 59c399bc-8094-4b57-b668-95baeb39db12
     name: Group
     position: {x: 7, y: 168}
   nodes:
   - id: 9c73e879-c9cb-4dd0-b677-6f48fb335b2a
     fileName: Quest
+    flags:
+    - {fileID: 11400000, guid: f9f23acdf0ca8584998af80d382b0de9, type: 2}
     displayName: Alone
     category: 0
     description: I am alone
+    experience: 1
     groupID: 
     connectedNodes:
     - 210d5d17-0b89-4988-a65c-64b8958f5ddb
-    position: {x: 185, y: 113}
+    position: {x: 251, y: 108}
   - id: 210d5d17-0b89-4988-a65c-64b8958f5ddb
     fileName: Quest
+    flags:
+    - {fileID: 11400000, guid: b861dad52e474094c8e6e779ca8004e1, type: 2}
     displayName: Inside
     category: 0
     description: I am Inside
+    experience: 2137
     groupID: 357d04fe-aebc-43cf-afd1-8a4707c31419
     connectedNodes: []
-    position: {x: 566, y: 135}
+    position: {x: 591, y: 128}
   oldGroupNames:
   - Groupe
   - Group

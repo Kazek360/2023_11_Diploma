@@ -1,10 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Editor.Quests.Elements;
 using Editor.Quests.Save;
 using Editor.Quests.Windows;
 using Quests;
+using Quests.Flags;
 using Shared;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -118,14 +118,22 @@ namespace Editor.Quests.Utilities
                 var inputNode = (QuestNode) edge.input.node;
                 connectedNodes.Add(inputNode.ID);
             }
+
+            var flagsCopy = new List<FlagInfo>();
+            foreach (var flag in node.flags)
+            {
+                flagsCopy.Add(flag);
+            }
             
             var nodeData = new QuestNodeSaveData
             {
                 id = node.ID,
                 fileName = node.fileName,
+                flags = flagsCopy,
                 displayName = node.displayName,
                 category = node.category,
                 description = node.description,
+                experience = node.experience,
                 groupID = node.group?.ID,
                 connectedNodes = connectedNodes,
                 position = node.GetPosition().position
@@ -149,6 +157,8 @@ namespace Editor.Quests.Utilities
             quest.displayName = node.displayName;
             quest.questCategory = node.category;
             quest.description = node.description;
+            quest.requiredFlags = new List<FlagInfo>(node.flags);
+            quest.experience = node.experience;
             quest.requiredQuests = new List<QuestInfo>();
             quest.nextQuests = new List<QuestInfo>();
             _createdQuests.Add(node.ID, quest);
@@ -259,9 +269,11 @@ namespace Editor.Quests.Utilities
             {
                 var node = _graphView.CreateNode(nodeData.fileName, nodeData.position, false);
                 node.ID = nodeData.id;
+                node.flags = nodeData.flags;
                 node.displayName = nodeData.displayName;
                 node.category = nodeData.category;
                 node.description = nodeData.description;
+                node.experience = nodeData.experience;
                 node.connectedNodes = nodeData.connectedNodes;
                 node.Draw();
                 _graphView.AddElement(node);
