@@ -3,7 +3,6 @@ using DialogueSystem.Events;
 using DialogueSystem.ScriptableObjects;
 using InputSystem;
 using UnityEngine;
-using UnityEngine.AI;
 
 
 namespace Player
@@ -26,7 +25,6 @@ namespace Player
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
         
-        NavMeshAgent _agent;
 
         private void OnEnable()
         {
@@ -57,9 +55,6 @@ namespace Player
             _animator = GetComponent<Animator>();
             _isMouseMoving = false;
             
-            _agent = GetComponent<NavMeshAgent>();
-            _agent.updateRotation = false;
-            _agent.updateUpAxis = false;
             _canMove = true;
         }
         
@@ -68,7 +63,6 @@ namespace Player
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
-                SetAgentPosition();
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -103,7 +97,6 @@ namespace Player
                 }
                 else
                 {
-                    _agent.ResetPath();
                     _rigidbody.velocity = movementVector * currentSpeed;
                     if (movementVector != Vector2.zero)
                     {
@@ -130,10 +123,6 @@ namespace Player
             }
         }
         
-        void SetAgentPosition()
-        {
-            _agent.SetDestination(_targetPosition);
-        }
         
         private void ChangeSprintState(bool isPlayerSprinting)
         {
