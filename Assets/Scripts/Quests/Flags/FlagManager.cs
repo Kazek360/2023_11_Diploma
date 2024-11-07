@@ -47,7 +47,8 @@ namespace Quests.Flags
             {
                 _inkVariablesDictionary.Remove(name);
                 _inkVariablesDictionary.Add(name, value);
-                _flagDictionary[name].value = value.ToString();
+                var isTriggered = new BoolValue(value);
+                _flagDictionary[name].triggered = isTriggered.value;
             }
         }
 
@@ -59,19 +60,20 @@ namespace Quests.Flags
             }
         }
 
-        public string GetFlagValue(string flagName)
+        public bool IsFlagTriggered(string flagName)
         {
             Flag flag;
             FlagDictionary.TryGetValue(flagName, out flag);
             if (flag is null)
             {
                 Debug.LogWarning($"Ink Variable was not found: {flagName}");
+                return false;
             }
 
-            return flag?.value;
+            return flag.triggered;
         }
         
-        public void SetVariableState(string variableName, Object variableValue)
+        private void SetVariableState(string variableName, Object variableValue)
         {
             if (InkVariablesDictionary.ContainsKey(variableName))
             {
@@ -82,23 +84,22 @@ namespace Quests.Flags
             }
         }
 
-        public void SetFlagValue(string flagName, string flagValue)
+        public void TriggerFlag(string flagName)
         {
             if (FlagDictionary.ContainsKey(flagName))
             {
-                FlagDictionary[flagName].value = flagValue;
-                SetVariableState(flagName, new StringValue(flagValue));
+                FlagDictionary[flagName].triggered = true;
+                SetVariableState(flagName, new BoolValue(true));
             }
         }
-        
         
         public void LoadFlags(Dictionary<string, Flag> flags)
         {
             foreach (var pair in flags)
             {
                 _flagDictionary[pair.Key].flagName = pair.Value.flagName;
-                _flagDictionary[pair.Key].value = pair.Value.value;
-                SetVariableState(pair.Value.flagName, new StringValue(pair.Value.value));
+                _flagDictionary[pair.Key].triggered = pair.Value.triggered;
+                SetVariableState(pair.Value.flagName, new BoolValue(pair.Value.triggered));
             }
         }
 
