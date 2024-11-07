@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
-using Quests.Flags;
+using Quests.ScriptableObjects;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;

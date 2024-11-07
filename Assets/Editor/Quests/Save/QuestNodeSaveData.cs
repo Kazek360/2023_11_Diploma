@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Quests.Flags;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace Editor.Quests.Save

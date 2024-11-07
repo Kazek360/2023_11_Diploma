@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Ink.Runtime;
+using Quests.ScriptableObjects;
 using SaveSystem.Data;
 using UnityEngine;
 using Object = Ink.Runtime.Object;
