@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using Quests.Flags;
 using UnityEngine;
 
-namespace Quests
+namespace Quests.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quests/Quest")]
     public class QuestInfo : ScriptableObject
     {
         [Header("General")]

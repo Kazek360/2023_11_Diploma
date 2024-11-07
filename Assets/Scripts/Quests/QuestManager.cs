@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Quests.Flags;
+using Quests.ScriptableObjects;
 using SaveSystem;
 using SaveSystem.Data;
 using Shared;
