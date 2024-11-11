@@ -195,6 +195,8 @@ namespace Editor.Quests.Utilities
                 fileName = node.fileName,
                 flags = flagsCopy,
                 description = node.description,
+                repeatAmount = node.repeatAmount,
+                prefab = node.prefab,
                 groupID = node.group?.ID,
                 connectedNodes = connectedNodes,
                 position = node.GetPosition().position
@@ -241,6 +243,8 @@ namespace Editor.Quests.Utilities
             }
             
             questStep.description = node.description;
+            questStep.repeatAmount = node.repeatAmount;
+            questStep.prefab = node.prefab;
             questStep.requiredFlags = new List<FlagInfo>(node.flags);
             questStep.nextSteps = new List<QuestStepInfo>();
             _createdQuestsSteps.Add(node.ID, questStep);
@@ -396,6 +400,8 @@ namespace Editor.Quests.Utilities
                 node.ID = nodeData.id;
                 node.flags = nodeData.flags;
                 node.description = nodeData.description;
+                node.repeatAmount = nodeData.repeatAmount;
+                node.prefab = nodeData.prefab;
                 node.connectedNodes = nodeData.connectedNodes;
                 node.Draw();
                 _graphView.AddElement(node);

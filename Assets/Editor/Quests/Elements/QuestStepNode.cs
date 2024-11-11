@@ -4,6 +4,7 @@ using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
 using Quests.ScriptableObjects;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,15 +16,15 @@ namespace Editor.Quests.Elements
 
         public List<FlagInfo> flags;
         public string description;
-        public bool isRepeatable;
         public int repeatAmount;
-        public GameObject gameObject;
+        public GameObject prefab;
         
         public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
             base.Initialize(nodeName, questGraphView, position);
             flags = new List<FlagInfo>();
             description = "";
+            repeatAmount = 0;
         }
 
         public override void Draw()
@@ -32,6 +33,8 @@ namespace Editor.Quests.Elements
             DrawPorts();
             DrawFlags();
             DrawDescription();
+            DrawRepeatAmount();
+            DrawStepPrefab();
             RefreshExpandedState();
         }
         
@@ -81,6 +84,45 @@ namespace Editor.Quests.Elements
             descriptionFoldout.Add(descriptionTextArea);
             descriptionContainer.Add(descriptionFoldout);
             extensionContainer.Add(descriptionContainer);
+        }
+        
+        private void DrawRepeatAmount()
+        {
+            var repeatContainer = new VisualElement();
+            repeatContainer.AddToClassList("quest-node__custom-container");
+            var repeatFoldout = QuestGraphUtilities.CreateFoldout("Repeat Amount");
+            var amountIntegerField = QuestGraphUtilities.CreateIntegerField(repeatAmount, null,
+                callback =>
+                {
+                    repeatAmount = callback.newValue;
+                });
+            amountIntegerField.AddToClassList("quest-node__integer-field");
+            repeatFoldout.Add(amountIntegerField);
+            repeatContainer.Add(repeatFoldout);
+            extensionContainer.Add(repeatContainer);
+        }
+        
+        private void DrawStepPrefab()
+        {
+            var prefabContainer = new VisualElement();
+            prefabContainer.AddToClassList("quest-node__custom-container");
+            var prefabFoldout = QuestGraphUtilities.CreateFoldout("Prefab");
+            var prefabObjectField = new ObjectField
+            {
+                value = prefab,
+                objectType = typeof(GameObject), 
+                allowSceneObjects = false 
+            };
+            prefabObjectField.RegisterValueChangedCallback(callback =>
+            {
+                if (callback.newValue is GameObject selectedObject)
+                {
+                    prefab = selectedObject;
+                }
+            });
+            prefabFoldout.Add(prefabObjectField);
+            prefabContainer.Add(prefabFoldout);
+            extensionContainer.Add(prefabContainer);
         }
     }
 }

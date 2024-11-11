@@ -67,21 +67,8 @@ namespace Editor.Quests.Elements
             extensionContainer.Add(categoryContainer);
             
             DrawDescription();
+            DrawExperienceField();
 
-            //Experience
-            var experienceContainer = new VisualElement();
-            experienceContainer.AddToClassList("quest-node__custom-container");
-            var experienceFoldout = QuestGraphUtilities.CreateFoldout("Experience");
-            var experienceIntegerField = QuestGraphUtilities.CreateIntegerField(experience, null,
-                callback =>
-                {
-                    experience = callback.newValue;
-                });
-            experienceIntegerField.AddToClassList("quest-node__integer-field");
-            experienceFoldout.Add(experienceIntegerField);
-            experienceContainer.Add(experienceFoldout);
-            extensionContainer.Add(experienceContainer);
-            
             //Rewards
             var rewardsContainer = new VisualElement();
             rewardsContainer.AddToClassList("quest-node__custom-container");
@@ -142,6 +129,22 @@ namespace Editor.Quests.Elements
             descriptionFoldout.Add(descriptionTextArea);
             descriptionContainer.Add(descriptionFoldout);
             extensionContainer.Add(descriptionContainer);
+        }
+
+        private void DrawExperienceField()
+        {
+            var experienceContainer = new VisualElement();
+            experienceContainer.AddToClassList("quest-node__custom-container");
+            var experienceFoldout = QuestGraphUtilities.CreateFoldout("Experience");
+            var experienceIntegerField = QuestGraphUtilities.CreateIntegerField(experience, null,
+                callback =>
+                {
+                    experience = callback.newValue;
+                });
+            experienceIntegerField.AddToClassList("quest-node__integer-field");
+            experienceFoldout.Add(experienceIntegerField);
+            experienceContainer.Add(experienceFoldout);
+            extensionContainer.Add(experienceContainer);
         }
     }
 }
