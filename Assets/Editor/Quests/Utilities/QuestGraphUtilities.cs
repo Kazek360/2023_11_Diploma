@@ -143,7 +143,7 @@ namespace Editor.Quests.Utilities
             return buttonContainer;
         }
         
-        public static Port CreatePort(this QuestNode node, string portName, 
+        public static Port CreatePort(this Node node, string portName, 
             Direction direction, Port.Capacity capacity, Orientation orientation = Orientation.Horizontal)
         {
             var port = node.InstantiatePort(orientation, direction, capacity, typeof(object));

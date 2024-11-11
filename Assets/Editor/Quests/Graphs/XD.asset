@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1743a7c09d27eee4c88c08eaff6b94d6, type: 3}
+  m_Name: XD
+  m_EditorClassIdentifier: 
+  fileName: XD
+  groups:
+  - id: 46f13325-957f-4e5a-b35a-b4936100c51c
+    name: Group
+    position: {x: 332, y: 224}
+  questNodes: []
+  questStepNodes:
+  - id: 247e8263-26dd-4e97-963f-33b86a53cd02
+    fileName: quest_step
+    flags: []
+    description: 
+    groupID: 46f13325-957f-4e5a-b35a-b4936100c51c
+    connectedNodes:
+    - 7f786169-6970-4474-a82d-809a9b62a3b8
+    position: {x: 357, y: 283}
+  - id: 7f786169-6970-4474-a82d-809a9b62a3b8
+    fileName: q
+    flags: []
+    description: 
+    groupID: 
+    connectedNodes: []
+    position: {x: 838, y: 259}
+  oldGroupNames:
+  - Group
+  oldUngroupedNodeNames:
+  - q
+  oldGroupedNodeNames:
+    list:
+    - Key: Group
+      Value:
+      - quest_step

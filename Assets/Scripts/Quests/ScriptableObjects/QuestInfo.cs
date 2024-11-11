@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace Quests.ScriptableObjects
@@ -11,7 +10,7 @@ namespace Quests.ScriptableObjects
         public QuestCategory questCategory;
         [TextArea] public string description;
         
-        [Header("Requirements")]
+        [Header("Flag Requirements")]
         public List<FlagInfo> requiredFlags;
         
         [Header("Quests")]

@@ -16,7 +16,8 @@ namespace Editor.Quests.Save
         public string description;
         public int experience;
         public string groupID;
-        public List<string> connectedNodes;
+        public List<string> connectedQuestNodes;
+        public string connectedQuestStepNode;
         public Vector2 position;
     }
 }

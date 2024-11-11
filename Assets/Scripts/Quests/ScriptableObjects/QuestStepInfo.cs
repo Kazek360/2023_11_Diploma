@@ -5,6 +5,9 @@ namespace Quests.ScriptableObjects
 {
     public class QuestStepInfo : ScriptableObject
     {
+        [Header("Flag Requirements")]
+        public List<FlagInfo> requiredFlags;
+        
         [Header("General")]
         [TextArea] public string description;
 
