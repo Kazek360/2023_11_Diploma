@@ -33,17 +33,15 @@ A co będę miał gdy już wygram?
 * [Udowodnisz że jesteś ode mnie lepszy.]
     #speaker:Hryc #portrait:hryc_neutral
     Oczywiście że jestem. Przygotuj się na przegraną.
-    ~race_reward = "satisfaction"
-    
 * [Oddam ci mój scyzoryk.]
     #speaker:Hryc #portrait:hryc_neutral
     Długo się nim w takim razie nie nacieszysz
-    ~race_reward = "knife"
+    ~hryc_race_reward_knife = true
     
 * [A co gdy ja wygram?]
     #speaker:Hryc #portrait:hryc_neutral
     Nie licz na to, ale oddam ci moją procę.
-    ~race_reward = "slingshot"
+    ~hryc_race_reward_slingshot = true
 - 
 #speaker:Hryc #portrait:hryc_neutral
 Gotowy?
@@ -71,5 +69,5 @@ Gotowy?
 === HrycDelay ===
 #speaker:Hryc #portrait:hryc_neutral
 Ej!
-~race_delay = "yes"
+~hryc_race_delay = true
 -> END

@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Quests.Flags;
 using UnityEngine;
 
-namespace Quests
+namespace Quests.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Quest", menuName = "ScriptableObjects/Quests/Quest")]
     public class QuestInfo : ScriptableObject
     {
         [Header("General")]
@@ -13,22 +10,15 @@ namespace Quests
         public QuestCategory questCategory;
         [TextArea] public string description;
         
-        [Header("Requirements")]
-        public List<RequiredFlag> requiredFlags;
+        [Header("Flag Requirements")]
+        public List<FlagInfo> requiredFlags;
         
-        [Serializable]
-        public class RequiredFlag
-        {
-            public FlagInfo info;
-            public string value;
-        }
-
         [Header("Quests")]
         public List<QuestInfo> requiredQuests;
         public List<QuestInfo> nextQuests;
 
         [Header("Steps")]
-        public List<GameObject> steps;
+        public QuestStepInfo firstStep;
 
         [Header("Rewards")] 
         public int experience;

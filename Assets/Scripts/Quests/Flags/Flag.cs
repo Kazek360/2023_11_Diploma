@@ -3,7 +3,7 @@ namespace Quests.Flags
     public class Flag
     {
         public string flagName;
-        public string value;
+        public bool triggered;
 
         public Flag(string name)
         {
