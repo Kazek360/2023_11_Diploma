@@ -1,4 +1,4 @@
-using Quests;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace DialogueSystem.ScriptableObjects

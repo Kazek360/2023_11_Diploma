@@ -1,6 +1,5 @@
 using System.IO;
 using Editor.Quests.Utilities;
-using Quests;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -12,7 +11,6 @@ namespace Editor.Quests.Windows
         private QuestGraphView _graphView;
         private Button _saveButton;
         private static TextField _fileNameTextField;
-        private QuestInfo requiredQuest;
         
         [MenuItem("Window/Quest Graph")]
         public static void ShowWindow()

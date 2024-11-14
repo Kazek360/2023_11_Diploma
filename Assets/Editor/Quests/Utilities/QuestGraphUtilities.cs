@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Editor.Quests.Elements;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
-
+using Object = UnityEngine.Object;
 
 namespace Editor.Quests.Utilities
 {
@@ -12,7 +15,7 @@ namespace Editor.Quests.Utilities
         public static TextField CreateTextField(string value = null, string label = null, 
             EventCallback<ChangeEvent<string>> onValueChanged = null)
         {
-            var textfield = new TextField()
+            var textfield = new TextField
             {
                 value = value,
                 label = label
@@ -46,9 +49,52 @@ namespace Editor.Quests.Utilities
             return enumField;
         }
         
+        public static IntegerField CreateIntegerField(int value, string label = null, 
+            EventCallback<ChangeEvent<int>> onValueChanged = null)
+        {
+            var integerField = new IntegerField
+            {
+                value = value,
+                label = label
+            };
+            
+            
+            if (onValueChanged != null)
+            {
+                integerField.RegisterValueChangedCallback(onValueChanged);
+            }
+            return integerField;
+        }
+        
+        public static ObjectField CreateObjectField<T>(List<T> list, Object value = null) where T : Object
+        {
+            var objectField = new ObjectField
+            {
+                value = value,
+                objectType = typeof(T), 
+                allowSceneObjects = false 
+            };
+            
+            objectField.RegisterValueChangedCallback(callback =>
+            {
+                if (callback.previousValue != null)
+                {
+                    if (callback.previousValue is T previousObject)
+                    {
+                        list.Remove(previousObject);
+                    }
+                }
+                if (callback.newValue is T selectedObject)
+                {
+                    list.Add(selectedObject);
+                }
+            });
+            return objectField;
+        }
+        
         public static Foldout CreateFoldout(string title, bool collapsed = false)
         {
-            var foldout = new Foldout()
+            var foldout = new Foldout
             {
                 text = title,
                 value = !collapsed
@@ -66,8 +112,39 @@ namespace Editor.Quests.Utilities
             
             return button;
         }
+
+        public static VisualElement CreateObjectFieldListManipulatorButtons<T>(Foldout foldout, List<T> list) where T : Object
+        {
+            var buttonContainer = new VisualElement
+            {
+                style = { flexDirection = FlexDirection.Row }
+            };
+            
+            var buttonPlus = CreateButton("+", () =>
+            {
+                var objectField = CreateObjectField(list);
+                objectField.AddToClassList("quest-node__object-field");
+                foldout.Add(objectField);
+            });
+            buttonPlus.AddToClassList("quest-node__button");
+            var buttonMinus = CreateButton("-", () =>
+            {
+                if (foldout.childCount > 1)
+                {
+                    foldout.RemoveAt(foldout.childCount - 1);
+                    if (list.Count > 0)
+                    {
+                        list.RemoveAt(list.Count - 1);
+                    }
+                }
+            });
+            buttonMinus.AddToClassList("quest-node__button");
+            buttonContainer.Add(buttonPlus);
+            buttonContainer.Add(buttonMinus);
+            return buttonContainer;
+        }
         
-        public static Port CreatePort(this QuestNode node, string portName, 
+        public static Port CreatePort(this Node node, string portName, 
             Direction direction, Port.Capacity capacity, Orientation orientation = Orientation.Horizontal)
         {
             var port = node.InstantiatePort(orientation, direction, capacity, typeof(object));

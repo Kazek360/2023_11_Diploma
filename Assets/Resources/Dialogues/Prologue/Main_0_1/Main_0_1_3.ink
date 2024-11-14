@@ -1,28 +1,24 @@
 INCLUDE ../../globals.ink
 
-{ race_reward:
-- "satisfaction": ->SatWin
-- "knife": ->KnifeWin
-- "slingshot": ->SlingWin
+{ hryc_race_reward_knife or hryc_race_reward_slingshot:
+    { hryc_race_reward_knife:
+        ->KnifeWin
+    }
+    { hryc_race_reward_slingshot:
+        ->SlingWin
+    }
+    - else:
+        ->SatWin
 }
 
 == SatWin ==
-{ race_winner: 
-- "wit": ->WitWinsSat 
-- "hryc": ->HrycWinsSat
-}
+{ hryc_race_winner_player: ->WitWinsSat | ->HrycWinsSat}
 
 == KnifeWin ==
-{ race_winner: 
-- "wit": ->WitWinsKnife
-- "hryc": ->HrycWinsKnife
-}
+{ hryc_race_winner_player: ->WitWinsKnife | ->HrycWinsKnife}
 
 == SlingWin ==
-{ race_winner: 
-- "wit": ->WitWinsSling
-- "hryc": ->HrycWinsSling
-}
+{ hryc_race_winner_player: ->WitWinsSling | ->HrycWinsSling}
 
 == WitWinsSat ==
 #speaker:Wit #portrait:wit_smirk

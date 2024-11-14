@@ -14,37 +14,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fileName: Test
   groups:
-  - id: 357d04fe-aebc-43cf-afd1-8a4707c31419
-    name: Groupe
-    position: {x: 541, y: 76}
-  - id: 59c399bc-8094-4b57-b668-95baeb39db12
+  - id: 47626218-f086-40ed-8888-66eb6119ce12
     name: Group
-    position: {x: 7, y: 168}
-  nodes:
-  - id: 9c73e879-c9cb-4dd0-b677-6f48fb335b2a
-    fileName: Quest
-    displayName: Alone
+    position: {x: 31, y: -138}
+  questNodes:
+  - id: 27a2bb2e-a572-40a8-a125-6ada59d6f654
+    fileName: quest1
+    flags: []
+    displayName: 
     category: 0
-    description: I am alone
+    description: 
+    experience: 0
+    groupID: 
+    connectedQuestNodes: []
+    connectedQuestStepNode: 
+    position: {x: 592, y: -175}
+  - id: ee691647-c839-48b9-a7af-b158559010de
+    fileName: quest
+    flags: []
+    displayName: 
+    category: 0
+    description: 
+    experience: 0
+    groupID: 47626218-f086-40ed-8888-66eb6119ce12
+    connectedQuestNodes:
+    - 27a2bb2e-a572-40a8-a125-6ada59d6f654
+    connectedQuestStepNode: 3849b5ac-7ae6-4b06-b040-93f33a3a111e
+    position: {x: 56, y: -79}
+  questStepNodes:
+  - id: 3849b5ac-7ae6-4b06-b040-93f33a3a111e
+    fileName: quest_step1
+    flags: []
+    description: Essa
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
     groupID: 
     connectedNodes:
-    - 210d5d17-0b89-4988-a65c-64b8958f5ddb
-    position: {x: 185, y: 113}
-  - id: 210d5d17-0b89-4988-a65c-64b8958f5ddb
-    fileName: Quest
-    displayName: Inside
-    category: 0
-    description: I am Inside
-    groupID: 357d04fe-aebc-43cf-afd1-8a4707c31419
+    - ece1526d-92b9-4c4e-aff9-ec026e683c8e
+    position: {x: 592, y: 307}
+  - id: ece1526d-92b9-4c4e-aff9-ec026e683c8e
+    fileName: quest_step
+    flags: []
+    description: CSACSA
+    repeatAmount: 1
+    prefab: {fileID: 529814433442960276, guid: 0c7d36056c7f6da448e571f3a7c7a7e5, type: 3}
+    groupID: 
     connectedNodes: []
-    position: {x: 566, y: 135}
+    position: {x: 956, y: 242}
   oldGroupNames:
-  - Groupe
   - Group
   oldUngroupedNodeNames:
-  - Quest
+  - quest_step1
+  - quest_step
+  - quest1
   oldGroupedNodeNames:
     list:
-    - Key: Groupe
+    - Key: Group
       Value:
-      - Quest
+      - quest
