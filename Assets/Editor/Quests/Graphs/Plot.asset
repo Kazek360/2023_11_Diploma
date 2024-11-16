@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1743a7c09d27eee4c88c08eaff6b94d6, type: 3}
+  m_Name: Plot
+  m_EditorClassIdentifier: 
+  fileName: Plot
+  groups:
+  - id: a1e6c572-947b-411a-a9af-a6c560762875
+    name: Prologue
+    position: {x: -43, y: -198}
+  questNodes:
+  - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
+    fileName: prologue_1
+    flags: []
+    displayName: "Jak prawie umar\u0142em"
+    category: 0
+    description: "Poszed\u0142em pobawi\u0107 si\u0119 w lesie wraz z Hrycem. Co
+      mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
+    experience: 1001
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedQuestNodes: []
+    connectedQuestStepNode: 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    position: {x: -18, y: -139}
+  questStepNodes:
+  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    fileName: prologue_1_1
+    flags: []
+    description: Kazik
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    position: {x: 254, y: 7}
+  - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    fileName: prologue_1_2
+    flags: []
+    description: Napraw
+    repeatAmount: 0
+    prefab: {fileID: 529814433442960276, guid: 0c7d36056c7f6da448e571f3a7c7a7e5, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - a02b0fda-dc1e-46fc-bbc1-e2d880372c83
+    position: {x: 466, y: 7}
+  - id: a02b0fda-dc1e-46fc-bbc1-e2d880372c83
+    fileName: prologue_1_3
+    flags: []
+    description: Te
+    repeatAmount: 0
+    prefab: {fileID: 3096767824161503181, guid: 31d21b190e56a8e4d8f330b3ad364b0b, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 481b873a-02b8-4881-9f8b-605f0494182b
+    position: {x: 678, y: 7}
+  - id: 481b873a-02b8-4881-9f8b-605f0494182b
+    fileName: prologue_1_4
+    flags: []
+    description: Opisy
+    repeatAmount: 0
+    prefab: {fileID: 259076332279978945, guid: 92d8f7fb459806647816594620505307, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes: []
+    position: {x: 892, y: 7}
+  oldGroupNames:
+  - Prologue
+  oldUngroupedNodeNames: []
+  oldGroupedNodeNames:
+    list:
+    - Key: Prologue
+      Value:
+      - prologue_1_1
+      - prologue_1_2
+      - prologue_1_3
+      - prologue_1_4
+      - prologue_1
