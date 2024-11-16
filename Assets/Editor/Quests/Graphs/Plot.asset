@@ -16,7 +16,7 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -43.000008, y: -785}
+    position: {x: -43, y: -785}
   questNodes:
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue_1
@@ -56,16 +56,6 @@ MonoBehaviour:
     connectedQuestStepNode: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
     position: {x: 531, y: -726}
   questStepNodes:
-  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    fileName: prologue_1_1
-    flags: []
-    description: Kazik
-    repeatAmount: 0
-    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes:
-    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    position: {x: 254, y: 7}
   - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
     fileName: prologue_1_2
     flags: []
@@ -163,6 +153,16 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 1468, y: -593}
+  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    fileName: prologue_1_1
+    flags: []
+    description: Kazik
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    position: {x: 254, y: 7}
   oldGroupNames:
   - Prologue
   oldUngroupedNodeNames: []
@@ -170,7 +170,6 @@ MonoBehaviour:
     list:
     - Key: Prologue
       Value:
-      - prologue_1_1
       - prologue_1_2
       - prologue_1_3
       - prologue_1_4
@@ -181,6 +180,7 @@ MonoBehaviour:
       - prologue_3_2
       - prologue_3_3
       - prologue_3_4
+      - prologue_1_1
       - prologue_1
       - prologue_2
       - prologue_3
