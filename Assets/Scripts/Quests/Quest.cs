@@ -82,7 +82,7 @@ namespace Quests
         {
             _currentStepInfo = info.firstStep;
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(this);
+            _currentStep.InitializeQuestStep(this, _currentStepInfo);
             if (_currentStepInfo.repeatAmount > 1)
             {
                 currentStepProgress = 0;
@@ -107,7 +107,7 @@ namespace Quests
             }
             
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(this);
+            _currentStep.InitializeQuestStep(this, _currentStepInfo);
             if (_currentStepInfo.repeatAmount > 1)
             {
                 currentStepProgress = progress;

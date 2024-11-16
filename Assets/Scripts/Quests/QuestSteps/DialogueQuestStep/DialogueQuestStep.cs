@@ -1,6 +1,7 @@
 using UnityEngine;
 using DialogueSystem.Events;
 using DialogueSystem;
+using Quests;
 
 public class DialogueQuestStep : BaseQuestStep
 {
@@ -9,7 +10,7 @@ public class DialogueQuestStep : BaseQuestStep
     {
         base.OnEnable();
         DialogueEvents.OnDialogueFinished += FinishStep;
-        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
+        QuestEvents.InvokeOnQuestStepStarted(info);
     }
 
     protected override void OnDestroy()

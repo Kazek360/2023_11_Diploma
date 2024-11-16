@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DialogueSystem.Events;
 using Quests;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace DialogueSystem.Managers
@@ -8,33 +9,30 @@ namespace DialogueSystem.Managers
     //class Storing information about all dialogues in game
     public class DialogueManager : MonoBehaviour
     {
-        private Dictionary<string, DialogueEntity> _tmp;
-        private Dictionary<string, List<Dialogue>> _dialoguesDictionary;
-        private Dictionary<string, Dialogue> _currentDialogues;
+        private Dictionary<string, DialogueEntity> _dialogueEntityDictionary;
         
         private void Awake()
         {
-            _currentDialogues = new Dictionary<string, Dialogue>();
-            _dialoguesDictionary = CreateDialogueDictionary();
+            _dialogueEntityDictionary = CreateDialogueEntityDictionary();
         }
         
         private void OnEnable()
         {
-            DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
             DialogueEvents.OnDialogueTriggered += StartDialogue;
+            QuestEvents.OnQuestStepStarted += UnlockDialogues;
         }
         
         private void OnDisable()
         {
-            DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
             DialogueEvents.OnDialogueTriggered -= StartDialogue;
+            QuestEvents.OnQuestStepStarted -= UnlockDialogues;
         }
         
         private void Start()
         {
-            foreach (var dialogues in _dialoguesDictionary.Values)
+            foreach (var entity in _dialogueEntityDictionary.Values)
             {
-                foreach (var dialogue in dialogues)
+                foreach (var dialogue in entity.dialogues)
                 {
                     if (dialogue.state == Dialogue.State.CannotTrigger && CheckIfDialogueCanTrigger(dialogue))
                     {
@@ -47,51 +45,32 @@ namespace DialogueSystem.Managers
         
         private void StartDialogue(string triggerName)
         {
-            DialogueEvents.StartDialogue(_currentDialogues[triggerName].info);
-            if (_currentDialogues[triggerName].info.relatedQuest is not null)
+            var currentEntity = _dialogueEntityDictionary[triggerName];
+            
+            DialogueEvents.StartDialogue(currentEntity.currentDialogue.info);
+            
+            if (currentEntity.currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
             {
-                _dialoguesDictionary[triggerName].Find(e => e == _currentDialogues[triggerName]).state = 
-                    Dialogue.State.Finished;
-                ChangeCurrentDialogue(triggerName);
-            }
-        }
-        
-        private void ChangeCurrentDialogue(string triggerName)
-        {
-            foreach (var dialogue in _dialoguesDictionary[triggerName])
-            {
-                if (_currentDialogues[triggerName] is null)
-                {
-                    _currentDialogues[triggerName] = dialogue;
-                    continue;
-                }
-                if (dialogue.state == Dialogue.State.CanTrigger)
-                {
-                    if (dialogue.currentPriority > _currentDialogues[triggerName].currentPriority ||
-                        _currentDialogues[triggerName].state == Dialogue.State.CannotTrigger ||
-                        _currentDialogues[triggerName].state == Dialogue.State.Finished)
-                    {
-                        _currentDialogues[triggerName] = dialogue;
-                    }
-                }
+                currentEntity.currentDialogue.state = Dialogue.State.Finished;
+                currentEntity.ChangeCurrentDialogue();
             }
         }
         
         private void ChangeAllCurrentDialogues()
         {
-            foreach (var triggerName in _dialoguesDictionary.Keys)
+            foreach (var entity in _dialogueEntityDictionary.Values)
             {
-                ChangeCurrentDialogue(triggerName);
+                entity.ChangeCurrentDialogue();
             }
         }
         
         private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
         {
-            if (dialogue.info.relatedQuest is not null)
+            if (dialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
             {
-                if (dialogue.info.startsQuest)
+                if (dialogue.info.dialogueType == DialogueInfo.Type.QuestStarter)
                 {
-                    if (QuestManager.Instance.GetQuestById(dialogue.info.relatedQuest.name).state != QuestState.CanStart)
+                    if (QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state != QuestState.CanStart)
                     {
                         return false;
                     }
@@ -104,43 +83,40 @@ namespace DialogueSystem.Managers
             return true;
         }
         
-        private void UnlockDialogue(string id)
+        private void UnlockDialogues(QuestStepInfo stepInfo)
         {
-            var foundDialogue = false;
-            foreach (var pair in _dialoguesDictionary)
+            foreach (var entity in _dialogueEntityDictionary.Values)
             {
-                foreach (var dialogue in pair.Value)
+                foreach (var dialogue in entity.dialogues)
                 {
-                    if (dialogue.id.Equals(id))
+                    if (dialogue.info.unlockingStep == null)
+                    {
+                        continue;
+                    }
+
+                    if (dialogue.info.unlockingStep == stepInfo)
                     {
                         dialogue.state = Dialogue.State.CanTrigger;
-                        foundDialogue = true;
-                        ChangeCurrentDialogue(pair.Key);
-                        break;
+                        entity.ChangeCurrentDialogue();
                     }
-                }
-                if (foundDialogue)
-                {
-                    break;
                 }
             }
         }
         
-        private Dictionary<string, List<Dialogue>> CreateDialogueDictionary()
+        private Dictionary<string, DialogueEntity> CreateDialogueEntityDictionary()
         {
-            DialogueInfo[] allDialogues = Resources.LoadAll<DialogueInfo>($"Dialogues");
-            Dictionary<string, List<Dialogue>> dialoguesDictionary = new Dictionary<string, List<Dialogue>>();
-            
+            var allDialogues = Resources.LoadAll<DialogueInfo>("Dialogues");
+            Dictionary<string, DialogueEntity> dictionary = new Dictionary<string, DialogueEntity>();
             foreach (var dialogueInfo in allDialogues)
             {
-                if (!dialoguesDictionary.ContainsKey(dialogueInfo.triggerName))
+                if (!dictionary.ContainsKey(dialogueInfo.triggerName))
                 {
-                    dialoguesDictionary.Add(dialogueInfo.triggerName, new List<Dialogue>());
-                    _currentDialogues.Add(dialogueInfo.triggerName, null);
+                    dictionary.Add(dialogueInfo.triggerName, new DialogueEntity());
                 }
-                dialoguesDictionary[dialogueInfo.triggerName].Add(new Dialogue(dialogueInfo));
+                dictionary[dialogueInfo.triggerName].dialogues.Add(new Dialogue(dialogueInfo));
             }
-            return dialoguesDictionary;
+
+            return dictionary;
         }
     }
 }

@@ -1,10 +1,12 @@
 using Quests;
+using Quests.ScriptableObjects;
 using SaveSystem;
 using UnityEngine;
 
 public abstract class BaseQuestStep : MonoBehaviour
 {
     protected Quest quest;
+    protected QuestStepInfo info;
     protected int progress;
     public int Progress
     {
@@ -23,9 +25,10 @@ public abstract class BaseQuestStep : MonoBehaviour
         QuestEvents.OnQuestStepsDelete -= Delete;
     }
     
-    public void InitializeQuestStep(Quest assignedQuest)
+    public void InitializeQuestStep(Quest assignedQuest, QuestStepInfo questStepInfo)
     {
         quest = assignedQuest;
+        info = questStepInfo;
     }
     
     protected void Finish()

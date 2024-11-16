@@ -23,19 +23,14 @@ namespace DialogueSystem
             state = State.CannotTrigger;
             id = this.info.name;
 
-            if (info.relatedQuest is null)
+            _defaultPriority = info.dialogueType switch
             {
-                _defaultPriority = 1;
-            }
-            else
-            {
-                _defaultPriority = info.relatedQuest.questCategory switch
-                {
-                    QuestCategory.MainQuest => 3,
-                    QuestCategory.SideQuest => 2,
-                    _ => 1
-                }; 
-            }
+                DialogueInfo.Type.QuestProgression => 3,
+                DialogueInfo.Type.QuestStarter => 2,
+                DialogueInfo.Type.Repeatable => 1,
+                _ => 1
+            };
+            
             currentPriority = _defaultPriority;
         }
     }
