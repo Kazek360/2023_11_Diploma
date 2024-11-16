@@ -26,7 +26,6 @@ namespace Interactions
             PathEvents.OnMovementEnded -= EnableTrigger;
         }
         
-        
         public void TriggerInteraction()
         {
             if (!_disabled)
