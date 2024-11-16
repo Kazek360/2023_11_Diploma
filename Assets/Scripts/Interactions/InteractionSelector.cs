@@ -84,6 +84,7 @@ namespace Interactions
             else if (_closestInteraction is not null)
             {
                 _closestInteraction.HideIndicator();
+                _closestInteraction = null;
             }
         }
     }

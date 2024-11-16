@@ -1,7 +1,5 @@
 using System.Collections;
-using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
-using Ink.Runtime;
+using DialogueSystem;
 using Quests;
 using UnityEngine;
 
@@ -60,7 +58,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
         } 
     }
     
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

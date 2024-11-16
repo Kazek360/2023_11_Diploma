@@ -1,4 +1,5 @@
 using System;
+using Quests.ScriptableObjects;
 using QuestSystem;
 
 
@@ -35,7 +36,13 @@ namespace Quests
         {
             OnQuestTracking?.Invoke();
         }
-         
+        
+        public static event Action<QuestStepInfo> OnQuestStepStarted;
+        public static void InvokeOnQuestStepStarted(QuestStepInfo info)
+        {
+            OnQuestStepStarted?.Invoke(info);
+        }
+        
         public static event Action<string> OnQuestStepProgress;
         public static void ProgressQuestStep(string questID)
         {

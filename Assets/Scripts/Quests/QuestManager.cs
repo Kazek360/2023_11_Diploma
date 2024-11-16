@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DialogueSystem;
+using DialogueSystem.Events;
 using Quests.Flags;
 using Quests.ScriptableObjects;
 using SaveSystem;
@@ -85,7 +87,7 @@ namespace Quests
             ChangeQuestState(id, QuestState.InProgress);
             TrackedQuest = quest;
         }
-
+        
         private void ProgressQuest(string id)
         {
             var quest = GetQuestById(id);
