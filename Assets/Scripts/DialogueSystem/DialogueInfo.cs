@@ -21,7 +21,6 @@ namespace DialogueSystem
         [SerializeField] public string triggerName;
         
         [Header("Quest")]
-        [SerializeField] public QuestStepInfo unlockingStep;
         [SerializeField] public QuestInfo questToStart;
     
         [Header("Dialogue Text")]

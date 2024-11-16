@@ -24,6 +24,12 @@ namespace DialogueSystem.Events
         {
             OnDialogueContinued?.Invoke();
         }
+        
+        public static event Action<string, string> OnDialogueUnlocked;
+        public static void InvokeOnDialogueUnlocked(string triggerName, string dialogueName)
+        {
+            OnDialogueUnlocked?.Invoke(triggerName, dialogueName);
+        }
     }
 
 }

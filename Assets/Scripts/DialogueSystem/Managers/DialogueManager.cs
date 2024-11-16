@@ -19,13 +19,13 @@ namespace DialogueSystem.Managers
         private void OnEnable()
         {
             DialogueEvents.OnDialogueTriggered += StartDialogue;
-            QuestEvents.OnQuestStepStarted += UnlockDialogues;
+            DialogueEvents.OnDialogueUnlocked += UnlockDialogue;
         }
         
         private void OnDisable()
         {
             DialogueEvents.OnDialogueTriggered -= StartDialogue;
-            QuestEvents.OnQuestStepStarted -= UnlockDialogues;
+            DialogueEvents.OnDialogueUnlocked -= UnlockDialogue;
         }
         
         private void Start()
@@ -83,23 +83,15 @@ namespace DialogueSystem.Managers
             return true;
         }
         
-        private void UnlockDialogues(QuestStepInfo stepInfo)
+        private void UnlockDialogue(string triggerName, string dialogueName)
         {
-            foreach (var entity in _dialogueEntityDictionary.Values)
-            {
-                foreach (var dialogue in entity.dialogues)
-                {
-                    if (dialogue.info.unlockingStep == null)
-                    {
-                        continue;
-                    }
+            var entity = _dialogueEntityDictionary[triggerName];
+            var dialogue = entity.dialogues.Find((match) => match.info.name.Equals(dialogueName));
 
-                    if (dialogue.info.unlockingStep == stepInfo)
-                    {
-                        dialogue.state = Dialogue.State.CanTrigger;
-                        entity.ChangeCurrentDialogue();
-                    }
-                }
+            if (dialogue != null)
+            {
+                dialogue.state = Dialogue.State.CanTrigger;
+                entity.ChangeCurrentDialogue();
             }
         }
         

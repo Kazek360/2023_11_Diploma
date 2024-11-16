@@ -134,6 +134,10 @@ namespace DialogueSystem.UI
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             DialogueEvents.FinishDialogue(_currentDialogue);
+            if (_currentDialogue.questToStart != null)
+            {
+                QuestEvents.StartQuest(_currentDialogue.questToStart.name);
+            }
             dialogueText.text = "";
         }
         
