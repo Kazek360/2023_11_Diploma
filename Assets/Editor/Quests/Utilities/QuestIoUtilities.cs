@@ -229,9 +229,12 @@ namespace Editor.Quests.Utilities
             quest.experience = node.experience;
             quest.requiredQuests = new List<QuestInfo>();
             quest.nextQuests = new List<QuestInfo>();
-            if (!node.connectedFirstStepNode.Equals(""))
+            if (node.connectedFirstStepNode != null)
             {
-                quest.firstStep = _createdQuestsSteps[node.connectedFirstStepNode];
+                if (!node.connectedFirstStepNode.Equals(""))
+                {
+                    quest.firstStep = _createdQuestsSteps[node.connectedFirstStepNode];
+                } 
             }
             _createdQuests.Add(node.ID, quest);
             SaveAsset(quest);

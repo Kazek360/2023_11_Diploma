@@ -13,7 +13,7 @@ namespace Editor.Quests.Save
         public List<FlagInfo> flags;
         public string displayName;
         public QuestCategory category;
-        public string description;
+        [TextArea] public string description;
         public int experience;
         public string groupID;
         public List<string> connectedQuestNodes;

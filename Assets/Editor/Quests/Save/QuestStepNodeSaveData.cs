@@ -11,7 +11,7 @@ namespace Editor.Quests.Save
         public string id;
         public string fileName;
         public List<FlagInfo> flags;
-        public string description;
+        [TextArea] public string description;
         public int repeatAmount;
         public GameObject prefab;
         public string groupID;
