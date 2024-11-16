@@ -281,6 +281,7 @@ namespace Editor.Quests.Utilities
                     quest.nextQuests.Add(_createdQuests[inputNode.ID]);
                 }
             }
+            SaveAsset(quest);
         }
         
         private static void SaveQuestStepNodeConnectionsToScriptableObject(QuestStepNode node)
@@ -295,6 +296,7 @@ namespace Editor.Quests.Utilities
                     questStep.nextSteps.Add(_createdQuestsSteps[inputNode.ID]);
                 }
             }
+            SaveAsset(questStep);
         }
 
         private static void UpdateOldGroups(List<string> currentGroupNames, QuestGraphSaveDataSO graphData)
