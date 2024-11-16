@@ -16,7 +16,7 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -43, y: -198}
+    position: {x: -43, y: -500.00003}
   questNodes:
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue_1
@@ -27,9 +27,22 @@ MonoBehaviour:
       mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
     experience: 1001
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedQuestNodes: []
+    connectedQuestNodes:
+    - be40241b-8e9e-4303-b41d-6369e6aea539
     connectedQuestStepNode: 491fcba7-fa0e-480f-9c8a-5712b46343e6
     position: {x: -18, y: -139}
+  - id: be40241b-8e9e-4303-b41d-6369e6aea539
+    fileName: prologue_2
+    flags: []
+    displayName: "\u017Byje si\u0119 tylko dwa razy"
+    category: 0
+    description: "Uda\u0142o ci si\u0119 prze\u017Cy\u0107 swoj\u0105 \u015Bmier\u0107
+      (tak jakby). Tylko co teraz?"
+    experience: 1001
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedQuestNodes: []
+    connectedQuestStepNode: cc92ce85-d7a6-4e0e-b68e-84be689b49c0
+    position: {x: 254, y: -441}
   questStepNodes:
   - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
     fileName: prologue_1_1
@@ -70,6 +83,35 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 892, y: 7}
+  - id: cc92ce85-d7a6-4e0e-b68e-84be689b49c0
+    fileName: prologue_2_1
+    flags: []
+    description: Bo
+    repeatAmount: 0
+    prefab: {fileID: 6494123712233556653, guid: b6e654a4bffce72468a526859f09bcc7, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 1e9e762e-0126-475b-9aec-44d6a9fe2002
+    position: {x: 513, y: -295}
+  - id: 1e9e762e-0126-475b-9aec-44d6a9fe2002
+    fileName: prologue_2_2
+    flags: []
+    description: "Si\u0119"
+    repeatAmount: 0
+    prefab: {fileID: 6656887282259322378, guid: 1c76f8c4280d60d40942c6e5ba853173, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 9f125d79-469b-480f-9b3f-754e1bbffcdb
+    position: {x: 726, y: -295}
+  - id: 9f125d79-469b-480f-9b3f-754e1bbffcdb
+    fileName: prologue_2_3
+    flags: []
+    description: Wkurwie
+    repeatAmount: 0
+    prefab: {fileID: 3329530440797315691, guid: e70ba429f850d7b4cacf66d6ea48bb18, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes: []
+    position: {x: 946, y: -295}
   oldGroupNames:
   - Prologue
   oldUngroupedNodeNames: []
@@ -81,4 +123,8 @@ MonoBehaviour:
       - prologue_1_2
       - prologue_1_3
       - prologue_1_4
+      - prologue_2_1
+      - prologue_2_2
+      - prologue_2_3
       - prologue_1
+      - prologue_2
