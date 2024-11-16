@@ -9,13 +9,13 @@ namespace DialogueSystem.Events
         {
             OnDialogueTriggered?.Invoke(triggerName);
         }
-        public static event Action<DialogueSO> OnDialogueStarted;
-        public static void StartDialogue(DialogueSO dialogue)
+        public static event Action<DialogueInfo> OnDialogueStarted;
+        public static void StartDialogue(DialogueInfo dialogue)
         {
             OnDialogueStarted?.Invoke(dialogue);
         }
-        public static event Action<DialogueSO> OnDialogueFinished;
-        public static void FinishDialogue(DialogueSO dialogue)
+        public static event Action<DialogueInfo> OnDialogueFinished;
+        public static void FinishDialogue(DialogueInfo dialogue)
         {
             OnDialogueFinished?.Invoke(dialogue);
         }

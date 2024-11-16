@@ -135,7 +135,7 @@ namespace Player
             _animator.SetBool(IsRunning, false);
         }
 
-        private void EnableMovement(DialogueSO dialogue)
+        private void EnableMovement(DialogueInfo dialogue)
         {
             _canMove = true;
         }
@@ -145,7 +145,7 @@ namespace Player
             _canMove = true;
         }
         
-        private void StopMovement(DialogueSO dialogue)
+        private void StopMovement(DialogueInfo dialogue)
         {
             _canMove = false;
             StopPlayerMovement();

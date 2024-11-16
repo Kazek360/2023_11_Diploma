@@ -128,7 +128,7 @@ namespace DialogueSystem.Managers
         
         private Dictionary<string, List<Dialogue>> CreateDialogueDictionary()
         {
-            DialogueSO[] allDialogues = Resources.LoadAll<DialogueSO>($"Dialogues");
+            DialogueInfo[] allDialogues = Resources.LoadAll<DialogueInfo>($"Dialogues");
             Dictionary<string, List<Dialogue>> dialoguesDictionary = new Dictionary<string, List<Dialogue>>();
             
             foreach (var dialogueInfo in allDialogues)

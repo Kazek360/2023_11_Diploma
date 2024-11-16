@@ -28,7 +28,7 @@ namespace DialogueSystem.UI
         [SerializeField] private List<GameObject> choices;
         private List<TextMeshProUGUI> _choicesText;
 
-        private DialogueSO _currentDialogue;
+        private DialogueInfo _currentDialogue;
         private Story _currentStory;
         private Coroutine _displayLineCoroutine;
         
@@ -82,7 +82,7 @@ namespace DialogueSystem.UI
             }
         }
         
-        private void StartDialogue(DialogueSO dialogueInfo)
+        private void StartDialogue(DialogueInfo dialogueInfo)
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Dialogue);
             _currentDialogue = dialogueInfo;

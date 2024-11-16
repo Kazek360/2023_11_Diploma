@@ -4,7 +4,7 @@ using DialogueSystem;
 
 public class DialogueQuestStep : BaseQuestStep
 {
-    [SerializeField] protected DialogueSO dialoguesInfo;
+    [SerializeField] protected DialogueInfo dialoguesInfo;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -18,7 +18,7 @@ public class DialogueQuestStep : BaseQuestStep
         DialogueEvents.OnDialogueFinished -= FinishStep;
     }
 
-    protected virtual void FinishStep(DialogueSO dialogue)
+    protected virtual void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

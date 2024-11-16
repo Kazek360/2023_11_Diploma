@@ -12,12 +12,12 @@ namespace DialogueSystem
         }
 
         public string id;
-        public readonly DialogueSO info;
+        public readonly DialogueInfo info;
         public State state;
         private int _defaultPriority;
         public int currentPriority;
     
-        public Dialogue(DialogueSO info)
+        public Dialogue(DialogueInfo info)
         {
             this.info = info;
             state = State.CannotTrigger;

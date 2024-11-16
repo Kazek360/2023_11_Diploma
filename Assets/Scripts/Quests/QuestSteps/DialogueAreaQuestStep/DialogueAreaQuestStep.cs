@@ -26,7 +26,7 @@ public class DialogueAreaQuestStep : DialogueQuestStep
         AreaEvent.OnAreaEnter -= AreaEntered;
     }
 
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

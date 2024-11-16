@@ -5,7 +5,7 @@ namespace DialogueSystem
 {
     //Scriptable object storing information about dialogue.
     [CreateAssetMenu(fileName = "Dialogue", menuName = "ScriptableObjects/Dialogues/Dialogue")]
-    public class DialogueSO : ScriptableObject
+    public class DialogueInfo : ScriptableObject
     {
         [Header("Trigger")] 
         [SerializeField] public string triggerName;
