@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
 using Quests;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace DialogueSystem.Managers
     //class Storing information about all dialogues in game
     public class DialogueManager : MonoBehaviour
     {
+        private Dictionary<string, DialogueEntity> _tmp;
         private Dictionary<string, List<Dialogue>> _dialoguesDictionary;
         private Dictionary<string, Dialogue> _currentDialogues;
         

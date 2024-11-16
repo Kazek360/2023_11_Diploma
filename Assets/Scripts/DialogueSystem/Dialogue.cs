@@ -1,5 +1,3 @@
-using DialogueSystem.ScriptableObjects;
-using UnityEngine;
 
 namespace DialogueSystem
 {

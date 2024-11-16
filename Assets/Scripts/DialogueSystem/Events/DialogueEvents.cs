@@ -1,5 +1,4 @@
 using System;
-using DialogueSystem.ScriptableObjects;
 
 namespace DialogueSystem.Events
 {

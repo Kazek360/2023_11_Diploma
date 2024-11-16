@@ -1,9 +1,8 @@
 using Cutscenes;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
+using DialogueSystem;
 using InputSystem;
 using UnityEngine;
-
 
 namespace Player
 {

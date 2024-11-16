@@ -1,7 +1,7 @@
 using Cutscenes;
+using DialogueSystem;
 using Unity.VisualScripting;
 using UnityEngine;
-using DialogueSystem.ScriptableObjects;
 
 public class DeathDialogue : DialogueQuestStep
 {

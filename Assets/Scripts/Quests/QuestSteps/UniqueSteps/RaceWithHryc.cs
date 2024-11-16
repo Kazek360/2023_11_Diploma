@@ -1,7 +1,5 @@
 using System.Collections;
-using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
-using Ink.Runtime;
+using DialogueSystem;
 using Quests;
 using UnityEngine;
 

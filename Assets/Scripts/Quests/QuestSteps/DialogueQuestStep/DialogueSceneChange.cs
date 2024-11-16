@@ -1,5 +1,4 @@
-using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
+using DialogueSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

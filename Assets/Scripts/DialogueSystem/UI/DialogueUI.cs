@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
 using Ink.Runtime;
 using InputSystem;
 using Quests;
