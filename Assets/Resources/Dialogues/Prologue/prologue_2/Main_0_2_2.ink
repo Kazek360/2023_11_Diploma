@@ -14,7 +14,7 @@ Do ciebie mówię.
 (Milczy)
 
 #speaker:Wit #portrait:wit_angry
-Ty bez nóg.. tak ty
+Ty bez nóg... tak ty.
 
 #speaker:Tajemnicza Postać #portrait:nestor_neutral
 Przecież tu nikogo nie ma. Za mocno oberwałeś.
@@ -38,19 +38,19 @@ Ty mnie widzisz?
 To jest gorzej niż przewidywałem…
 
 #speaker:Wit #portrait:wit_surprised
-Co znaczy gorzej? Kim jesteś
+Co znaczy gorzej? Kim jesteś?
 
 #speaker:Tajemnicza Postać #portrait:nestor_neutral
 Moje imię i tak by ci nic nie powiedziało.
 
 #speaker:Wit #portrait:wit_surprised
-To jak mam się do ciebie mówić?
+To jak mam się do ciebie zwracać?
 
 #speaker:Tajemnicza Postać #portrait:nestor_neutral
 Hmm… możesz mnie nazywać Nestor.
 
 #speaker:Wit #portrait:wit_smirk
-Dziwne imię. Powiesz mi wreszcie o co chodzi.
+Dziwne imię. Powiesz mi wreszcie o co chodzi?
 
 #speaker:Nestor #portrait:nestor_neutral
 (Wzdycha)
@@ -66,7 +66,7 @@ Pytaj więc…
 
 *[Dlaczego miałbym cię nie widzieć?]
     #speaker:Nestor #portrait:nestor_neutral
-    Ponieważ normalnie ludzie nie widzą takich jak my.
+    Ponieważ normalnie ludzie nie widzą takich jak ja.
     #speaker:Wit #portrait:wit_smirk
     Widziałem kogoś jak ty. W wiosce też jest człowiek bez nóg.
     #speaker:Nestor #portrait:nestor_neutral

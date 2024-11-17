@@ -25,7 +25,7 @@ Gdybym nie miał zajętych rąk to bym wygrał.
 Skoro tak twierdzisz…
 
 #speaker:Wit #portrait:wit_smirk
-To może ścigajmy się do zwalonego pniaka przy jeziorze.
+To może ścigajmy się do wielkiego dębu przy jeziorze.
 
 #speaker:Hryc #portrait:hryc_neutral
 A co będę miał gdy już wygram?
