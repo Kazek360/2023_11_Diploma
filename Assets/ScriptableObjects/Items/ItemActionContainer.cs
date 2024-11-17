@@ -14,6 +14,37 @@ public class ItemActionContainer
     [SerializeField] private ActionType actionType;
     [Tooltip("ID of added ability")][SerializeField] private int idOfEffect;
     [Tooltip("Value of triggered TAG")][SerializeField] private int valueOfEffect;
+
+    public void Trigger()
+    {
+        switch (actionType)
+        {
+            case ActionType.ADD_ABILITY:
+            {
+                UnlockableAbility ability = new UnlockableAbility();
+                ability.AbilitySO = GameConfig.abilityLibrary.GetAbility(idOfEffect);
+                ability.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().UnlockAbility(ability);
+                break;
+            }
+            case ActionType.REMOVE_ABILITY:
+            {
+                UnlockableAbility ability = new UnlockableAbility();
+                ability.AbilitySO = GameConfig.abilityLibrary.GetAbility(idOfEffect);
+                ability.Recipient = UnlockableAbility.PlayerType.WIT;
+                UnlockedAbilities.GetInstance().RemoveAbility(ability);
+                break;
+            }
+            case ActionType.TRIGGER_TAG:
+            {
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
     
 }
 

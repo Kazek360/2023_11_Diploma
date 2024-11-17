@@ -253,11 +253,12 @@ public enum StatType
     NestorHealth, NestorStrength, NestorAgility, NestorLuck, NestorImagination
 }
 
+[Serializable]
 public class ItemStatModifier
 {
-    private readonly StatType _statType;
-    private readonly int _modifier;
-    private readonly int _itemID;
+    [SerializeField]private StatType _statType;
+    [SerializeField]private int _modifier;
+    [SerializeField]private int _itemID;
 
     public ItemStatModifier(StatType statType, int modifier, int itemID)
     {

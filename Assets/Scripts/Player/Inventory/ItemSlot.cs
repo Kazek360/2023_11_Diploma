@@ -7,8 +7,8 @@ using UnityEngine;
  */
 public class ItemSlot
 {
-    protected Item _item = null;
-    public Item Item => _item;
+    protected ItemScriptableObject _item = null;
+    public ItemScriptableObject Item => _item;
 
     public virtual void Use(){}
 }
@@ -27,10 +27,10 @@ public class InventorySlot : ItemSlot
         {
             return;
         }
-        if (_item is UsableItem item)
+        if (_item.itemType == ItemScriptableObject.ItemType.CONSUMABLE)
         {
-            item.Use();
-            if (item.DestroyOnUse)
+            _item.Use();
+            if (_item.destroyOnUse)
             {
                 _count--;
                 if (_count == 0)
@@ -41,10 +41,10 @@ public class InventorySlot : ItemSlot
             return;
         }
 
-        if (_item is EquipmentItem equipmentItem)
+        if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
         {
-            equipmentItem.Equip();
-            GameConfig.PlayerInventory.GetEquipmentSlot(equipmentItem.EquipmentSlotType).EquipItem(equipmentItem);
+            _item.Equip();
+            GameConfig.PlayerInventory.GetEquipmentSlot(_item.equipmentSlotType).EquipItem(_item);
             _count = 0;
             _item = null;
         }
@@ -58,7 +58,7 @@ public class InventorySlot : ItemSlot
      * <param name="count">Amount of an item to be added</param>
      * <returns>Whether the operation worked/is even possible</returns>
      */
-    public bool AddItem(Item item, int count)
+    public bool AddItem(ItemScriptableObject item, int count)
     {
         if (_item is null)
         {
@@ -67,7 +67,7 @@ public class InventorySlot : ItemSlot
             return true;
         }
 
-        if (_item.ItemID == item.ItemID)
+        if (_item.itemID == item.itemID)
         {
             _count += count;
         }
@@ -120,24 +120,24 @@ public class EquipmentSlot : ItemSlot
     
     public override void Use()
     {
-        PlayerStats.GetInstance().ItemRemoved(_item.ItemID);
-        GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
-        if (_item is EquipmentItem equipmentItem)
+        PlayerStats.GetInstance().ItemRemoved(_item.itemID);
+        GameConfig.PlayerInventory.AddItem(_item.itemID, 1);
+        if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
         {
-            equipmentItem.Unequip();
+            _item.Unequip();
         }
         _item = null;
     }
 
-    public bool EquipItem(EquipmentItem item)
+    public bool EquipItem(ItemScriptableObject item)
     {
         if (_item is not null)
         {
-            PlayerStats.GetInstance().ItemRemoved(_item.ItemID);
-            GameConfig.PlayerInventory.AddItem(_item.ItemID, 1);
-            if (_item is EquipmentItem equipmentItem)
+            PlayerStats.GetInstance().ItemRemoved(_item.itemID);
+            GameConfig.PlayerInventory.AddItem(_item.itemID, 1);
+            if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
             {
-                equipmentItem.Unequip();
+                _item.Unequip();
             }
         }
         _item = item;
@@ -146,6 +146,6 @@ public class EquipmentSlot : ItemSlot
 
     public void ChangeImagination(int currImagination)
     {
-        ((EquipmentItem)_item).ChangeImagination(currImagination);
+        _item.ChangeImagination(currImagination);
     }
 }

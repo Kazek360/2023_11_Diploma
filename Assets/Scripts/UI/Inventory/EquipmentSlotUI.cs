@@ -39,7 +39,7 @@ public class EquipmentSlotUI : MonoBehaviour
     {
         EquipmentSlot actualSlot = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType);
         LowerImaginationButton.gameObject.SetActive(false);
-        Item item = actualSlot.Item;
+        ItemScriptableObject item = actualSlot.Item;
         
         if (item is null)
         {
@@ -58,11 +58,11 @@ public class EquipmentSlotUI : MonoBehaviour
             ItemImage.enabled = true;
             ItemImage.sprite = item.ItemSprite(_imaginationInvested);
             Toggle.interactable = true;
-            if (_lastItemId != item.ItemID)
+            if (_lastItemId != item.itemID)
             {
                 PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
                 _imaginationInvested = 0;
-                _lastItemId = item.ItemID;
+                _lastItemId = item.itemID;
             }
             LowerImaginationButton.gameObject.SetActive(_imaginationInvested != 0);
             AddImaginationButton.gameObject.SetActive(PlayerStats.GetInstance().FreeImagination != 0);

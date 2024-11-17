@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
     public void OnEnable()
     {
         GameConfig.PlayerInventory = this;
-        _itemLibrary = ItemLibrary.GetInstance();
+        _itemLibrary = GameConfig.itemLibrary;
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
@@ -129,7 +129,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     public int AddItem(int itemID, int amount)
     {
-        Item item = _itemLibrary.GetItem(itemID);
+        ItemScriptableObject item = _itemLibrary.GetItem(itemID);
         
         foreach (InventorySlot inventorySlot in _inventorySlots)
         {
@@ -139,15 +139,15 @@ public class Inventory : MonoBehaviour, IDataPersistence
             }
             if (inventorySlot.Item is null)
             {
-                int toAdd = Math.Min(amount, item.MaxStackSize);
+                int toAdd = Math.Min(amount, item.maxStackSize);
                 inventorySlot.AddItem(item, toAdd);
                 amount -= toAdd;
                 continue;
             }
 
-            if (inventorySlot.Item.ItemID == itemID)
+            if (inventorySlot.Item.itemID == itemID)
             {
-                int toAdd = Math.Min(amount, item.MaxStackSize - inventorySlot.Count);
+                int toAdd = Math.Min(amount, item.maxStackSize - inventorySlot.Count);
                 inventorySlot.AddItem(item, toAdd);
                 amount -= toAdd;
             }
@@ -196,7 +196,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
         for (int i = 0; i < gameData.equipment.GetLength(0); i++)
         {
-            _equipmentSlots[i].EquipItem((EquipmentItem)ItemLibrary.GetInstance().GetItem(gameData.equipment[i]));
+            _equipmentSlots[i].EquipItem(GameConfig.itemLibrary.GetItem(gameData.equipment[i]));
         }
     }
 
@@ -223,7 +223,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 if (_inventorySlots[i, j].Item is not null)
                 {
                     gameData.inventory[i, j] =
-                        new Tuple<int, int>(_inventorySlots[i, j].Item.ItemID, _inventorySlots[i, j].Count);
+                        new Tuple<int, int>(_inventorySlots[i, j].Item.itemID, _inventorySlots[i, j].Count);
                 }
                 else
                 {
@@ -236,7 +236,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
         {
             if (_equipmentSlots[i].Item is not null)
             {
-                gameData.equipment[i] = _equipmentSlots[i].Item.ItemID;
+                gameData.equipment[i] = _equipmentSlots[i].Item.itemID;
             }
             else
             {
