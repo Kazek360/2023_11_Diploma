@@ -26,6 +26,6 @@ public class ItemScriptableObject : ScriptableObject
     [Tooltip("Applied per level of imagination")][SerializeField] private List<StatModifierContainer> imaginationModifiers;
     
     [Header("Consumable")]
-    [SerializeField] private List<ItemActionContainer> use;
+    [SerializeField] private List<ItemEffectContainer> use;
     [SerializeField] private bool destroyOnUse;
 }

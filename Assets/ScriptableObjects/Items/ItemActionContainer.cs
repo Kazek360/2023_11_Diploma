@@ -24,3 +24,23 @@ public class StatModifierContainer
     [SerializeField] private EffectedStat effectedStat;
 
 }
+
+[Serializable]
+public class ItemEffectContainer
+{
+    [SerializeField] private int amount;
+    [SerializeField] private EffectedVariable effectedStat;
+    
+    public void ApplyEffect()
+    {
+        int fullValue = amount;
+
+        if (effectedStat == EffectedVariable.HEALTH)
+        {
+            PlayerStats.GetInstance().ModifyWitHealth(fullValue);
+        } else if (effectedStat == EffectedVariable.PSYCHE)
+        {
+            //intendedTarget.ModifyPsyche(fullValue);
+        }
+    }
+}
