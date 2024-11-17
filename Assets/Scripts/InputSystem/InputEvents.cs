@@ -15,5 +15,10 @@ namespace InputSystem
         {
             OnMovementInput?.Invoke(movementVector);
         }
+        public static event Action OnMovementStop;
+        public static void InvokeOnMovementStop()
+        {
+            OnMovementStop?.Invoke();
+        }
     }
 }

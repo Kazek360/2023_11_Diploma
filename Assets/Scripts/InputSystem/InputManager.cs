@@ -25,14 +25,6 @@ namespace InputSystem
         {
             PrepareInputSystem();
         }
-
-        private void FixedUpdate()
-        {
-            if (_controlls.Player.enabled)
-            {
-                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
-            }
-        }
         
         private void PrepareInputSystem()
         {
@@ -50,7 +42,14 @@ namespace InputSystem
 
         public void OnMovement(InputAction.CallbackContext context)
         {
-            
+            if (context.performed)
+            {
+                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
+            }
+            if (context.canceled)
+            {
+                InputEvents.InvokeOnMovementStop();
+            }
         }
 
         public void OnSprint(InputAction.CallbackContext context)
@@ -58,10 +57,12 @@ namespace InputSystem
             if (context.performed)
             {
                 InputEvents.InputSprint(true);
+                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
             }
             if (context.canceled)
             {
                 InputEvents.InputSprint(false);
+                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
             }
         }
 
