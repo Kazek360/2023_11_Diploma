@@ -1,69 +1,52 @@
-using System;
+using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
+using Quests.ScriptableObjects;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Editor.Quests.Elements
 {
-    public class QuestNode : Node
+    public class QuestNode : BaseNode
     {
-        public string ID { get; set; }
-        public QuestGraphView graphView;
-        public QuestGroup group;
-        public string fileName;
+        public Port inputPort;   
+        public Port outputQuestPort;
+        
+        public Port outputQuestStepPort;
+        public string connectedFirstStepNode;
+        
+        public List<FlagInfo> flags;
         public string displayName;
+        public QuestCategory category;
         public string description;
-
-        private Color _defaultBackgroundColor = new Color(80f / 255f, 80f / 255f, 80f / 255f);
-
-        public void Initialize(QuestGraphView questGraphView, Vector2 position)
+        public int experience;
+        
+        public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
-            ID = Guid.NewGuid().ToString();
-            graphView = questGraphView;
-            fileName = "Quest";
+            base.Initialize(nodeName, questGraphView, position);
             displayName = "";
+            category = QuestCategory.MainQuest;
             description = "";
-            
-            SetPosition(new Rect(position, Vector2.zero));
-            extensionContainer.AddToClassList("quest-node__extension-container");
-            mainContainer.AddToClassList("quest-node__main-container");
+            experience = 0;
+            flags = new List<FlagInfo>();
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            //Node Title
-            var fileNameTextField = QuestGraphUtilities.CreateTextField(fileName, null, callback =>
-            {
-                if (group == null)
-                {
-                    graphView.RemoveUngroupedNode(this);
-                    fileName = callback.newValue;
-                    graphView.AddUngroupedNode(this);
-                    return;
-                }
+            base.Draw();
+            DrawPorts();
+            DrawFlags();
 
-                var currentGroup = group;
-                graphView.RemoveGroupedNode(this, group);
-                fileName = callback.newValue;
-                graphView.AddGroupedNode(this, currentGroup);
-                
-            });
-            fileNameTextField.AddToClassList("quest-node__filename-textfield");
-            titleContainer.Insert(0, fileNameTextField);
-
-            //Input Port
-            inputContainer.Add(this.CreatePort("Required Quest", Direction.Input, Port.Capacity.Multi));
-            
-            //Output Port
-            outputContainer.Add(this.CreatePort("Quest Output", Direction.Output, Port.Capacity.Multi));
-            
             //Display Name
             var displayNameContainer = new VisualElement();
             displayNameContainer.AddToClassList("quest-node__custom-container");
             var displayNameFoldout = QuestGraphUtilities.CreateFoldout("Display Name");
-            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName);
+            var displayNameTextField = QuestGraphUtilities.CreateTextField(displayName, null, 
+                callback =>
+            {
+                displayName = callback.newValue;
+            });
             displayNameTextField.AddToClassList("quest-node__textfield");
             displayNameFoldout.Add(displayNameTextField);
             displayNameContainer.Add(displayNameFoldout);
@@ -73,48 +56,95 @@ namespace Editor.Quests.Elements
             var categoryContainer = new VisualElement();
             categoryContainer.AddToClassList("quest-node__custom-container");
             var categoryFoldout = QuestGraphUtilities.CreateFoldout("Category");
-            var categorySelector = new EnumField(QuestCategory.MainQuest);
+            var categorySelector = QuestGraphUtilities.CreateEnumField(category, null, 
+                callback =>
+            {
+                category = (QuestCategory) callback.newValue;
+            });
             categorySelector.AddToClassList("quest-node__enum-field");
             categoryFoldout.Add(categorySelector);
             categoryContainer.Add(categoryFoldout);
             extensionContainer.Add(categoryContainer);
             
-            //Quest Description
-            var descriptionFoldout = QuestGraphUtilities.CreateFoldout("Description");
-            var descriptionTextField = QuestGraphUtilities.CreateTextArea(description);
-            descriptionTextField.AddToClassList("quest-node__textfield");
-            descriptionFoldout.Add(descriptionTextField);
-            extensionContainer.Add(descriptionFoldout);
+            DrawDescription();
+            DrawExperienceField();
+
+            //Rewards
+            var rewardsContainer = new VisualElement();
+            rewardsContainer.AddToClassList("quest-node__custom-container");
+            var rewardsFoldout = QuestGraphUtilities.CreateFoldout("Rewards");
+            var rewardsButtonContainer = 
+                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons<FlagInfo>(rewardsFoldout, new List<FlagInfo>());
+            rewardsFoldout.Add(rewardsButtonContainer);
+            rewardsContainer.Add(rewardsFoldout);
+            extensionContainer.Add(rewardsContainer);
             
             RefreshExpandedState();
         }
 
-        public void DisconnectAllPorts()
+        private void DrawPorts()
         {
-            DisconnectPorts(inputContainer);
-            DisconnectPorts(outputContainer);
-        }
-        
-        private void DisconnectPorts(VisualElement container)
-        {
-            foreach (Port port in container.Children())
-            {
-                if (port.connected)
-                {
-                    graphView.DeleteElements(port.connections);
-                }
-            }
-        }
-        
-        
-        public void SetErrorStyle(Color color)
-        {
-            mainContainer.style.backgroundColor = color;
+            //Input Port
+            inputPort = this.CreatePort("Required Quest", Direction.Input, Port.Capacity.Multi);
+            inputContainer.Add(inputPort);
+            
+            //Output Port
+            outputQuestPort = this.CreatePort("Next Quests", Direction.Output, Port.Capacity.Multi);
+            outputQuestStepPort = this.CreatePort("First Step", Direction.Output, Port.Capacity.Single);
+            outputContainer.Add(outputQuestPort);
+            outputContainer.Add(outputQuestStepPort);
         }
 
-        public void ResetStyle()
+        private void DrawFlags()
         {
-            mainContainer.style.backgroundColor = _defaultBackgroundColor;
+            var flagsContainer = new VisualElement();
+            flagsContainer.AddToClassList("quest-node__custom-container");
+            var flagsFoldout = QuestGraphUtilities.CreateFoldout("Flags");
+            
+            var flagsButtonContainer = 
+                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons(flagsFoldout, flags);
+            flagsFoldout.Add(flagsButtonContainer);
+            
+            foreach (var flag in flags)
+            {
+                var flagObjectField = QuestGraphUtilities.CreateObjectField(flags, flag);
+                flagsFoldout.Add(flagObjectField);
+            }
+            
+            flagsContainer.Add(flagsFoldout);
+            extensionContainer.Add(flagsContainer);
+        }
+
+        private void DrawDescription()
+        {
+            var descriptionContainer = new VisualElement();
+            descriptionContainer.AddToClassList("quest-node__custom-container");
+            var descriptionFoldout = QuestGraphUtilities.CreateFoldout("Description");
+            var descriptionTextArea = QuestGraphUtilities.CreateTextArea(description, null, 
+                callback =>
+                {
+                    description = callback.newValue;
+                });
+            descriptionTextArea.AddToClassList("quest-node__textfield");
+            descriptionFoldout.Add(descriptionTextArea);
+            descriptionContainer.Add(descriptionFoldout);
+            extensionContainer.Add(descriptionContainer);
+        }
+
+        private void DrawExperienceField()
+        {
+            var experienceContainer = new VisualElement();
+            experienceContainer.AddToClassList("quest-node__custom-container");
+            var experienceFoldout = QuestGraphUtilities.CreateFoldout("Experience");
+            var experienceIntegerField = QuestGraphUtilities.CreateIntegerField(experience, null,
+                callback =>
+                {
+                    experience = callback.newValue;
+                });
+            experienceIntegerField.AddToClassList("quest-node__integer-field");
+            experienceFoldout.Add(experienceIntegerField);
+            experienceContainer.Add(experienceFoldout);
+            extensionContainer.Add(experienceContainer);
         }
     }
 }

@@ -1,10 +1,8 @@
 using Cutscenes;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
+using DialogueSystem;
 using InputSystem;
 using UnityEngine;
-using UnityEngine.AI;
-
 
 namespace Player
 {
@@ -26,7 +24,6 @@ namespace Player
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
         
-        NavMeshAgent _agent;
 
         private void OnEnable()
         {
@@ -57,18 +54,16 @@ namespace Player
             _animator = GetComponent<Animator>();
             _isMouseMoving = false;
             
-            _agent = GetComponent<NavMeshAgent>();
-            _agent.updateRotation = false;
-            _agent.updateUpAxis = false;
             _canMove = true;
+            
         }
         
         private void Update()
         {
+
             if (Input.GetMouseButtonDown(0))
             {
                 HandleMouseMovement();
-                SetAgentPosition();
             }
 
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
@@ -83,19 +78,17 @@ namespace Player
         {
             if (_canMove)
             {
-                bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift);
-                var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
+                bool isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+                var currentSpeed = isRunning ? runSpeed : walkSpeed;
+
                 if (_isMouseMoving)
                 {
                     Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
                     _rigidbody.velocity = direction * currentSpeed;
 
-                    _animator.SetFloat(X, direction.x);
-                    _animator.SetFloat(Y, direction.y);
-                    _animator.SetBool(IsWalking, true);
-                    _animator.SetBool(IsRunning, isRunning);
+                    SetAnimationParameters(direction, isRunning);
 
-                    if (Vector2.Distance(transform.position, _targetPosition) < 0.1f)
+                    if ((_targetPosition - (Vector2)transform.position).sqrMagnitude < 0.01f)
                     {
                         _isMouseMoving = false;
                         StopPlayerMovement();
@@ -103,22 +96,47 @@ namespace Player
                 }
                 else
                 {
-                    _agent.ResetPath();
                     _rigidbody.velocity = movementVector * currentSpeed;
-                    if (movementVector != Vector2.zero)
-                    {
-                        _animator.SetFloat(X, movementVector.x);
-                        _animator.SetFloat(Y, movementVector.y);
-                        _animator.SetBool(IsWalking, true);
-                        _animator.SetBool(IsRunning, isRunning);
-                    }
-                    else
+
+                    if (movementVector.sqrMagnitude < 0.01f)
                     {
                         StopPlayerMovement();
                     }
-                } 
+                    else
+                    {
+                        SetAnimationParameters(movementVector, isRunning);
+                    }
+                }
             }
         }
+        
+        private void SetAnimationParameters(Vector2 direction, bool isRunning)
+        {
+            if (direction == Vector2.zero)
+            {
+                _animator.SetBool("isWalking", false);
+                _animator.SetBool("isRunning", false);
+            }
+            else
+            {
+                _animator.SetBool("isWalking", true);
+                _animator.SetBool("isRunning", isRunning);
+
+                if (direction.x != 0)
+                {
+                    _animator.SetFloat("X", Mathf.Sign(direction.x)); 
+                    _animator.SetFloat("Y", 0); 
+                }
+                else if (direction.y != 0)
+                {
+                    _animator.SetFloat("X", 0);
+                    _animator.SetFloat("Y", Mathf.Sign(direction.y)); 
+                }
+            }
+        }
+
+
+        
         
         private void HandleMouseMovement()
         {
@@ -130,10 +148,6 @@ namespace Player
             }
         }
         
-        void SetAgentPosition()
-        {
-            _agent.SetDestination(_targetPosition);
-        }
         
         private void ChangeSprintState(bool isPlayerSprinting)
         {
@@ -143,11 +157,12 @@ namespace Player
         private void StopPlayerMovement()
         {
             _rigidbody.velocity = Vector2.zero;
-            _animator.SetBool(IsWalking, false);
-            _animator.SetBool(IsRunning, false);
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isRunning", false);
+
         }
 
-        private void EnableMovement(DialogueSO dialogue)
+        private void EnableMovement(DialogueInfo dialogue)
         {
             _canMove = true;
         }
@@ -157,7 +172,7 @@ namespace Player
             _canMove = true;
         }
         
-        private void StopMovement(DialogueSO dialogue)
+        private void StopMovement(DialogueInfo dialogue)
         {
             _canMove = false;
             StopPlayerMovement();

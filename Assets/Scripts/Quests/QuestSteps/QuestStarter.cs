@@ -1,6 +1,6 @@
 using Quests;
+using Quests.ScriptableObjects;
 using UnityEngine;
-using QuestSystem;
 
 public class QuestStarter : MonoBehaviour
 {

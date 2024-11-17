@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using DialogueSystem;
+using DialogueSystem.Events;
 using Quests.Flags;
+using Quests.ScriptableObjects;
 using SaveSystem;
 using SaveSystem.Data;
 using Shared;
@@ -56,25 +59,18 @@ namespace Quests
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
         }
 
-        private bool CheckRequirementsMet(Quest quest)
+        public bool CheckForRequiredFlagsState(List<FlagInfo> flags)
         {
-            var meetsRequirements = true;
-            foreach (var questRequirement in quest.info.requiredQuests)
+            var allFlagsTriggered = true;
+            foreach (var flag in flags)
             {
-                if (GetQuestById(questRequirement.name).state != QuestState.Finished)
+                if (!FlagManager.IsFlagTriggered(flag.name))
                 {
-                    meetsRequirements = false;
-                }
-            }
-            foreach (var flagRequirement in quest.info.requiredFlags)
-            {
-                if (!flagRequirement.value.Equals(FlagManager.GetFlagValue(flagRequirement.info.name)))
-                {
-                    meetsRequirements = false;
+                    allFlagsTriggered = false;
                 }
             }
 
-            return meetsRequirements;
+            return allFlagsTriggered;
         }
 
         private void ChangeQuestState(string id, QuestState state)
@@ -87,19 +83,18 @@ namespace Quests
         private void StartQuest(string id)
         {
             var quest = GetQuestById(id);
-            quest.InstantiateCurrentStep(transform);
+            quest.InstantiateFirstStep(transform);
             ChangeQuestState(id, QuestState.InProgress);
             TrackedQuest = quest;
         }
-
+        
         private void ProgressQuest(string id)
         {
             var quest = GetQuestById(id);
             
             if (quest.NextStepExists())
             {
-                quest.MoveToNextStep();
-                quest.InstantiateCurrentStep(transform);
+                quest.InstantiateNextStep(transform);
             }
             else
             {
@@ -114,25 +109,27 @@ namespace Quests
 
         private void FinishQuest(string id)
         {
-            PlayerStats.GetInstance().AddXp(_quests[id].info.experience);
-            foreach (var item in _quests[id].info.items)
+            var quest = GetQuestById(id);
+            
+            PlayerStats.GetInstance().AddXp(quest.info.experience);
+            foreach (var item in quest.info.items)
             {
                 GameConfig.PlayerInventory.AddItem(item, 1);
             }
 
             ChangeQuestState(id, QuestState.Finished);
-            
-            foreach (var quest in _quests.Values)
+
+            foreach (var nextQuestInfo in quest.info.nextQuests)
             {
-                if (quest.state == QuestState.RequirementsNotMet && CheckRequirementsMet(quest))
+                if (CheckForRequiredFlagsState(nextQuestInfo.requiredFlags))
                 {
-                    if (quest.info.questCategory == QuestCategory.MainQuest)
+                    if (nextQuestInfo.questCategory == QuestCategory.MainQuest)
                     {
-                        QuestEvents.StartQuest(quest.info.name);
+                        QuestEvents.StartQuest(nextQuestInfo.name);
                     }
                     else
                     {
-                        ChangeQuestState(quest.info.name, QuestState.CanStart);
+                        ChangeQuestState(nextQuestInfo.name, QuestState.CanStart);
                     }
                 }
             }
@@ -141,8 +138,7 @@ namespace Quests
         private void UpdateQuestStepProgress(string id)
         {
             var quest = GetQuestById(id);
-            quest.UpdateDescription();
-            quest.UpdateProgress();
+            quest.UpdateStepProgress();
             if (GetQuestById(id).Equals(TrackedQuest))
             {
                 QuestEvents.TrackQuest();
@@ -209,11 +205,11 @@ namespace Quests
                 if (quest.state == QuestState.InProgress)
                 {
                     QuestEvents.ChangeQuestState(quest);
-                    quest.InstantiateCurrentStepFromSaveFile(transform);
+                    quest.InstantiateCurrentStep(transform);
                 }
                 else if (quest.state == QuestState.Finished)
                 {
-                    quest.AddCompletedDescriptions();
+                    quest.AddCompletedQuestDescriptions();
                 }
             }
             

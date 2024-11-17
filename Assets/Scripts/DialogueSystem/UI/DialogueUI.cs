@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
 using Ink.Runtime;
 using InputSystem;
 using Quests;
@@ -29,7 +28,7 @@ namespace DialogueSystem.UI
         [SerializeField] private List<GameObject> choices;
         private List<TextMeshProUGUI> _choicesText;
 
-        private DialogueSO _currentDialogue;
+        private DialogueInfo _currentDialogue;
         private Story _currentStory;
         private Coroutine _displayLineCoroutine;
         
@@ -83,7 +82,7 @@ namespace DialogueSystem.UI
             }
         }
         
-        private void StartDialogue(DialogueSO dialogueInfo)
+        private void StartDialogue(DialogueInfo dialogueInfo)
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Dialogue);
             _currentDialogue = dialogueInfo;
@@ -135,6 +134,10 @@ namespace DialogueSystem.UI
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             DialogueEvents.FinishDialogue(_currentDialogue);
+            if (_currentDialogue.questToStart != null)
+            {
+                QuestEvents.StartQuest(_currentDialogue.questToStart.name);
+            }
             dialogueText.text = "";
         }
         

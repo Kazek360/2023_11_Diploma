@@ -7,13 +7,13 @@ namespace Quests.UI
     [RequireComponent(typeof(CanvasGroup))]
     public class QuestTracker : MonoBehaviour
     {
-        private TextMeshProUGUI _text;
+        [SerializeField] private TextMeshProUGUI _unvisibleText; 
+        [SerializeField] private TextMeshProUGUI _visibleText;  
         private CanvasGroup _canvasGroup;
         public CanvasGroup CanvasGroup => _canvasGroup;
 
         public void Awake()
         {
-            _text = GetComponentInChildren<TextMeshProUGUI>();
             _canvasGroup = GetComponent<CanvasGroup>();
         }
         
@@ -36,8 +36,11 @@ namespace Quests.UI
             else
             {
                 CanvasGroup.alpha = 1;
-                _text.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}" +
+                string questInfo = $"{QuestManager.Instance.TrackedQuest.info.displayName}" +
                              $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
+                
+                _unvisibleText.text = questInfo;
+                _visibleText.text = questInfo;
             }
         }
     }

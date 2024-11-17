@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace Editor.Quests.Save
@@ -6,12 +8,16 @@ namespace Editor.Quests.Save
     [Serializable]
     public class QuestNodeSaveData
     {
-        public string ID { get; set; }
-        public string FileName { get; set; }
-        public string DisplayName { get; set; }
-        public QuestCategory Category { get; set; }
-        public string Description { get; set; }
-        public string GroupID { get; set; }
-        public Vector2 Position { get; set; }
+        public string id;
+        public string fileName;
+        public List<FlagInfo> flags;
+        public string displayName;
+        public QuestCategory category;
+        [TextArea] public string description;
+        public int experience;
+        public string groupID;
+        public List<string> connectedQuestNodes;
+        public string connectedQuestStepNode;
+        public Vector2 position;
     }
 }

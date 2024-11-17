@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
+using DialogueSystem;
 
 public class DialogueWithTeleport : DialogueQuestStep
 {
@@ -21,7 +20,7 @@ public class DialogueWithTeleport : DialogueQuestStep
         }
     }
     
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

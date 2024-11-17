@@ -1,15 +1,15 @@
 using UnityEngine;
 using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
+using DialogueSystem;
 
 public class DialogueQuestStep : BaseQuestStep
 {
-    [SerializeField] protected DialogueSO dialoguesInfo;
+    [SerializeField] protected DialogueInfo dialoguesInfo;
     protected override void OnEnable()
     {
         base.OnEnable();
         DialogueEvents.OnDialogueFinished += FinishStep;
-        DialogueEvents.UnlockDialogue(dialoguesInfo.name);
+        DialogueEvents.InvokeOnDialogueUnlocked(dialoguesInfo.triggerName, dialoguesInfo.name);
     }
 
     protected override void OnDestroy()
@@ -18,7 +18,7 @@ public class DialogueQuestStep : BaseQuestStep
         DialogueEvents.OnDialogueFinished -= FinishStep;
     }
 
-    protected virtual void FinishStep(DialogueSO dialogue)
+    protected virtual void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

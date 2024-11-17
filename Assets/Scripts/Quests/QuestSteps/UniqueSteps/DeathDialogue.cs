@@ -1,7 +1,7 @@
 using Cutscenes;
+using DialogueSystem;
 using Unity.VisualScripting;
 using UnityEngine;
-using DialogueSystem.ScriptableObjects;
 
 public class DeathDialogue : DialogueQuestStep
 {
@@ -29,7 +29,7 @@ public class DeathDialogue : DialogueQuestStep
             AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
         }
     }
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

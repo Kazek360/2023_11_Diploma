@@ -1,5 +1,4 @@
 using System;
-using DialogueSystem.ScriptableObjects;
 
 namespace DialogueSystem.Events
 {
@@ -10,13 +9,13 @@ namespace DialogueSystem.Events
         {
             OnDialogueTriggered?.Invoke(triggerName);
         }
-        public static event Action<DialogueSO> OnDialogueStarted;
-        public static void StartDialogue(DialogueSO dialogue)
+        public static event Action<DialogueInfo> OnDialogueStarted;
+        public static void StartDialogue(DialogueInfo dialogue)
         {
             OnDialogueStarted?.Invoke(dialogue);
         }
-        public static event Action<DialogueSO> OnDialogueFinished;
-        public static void FinishDialogue(DialogueSO dialogue)
+        public static event Action<DialogueInfo> OnDialogueFinished;
+        public static void FinishDialogue(DialogueInfo dialogue)
         {
             OnDialogueFinished?.Invoke(dialogue);
         }
@@ -26,10 +25,10 @@ namespace DialogueSystem.Events
             OnDialogueContinued?.Invoke();
         }
         
-        public static event Action<string> OnDialogueUnlocked;
-        public static void UnlockDialogue(string id)
+        public static event Action<string, string> OnDialogueUnlocked;
+        public static void InvokeOnDialogueUnlocked(string triggerName, string dialogueName)
         {
-            OnDialogueUnlocked?.Invoke(id);
+            OnDialogueUnlocked?.Invoke(triggerName, dialogueName);
         }
     }
 
