@@ -62,6 +62,24 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseMovement"",
+                    ""type"": ""Button"",
+                    ""id"": ""361d610a-1285-4e7b-aabb-fa8c7b27a9ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CameraDragging"",
+                    ""type"": ""Button"",
+                    ""id"": ""34ee03d6-8b3d-4c65-aa93-71fe0eac7c4d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -150,6 +168,28 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""CenterCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fa4dd27-af1f-4a99-ad64-7cf8a87f1dd2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f715cf3-d475-43f7-8e41-a0b57a2389a0"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraDragging"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -333,6 +373,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_CenterCamera = m_Player.FindAction("CenterCamera", throwIfNotFound: true);
+        m_Player_MouseMovement = m_Player.FindAction("MouseMovement", throwIfNotFound: true);
+        m_Player_CameraDragging = m_Player.FindAction("CameraDragging", throwIfNotFound: true);
         // Story
         m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
         m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
@@ -408,6 +450,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_CenterCamera;
+    private readonly InputAction m_Player_MouseMovement;
+    private readonly InputAction m_Player_CameraDragging;
     public struct PlayerActions
     {
         private @PlayerControlls m_Wrapper;
@@ -416,6 +460,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
+        public InputAction @MouseMovement => m_Wrapper.m_Player_MouseMovement;
+        public InputAction @CameraDragging => m_Wrapper.m_Player_CameraDragging;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -437,6 +483,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CenterCamera.started += instance.OnCenterCamera;
             @CenterCamera.performed += instance.OnCenterCamera;
             @CenterCamera.canceled += instance.OnCenterCamera;
+            @MouseMovement.started += instance.OnMouseMovement;
+            @MouseMovement.performed += instance.OnMouseMovement;
+            @MouseMovement.canceled += instance.OnMouseMovement;
+            @CameraDragging.started += instance.OnCameraDragging;
+            @CameraDragging.performed += instance.OnCameraDragging;
+            @CameraDragging.canceled += instance.OnCameraDragging;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -453,6 +505,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CenterCamera.started -= instance.OnCenterCamera;
             @CenterCamera.performed -= instance.OnCenterCamera;
             @CenterCamera.canceled -= instance.OnCenterCamera;
+            @MouseMovement.started -= instance.OnMouseMovement;
+            @MouseMovement.performed -= instance.OnMouseMovement;
+            @MouseMovement.canceled -= instance.OnMouseMovement;
+            @CameraDragging.started -= instance.OnCameraDragging;
+            @CameraDragging.performed -= instance.OnCameraDragging;
+            @CameraDragging.canceled -= instance.OnCameraDragging;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -600,6 +658,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
         void OnCenterCamera(InputAction.CallbackContext context);
+        void OnMouseMovement(InputAction.CallbackContext context);
+        void OnCameraDragging(InputAction.CallbackContext context);
     }
     public interface IStoryActions
     {
