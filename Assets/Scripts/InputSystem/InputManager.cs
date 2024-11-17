@@ -45,27 +45,46 @@ namespace InputSystem
             if (context.performed)
             {
                 InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
+                CameraController.InvokeOnCameraFollow();
             }
             if (context.canceled)
             {
                 InputEvents.InvokeOnMovementStop();
             }
         }
-
+        
         public void OnSprint(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                InputEvents.InputSprint(true);
-                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
+                InputEvents.InputSprint(true, _controlls.Player.Movement.ReadValue<Vector2>());
             }
             if (context.canceled)
             {
-                InputEvents.InputSprint(false);
-                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
+                InputEvents.InputSprint(false, _controlls.Player.Movement.ReadValue<Vector2>());
             }
         }
 
+        public void OnMouseMovement(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                InputEvents.InvokeOnMouseMovement();
+            }
+        }
+
+        public void OnCameraDragging(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                CameraController.InvokeOnCameraDragged();
+            }
+            if (context.canceled)
+            {
+                CameraController.InvokeOnCameraDragStop();
+            }
+        }
+        
         public void OnInteraction(InputAction.CallbackContext context)
         {
             if (context.performed)
@@ -78,8 +97,7 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                CameraController.CenterCamera();
-                //Jakiś Event
+                CameraController.InvokeOnCameraCentered();
             }
         }
 

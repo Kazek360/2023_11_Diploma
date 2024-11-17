@@ -14,24 +14,46 @@ public class CameraController : MonoBehaviour
     private bool _isFollowingPlayer = true;
     private const float FixedZPosition = -10f;
     
-    private float _minZoom = 6.0f; 
-    private float _maxZoom = 10.0f; 
+    private float _minZoom = 5.0f; 
+    private float _maxZoom = 15.0f; 
     [SerializeField] private float zoomSpeed = 1.0f; 
     private float _defaultZoom = 10.0f; 
 
     public static event Action OnCameraCentered;
-    public static void CenterCamera()
+    public static void InvokeOnCameraCentered()
     {
         OnCameraCentered?.Invoke();
+    }
+
+    public static event Action OnCameraDragged;
+    public static void InvokeOnCameraDragged()
+    {
+        OnCameraDragged?.Invoke();
+    }
+    public static event Action OnCameraDragStop;
+    public static void InvokeOnCameraDragStop()
+    {
+        OnCameraDragStop?.Invoke();
+    }
+    public static event Action OnCameraFollow;
+    public static void InvokeOnCameraFollow()
+    {
+        OnCameraFollow?.Invoke();
     }
 
     private void OnEnable()
     {
         OnCameraCentered += MoveCameraToPlayer;
+        OnCameraDragged += DragCamera;
+        OnCameraDragStop += StopCameraDrag;
+        OnCameraFollow += EnableFollowingPlayer;
     }
     private void OnDisable()
     {
         OnCameraCentered -= MoveCameraToPlayer;
+        OnCameraDragged += DragCamera;
+        OnCameraDragStop -= StopCameraDrag;
+        OnCameraFollow -= EnableFollowingPlayer;
     }
     
     void Start()
@@ -40,12 +62,14 @@ public class CameraController : MonoBehaviour
         cameraTransform.parent = player;
         _camera.orthographicSize = _defaultZoom; 
         _targetZoom = _camera.orthographicSize; // Początkowa wartość zoomu
-
     }
 
     void Update()
     {
-        HandleMouseInput();
+        if (_isDragging)
+        {
+            HandleCameraDrag();
+        }
         HandleZoom();
         
         if (_isFollowingPlayer)
@@ -54,34 +78,6 @@ public class CameraController : MonoBehaviour
         }
 
         FixCameraZPosition();
-    }
-
-    private void HandleMouseInput()
-    {
-     
-        if (Input.GetMouseButtonDown(1))
-        {
-            _dragOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
-            _isDragging = true;
-            _isFollowingPlayer = false; 
-            cameraTransform.parent = null; 
-        }
-
-        if (Input.GetMouseButtonUp(1))
-        {
-            _isDragging = false;
-        }
-
-        if (_isDragging)
-        {
-            HandleCameraDrag();
-        }
-
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-        {
-            _isFollowingPlayer = true;
-            cameraTransform.parent = player; 
-        }
     }
 
     private void HandleCameraDrag()
@@ -94,6 +90,12 @@ public class CameraController : MonoBehaviour
         ConstrainCameraToPlayer();
     }
 
+    private void EnableFollowingPlayer()
+    {
+        _isFollowingPlayer = true;
+        cameraTransform.parent = player; 
+    }
+    
     private void FollowPlayer()
     {
         cameraTransform.position = new Vector3(player.position.x, player.position.y, FixedZPosition);
@@ -101,11 +103,23 @@ public class CameraController : MonoBehaviour
 
     private void MoveCameraToPlayer()
     {
-        cameraTransform.position = new Vector3(player.position.x, player.position.y, FixedZPosition);
         _isFollowingPlayer = true; 
         cameraTransform.parent = player; 
         _camera.orthographicSize = _defaultZoom; 
         _targetZoom = _defaultZoom;
+    }
+
+    private void DragCamera()
+    {
+        _dragOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
+        _isDragging = true;
+        _isFollowingPlayer = false; 
+        cameraTransform.parent = null; 
+    }
+    
+    private void StopCameraDrag()
+    {
+        _isDragging = false;
     }
 
     private void FixCameraZPosition()

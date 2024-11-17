@@ -24,12 +24,12 @@ namespace Player
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
         private static readonly int IsRunning = Animator.StringToHash("isRunning");
         
-
         private void OnEnable()
         {
             InputEvents.OnSprintInput += ChangeSprintState;
             InputEvents.OnMovementInput += MovePlayer;
             InputEvents.OnMovementStop += StopPlayerMovement;
+            InputEvents.OnMouseMovement += HandleMouseMovement;
             
             DialogueEvents.OnDialogueStarted += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
@@ -42,6 +42,7 @@ namespace Player
             InputEvents.OnSprintInput -= ChangeSprintState;
             InputEvents.OnMovementInput -= MovePlayer;
             InputEvents.OnMovementStop -= StopPlayerMovement;
+            InputEvents.OnMouseMovement -= HandleMouseMovement;
             
             DialogueEvents.OnDialogueStarted -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
@@ -61,20 +62,22 @@ namespace Player
         
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                HandleMouseMovement();
-            }
-
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            {
-                _isMouseMoving = false;
-            }
-
+            MovePlayerWithMouse();
             FixPlayerZPosition();
         }
 
         private void MovePlayer(Vector2 movementVector)
+        {
+            if (_canMove)
+            {
+                var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
+                _isMouseMoving = false;
+                _rigidbody.velocity = movementVector * currentSpeed;
+                SetAnimationParameters(movementVector);
+            }
+        }
+
+        private void MovePlayerWithMouse()
         {
             if (_canMove)
             {
@@ -92,12 +95,6 @@ namespace Player
                         _isMouseMoving = false;
                         StopPlayerMovement();
                     }
-                }
-                else
-                {
-                    _rigidbody.velocity = movementVector * currentSpeed;
-
-                    SetAnimationParameters(movementVector);
                 }
             }
         }
@@ -129,28 +126,23 @@ namespace Player
         
         private void HandleMouseMovement()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _targetPosition = new Vector2(mousePosition.x, mousePosition.y);
-                _isMouseMoving = true;
-            }
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _targetPosition = new Vector2(mousePosition.x, mousePosition.y);
+            _isMouseMoving = true;
         }
         
-        private void ChangeSprintState(bool isPlayerSprinting)
+        private void ChangeSprintState(bool isPlayerSprinting, Vector2 movementVector)
         {
             _isPlayerSprinting = isPlayerSprinting;
+            if (!_isMouseMoving)
+            {
+                MovePlayer(movementVector);
+            }
         }
         
         private void StopPlayerMovement()
         {
             _rigidbody.velocity = Vector2.zero;
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isRunning", false);
-        }
-        
-        private void StopAnimation()
-        {
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isRunning", false);
         }
