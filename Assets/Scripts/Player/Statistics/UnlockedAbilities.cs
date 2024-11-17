@@ -49,6 +49,11 @@ public class UnlockedAbilities
         }
     }
 
+    public int NumOfUnlockedAbilities()
+    {
+        return _unlockedAbilities.Count;
+    }
+
     public List<AbilityScriptableObjectReworked> GetAbilities(UnlockableAbility.PlayerType playerType)
     {
         List<AbilityScriptableObjectReworked> result = new List<AbilityScriptableObjectReworked>();
