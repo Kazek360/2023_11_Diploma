@@ -41,7 +41,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
         _combatUI = _combatSystem.GetCombatUI();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        if (UnlockedAbilities.GetInstance().NumOfUnlockedAbilities() == 0)
+        UnlockedAbilities.GetInstance();
+        if (UnlockedAbilities.GetInstance().NumOfUnlockedAbilities(playerType) == 0)
         {
             for (int i = 0; i < abilities.Count; i++)
             {

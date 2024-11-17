@@ -49,9 +49,17 @@ public class UnlockedAbilities
         }
     }
 
-    public int NumOfUnlockedAbilities()
+    public int NumOfUnlockedAbilities(UnlockableAbility.PlayerType playerType)
     {
-        return _unlockedAbilities.Count;
+        int result = 0;
+        foreach (UnlockableAbility ability in _unlockedAbilities)
+        {
+            if (ability.Recipient == playerType)
+            {
+                result++;
+            }
+        }
+        return result;
     }
 
     public List<AbilityScriptableObjectReworked> GetAbilities(UnlockableAbility.PlayerType playerType)
