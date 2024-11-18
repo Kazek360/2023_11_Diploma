@@ -27,6 +27,10 @@ public class CombatUI : UserInterface
     [SerializeField] private Image MovementFillImage;
     [FormerlySerializedAs("actionCounter")] [SerializeField] private GameObject ActionCounter;
     [SerializeField] private Image ActionFillImage;
+    [SerializeField] private TextMeshProUGUI HealthCounter;
+    [SerializeField] private Image HealthFillImage;
+    [SerializeField] private TextMeshProUGUI CharacterName;
+    [SerializeField] private Image CharacterImage;
     [FormerlySerializedAs("endTurnButton")] [SerializeField] private GameObject EndTurnButton;
     [FormerlySerializedAs("materialToggle")] [SerializeField] private Toggle MaterialToggle;
     [FormerlySerializedAs("immaterialToggle")] [SerializeField] private Toggle ImmaterialToggle;
@@ -70,6 +74,8 @@ public class CombatUI : UserInterface
         AbilitiesScrollContent.SetActive(true);
         MovementCounter.SetActive(true);
         ActionCounter.SetActive(true);
+        HealthCounter.gameObject.SetActive(true);
+        CharacterImage.gameObject.SetActive(true);
         EndTurnButton.SetActive(true);
         _movementCounter = MovementCounter.GetComponent<TextMeshProUGUI>();
         _actionCounter = ActionCounter.GetComponent<TextMeshProUGUI>();
@@ -183,6 +189,8 @@ public class CombatUI : UserInterface
         AbilitiesScrollContent.SetActive(false);
         MovementCounter.SetActive(false);
         ActionCounter.SetActive(false);
+        HealthCounter.gameObject.SetActive(false);
+        CharacterImage.gameObject.SetActive(false);
         EndTurnButton.SetActive(false);
     }
     
@@ -244,7 +252,7 @@ public class CombatUI : UserInterface
         HideTargets();  
         
         _abilitiesToggleGroup.SetAllTogglesOff();
-        _movementCounter.text = "Ruchy:\n" + $"{currMovement}/{maxMovement}" ;
+        _movementCounter.text = "Ruchy: " + $"{currMovement}/{maxMovement}" ;
         MovementFillImage.fillAmount = (float)currMovement / maxMovement;
     }
     
@@ -252,6 +260,18 @@ public class CombatUI : UserInterface
     {
         _actionCounter.text = "Akcje:\n" + $"{currActions}/{maxActions}";
         ActionFillImage.fillAmount = (float)currActions / maxActions;
+    }
+
+    public void SetHealthCounter(int currHealth, int maxHealth)
+    {
+        HealthCounter.text = "Życie:\n" + $"{currHealth}/{maxHealth}";
+        HealthFillImage.fillAmount = (float)currHealth / maxHealth;
+    }
+
+    public void SetCharacterDisplay(Sprite charImage, string charName)
+    {
+        CharacterImage.sprite = charImage;
+        CharacterName.text = charName;
     }
 
     public void SetTarget(IHittable target)

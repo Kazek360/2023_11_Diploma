@@ -116,7 +116,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
         _combatUI.ShowCombatUI(this);
-        _combatSystem.PlayerTurnStart(GetAgility(), GetImagination(), IsMaterial());
+        _combatSystem.PlayerTurnStart(GetAgility(), GetImagination(), IsMaterial(), this);
     }
 
 

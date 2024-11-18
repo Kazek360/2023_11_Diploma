@@ -22,6 +22,7 @@ namespace Combat
         private int _movementLeft, _actionsLeft;
         private bool _currentIsMaterial;
         private bool _currentIsPlayer;
+        private IHittable _currentHittable;
         
         
         private void Awake()
@@ -128,7 +129,7 @@ namespace Combat
          * <param name='actions'>actions for the turn</param>
          * <param name='isMaterial'>is the player material</param>
          */
-        public void PlayerTurnStart(int movement, int actions, bool isMaterial)
+        public void PlayerTurnStart(int movement, int actions, bool isMaterial, IHittable hittable)
         {
             _currentIsPlayer = true;
             SetCurrentMaterial(isMaterial);
@@ -137,6 +138,7 @@ namespace Combat
             _startingMovement = movement;
             _actionsLeft = actions;
             _startingActions = actions;
+            _currentHittable = hittable;
             UpdateUICounters();
             combatUI.ShowAbilities();
             combatEnvironmentManager.HighlightNeighborsInRadius(_currentGridObject, 1, false, _currentIsMaterial);
@@ -222,6 +224,8 @@ namespace Combat
         {
             combatUI.SetMovementCounter(_movementLeft, _startingMovement);
             combatUI.SetActionCounter(_actionsLeft, _startingActions);
+            combatUI.SetHealthCounter(_currentHittable.GetCurrentHealth(), _currentHittable.GetMaxHealth());
+            combatUI.SetCharacterDisplay(_currentHittable.GetImage(), _currentHittable.GetEntityName());
         }
 
         public CombatUI GetCombatUI()
