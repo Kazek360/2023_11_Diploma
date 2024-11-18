@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     [SerializeField] private TargetClickArea targetClickArea;
     [SerializeField] private TooltipObject tooltipArea;
     [SerializeField] protected TextMeshPro hpText;
+    [SerializeField] protected SpriteRenderer healthBarSprite;
     
     private int _currentPsyche;
     protected bool _partnerIsKilled;
@@ -140,6 +141,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         PlayerStats.GetInstance().ModifyWitHealth(amount);
         UpdateHpText();
+        healthBarSprite.size = new Vector2(3 * ((float)GetCurrentHealth() / GetMaxHealth()), 0.25f);
         if (PlayerStats.GetInstance().GetWitHp() <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
@@ -297,6 +299,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = true;
             hpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
+            healthBarSprite.gameObject.SetActive(true);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -309,6 +313,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = false;
             hpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
+            healthBarSprite.gameObject.SetActive(false);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;

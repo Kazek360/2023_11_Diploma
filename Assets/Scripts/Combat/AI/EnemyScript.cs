@@ -17,6 +17,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     [FormerlySerializedAs("targetClickArea")] [SerializeField] private TargetClickArea TargetClickArea;
     [FormerlySerializedAs("hpText")] [SerializeField] private TextMeshPro HpText;
     [FormerlySerializedAs("material")] [SerializeField] private bool Material;
+    [SerializeField] private SpriteRenderer healthBarSprite;
     [SerializeField] private TooltipObject tooltipArea;
     protected IHittable _partner;
     
@@ -219,6 +220,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             amount *= 2;
         }
         _currentHealth = Math.Max(Math.Min(_currentHealth + amount, Stats.MaxHealthPoints), 0);
+        healthBarSprite.size = new Vector2(3 * ((float)_currentHealth / GetMaxHealth()), 0.25f);
         if (_currentHealth <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
@@ -351,7 +353,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     private void UpdateHpText()
     {
-        HpText.text = "" + _currentHealth;
+        HpText.text = $"{_currentHealth}/{GetMaxHealth()}";
     }
 
     public virtual bool IsMaterial()
@@ -376,6 +378,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = true;
             HpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
+            healthBarSprite.gameObject.SetActive(true);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -388,6 +392,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = false;
             HpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
+            healthBarSprite.gameObject.SetActive(false);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;
