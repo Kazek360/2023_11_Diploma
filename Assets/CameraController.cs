@@ -6,7 +6,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform player; 
     [SerializeField] private float cameraMoveSpeed = 0.1f; 
     [SerializeField] private float maxDistanceFromPlayer = 5.0f; 
-    [SerializeField] private Transform cameraTransform; 
     
     private Camera _camera; 
     private Vector3 _dragOrigin; 
@@ -51,20 +50,20 @@ public class CameraController : MonoBehaviour
     private void OnDisable()
     {
         OnCameraCentered -= MoveCameraToPlayer;
-        OnCameraDragged += DragCamera;
+        OnCameraDragged -= DragCamera;
         OnCameraDragStop -= StopCameraDrag;
         OnCameraFollow -= EnableFollowingPlayer;
     }
     
-    void Start()
+    private void Start()
     {
-        _camera = Camera.main; 
-        cameraTransform.parent = player;
+        _camera = GetComponent<Camera>();
+        _camera.transform.parent = player;
         _camera.orthographicSize = _defaultZoom; 
         _targetZoom = _camera.orthographicSize; // Początkowa wartość zoomu
     }
 
-    void Update()
+    private void Update()
     {
         if (_isDragging)
         {
@@ -84,8 +83,7 @@ public class CameraController : MonoBehaviour
     {
         Vector3 currentMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 difference = _dragOrigin - currentMousePosition;
-
-        cameraTransform.position += difference * cameraMoveSpeed;
+        _camera.transform.position += difference * cameraMoveSpeed;
 
         ConstrainCameraToPlayer();
     }
@@ -93,18 +91,18 @@ public class CameraController : MonoBehaviour
     private void EnableFollowingPlayer()
     {
         _isFollowingPlayer = true;
-        cameraTransform.parent = player; 
+        _camera.transform.parent = player; 
     }
     
     private void FollowPlayer()
     {
-        cameraTransform.position = new Vector3(player.position.x, player.position.y, FixedZPosition);
+        _camera.transform.position = new Vector3(player.position.x, player.position.y, FixedZPosition);
     }
 
     private void MoveCameraToPlayer()
     {
         _isFollowingPlayer = true; 
-        cameraTransform.parent = player; 
+        _camera.transform.parent = player; 
         _camera.orthographicSize = _defaultZoom; 
         _targetZoom = _defaultZoom;
     }
@@ -114,7 +112,7 @@ public class CameraController : MonoBehaviour
         _dragOrigin = _camera.ScreenToWorldPoint(Input.mousePosition);
         _isDragging = true;
         _isFollowingPlayer = false; 
-        cameraTransform.parent = null; 
+        _camera.transform.parent = null; 
     }
     
     private void StopCameraDrag()
@@ -124,17 +122,17 @@ public class CameraController : MonoBehaviour
 
     private void FixCameraZPosition()
     {
-        cameraTransform.position = new Vector3(cameraTransform.position.x, cameraTransform.position.y, FixedZPosition);
+        _camera.transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, FixedZPosition);
     }
 
     private void ConstrainCameraToPlayer()
     {
-        Vector3 distanceFromPlayer = cameraTransform.position - player.position;
+        Vector3 distanceFromPlayer = _camera.transform.position - player.position;
 
         if (distanceFromPlayer.magnitude > maxDistanceFromPlayer)
         {
             Vector3 directionToPlayer = distanceFromPlayer.normalized;
-            cameraTransform.position = player.position + directionToPlayer * maxDistanceFromPlayer;
+            _camera.transform.position = player.position + directionToPlayer * maxDistanceFromPlayer;
         }
     }
     
