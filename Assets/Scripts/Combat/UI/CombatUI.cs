@@ -24,7 +24,9 @@ public class CombatUI : UserInterface
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
     [FormerlySerializedAs("entityManager")] [SerializeField] private GameObject EntityManager;
     [FormerlySerializedAs("movementCounter")] [SerializeField] private GameObject MovementCounter;
+    [SerializeField] private Image MovementFillImage;
     [FormerlySerializedAs("actionCounter")] [SerializeField] private GameObject ActionCounter;
+    [SerializeField] private Image ActionFillImage;
     [FormerlySerializedAs("endTurnButton")] [SerializeField] private GameObject EndTurnButton;
     [FormerlySerializedAs("materialToggle")] [SerializeField] private Toggle MaterialToggle;
     [FormerlySerializedAs("immaterialToggle")] [SerializeField] private Toggle ImmaterialToggle;
@@ -202,7 +204,7 @@ public class CombatUI : UserInterface
         ShowCombatUI(_currentEntity);
         ShowAbilities();
         
-        SetActionCounter(_combatSystem.ActionsLeft);
+        SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }
 
     /**
@@ -235,19 +237,21 @@ public class CombatUI : UserInterface
         return null;
     }
 
-    public void SetMovementCounter(int i)
+    public void SetMovementCounter(int currMovement, int maxMovement)
     {
         //Movement deselects targets in order to avoid choosing a target and then moving beyond
         //the intended range
         HideTargets();  
         
         _abilitiesToggleGroup.SetAllTogglesOff();
-        _movementCounter.text = "" + i;
+        _movementCounter.text = "Ruchy:\n" + $"{currMovement}/{maxMovement}" ;
+        MovementFillImage.fillAmount = (float)currMovement / maxMovement;
     }
     
-    public void SetActionCounter(int i)
+    public void SetActionCounter(int currActions, int maxActions)
     {
-        _actionCounter.text = "" + i;
+        _actionCounter.text = "Akcje:\n" + $"{currActions}/{maxActions}";
+        ActionFillImage.fillAmount = (float)currActions / maxActions;
     }
 
     public void SetTarget(IHittable target)

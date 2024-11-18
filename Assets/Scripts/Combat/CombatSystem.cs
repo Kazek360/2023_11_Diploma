@@ -18,6 +18,7 @@ namespace Combat
 
         private EntityManager _entityManager;
         private GridObject _currentGridObject;
+        private int _startingMovement, _startingActions;
         private int _movementLeft, _actionsLeft;
         private bool _currentIsMaterial;
         private bool _currentIsPlayer;
@@ -133,7 +134,9 @@ namespace Combat
             SetCurrentMaterial(isMaterial);
             ShowStage(isMaterial);
             _movementLeft = movement;
+            _startingMovement = movement;
             _actionsLeft = actions;
+            _startingActions = actions;
             UpdateUICounters();
             combatUI.ShowAbilities();
             combatEnvironmentManager.HighlightNeighborsInRadius(_currentGridObject, 1, false, _currentIsMaterial);
@@ -217,8 +220,8 @@ namespace Combat
          */
         private void UpdateUICounters()
         {
-            combatUI.SetMovementCounter(_movementLeft);
-            combatUI.SetActionCounter(_actionsLeft);
+            combatUI.SetMovementCounter(_movementLeft, _startingMovement);
+            combatUI.SetActionCounter(_actionsLeft, _startingActions);
         }
 
         public CombatUI GetCombatUI()
@@ -307,7 +310,25 @@ namespace Combat
             get => _actionsLeft;
             set => _actionsLeft = value;
         }
-        
+
+        public int StartingMovement
+        {
+            get => _startingMovement;
+            set => _startingMovement = value;
+        }
+
+        public int StartingActions
+        {
+            get => _startingActions;
+            set => _startingActions = value;
+        }
+
+        public int MovementLeft
+        {
+            get => _movementLeft;
+            set => _movementLeft = value;
+        }
+
         public void DisplayQueue(List<IHittable> entities)
         {
             combatUI.FillQueue(entities);
