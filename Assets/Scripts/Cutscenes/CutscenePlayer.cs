@@ -60,6 +60,8 @@ namespace Cutscenes
         
         private void SkipCutscene()
         {
+            _videoPlayer.Stop();
+            _videoPlayer.clip = null;
             CutsceneEvents.FinishCutscene();
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }

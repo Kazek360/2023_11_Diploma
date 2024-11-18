@@ -1,6 +1,5 @@
 using Cutscenes;
 using DialogueSystem;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DeathDialogue : DialogueQuestStep
@@ -20,7 +19,7 @@ public class DeathDialogue : DialogueQuestStep
     
     private void TeleportPlayer()
     {
-        _playerToTeleport.GameObject().transform.position = _deathRealmToTeleport.transform.position;
+        _playerToTeleport.gameObject.transform.position = _deathRealmToTeleport.transform.position;
     }
     protected void AreaEntered(string areaName, string objectName)
     {
@@ -35,7 +34,7 @@ public class DeathDialogue : DialogueQuestStep
         {
             Finish();
             Destroy(_deathRealmToTeleport);
-            _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
+            _playerToTeleport.gameObject.transform.position = _shoreToTeleport.transform.position;
             AreaEvent.OnAreaEnter -= AreaEntered;
             CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
             Delete();
