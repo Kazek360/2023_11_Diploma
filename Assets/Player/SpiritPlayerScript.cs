@@ -46,6 +46,7 @@ public class SpiritPlayerScript : PlayerScript, IHittable
         }
         PlayerStats.GetInstance().ModifyNestorHealth(amount);
         UpdateHpText();
+        healthBarSprite.size = new Vector2(3 * ((float)GetCurrentHealth() / GetMaxHealth()), 0.25f);
         if (PlayerStats.GetInstance().GetNestorHp() <= 0)
         {
             OnHealthDepleted();

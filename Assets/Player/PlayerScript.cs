@@ -18,7 +18,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     [SerializeField] private string entityName;
     
-    [SerializeField] private List<AbilityScriptableObject> abilities;
+    [SerializeField] private List<AbilityScriptableObjectReworked> abilities;
     private List<int> _cooldowns;
     private CombatSystem _combatSystem;
     private CombatUI _combatUI;
@@ -28,10 +28,12 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     [SerializeField] private TargetClickArea targetClickArea;
     [SerializeField] private TooltipObject tooltipArea;
     [SerializeField] protected TextMeshPro hpText;
+    [SerializeField] protected SpriteRenderer healthBarSprite;
     
     private int _currentPsyche;
     protected bool _partnerIsKilled;
     private bool _isVisible;
+    private List<EffectOverTime> _effectsOverTime;
     
     // Start is called before the first frame update
     void Start()
@@ -41,15 +43,20 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
         _combatUI = _combatSystem.GetCombatUI();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        // for (int i = 0; i < abilities.Count; i++)
-        // {
-        //     UnlockableAbility tmp = new UnlockableAbility();
-        //     tmp.Recipient = playerType;
-        //     tmp.AbilitySO = abilities[i];
-        //     UnlockedAbilities.GetInstance().UnlockAbility(tmp);
-        // }
+        UnlockedAbilities.GetInstance();
+        if (UnlockedAbilities.GetInstance().NumOfUnlockedAbilities(playerType) == 0)
+        {
+            for (int i = 0; i < abilities.Count; i++)
+            {
+                UnlockableAbility tmp = new UnlockableAbility();
+                tmp.Recipient = playerType;
+                tmp.AbilitySO = abilities[i];
+                UnlockedAbilities.GetInstance().UnlockAbility(tmp);
+            }
+        }
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
+        _effectsOverTime = new List<EffectOverTime>();
         if (IsMaterial() && partner is not null)
         {
             _partner = partner.GetComponent<IHittable>();
@@ -92,12 +99,25 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
      */
     public void ProcessTurn()
     {
+        foreach (EffectOverTime effect in _effectsOverTime)
+        {
+            effect.ProcessTurn(this);
+        }
+
+        for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
+        {
+            if (_effectsOverTime[i].DurationLeft == 0)
+            {
+                _effectsOverTime.RemoveAt(i);
+            }
+        }
+
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
         _combatUI.ShowCombatUI(this);
-        _combatSystem.PlayerTurnStart(GetAgility(), GetImagination(), IsMaterial());
+        _combatSystem.PlayerTurnStart(GetAgility(), GetImagination(), IsMaterial(), this);
     }
 
 
@@ -121,7 +141,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         PlayerStats.GetInstance().ModifyWitHealth(amount);
         UpdateHpText();
-        if (PlayerStats.GetInstance().GetWitHp() <= 0)
+        healthBarSprite.size = new Vector2(3 * ((float)GetCurrentHealth() / GetMaxHealth()), 0.25f);
+        if (PlayerStats.GetInstance().GetWitHp() <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
         }
@@ -199,7 +220,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         return entityName;
     }
 
-    public List<AbilityScriptableObject> GetAbilities()
+    public List<AbilityScriptableObjectReworked> GetAbilities()
     {
         return abilities;
     }
@@ -278,6 +299,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = true;
             hpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
+            healthBarSprite.gameObject.SetActive(true);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -290,6 +313,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = false;
             hpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
+            healthBarSprite.gameObject.SetActive(false);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;
@@ -325,5 +350,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         StringBuilder str = new StringBuilder();
         str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
         return str.ToString();
+    }
+
+    public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
+    {
+        _effectsOverTime.Add(effectOverTime);
     }
 }

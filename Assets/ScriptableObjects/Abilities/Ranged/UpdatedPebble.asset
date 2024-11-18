@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051c029d333734945b99ff97897061af, type: 3}
+  m_Name: UpdatedPebble
+  m_EditorClassIdentifier: 
+  abilityName: Kamyk
+  abilityDescription: "Rzucasz kamykiem\n\nZADASZ 2+ZR\u0118CZ/2 OBRA\u017BE\u0143
+    WROGOWI NA PLANSZY FIZYCZNEJ"
+  sprite: {fileID: 21300000, guid: 04ff9e8df55f7d94fa4725aee9940b13, type: 3}
+  animType: 0
+  cooldown: 1
+  range: 5
+  numberOfTargets: 1
+  viableTargets: 00000000
+  baseAiUseWeight: 5
+  effects:
+  - amount: -2
+    effectedStat: 0
+    effectCaster: 0
+    effectModifiers:
+    - scaling: -0.5
+      modifyingStat: 0
+  effectsOverTime: []
+  visualEffects:
+  - durationOrSpeed: 0.7
+    effectType: 0
+    effectObject: {fileID: 6199346755348275914, guid: d8bea222f1bfa8a4e833019ad7ffc5f0, type: 3}

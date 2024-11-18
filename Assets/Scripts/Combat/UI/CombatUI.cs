@@ -24,7 +24,13 @@ public class CombatUI : UserInterface
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
     [FormerlySerializedAs("entityManager")] [SerializeField] private GameObject EntityManager;
     [FormerlySerializedAs("movementCounter")] [SerializeField] private GameObject MovementCounter;
+    [SerializeField] private Image MovementFillImage;
     [FormerlySerializedAs("actionCounter")] [SerializeField] private GameObject ActionCounter;
+    [SerializeField] private Image ActionFillImage;
+    [SerializeField] private TextMeshProUGUI HealthCounter;
+    [SerializeField] private Image HealthFillImage;
+    [SerializeField] private TextMeshProUGUI CharacterName;
+    [SerializeField] private Image CharacterImage;
     [FormerlySerializedAs("endTurnButton")] [SerializeField] private GameObject EndTurnButton;
     [FormerlySerializedAs("materialToggle")] [SerializeField] private Toggle MaterialToggle;
     [FormerlySerializedAs("immaterialToggle")] [SerializeField] private Toggle ImmaterialToggle;
@@ -68,6 +74,8 @@ public class CombatUI : UserInterface
         AbilitiesScrollContent.SetActive(true);
         MovementCounter.SetActive(true);
         ActionCounter.SetActive(true);
+        HealthCounter.gameObject.SetActive(true);
+        CharacterImage.gameObject.SetActive(true);
         EndTurnButton.SetActive(true);
         _movementCounter = MovementCounter.GetComponent<TextMeshProUGUI>();
         _actionCounter = ActionCounter.GetComponent<TextMeshProUGUI>();
@@ -98,27 +106,27 @@ public class CombatUI : UserInterface
     * Show targets and range for the selected ability
     * <param name='ability'>selected ability</param>
     */
-    public void ShowTargets(AbilityScriptableObject ability)
+    public void ShowTargets(AbilityScriptableObjectReworked ability)
     {
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetMaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetImmaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
                 candidateTargets.AddRange(_entityManager.GetImmaterialEnemies());
             }
@@ -139,10 +147,10 @@ public class CombatUI : UserInterface
         
         _combatSystem.ClearGrid();
         
-        if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyImmaterial)))
+        if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)))
         {
             _combatSystem.UnityTargetingHighlight(ability.Range);
-        } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObject.TargetTypes.EnemyMaterial)))
+        } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)))
         {
             _combatSystem.UnityTargetingHighlight(ability.Range);
         }
@@ -181,6 +189,8 @@ public class CombatUI : UserInterface
         AbilitiesScrollContent.SetActive(false);
         MovementCounter.SetActive(false);
         ActionCounter.SetActive(false);
+        HealthCounter.gameObject.SetActive(false);
+        CharacterImage.gameObject.SetActive(false);
         EndTurnButton.SetActive(false);
     }
     
@@ -202,7 +212,7 @@ public class CombatUI : UserInterface
         ShowCombatUI(_currentEntity);
         ShowAbilities();
         
-        SetActionCounter(_combatSystem.ActionsLeft);
+        SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }
 
     /**
@@ -225,7 +235,7 @@ public class CombatUI : UserInterface
     }
 
 
-    private AbilityScriptableObject GetCurrentlySelectedAbility()
+    private AbilityScriptableObjectReworked GetCurrentlySelectedAbility()
     {
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
         if (toggled is not null)
@@ -235,19 +245,33 @@ public class CombatUI : UserInterface
         return null;
     }
 
-    public void SetMovementCounter(int i)
+    public void SetMovementCounter(int currMovement, int maxMovement)
     {
         //Movement deselects targets in order to avoid choosing a target and then moving beyond
         //the intended range
         HideTargets();  
         
         _abilitiesToggleGroup.SetAllTogglesOff();
-        _movementCounter.text = "" + i;
+        _movementCounter.text = "Ruchy: " + $"{currMovement}/{maxMovement}" ;
+        MovementFillImage.fillAmount = (float)currMovement / maxMovement;
     }
     
-    public void SetActionCounter(int i)
+    public void SetActionCounter(int currActions, int maxActions)
     {
-        _actionCounter.text = "" + i;
+        _actionCounter.text = "Akcje:\n" + $"{currActions}/{maxActions}";
+        ActionFillImage.fillAmount = (float)currActions / maxActions;
+    }
+
+    public void SetHealthCounter(int currHealth, int maxHealth)
+    {
+        HealthCounter.text = "Życie:\n" + $"{currHealth}/{maxHealth}";
+        HealthFillImage.fillAmount = (float)currHealth / maxHealth;
+    }
+
+    public void SetCharacterDisplay(Sprite charImage, string charName)
+    {
+        CharacterImage.sprite = charImage;
+        CharacterName.text = charName;
     }
 
     public void SetTarget(IHittable target)

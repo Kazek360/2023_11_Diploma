@@ -61,6 +61,25 @@ public class EffectModifier
     [SerializeField] private float scaling;
     [SerializeField] private EffectedStat modifyingStat;
 
+    public int GetModifierValue(IHittable caster)
+    {
+        switch (modifyingStat)
+        {
+            case EffectedStat.LUCK:
+                return (int)(caster.GetLuck() * scaling);
+            case EffectedStat.HEALTH:
+                return (int)(caster.GetMaxHealth() * scaling);
+            case EffectedStat.AGILITY:
+                return (int)(caster.GetAgility() * scaling);
+            case EffectedStat.STRENGTH:
+                return (int)(caster.GetStrength() * scaling);
+            case EffectedStat.IMAGINATION:
+                return (int)(caster.GetImagination() * scaling);
+            default:
+                return 0;
+        }
+    }
+
 }
 
 
@@ -72,8 +91,27 @@ public class EffectContainer
     [SerializeField] private bool effectCaster;
     [SerializeField] private List<EffectModifier> effectModifiers;
     
-    public void ApplyEffect(IHittable caster, IHittable target, int damage, int duration)
+    public void ApplyEffect(IHittable caster, IHittable target)
     {
+        int fullValue = amount;
+        foreach (var modifier in effectModifiers)
+        {
+            fullValue += modifier.GetModifierValue(caster);
+        }
+
+        IHittable intendedTarget = target;
+        if (effectCaster)
+        {
+            intendedTarget = caster;
+        }
+
+        if (effectedStat == EffectedVariable.HEALTH)
+        {
+            intendedTarget.ModifyHealth(fullValue);
+        } else if (effectedStat == EffectedVariable.PSYCHE)
+        {
+            intendedTarget.ModifyPsyche(fullValue);
+        }
     }
 }
 
@@ -86,7 +124,43 @@ public class EffectOverTimeContainer
     [SerializeField] private bool effectCaster;
     [SerializeField] private EffectedVariable effectedStat;
     
-    public void ApplyEffect(IHittable caster, IHittable target, int damage, int duration)
+    public void ApplyEffect(IHittable caster, IHittable target)
     {
+        IHittable intendedTarget = target;
+        if (effectCaster)
+        {
+            intendedTarget = caster;
+        }
+        intendedTarget.ApplyOverTimeEffect(new EffectOverTime(duration, amount, effectedStat));
     }
+}
+
+public class EffectOverTime
+{
+    private int _durationLeft;
+    private int _amount;
+    private EffectedVariable _effectedStat;
+
+    public EffectOverTime(int durationLeft, int amount, EffectedVariable effectedStat)
+    {
+        _durationLeft = durationLeft;
+        _amount = amount;
+        _effectedStat = effectedStat;
+    }
+
+    public void ProcessTurn(IHittable target)
+    {
+        Debug.Log("TURN PROCESSED");
+        if (_effectedStat == EffectedVariable.HEALTH)
+        {
+            target.ModifyHealth(_amount);
+        } else if (_effectedStat == EffectedVariable.PSYCHE)
+        {
+            target.ModifyPsyche(_amount);
+        }
+
+        _durationLeft--;
+    }
+
+    public int DurationLeft => _durationLeft;
 }
