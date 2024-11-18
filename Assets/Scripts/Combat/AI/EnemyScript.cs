@@ -36,6 +36,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private bool _isDead;
     private bool _partnerIsKilled;
     private bool _isVisible;
+    private List<EffectOverTime> _effectsOverTime;
     
     // Start is called before the first frame update
     private void Start()
@@ -55,6 +56,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _combatUI = _combatSystem.GetCombatUI();
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
+        _effectsOverTime = new List<EffectOverTime>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
@@ -100,6 +102,18 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
         _entityManager.NextTurn();
+        foreach (EffectOverTime effect in _effectsOverTime)
+        {
+            effect.ProcessTurn(this);
+        }
+
+        for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
+        {
+            if (_effectsOverTime[i].DurationLeft == 0)
+            {
+                _effectsOverTime.RemoveAt(i);
+            }
+        }
     }
 
     /**
@@ -205,7 +219,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             amount *= 2;
         }
         _currentHealth = Math.Max(Math.Min(_currentHealth + amount, Stats.MaxHealthPoints), 0);
-        if (_currentHealth <= 0)
+        if (_currentHealth <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
         }
@@ -409,5 +423,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         StringBuilder str = new StringBuilder();
         str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
         return str.ToString();
+    }
+    
+    public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
+    {
+        Debug.Log("TIMED EFFECT APPLIED");
+        _effectsOverTime.Add(effectOverTime);
     }
 }

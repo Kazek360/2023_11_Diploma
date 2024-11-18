@@ -101,4 +101,6 @@ public interface IHittable
     public void SetPartnerEntity(IHittable partner);
 
     public bool IsDead();
+
+    public void ApplyOverTimeEffect(EffectOverTime effectOverTime);
 }

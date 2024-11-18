@@ -124,7 +124,43 @@ public class EffectOverTimeContainer
     [SerializeField] private bool effectCaster;
     [SerializeField] private EffectedVariable effectedStat;
     
-    public void ApplyEffect(IHittable caster, IHittable target, int damage, int duration)
+    public void ApplyEffect(IHittable caster, IHittable target)
     {
+        IHittable intendedTarget = target;
+        if (effectCaster)
+        {
+            intendedTarget = caster;
+        }
+        intendedTarget.ApplyOverTimeEffect(new EffectOverTime(duration, amount, effectedStat));
     }
+}
+
+public class EffectOverTime
+{
+    private int _durationLeft;
+    private int _amount;
+    private EffectedVariable _effectedStat;
+
+    public EffectOverTime(int durationLeft, int amount, EffectedVariable effectedStat)
+    {
+        _durationLeft = durationLeft;
+        _amount = amount;
+        _effectedStat = effectedStat;
+    }
+
+    public void ProcessTurn(IHittable target)
+    {
+        Debug.Log("TURN PROCESSED");
+        if (_effectedStat == EffectedVariable.HEALTH)
+        {
+            target.ModifyHealth(_amount);
+        } else if (_effectedStat == EffectedVariable.PSYCHE)
+        {
+            target.ModifyPsyche(_amount);
+        }
+
+        _durationLeft--;
+    }
+
+    public int DurationLeft => _durationLeft;
 }

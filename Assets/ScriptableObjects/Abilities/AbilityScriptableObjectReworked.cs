@@ -88,7 +88,7 @@ public class AbilityScriptableObjectReworked : ScriptableObject
 
         foreach (var effectOverTime in effectsOverTime)
         {
-            //TODO: IMPLEMENT OVER TIME EFFECTS
+            effectOverTime.ApplyEffect(caster, target);
         }
         
         foreach (var visualEffect in visualEffects)

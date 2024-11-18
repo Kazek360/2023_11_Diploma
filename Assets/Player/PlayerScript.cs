@@ -32,6 +32,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     private int _currentPsyche;
     protected bool _partnerIsKilled;
     private bool _isVisible;
+    private List<EffectOverTime> _effectsOverTime;
     
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
+        _effectsOverTime = new List<EffectOverTime>();
         if (IsMaterial() && partner is not null)
         {
             _partner = partner.GetComponent<IHittable>();
@@ -96,6 +98,19 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
      */
     public void ProcessTurn()
     {
+        foreach (EffectOverTime effect in _effectsOverTime)
+        {
+            effect.ProcessTurn(this);
+        }
+
+        for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
+        {
+            if (_effectsOverTime[i].DurationLeft == 0)
+            {
+                _effectsOverTime.RemoveAt(i);
+            }
+        }
+
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
@@ -125,7 +140,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         }
         PlayerStats.GetInstance().ModifyWitHealth(amount);
         UpdateHpText();
-        if (PlayerStats.GetInstance().GetWitHp() <= 0)
+        if (PlayerStats.GetInstance().GetWitHp() <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
         }
@@ -329,5 +344,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         StringBuilder str = new StringBuilder();
         str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
         return str.ToString();
+    }
+
+    public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
+    {
+        _effectsOverTime.Add(effectOverTime);
     }
 }
