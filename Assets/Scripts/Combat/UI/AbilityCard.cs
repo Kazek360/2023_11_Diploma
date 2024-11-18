@@ -79,6 +79,6 @@ public class AbilityCard : MonoBehaviour,   ITooltippable
 
     public string GetTooltipDesc()
     {
-        return Ability.AbilityDescription;
+        return Ability.TooltipDesc();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 /**
@@ -122,4 +123,12 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         return "ZASIĘG: " + range;
     }
 
+    public String TooltipDesc()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append(abilityDescription);
+        stringBuilder.Append("\nZASIĘG: " + range);
+        stringBuilder.Append("\nODNOWIENIE: " + (cooldown));
+        return stringBuilder.ToString();
+    }
 }
