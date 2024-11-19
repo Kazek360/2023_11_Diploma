@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using DialogueSystem.Events;
 using Ink.Runtime;
 using InputSystem;
 using Quests;
 using UI;
 using UI.Interfaces;
 
-namespace DialogueSystem.UI
+namespace Dialogue.UI
 {
     //Class managing the currently triggered dialogue.
     public class DialogueUI : UserInterface

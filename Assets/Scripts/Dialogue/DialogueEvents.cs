@@ -1,6 +1,6 @@
 using System;
 
-namespace DialogueSystem.Events
+namespace Dialogue
 {
     public static class DialogueEvents
     {

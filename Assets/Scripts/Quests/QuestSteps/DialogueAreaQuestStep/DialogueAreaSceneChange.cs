@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DialogueSystem;
+using Dialogue;
 
 public class DialogueAreaSceneChange : DialogueAreaQuestStep
 {

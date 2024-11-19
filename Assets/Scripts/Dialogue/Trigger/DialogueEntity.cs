@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace DialogueSystem
+namespace Dialogue.Trigger
 {
-    public class DialogueEntity
+    public class DialogueEntity : MonoBehaviour
     {
-        public List<Dialogue> dialogues;
-        public Dialogue currentDialogue;
+        [Header("Name")]
+        public string triggerName;
+        
+        [NonSerialized] public List<Dialogue> dialogues;
+        [NonSerialized] public Dialogue currentDialogue;
 
-        public DialogueEntity()
+        protected void Awake()
         {
             dialogues = new List<Dialogue>();
         }
         
-        public void ChangeCurrentDialogue()
+        public virtual void ChangeCurrentDialogue()
         {
             foreach (var dialogue in dialogues)
             {
@@ -32,5 +37,17 @@ namespace DialogueSystem
                 }
             }
         }
+        
+        protected void StartDialogue()
+        {
+            DialogueEvents.StartDialogue(currentDialogue.info);
+            
+            if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
+            {
+                currentDialogue.state = Dialogue.State.Finished;
+                ChangeCurrentDialogue();
+            }
+        }
+        
     }
 }

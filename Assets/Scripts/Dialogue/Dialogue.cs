@@ -1,5 +1,5 @@
 
-namespace DialogueSystem
+namespace Dialogue
 {
     //Class storing NPC dialogue info and state of dialogue.
     public class Dialogue

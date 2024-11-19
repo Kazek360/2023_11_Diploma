@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using DialogueSystem.Events;
+using Dialogue.Trigger;
 using Quests;
-using Quests.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace DialogueSystem.Managers
+namespace Dialogue.Managers
 {
     //class Storing information about all dialogues in game
     public class DialogueManager : MonoBehaviour
@@ -66,16 +66,13 @@ namespace DialogueSystem.Managers
         
         private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
         {
-            if (dialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
+            if (dialogue.info.dialogueType == DialogueInfo.Type.Repeatable)
             {
-                if (dialogue.info.dialogueType == DialogueInfo.Type.QuestStarter)
-                {
-                    if (QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state != QuestState.CanStart)
-                    {
-                        return false;
-                    }
-                }
-                else
+                return true;
+            }
+            if (dialogue.info.dialogueType == DialogueInfo.Type.QuestStarter)
+            {
+                if (QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state != QuestState.CanStart)
                 {
                     return false;
                 }
@@ -97,15 +94,23 @@ namespace DialogueSystem.Managers
         
         private Dictionary<string, DialogueEntity> CreateDialogueEntityDictionary()
         {
-            var allDialogues = Resources.LoadAll<DialogueInfo>("Dialogues");
-            Dictionary<string, DialogueEntity> dictionary = new Dictionary<string, DialogueEntity>();
-            foreach (var dialogueInfo in allDialogues)
+            var entitiesOnScene = FindObjectsOfType<DialogueEntity>();
+            var dictionary = new Dictionary<string, DialogueEntity>();
+            
+            foreach (var entity in entitiesOnScene)
             {
-                if (!dictionary.ContainsKey(dialogueInfo.triggerName))
+                dictionary.Add(entity.triggerName, entity);
+            }
+            
+            var allDialoguesOnScene = 
+                Resources.LoadAll<DialogueInfo>($"Dialogues/{SceneManager.GetActiveScene().name}");
+            
+            foreach (var dialogueInfo in allDialoguesOnScene)
+            {
+                if (dictionary.ContainsKey(dialogueInfo.triggerName))
                 {
-                    dictionary.Add(dialogueInfo.triggerName, new DialogueEntity());
+                    dictionary[dialogueInfo.triggerName].dialogues.Add(new Dialogue(dialogueInfo));
                 }
-                dictionary[dialogueInfo.triggerName].dialogues.Add(new Dialogue(dialogueInfo));
             }
 
             return dictionary;

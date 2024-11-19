@@ -1,6 +1,5 @@
 using UnityEngine;
-using DialogueSystem.Events;
-using DialogueSystem;
+using Dialogue;
 
 public class DialogueQuestStep : BaseQuestStep
 {

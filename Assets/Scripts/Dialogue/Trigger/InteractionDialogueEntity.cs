@@ -1,16 +1,14 @@
-﻿using DialogueSystem.Events;
+﻿using Interactions;
 using UnityEngine;
 
-namespace Interactions
+namespace Dialogue.Trigger
 {
     //This class triggers dialogue by interaction
-    public class InteractionDialogueTrigger : MonoBehaviour, IInteractable
+    public class InteractionDialogueEntity : DialogueEntity, IInteractable
     {
-        [Header("Name")]
-        [SerializeField] private string triggerName;
-        
         [Header("Interaction")]
-        [SerializeField] private GameObject pickupIndicatorSprite;
+        [SerializeField] private GameObject interactionKeySprite;
+        [SerializeField] private GameObject questMarkerSprite;
         
         private bool _disabled;
         
@@ -26,11 +24,24 @@ namespace Interactions
             PathEvents.OnMovementEnded -= EnableTrigger;
         }
         
+        public override void ChangeCurrentDialogue()
+        {
+             base.ChangeCurrentDialogue();
+             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
+             {
+                 questMarkerSprite.SetActive(true);
+             }
+             else
+             {
+                 questMarkerSprite.SetActive(false);
+             }
+        }
+        
         public void TriggerInteraction()
         {
             if (!_disabled)
             {
-                DialogueEvents.TriggerDialogue(triggerName);
+                StartDialogue();
             }
         }
 
@@ -41,12 +52,15 @@ namespace Interactions
 
         public void ShowIndicator()
         {
-            pickupIndicatorSprite.SetActive(true);
+            if (!_disabled)
+            {
+                interactionKeySprite.SetActive(true);  
+            }
         }
 
         public void HideIndicator()
         {
-            pickupIndicatorSprite.SetActive(false);
+            interactionKeySprite.SetActive(false);
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -73,6 +87,5 @@ namespace Interactions
         {
             _disabled = false;
         }
-        
     }
 }

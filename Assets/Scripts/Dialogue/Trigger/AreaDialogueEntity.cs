@@ -1,14 +1,10 @@
 using UnityEngine;
-using DialogueSystem.Events;
 
-namespace DialogueSystem.Managers
+namespace Dialogue.Trigger
 {
     //This class triggers dialogue by entering area
-    public class AreaDialogueTrigger : MonoBehaviour
+    public class AreaDialogueEntity : DialogueEntity
     {
-        [Header("Name")]
-        [SerializeField] private string triggerName;
-
         private void OnEnable()
         {
             AreaEvent.OnCorrectAreaEnter += TriggerDialogue;
@@ -25,7 +21,7 @@ namespace DialogueSystem.Managers
             {
                 return;
             }
-            DialogueEvents.TriggerDialogue(triggerName);
+            StartDialogue();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
