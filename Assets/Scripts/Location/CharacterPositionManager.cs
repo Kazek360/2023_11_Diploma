@@ -80,6 +80,7 @@ namespace Location
 
         public void SaveData(ref GameData gameData)
         {
+            GetData();
             gameData.currentScene = _currentScene;
             gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
             

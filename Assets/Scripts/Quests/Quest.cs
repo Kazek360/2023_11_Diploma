@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Quests.ScriptableObjects;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,9 +13,11 @@ namespace Quests
         public QuestState state;
         [NonSerialized] public List<string> stepsDescriptions = new List<string>();
         
+        [NonSerialized] private QuestStepInfo _currentStepInfo;
         [NonSerialized] private BaseQuestStep _currentStep;
+        
         [JsonProperty] private int _currentStepIndex;
-        [JsonProperty] private int _currentStepProgress;
+        [JsonProperty] public int currentStepProgress { get; private set; }
         public Quest(QuestInfo info)
         {
             this.info = info;
@@ -24,92 +27,117 @@ namespace Quests
     
         public bool NextStepExists()
         {
-            return _currentStepIndex + 1 < info.steps.Count;
-        }
-    
-        public void MoveToNextStep()
-        {
-            _currentStepIndex++;
+            return _currentStepInfo.nextSteps.Count > 0;
         }
 
         private void AddDescription()
         {
-            if (_currentStep.Amount > 1)
+            stepsDescriptions.Add($"{_currentStepInfo.description}");
+        }
+        
+        private void AddDescriptionWithProgress()
+        {
+            stepsDescriptions.Add($"{_currentStepInfo.description} ({_currentStep.Progress}/{_currentStepInfo.repeatAmount})");
+        }
+        
+        private void AddCompletedDescription()
+        {
+            if (_currentStepInfo.repeatAmount > 1)
             {
-                stepsDescriptions.Add($"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})");
+                stepsDescriptions.Add($"{_currentStepInfo.description} " +
+                                      $"({_currentStepInfo.repeatAmount}/{_currentStepInfo.repeatAmount})");
             }
             else
             {
-                stepsDescriptions.Add($"{_currentStep.description}");
+                AddDescription();
             }
         }
         
-        public void UpdateDescription()
+        public void UpdateStepProgress()
         {
-            if (_currentStep.Amount > 1)
+            stepsDescriptions[_currentStepIndex - 1] = $"{_currentStepInfo.description} ({_currentStep.Progress}" +
+                                                       $"/{_currentStepInfo.repeatAmount})";
+            currentStepProgress = _currentStep.Progress;
+        }
+        
+        public void AddCompletedQuestDescriptions()
+        {
+            _currentStepInfo = info.firstStep;
+            AddCompletedDescription();
+            for (var i = 1; i < _currentStepIndex; i++)
             {
-                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description} ({_currentStep.Progress}/{_currentStep.Amount})";
+                foreach (var nextStepInfo in _currentStepInfo.nextSteps)
+                {
+                    if (QuestManager.Instance.CheckForRequiredFlagsState(nextStepInfo.requiredFlags))
+                    {
+                        _currentStepInfo = nextStepInfo;
+                        break;
+                    }
+                }
+                AddCompletedDescription();
+            }
+        }
+        
+        public void InstantiateFirstStep(Transform parentTransform)
+        {
+            _currentStepInfo = info.firstStep;
+            _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(this, _currentStepInfo);
+            if (_currentStepInfo.repeatAmount > 1)
+            {
+                currentStepProgress = 0;
+                AddDescriptionWithProgress();
             }
             else
             {
-                stepsDescriptions[_currentStepIndex] = $"{_currentStep.description}";
+                AddDescription();
             }
+            _currentStepIndex = 1;
         }
         
-        public void AddCompletedDescriptions()
+        public void InstantiateNextStep(Transform parentTransform, int progress = 0)
         {
-            for (var i = 0; i < info.steps.Count; i++)
+            foreach (var nextStepInfo in _currentStepInfo.nextSteps)
             {
-                var step = info.steps[i].GetComponent<BaseQuestStep>();
-                
-                if (step.Amount > 1)
+                if (QuestManager.Instance.CheckForRequiredFlagsState(nextStepInfo.requiredFlags))
                 {
-                    stepsDescriptions.Add($"{step.description} ({step.Amount}/{step.Amount})");
-                }
-                else
-                {
-                    stepsDescriptions.Add($"{step.description}");
+                    _currentStepInfo = nextStepInfo;
+                    break;
                 }
             }
-        }
-        
-        private void AddDescriptionsToQuestInProgress()
-        {
-            for (var i = 0; i < _currentStepIndex; i++)
+            
+            _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
+            _currentStep.InitializeQuestStep(this, _currentStepInfo);
+            if (_currentStepInfo.repeatAmount > 1)
             {
-                var step = info.steps[i].GetComponent<BaseQuestStep>();
-                
-                if (step.Amount > 1)
-                {
-                    stepsDescriptions.Add($"{step.description} ({step.Amount}/{step.Amount})");
-                }
-                else
-                {
-                    stepsDescriptions.Add($"{step.description}");
-                }
+                currentStepProgress = progress;
+                AddDescriptionWithProgress();
             }
-            AddDescription();
+            else
+            {
+                AddDescription();
+            }
+
+            _currentStepIndex++;
         }
-        
-        
-        public void UpdateProgress()
-        {
-            _currentStepProgress = _currentStep.Progress;
-        }
-        
         public void InstantiateCurrentStep(Transform parentTransform)
         {
-            _currentStep = Object.Instantiate(info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(info.name);
-            _currentStepProgress = 0;
-            AddDescription();
-        }
-        public void InstantiateCurrentStepFromSaveFile(Transform parentTransform)
-        {
-            _currentStep = Object.Instantiate(info.steps[_currentStepIndex], parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(info.name);
-            _currentStep.Progress = _currentStepProgress;
-            AddDescriptionsToQuestInProgress();
+            _currentStepInfo = info.firstStep;
+            AddCompletedDescription();
+            
+            for (var i = 1; i < _currentStepIndex - 1; i++)
+            {
+                foreach (var nextStepInfo in _currentStepInfo.nextSteps)
+                {
+                    if (QuestManager.Instance.CheckForRequiredFlagsState(nextStepInfo.requiredFlags))
+                    {
+                        _currentStepInfo = nextStepInfo;
+                        break;
+                    }
+                }
+                AddCompletedDescription();
+            }
+            InstantiateNextStep(parentTransform, currentStepProgress);
         }
     }
 }

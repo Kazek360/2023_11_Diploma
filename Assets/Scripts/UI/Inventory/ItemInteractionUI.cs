@@ -22,7 +22,7 @@ public class ItemInteractionUI : MonoBehaviour
     public void SetSlot(ItemSlot slot)
     {
         _slot = slot;
-        Item item = slot.Item;
+        ItemScriptableObject item = slot.Item;
         
         ItemImage.gameObject.SetActive(true);
         ItemName.gameObject.SetActive(true);
@@ -31,18 +31,18 @@ public class ItemInteractionUI : MonoBehaviour
         UseButton.gameObject.SetActive(true);
         
         ItemImage.sprite = item.ItemSprite();
-        ItemName.text = item.ItemName;
+        ItemName.text = item.itemName;
         ItemDesc.text = item.ItemDesc();
         if (slot is InventorySlot)
         {
             DropButton.gameObject.SetActive(true);
             //MoveButton.gameObject.SetActive(true);
         
-            if (item is EquipmentItem)
+            if (item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
             {
                 UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
             }
-            else if (item is UsableItem)
+            else if (item.itemType == ItemScriptableObject.ItemType.CONSUMABLE)
             {
                 UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
             }
@@ -54,7 +54,7 @@ public class ItemInteractionUI : MonoBehaviour
         else
         {
             ItemImage.sprite = item.ItemSprite();
-            ItemName.text = item.ItemName;
+            ItemName.text = item.itemName;
             ItemDesc.text = item.ItemDesc();
         
             UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZDEJMIJ";

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 /**
@@ -80,6 +81,21 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     public virtual void CastAbility(IHittable target, IHittable caster)
     {
         Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
+
+        foreach (var effect in effects)
+        {
+            effect.ApplyEffect(caster, target);
+        }
+
+        foreach (var effectOverTime in effectsOverTime)
+        {
+            effectOverTime.ApplyEffect(caster, target);
+        }
+        
+        foreach (var visualEffect in visualEffects)
+        {
+            AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
+        }
         //TODO: Play anim here
     }
 
@@ -107,4 +123,12 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         return "ZASIĘG: " + range;
     }
 
+    public String TooltipDesc()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.Append(abilityDescription);
+        stringBuilder.Append("\nZASIĘG: " + range);
+        stringBuilder.Append("\nODNOWIENIE: " + (cooldown));
+        return stringBuilder.ToString();
+    }
 }

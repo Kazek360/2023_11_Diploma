@@ -18,7 +18,7 @@ public class EnemyStats : ScriptableObject
     [SerializeField] private int luck;
     [SerializeField] private int imagination;
     [SerializeField] private int preferredRange;
-    [SerializeField] private List<AbilityScriptableObject> abilities;
+    [SerializeField] private List<AbilityScriptableObjectReworked> abilities;
     [SerializeField] private Sprite enemyImage;
 
 
@@ -32,7 +32,7 @@ public class EnemyStats : ScriptableObject
 
     public int PreferredRange => preferredRange;
 
-    public List<AbilityScriptableObject> Abilities => abilities;
+    public List<AbilityScriptableObjectReworked> Abilities => abilities;
 
     public Sprite EnemyImage => enemyImage;
 }

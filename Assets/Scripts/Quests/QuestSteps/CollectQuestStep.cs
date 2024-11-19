@@ -23,8 +23,8 @@ namespace Quests.QuestSteps
             if (itemID == id)
             {
                 progress++;
-                QuestEvents.ProgressQuestStep(_questId);
-                if (progress == amount)
+                QuestEvents.ProgressQuestStep(quest.info.name);
+                if (progress == quest.currentStepProgress)
                 {
                     FinishAndDelete();
                 }

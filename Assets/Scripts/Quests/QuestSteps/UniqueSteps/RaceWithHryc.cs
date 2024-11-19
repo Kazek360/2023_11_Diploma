@@ -1,14 +1,12 @@
 using System.Collections;
-using DialogueSystem.Events;
-using DialogueSystem.ScriptableObjects;
-using Ink.Runtime;
+using DialogueSystem;
 using Quests;
 using UnityEngine;
 
 public class RaceWithHryc : DialogueAreaQuestStep
 {
     [SerializeField] private string delayFlag;
-    private string _raceWinner;
+    
     private bool _raceFinished;
     private bool _witFinished;
     private bool _hrycFinished;
@@ -24,7 +22,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
     
     private IEnumerator StartMovement()
     {
-        if (QuestManager.Instance.FlagManager.GetFlagValue(delayFlag).Equals("yes"))
+        if (QuestManager.Instance.FlagManager.IsFlagTriggered(delayFlag))
         {
             yield return new WaitForSeconds(1f);
         }
@@ -46,17 +44,10 @@ public class RaceWithHryc : DialogueAreaQuestStep
             }
             if (!_raceFinished)
             {
-                string winner = "";
                 if (objectName.Equals("Player"))
                 {
-                    winner = "wit";
+                    QuestManager.Instance.FlagManager.TriggerFlag("hryc_race_winner_player");
                 }
-                else if (objectName.Equals("Hryc"))
-                {
-                    winner = "hryc";
-            
-                }
-                QuestManager.Instance.FlagManager.SetFlagValue("race_winner", winner);
                 _raceFinished = true;
             }
 
@@ -67,7 +58,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
         } 
     }
     
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {

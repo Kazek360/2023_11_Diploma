@@ -17,10 +17,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     [FormerlySerializedAs("targetClickArea")] [SerializeField] private TargetClickArea TargetClickArea;
     [FormerlySerializedAs("hpText")] [SerializeField] private TextMeshPro HpText;
     [FormerlySerializedAs("material")] [SerializeField] private bool Material;
+    [SerializeField] private SpriteRenderer healthBarSprite;
     [SerializeField] private TooltipObject tooltipArea;
     protected IHittable _partner;
     
-    private List<AbilityScriptableObject> _abilities;
+    private List<AbilityScriptableObjectReworked> _abilities;
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
 
@@ -36,6 +37,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private bool _isDead;
     private bool _partnerIsKilled;
     private bool _isVisible;
+    private List<EffectOverTime> _effectsOverTime;
     
     // Start is called before the first frame update
     private void Start()
@@ -55,6 +57,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _combatUI = _combatSystem.GetCombatUI();
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
+        _effectsOverTime = new List<EffectOverTime>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
@@ -100,6 +103,18 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
         }
         _entityManager.NextTurn();
+        foreach (EffectOverTime effect in _effectsOverTime)
+        {
+            effect.ProcessTurn(this);
+        }
+
+        for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
+        {
+            if (_effectsOverTime[i].DurationLeft == 0)
+            {
+                _effectsOverTime.RemoveAt(i);
+            }
+        }
     }
 
     /**
@@ -108,7 +123,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private int ChoosePossibleAbility()
     {
         int maxWeight = 0;
-        List<AbilityScriptableObject> candidates = new List<AbilityScriptableObject>();
+        List<AbilityScriptableObjectReworked> candidates = new List<AbilityScriptableObjectReworked>();
         for (int i = 0; i < _abilities.Count; i++)
         {
             if (_cooldowns[i] > 0) continue;
@@ -150,22 +165,22 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyMaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.EnemyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
             }
             
-            if (targetType == AbilityScriptableObject.TargetTypes.AllyImmaterial)
+            if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
                 targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
             }
@@ -205,7 +220,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             amount *= 2;
         }
         _currentHealth = Math.Max(Math.Min(_currentHealth + amount, Stats.MaxHealthPoints), 0);
-        if (_currentHealth <= 0)
+        healthBarSprite.size = new Vector2(3 * ((float)_currentHealth / GetMaxHealth()), 0.25f);
+        if (_currentHealth <= 0 && !this.IsDead())
         {
             OnHealthDepleted();
         }
@@ -283,7 +299,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         return Stats.EnemyName;
     }
     
-    public List<AbilityScriptableObject> GetAbilities()
+    public List<AbilityScriptableObjectReworked> GetAbilities()
     {
         return _abilities;
     }
@@ -337,7 +353,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
 
     private void UpdateHpText()
     {
-        HpText.text = "" + _currentHealth;
+        HpText.text = $"{_currentHealth}/{GetMaxHealth()}";
     }
 
     public virtual bool IsMaterial()
@@ -362,6 +378,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = true;
             HpText.gameObject.SetActive(true);
             tooltipArea.gameObject.SetActive(true);
+            healthBarSprite.gameObject.SetActive(true);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(true);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, 1);
             Color color = _spriteRenderer.color;
@@ -374,6 +392,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
             _isVisible = false;
             HpText.gameObject.SetActive(false);
             tooltipArea.gameObject.SetActive(false);
+            healthBarSprite.gameObject.SetActive(false);
+            healthBarSprite.gameObject.transform.parent.gameObject.SetActive(false);
             Vector3 pos = gameObject.transform.position;
             pos.Set(pos.x, pos.y, -1);
             Color color = _spriteRenderer.color;
@@ -409,5 +429,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         StringBuilder str = new StringBuilder();
         str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
         return str.ToString();
+    }
+    
+    public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
+    {
+        Debug.Log("TIMED EFFECT APPLIED");
+        _effectsOverTime.Add(effectOverTime);
     }
 }

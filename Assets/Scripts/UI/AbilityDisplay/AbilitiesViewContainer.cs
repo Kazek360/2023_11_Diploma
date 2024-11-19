@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class AbilitiesViewContainer : MonoBehaviour
 {
-    [SerializeField] private AbilityScriptableObject Ability;
+    [SerializeField] private AbilityScriptableObjectReworked Ability;
     [SerializeField] private TextMeshProUGUI AbilityNameField;
     [SerializeField] private Image AbilityImage;
     [SerializeField] private TextMeshProUGUI Description;
@@ -25,7 +25,7 @@ public class AbilitiesViewContainer : MonoBehaviour
         
     }
     
-    public void SetAbility(AbilityScriptableObject abilityScriptableObject)
+    public void SetAbility(AbilityScriptableObjectReworked abilityScriptableObject)
     {
         Ability = abilityScriptableObject;
         Description.text = Ability.GetAbilityActionText();

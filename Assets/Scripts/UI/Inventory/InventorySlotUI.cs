@@ -15,7 +15,7 @@ public class InventorySlotUI : MonoBehaviour
     public void UpdateSlot()
     {
         InventorySlot actualSlot = GameConfig.PlayerInventory.GetSlot(x, y);
-        Item item = actualSlot.Item;
+        ItemScriptableObject item = actualSlot.Item;
         if (item is null)
         {
             ItemImage.enabled = false;
@@ -34,7 +34,6 @@ public class InventorySlotUI : MonoBehaviour
         }
         Count.enabled = true;
         Count.text = "" + actualSlot.Count;
-        
     }
 
     public void SlotSelected()

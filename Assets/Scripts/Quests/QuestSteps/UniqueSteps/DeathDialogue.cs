@@ -1,7 +1,6 @@
 using Cutscenes;
-using Unity.VisualScripting;
+using DialogueSystem;
 using UnityEngine;
-using DialogueSystem.ScriptableObjects;
 
 public class DeathDialogue : DialogueQuestStep
 {
@@ -20,7 +19,7 @@ public class DeathDialogue : DialogueQuestStep
     
     private void TeleportPlayer()
     {
-        _playerToTeleport.GameObject().transform.position = _deathRealmToTeleport.transform.position;
+        _playerToTeleport.gameObject.transform.position = _deathRealmToTeleport.transform.position;
     }
     protected void AreaEntered(string areaName, string objectName)
     {
@@ -29,13 +28,13 @@ public class DeathDialogue : DialogueQuestStep
             AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
         }
     }
-    protected override void FinishStep(DialogueSO dialogue)
+    protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {
             Finish();
             Destroy(_deathRealmToTeleport);
-            _playerToTeleport.GameObject().transform.position = _shoreToTeleport.transform.position;
+            _playerToTeleport.gameObject.transform.position = _shoreToTeleport.transform.position;
             AreaEvent.OnAreaEnter -= AreaEntered;
             CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
             Delete();

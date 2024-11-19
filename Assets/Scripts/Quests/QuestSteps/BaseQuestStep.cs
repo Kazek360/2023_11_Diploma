@@ -1,16 +1,13 @@
-using System;
 using Quests;
+using Quests.ScriptableObjects;
 using SaveSystem;
 using UnityEngine;
 
 public abstract class BaseQuestStep : MonoBehaviour
 {
-    [TextArea] public string description;
-    protected string _questId;
-    [SerializeField] protected int amount;
+    protected Quest quest;
+    protected QuestStepInfo info;
     protected int progress;
-
-    public int Amount => amount;
     public int Progress
     {
         get => progress;
@@ -28,14 +25,15 @@ public abstract class BaseQuestStep : MonoBehaviour
         QuestEvents.OnQuestStepsDelete -= Delete;
     }
     
-    public void InitializeQuestStep(string id)
+    public void InitializeQuestStep(Quest assignedQuest, QuestStepInfo questStepInfo)
     {
-        _questId = id;
+        quest = assignedQuest;
+        info = questStepInfo;
     }
     
     protected void Finish()
     {
-        QuestEvents.ProgressQuest(_questId);
+        QuestEvents.ProgressQuest(quest.info.name);
         DataPersistenceManager.Instance.SaveGame("autosave");
     }
 

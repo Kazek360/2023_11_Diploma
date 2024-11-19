@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityLibrary : MonoBehaviour
 {
-    [SerializeField] private List<AbilityScriptableObject> _abilityScriptableObjects;
+    [SerializeField] private List<AbilityScriptableObjectReworked> _abilityScriptableObjects;
     // Start is called before the first frame update
     void Awake()
     {
@@ -16,12 +16,12 @@ public class AbilityLibrary : MonoBehaviour
         }
     }
 
-    public AbilityScriptableObject GetAbility(int i)
+    public AbilityScriptableObjectReworked GetAbility(int i)
     {
         return _abilityScriptableObjects[i];
     }
 
-    public List<AbilityScriptableObject> GetAllAbilities()
+    public List<AbilityScriptableObjectReworked> GetAllAbilities()
     {
         return _abilityScriptableObjects;
     }

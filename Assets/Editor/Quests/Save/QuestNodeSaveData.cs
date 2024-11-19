@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace Editor.Quests.Save
@@ -9,11 +10,14 @@ namespace Editor.Quests.Save
     {
         public string id;
         public string fileName;
+        public List<FlagInfo> flags;
         public string displayName;
         public QuestCategory category;
-        public string description;
+        [TextArea] public string description;
+        public int experience;
         public string groupID;
-        public List<string> connectedNodes;
+        public List<string> connectedQuestNodes;
+        public string connectedQuestStepNode;
         public Vector2 position;
     }
 }

@@ -1,4 +1,5 @@
 using Quests;
+using Quests.ScriptableObjects;
 using UnityEngine;
 
 public class QuestFinisher : MonoBehaviour

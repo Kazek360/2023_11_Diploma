@@ -5,123 +5,19 @@ using UnityEngine;
  * ItemLibrary is used to instantiate predefined items
  * Will soon be replaced with Resources based SOs
  */
-public class ItemLibrary
+public class ItemLibrary: MonoBehaviour
 {
-    private static ItemLibrary _instance;
-    private static List<Item> _items;
+    [SerializeField] private List<ItemScriptableObject> items;
 
-    public static ItemLibrary GetInstance()
+    void Awake()
     {
-        if (_instance is null)
+        DontDestroyOnLoad(gameObject);
+        if (GameConfig.itemLibrary is null)
         {
-            _instance = new ItemLibrary();
+            GameConfig.itemLibrary = this;
         }
-        return _instance;
     }
 
-    private ItemLibrary()
-    {
-        _items = new List<Item>();
-        _items.Add(new Item(
-            itemID: 0, 
-            "Kamień", 
-            "Przydatny dla jaskiniowców", 
-            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Heart1")}, 
-            10
-            ));
-        
-        _items.Add(new UsableItem(
-            itemID: 1, 
-            "Piwo", 
-            "PIWO PJATK leczy 1 HP", 
-            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/piwo")}, 
-            10,
-            delegate
-            {
-                Debug.Log("Piwo wypite"); 
-                PlayerStats.GetInstance().ModifyWitHealth(1);
-            },
-            true
-        ));
-        
-        _items.Add(new EquipmentItem(
-            itemID: 2, 
-            "Scyzoryk", 
-            "Można nim machać. Pozwala na użycie  zdolności krótkodystansowej Scyzoryk", 
-            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Sword/Sword1"), Resources.Load<Sprite>("ItemSprites/Sword/Sword2"), Resources.Load<Sprite>("ItemSprites/Sword/Sword3")}, 
-            delegate
-            {
-                UnlockableAbility slingshot = new UnlockableAbility();
-                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
-                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
-                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
-            },
-            delegate
-            {
-                UnlockableAbility slingshot = new UnlockableAbility();
-                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(12);
-                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
-                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
-            }, 
-            EquipmentSlotType.hand ,
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitStrength, 2, 2)
-            },
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitStrength, 1, 2)
-            }
-        ));
-        
-        _items.Add(new EquipmentItem(
-            itemID: 3, 
-            "Kamień do rzucania", 
-            "Daj kamienia", 
-            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/Heart1")}, 
-            delegate { }, 
-            delegate {  }, 
-            EquipmentSlotType.hand,
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitAgility, 1, 3)
-            },
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitAgility, 1, 3)
-            }
-        ));
-        
-        _items.Add(new EquipmentItem(
-            itemID: 4, 
-            "Proca", 
-            "Brzydki kuzyn łuku. Pozwala na używanie zdolności dystansowej Strzał", 
-            new List<Sprite>(){Resources.Load<Sprite>("ItemSprites/child-wooden-slingshot-vector-14608075")},
-            delegate
-            {
-                UnlockableAbility slingshot = new UnlockableAbility();
-                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
-                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
-                UnlockedAbilities.GetInstance().UnlockAbility(slingshot);
-            },
-            delegate
-            {
-                UnlockableAbility slingshot = new UnlockableAbility();
-                slingshot.AbilitySO = GameConfig.abilityLibrary.GetAbility(11);
-                slingshot.Recipient = UnlockableAbility.PlayerType.WIT;
-                UnlockedAbilities.GetInstance().RemoveAbility(slingshot);
-            }, 
-            EquipmentSlotType.hand,
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitAgility, 1, 4)
-            },
-            new List<ItemStatModifier>()
-            {
-                new ItemStatModifier(StatType.WitStrength, 1, 4)
-            }
-        ));
-    }
 
     /**
      * Get a reference to item object
@@ -129,11 +25,11 @@ public class ItemLibrary
      * <param name="id">ID of desired item</param>
      * <returns>Requested item object</returns>
      */
-    public Item GetItem(int id)
+    public ItemScriptableObject GetItem(int id)
     {
-        foreach (Item item in _items)
+        foreach (ItemScriptableObject item in items)
         {
-            if (item.ItemID == id)
+            if (item.itemID == id)
             {
                 return item;
             }
