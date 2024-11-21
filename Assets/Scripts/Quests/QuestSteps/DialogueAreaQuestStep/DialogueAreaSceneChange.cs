@@ -1,17 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Dialogue;
+using Location;
 
 public class DialogueAreaSceneChange : DialogueAreaQuestStep
 {
-    [SerializeField] private int sceneNumber;
+    [SerializeField] private string sceneName;
     
     protected override void FinishStep(DialogueInfo dialogue)
     {
         if (dialoguesInfo.name == dialogue.name)
         {
             Finish();
-            SceneManager.LoadScene(sceneNumber);
+            SceneLoader.InvokeOnSceneChanged(sceneName);
         } 
     }
 }

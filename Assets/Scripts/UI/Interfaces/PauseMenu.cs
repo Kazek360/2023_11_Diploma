@@ -1,6 +1,6 @@
 using InputSystem;
+using Location;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace UI.Interfaces
 {
@@ -24,7 +24,7 @@ namespace UI.Interfaces
         public void OnToMainMenuClicked()
         {
             Time.timeScale = 1;
-            SceneManager.LoadSceneAsync("MainMenu");
+            SceneLoader.InvokeOnSceneChanged("MainMenu");
         }
         public void OnQuitGameClicked()
         {
