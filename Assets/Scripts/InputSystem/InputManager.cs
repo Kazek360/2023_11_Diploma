@@ -1,5 +1,5 @@
 using Cutscenes;
-using DialogueSystem.Events;
+using Dialogue;
 using Interactions;
 using Shared;
 using UI;

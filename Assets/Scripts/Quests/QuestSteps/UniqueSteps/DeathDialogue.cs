@@ -1,5 +1,5 @@
 using Cutscenes;
-using DialogueSystem;
+using Dialogue;
 using UnityEngine;
 
 public class DeathDialogue : DialogueQuestStep

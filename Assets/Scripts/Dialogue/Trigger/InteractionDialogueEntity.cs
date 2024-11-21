@@ -1,0 +1,91 @@
+﻿using Interactions;
+using UnityEngine;
+
+namespace Dialogue.Trigger
+{
+    //This class triggers dialogue by interaction
+    public class InteractionDialogueEntity : DialogueEntity, IInteractable
+    {
+        [Header("Interaction")]
+        [SerializeField] private GameObject interactionKeySprite;
+        [SerializeField] private GameObject questMarkerSprite;
+        
+        private bool _disabled;
+        
+        private void OnEnable()
+        {
+            PathEvents.OnMovementStarted += DisableTrigger;
+            PathEvents.OnMovementEnded += EnableTrigger;
+        }
+        
+        private void OnDisable()
+        {
+            PathEvents.OnMovementStarted -= DisableTrigger;
+            PathEvents.OnMovementEnded -= EnableTrigger;
+        }
+        
+        public override void ChangeCurrentDialogue()
+        {
+             base.ChangeCurrentDialogue();
+             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
+             {
+                 questMarkerSprite.SetActive(true);
+             }
+             else
+             {
+                 questMarkerSprite.SetActive(false);
+             }
+        }
+        
+        public void TriggerInteraction()
+        {
+            if (!_disabled)
+            {
+                StartDialogue();
+            }
+        }
+
+        public Vector3 GetCoordinates()
+        {
+            return transform.position;
+        }
+
+        public void ShowIndicator()
+        {
+            if (!_disabled)
+            {
+                interactionKeySprite.SetActive(true);  
+            }
+        }
+
+        public void HideIndicator()
+        {
+            interactionKeySprite.SetActive(false);
+        }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("InteractionArea"))
+            {
+                InteractionEvents.EnterInteractionArea(this);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("InteractionArea"))
+            {
+                InteractionEvents.ExitInteractionArea(this);
+            }
+        }
+        
+        private void DisableTrigger()
+        {
+            _disabled = true;
+        }
+        private void EnableTrigger()
+        {
+            _disabled = false;
+        }
+    }
+}

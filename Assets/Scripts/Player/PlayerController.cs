@@ -1,6 +1,5 @@
 using Cutscenes;
-using DialogueSystem.Events;
-using DialogueSystem;
+using Dialogue;
 using InputSystem;
 using UnityEngine;
 

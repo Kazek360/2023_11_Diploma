@@ -1,5 +1,5 @@
 using System.Collections;
-using DialogueSystem;
+using Dialogue;
 using Quests;
 using UnityEngine;
 
