@@ -300,10 +300,10 @@ public class CombatEnvironmentManager : MonoBehaviour
         String[] arenaLines = arenaString.Split("\n");
         height = arenaLines.Length;
         Char[][] tiles = new char[height][];
-        for(int i = arenaLines.Length - 1; i >= 0; i++)
+        for(int i = arenaLines.Length - 1; i >= 0; i--)
         {
             width = Math.Max(arenaLines[i].Length, width);
-            tiles[arenaLines.Length - 1 - i] = new char[arenaLines[i].Length];
+            tiles[arenaLines.Length - 1 - i] = new char[width];
             for (int j = 0; j < arenaLines[i].Length; j++)
             {
                 tiles[arenaLines.Length - 1 - i][j] = arenaLines[i].ElementAt(j);
@@ -316,6 +316,10 @@ public class CombatEnvironmentManager : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
+                    if (tiles[y][x] == '0')
+                    {
+                        continue;
+                    }
                     Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
                         gameObject.transform);
                     _grid.GetGridObject(x, y).Hex = visual;
