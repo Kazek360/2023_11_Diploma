@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class CombatEnvironmentManager : MonoBehaviour
 {
@@ -14,6 +18,8 @@ public class CombatEnvironmentManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     [SerializeField] private GameObject background;
+
+    [SerializeField] [TextArea] private String arenaString;
     
     private Grid<GridObject> _grid;
     private GridObject _currentGridObject;
@@ -291,9 +297,21 @@ public class CombatEnvironmentManager : MonoBehaviour
 
     private void InitGrid()
     {
+        String[] arenaLines = arenaString.Split("\n");
+        height = arenaLines.Length;
+        Char[][] tiles = new char[height][];
+        for(int i = arenaLines.Length - 1; i >= 0; i++)
+        {
+            width = Math.Max(arenaLines[i].Length, width);
+            tiles[arenaLines.Length - 1 - i] = new char[arenaLines[i].Length];
+            for (int j = 0; j < arenaLines[i].Length; j++)
+            {
+                tiles[arenaLines.Length - 1 - i][j] = arenaLines[i].ElementAt(j);
+            }
+        }
         if (_grid is null)
         {
-            _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y));
+            _grid = new Grid<GridObject>(width, height, cellSize, offset, (x, y) => new GridObject(x, y), tiles);
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
