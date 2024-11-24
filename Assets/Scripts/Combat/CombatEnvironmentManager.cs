@@ -71,9 +71,12 @@ public class CombatEnvironmentManager : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                _grid.GetGridObject(i, j).HideHighlight();
-                _grid.GetGridObject(i, j).HideTargetingHighlight();
-                _grid.GetGridObject(i, j).HideSelect();
+                if (_grid.GetGridObject(i, j) != null)
+                {
+                    _grid.GetGridObject(i, j).HideHighlight();
+                    _grid.GetGridObject(i, j).HideTargetingHighlight();
+                    _grid.GetGridObject(i, j).HideSelect();
+                }
             }
         }
     }
@@ -316,7 +319,7 @@ public class CombatEnvironmentManager : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (tiles[y][x] == '0')
+                    if (tiles[y][x].Equals('0'))
                     {
                         continue;
                     }
