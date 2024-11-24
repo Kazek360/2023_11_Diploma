@@ -26,11 +26,10 @@ public class Grid<TGridObject>
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                if (tiles[y][x].Equals('0'))
+                if (tiles[y][x].Equals('1'))
                 {
-                    continue;
+                    _gridArray[x, y] = createGridObject(x, y);
                 }
-                _gridArray[x, y] = createGridObject(x, y);
             }
         }
     }

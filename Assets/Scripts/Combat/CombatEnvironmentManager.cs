@@ -306,6 +306,9 @@ public class CombatEnvironmentManager : MonoBehaviour
         for(int i = arenaLines.Length - 1; i >= 0; i--)
         {
             width = Math.Max(arenaLines[i].Length, width);
+        }
+        for(int i = arenaLines.Length - 1; i >= 0; i--)
+        {
             tiles[arenaLines.Length - 1 - i] = new char[width];
             for (int j = 0; j < arenaLines[i].Length; j++)
             {
@@ -319,15 +322,14 @@ public class CombatEnvironmentManager : MonoBehaviour
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (tiles[y][x].Equals('0'))
+                    if (tiles[y][x].Equals('1'))
                     {
-                        continue;
+                        Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
+                            gameObject.transform);
+                        _grid.GetGridObject(x, y).Hex = visual;
+                        _grid.GetGridObject(x, y).HideSelect();
+                        _grid.GetGridObject(x, y).HideHighlight();
                     }
-                    Transform visual = Instantiate(hexPrefab, _grid.GetWorldPosition(x, y), Quaternion.identity,
-                        gameObject.transform);
-                    _grid.GetGridObject(x, y).Hex = visual;
-                    _grid.GetGridObject(x, y).HideSelect();
-                    _grid.GetGridObject(x, y).HideHighlight();
                 }
             }
         }
