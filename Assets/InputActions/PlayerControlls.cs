@@ -297,6 +297,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Toggle Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7a033fd-7e56-44b4-9b9c-8bb529b6a195"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Toggle Escape"",
                     ""type"": ""Button"",
                     ""id"": ""c8dfe1e8-d7ea-41fd-9b42-d506b55f6304"",
@@ -361,6 +370,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""Toggle Abilities View"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""903689b4-af23-49f6-b845-86fa005d032f"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Toggle Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -384,6 +404,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_UI_ToggleSkillTree = m_UI.FindAction("Toggle Skill Tree", throwIfNotFound: true);
         m_UI_ToggleAbilitiesView = m_UI.FindAction("Toggle Abilities View", throwIfNotFound: true);
         m_UI_ToggleInventory = m_UI.FindAction("Toggle Inventory", throwIfNotFound: true);
+        m_UI_ToggleMap = m_UI.FindAction("Toggle Map", throwIfNotFound: true);
         m_UI_ToggleEscape = m_UI.FindAction("Toggle Escape", throwIfNotFound: true);
     }
 
@@ -582,6 +603,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_ToggleSkillTree;
     private readonly InputAction m_UI_ToggleAbilitiesView;
     private readonly InputAction m_UI_ToggleInventory;
+    private readonly InputAction m_UI_ToggleMap;
     private readonly InputAction m_UI_ToggleEscape;
     public struct UIActions
     {
@@ -591,6 +613,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @ToggleSkillTree => m_Wrapper.m_UI_ToggleSkillTree;
         public InputAction @ToggleAbilitiesView => m_Wrapper.m_UI_ToggleAbilitiesView;
         public InputAction @ToggleInventory => m_Wrapper.m_UI_ToggleInventory;
+        public InputAction @ToggleMap => m_Wrapper.m_UI_ToggleMap;
         public InputAction @ToggleEscape => m_Wrapper.m_UI_ToggleEscape;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -613,6 +636,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleInventory.started += instance.OnToggleInventory;
             @ToggleInventory.performed += instance.OnToggleInventory;
             @ToggleInventory.canceled += instance.OnToggleInventory;
+            @ToggleMap.started += instance.OnToggleMap;
+            @ToggleMap.performed += instance.OnToggleMap;
+            @ToggleMap.canceled += instance.OnToggleMap;
             @ToggleEscape.started += instance.OnToggleEscape;
             @ToggleEscape.performed += instance.OnToggleEscape;
             @ToggleEscape.canceled += instance.OnToggleEscape;
@@ -632,6 +658,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @ToggleInventory.started -= instance.OnToggleInventory;
             @ToggleInventory.performed -= instance.OnToggleInventory;
             @ToggleInventory.canceled -= instance.OnToggleInventory;
+            @ToggleMap.started -= instance.OnToggleMap;
+            @ToggleMap.performed -= instance.OnToggleMap;
+            @ToggleMap.canceled -= instance.OnToggleMap;
             @ToggleEscape.started -= instance.OnToggleEscape;
             @ToggleEscape.performed -= instance.OnToggleEscape;
             @ToggleEscape.canceled -= instance.OnToggleEscape;
@@ -671,6 +700,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnToggleSkillTree(InputAction.CallbackContext context);
         void OnToggleAbilitiesView(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
+        void OnToggleMap(InputAction.CallbackContext context);
         void OnToggleEscape(InputAction.CallbackContext context);
     }
 }
