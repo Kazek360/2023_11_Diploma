@@ -10,8 +10,7 @@ namespace SaveSystem.Data
     {
         public SaveData save;
         public SceneData scene;
-        public Tuple<float, float> playerPosition;
-        public Dictionary<string, Dictionary<string, Tuple<float, float>>> charactersPosition;
+        public CharacterPositionData charactersPosition;
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
         public Dictionary<string, bool> skillTreeNodesState;
         public Dictionary<string, int> resources;
@@ -25,7 +24,10 @@ namespace SaveSystem.Data
         {
             save = new SaveData();
             scene = new SceneData();
-            charactersPosition = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
+            charactersPosition = new CharacterPositionData()
+            {
+                npcPositions = new Dictionary<string, List<CharacterPositionData.Position>>()
+            };
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
             skillTreeNodesState = new Dictionary<string, bool>();

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using Interactions;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Location
 {
     public class LocationGateway : MonoBehaviour, IInteractable
     {
         public static List<LocationGateway> allGateways = new List<LocationGateway>();
+        public static string IdToUse;
         
         [SerializeField] private string sceneToLoad;
         [SerializeField] private string gatewayID;
@@ -43,8 +43,8 @@ namespace Location
 
         public void TriggerInteraction()
         {
-            CharacterPositionManager.Instance.GatewayID = gatewayID;
-            SceneManager.LoadScene(sceneToLoad);
+            IdToUse = gatewayID;
+            SceneLoader.InvokeOnSceneChanged(sceneToLoad);
         }
 
         public Vector3 GetCoordinates()
