@@ -10,7 +10,7 @@ namespace SaveSystem.Data
     {
         public long lastUpdated;
         public string saveDate;
-        public string currentScene;
+        public SceneData scene;
         public Tuple<float, float> playerPosition;
         public Dictionary<string, Dictionary<string, Tuple<float, float>>> charactersPosition;
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
@@ -32,7 +32,6 @@ namespace SaveSystem.Data
             inventory = new Tuple<int, int>[7, 5];
             equipment = new int[5];
             saveDate = "";
-            currentScene = "ForestPrologue";
         }
     }
 }
