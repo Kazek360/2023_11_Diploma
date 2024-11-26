@@ -25,6 +25,7 @@ namespace SaveSystem.Data
 
         public GameData()
         {
+            scene = new SceneData();
             charactersPosition = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
