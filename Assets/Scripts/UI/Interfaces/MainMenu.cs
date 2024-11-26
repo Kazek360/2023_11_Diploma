@@ -1,3 +1,4 @@
+using Location;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -25,13 +26,13 @@ namespace UI.Interfaces
             GameConfig.abilityLibrary.Load();
             PlayerStats.GetInstance().Load();
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.NewGame;
-            SceneManager.LoadSceneAsync(startScene);
+            SceneLoader.InvokeOnSceneChanged(startScene);
         }
         
         public void OnContinueClicked()
         {
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
-            SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.CurrentGameData.currentScene);
+            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.currentScene);
         }
         
         public void QuitGame()

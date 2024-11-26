@@ -180,6 +180,21 @@ namespace InputSystem
                 }
             }
         }
+        public void OnToggleMap(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                switch (UserInterfaceManager.Instance.CurrentStateType)
+                {
+                    case UserInterfaceState.Exploration:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Map);
+                        break;
+                    case UserInterfaceState.Map:
+                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
+                        break;
+                }
+            }
+        }
         
         public void OnToggleEscape(InputAction.CallbackContext context)
         {
