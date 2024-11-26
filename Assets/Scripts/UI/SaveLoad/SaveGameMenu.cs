@@ -1,8 +1,7 @@
 ﻿using SaveSystem;
-using UI.SaveLoad;
-using UnityEngine;
+using UI.Interfaces;
 
-namespace UI.Interfaces
+namespace UI.SaveLoad
 {
     public class SaveGameMenu  : UserInterface
     {

@@ -1,3 +1,4 @@
+using Location;
 using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
@@ -29,7 +30,7 @@ namespace UI.SaveLoad
             }
             else
             {
-                _saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
+                _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - {gameData.saveDate}"; 
             }
 
             _profileName = profile;

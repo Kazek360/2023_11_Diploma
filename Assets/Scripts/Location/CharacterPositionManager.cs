@@ -1,20 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Quests;
 using SaveSystem;
 using SaveSystem.Data;
 using Shared;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Location
 {
     public class CharacterPositionManager : Singleton<CharacterPositionManager>, IDataPersistence
     {
         [SerializeField] private string tagToSearchNpc;
-        private string _currentScene;
         private GameObject _player;
         private GameObject[] _npcs;
+        private string _currentScene;
         
         private string _gatewayID;
         public string GatewayID
@@ -23,9 +21,13 @@ namespace Location
             set => _gatewayID = value;
         }
 
+        private void Start()
+        {
+            _currentScene = SceneInfo.Instance.currentScene;
+        }
+
         private void GetData()
         {
-            _currentScene = SceneManager.GetActiveScene().name;
             _player = GameObject.FindGameObjectWithTag("Player");
             _npcs = GameObject.FindGameObjectsWithTag(tagToSearchNpc);
         }
@@ -65,8 +67,7 @@ namespace Location
             
             if (_gatewayID is not null)
             {
-                var allGatewaysInScene = FindObjectsOfType<LocationGateway>();
-                foreach (var gateway in allGatewaysInScene)
+                foreach (var gateway in LocationGateway.allGateways)
                 {
                     if (gateway.GatewayID.Equals(_gatewayID))
                     {
@@ -81,8 +82,6 @@ namespace Location
         public void SaveData(ref GameData gameData)
         {
             GetData();
-            gameData.currentScene = _currentScene;
-            gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
             
             if (_player.gameObject != null)
             {
