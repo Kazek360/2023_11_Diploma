@@ -32,7 +32,7 @@ namespace UI.Interfaces
         public void OnContinueClicked()
         {
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
-            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.currentScene);
+            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.scene.sceneName);
         }
         
         public void QuitGame()

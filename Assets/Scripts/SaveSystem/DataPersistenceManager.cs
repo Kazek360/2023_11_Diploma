@@ -159,7 +159,6 @@ namespace SaveSystem
             }
             _currentGameData.lastUpdated = DateTime.Now.ToBinary();
             _currentGameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
-            _currentGameData.currentScene = SceneManager.GetActiveScene().name;
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _currentGameData);

@@ -9,7 +9,7 @@ namespace Location
     public class SceneInfo : Singleton<SceneInfo>, IDataPersistence
     {
         public string displayedSceneName;
-        public string currentScene;
+        [NonSerialized] public string currentScene;
 
         protected override void Awake()
         {
@@ -34,8 +34,8 @@ namespace Location
 
         public void SaveData(ref GameData gameData)
         {
-            gameData.currentScene = currentScene;
-            gameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            gameData.scene.sceneName = currentScene;
+            gameData.scene.displayedSceneName = displayedSceneName;
         }
     }
 }

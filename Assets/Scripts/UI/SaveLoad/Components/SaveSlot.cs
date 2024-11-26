@@ -40,7 +40,7 @@ namespace UI.SaveLoad
         private void Save()
         { 
             DataPersistenceManager.Instance.SaveGame(_profileName);
-            _saveSlotText.text = $"{DataPersistenceManager.Instance.CurrentGameData.currentScene} - " +
+            _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - " +
                                  $"{DataPersistenceManager.Instance.CurrentGameData.saveDate}"; 
         }
     }
