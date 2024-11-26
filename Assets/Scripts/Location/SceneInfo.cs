@@ -34,8 +34,8 @@ namespace Location
 
         public void SaveData(ref GameData gameData)
         {
-            gameData.scene.sceneName = currentScene;
-            gameData.scene.displayedSceneName = displayedSceneName;
+            gameData.scene.name = currentScene;
+            gameData.scene.displayedName = displayedSceneName;
         }
     }
 }

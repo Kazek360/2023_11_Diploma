@@ -36,11 +36,11 @@ namespace UI.SaveLoad
                 if (profile.Equals("autosave"))
                 {
                     _saveSlotText.fontSize = 30;
-                    _saveSlotText.text = $"(automatyczny zapis)\n{gameData.scene.displayedSceneName} - {gameData.saveDate}"; 
+                    _saveSlotText.text = $"(automatyczny zapis)\n{gameData.scene.displayedName} - {gameData.saveDate}"; 
                 }
                 else
                 {
-                    _saveSlotText.text = $"{gameData.scene.displayedSceneName} - {gameData.saveDate}"; 
+                    _saveSlotText.text = $"{gameData.scene.displayedName} - {gameData.saveDate}"; 
                 }
                 _profileData = gameData;
                 _saveSlotButton.onClick.AddListener(Load);
@@ -51,7 +51,7 @@ namespace UI.SaveLoad
         {
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
             DataPersistenceManager.Instance.ChangeCurrentGameData(_profileData);
-            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.scene.sceneName);
+            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.scene.name);
         }
     }
 }

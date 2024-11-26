@@ -2,7 +2,7 @@
 {
     public class SceneData
     {
-        public string sceneName;
-        public string displayedSceneName;
+        public string name;
+        public string displayedName;
     }
 }
