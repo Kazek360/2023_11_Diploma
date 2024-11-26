@@ -1,50 +1,66 @@
+using System;
+using System.Collections.Generic;
 using Interactions;
-using Location;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LocationGateway : MonoBehaviour, IInteractable
+namespace Location
 {
-    [SerializeField] private string sceneToLoad;
-    [SerializeField] private string gatewayID;
-
-    public string GatewayID => gatewayID;
-
-    [SerializeField] private GameObject interactionIndicator;
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    public class LocationGateway : MonoBehaviour, IInteractable
     {
-        if (other.CompareTag("InteractionArea"))
+        public static List<LocationGateway> allGateways = new List<LocationGateway>();
+        
+        [SerializeField] private string sceneToLoad;
+        [SerializeField] private string gatewayID;
+
+        public string GatewayID => gatewayID;
+
+        [SerializeField] private GameObject interactionIndicator;
+
+        private void Awake()
         {
-            InteractionEvents.EnterInteractionArea(this);
+            allGateways.Add(this);
         }
-    }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("InteractionArea"))
+
+        private void OnDestroy()
         {
-            InteractionEvents.ExitInteractionArea(this);
+            allGateways.Remove(this);
         }
-    }
+        
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("InteractionArea"))
+            {
+                InteractionEvents.EnterInteractionArea(this);
+            }
+        }
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.CompareTag("InteractionArea"))
+            {
+                InteractionEvents.ExitInteractionArea(this);
+            }
+        }
 
-    public void TriggerInteraction()
-    {
-        CharacterPositionManager.Instance.GatewayID = gatewayID;
-        SceneManager.LoadScene(sceneToLoad);
-    }
+        public void TriggerInteraction()
+        {
+            CharacterPositionManager.Instance.GatewayID = gatewayID;
+            SceneManager.LoadScene(sceneToLoad);
+        }
 
-    public Vector3 GetCoordinates()
-    {
-        return transform.position;
-    }
+        public Vector3 GetCoordinates()
+        {
+            return transform.position;
+        }
 
-    public void ShowIndicator()
-    {
-        interactionIndicator.SetActive(true);
-    }
+        public void ShowIndicator()
+        {
+            interactionIndicator.SetActive(true);
+        }
 
-    public void HideIndicator()
-    {
-        interactionIndicator.SetActive(false);
+        public void HideIndicator()
+        {
+            interactionIndicator.SetActive(false);
+        }
     }
 }
