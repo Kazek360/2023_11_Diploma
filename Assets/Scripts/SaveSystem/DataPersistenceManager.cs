@@ -98,55 +98,36 @@ namespace SaveSystem
                     break;
                 case LoadMode.NewGame:
                     _currentGameData = new GameData();
-                    InitializeDataOnNewGame();
+                    LoadGameData();
                     break;
                 case LoadMode.FromSaveFile:
-                    LoadGameDataFromSaveFile();
+                    LoadGameData();
                     break;
                 case LoadMode.DirectlyFromScene:
                     if (useMostRecentGameData)
                     {
                         ChangeCurrentGameDataToMostRecent();
-                        LoadGameDataFromSaveFile();
+                        LoadGameData();
                     }
                     if (_currentGameData is null)
                     {
                         _currentGameData = new GameData();
-                        InitializeDataOnNewGame();
+                        LoadGameData();
                     }
                     break;
                 case LoadMode.BetweenScenes:
-                    LoadGameDataBetweenScenes();
+                    LoadGameData();
                     break;
             }
         }
-
-        private void InitializeDataOnNewGame()
-        {
-            foreach (var dataPersistenceObject in _dataPersistenceObjects)
-            {
-                dataPersistenceObject.InitializeOnNewGame();
-            }
-        }
         
-        private void LoadGameDataFromSaveFile()
+        private void LoadGameData()
         {
             if (_currentGameData is not null)
             {
                 foreach (var dataPersistenceObject in _dataPersistenceObjects)
                 {
-                    dataPersistenceObject.LoadDataFromSaveFile(_currentGameData);
-                }
-            }
-        }
-        
-        private void LoadGameDataBetweenScenes()
-        {
-            if (_currentGameData is not null)
-            {
-                foreach (var dataPersistenceObject in _dataPersistenceObjects)
-                {
-                    dataPersistenceObject.LoadDataBetweenScenes(_currentGameData);
+                    dataPersistenceObject.LoadData(_currentGameData);
                 }
             }
         }

@@ -171,13 +171,30 @@ namespace Quests
             return quest;
         }
 
-        public void InitializeOnNewGame()
+        private void InitializeOnNewGame()
         {
             QuestEvents.DeleteQuestSteps();
             _quests = CreateQuestDictionary();
             QuestEvents.StartQuest("prologue_1");
         }
 
+        public void LoadData(GameData gameData)
+        {
+            switch (DataPersistenceManager.Instance.CurrentLoadMode)
+            {
+                case LoadMode.NewGame:
+                    InitializeOnNewGame();
+                    break;
+                case LoadMode.FromSaveFile:
+                    LoadDataFromSaveFile(gameData);
+                    break;
+                case LoadMode.BetweenScenes:
+                    LoadDataBetweenScenes(gameData);
+                    break;
+            }
+        }
+        
+        
         public void LoadDataFromSaveFile(GameData gameData)
         {
             QuestEvents.DeleteQuestSteps();

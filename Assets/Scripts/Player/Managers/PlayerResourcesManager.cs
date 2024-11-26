@@ -42,26 +42,16 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData gameData)
     {
+        if (DataPersistenceManager.Instance.CurrentLoadMode == LoadMode.NewGame)
+        {
+            return;
+        }
         PlayerStats.GetInstance();
         SkillPoints = gameData.resources["SkillPoints"];
         PlayerStats.GetInstance().Level = gameData.resources["Level"];
         PlayerStats.GetInstance().CurrentXp = gameData.resources["ExperiencePoints"];
         PlayerStats.GetInstance().WitHp = gameData.resources["WitHP"];
         PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
-    }
-
-    public void InitializeOnNewGame()
-    {
-    }
-
-    public void LoadDataFromSaveFile(GameData gameData)
-    {
-        LoadData(gameData);
-    }
-
-    public void LoadDataBetweenScenes(GameData gameData)
-    {
-        LoadData(gameData);
     }
 
     public void SaveData(ref GameData gameData)

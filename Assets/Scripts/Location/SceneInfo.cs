@@ -16,18 +16,8 @@ namespace Location
             base.Awake();
             currentScene = SceneManager.GetActiveScene().name;
         }
-        
-        public void InitializeOnNewGame()
-        {
-            
-        }
 
-        public void LoadDataFromSaveFile(GameData gameData)
-        {
-            
-        }
-
-        public void LoadDataBetweenScenes(GameData gameData)
+        public void LoadData(GameData gameData)
         {
             
         }

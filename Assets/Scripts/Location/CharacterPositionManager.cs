@@ -47,11 +47,6 @@ namespace Location
             }
         }
 
-        public void InitializeOnNewGame()
-        {
-            GetData();
-        }
-
         public void LoadDataFromSaveFile(GameData gameData)
         {
             GetData();
@@ -76,6 +71,19 @@ namespace Location
                         break;
                     }
                 }
+            }
+        }
+
+        public void LoadData(GameData gameData)
+        {
+            switch (DataPersistenceManager.Instance.CurrentLoadMode)
+            {
+                case LoadMode.FromSaveFile:
+                    LoadDataFromSaveFile(gameData);
+                    break;
+                case LoadMode.BetweenScenes:
+                    LoadDataBetweenScenes(gameData);
+                    break;
             }
         }
 
