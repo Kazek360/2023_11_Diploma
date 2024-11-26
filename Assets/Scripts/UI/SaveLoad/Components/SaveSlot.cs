@@ -30,7 +30,7 @@ namespace UI.SaveLoad
             }
             else
             {
-                _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - {gameData.saveDate}"; 
+                _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - {gameData.save.date}"; 
             }
 
             _profileName = profile;
@@ -41,7 +41,7 @@ namespace UI.SaveLoad
         { 
             DataPersistenceManager.Instance.SaveGame(_profileName);
             _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - " +
-                                 $"{DataPersistenceManager.Instance.CurrentGameData.saveDate}"; 
+                                 $"{DataPersistenceManager.Instance.CurrentGameData.save.date}"; 
         }
     }
 }

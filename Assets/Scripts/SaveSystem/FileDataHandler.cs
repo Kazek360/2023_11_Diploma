@@ -126,8 +126,8 @@ namespace SaveSystem
                 }
                 else
                 {
-                    var mostRecentDateTime = DateTime.FromBinary(profileGameData[mostRecentProfileId].lastUpdated);
-                    var newDateTime = DateTime.FromBinary(gameData.lastUpdated);
+                    var mostRecentDateTime = DateTime.FromBinary(profileGameData[mostRecentProfileId].save.lastUpdated);
+                    var newDateTime = DateTime.FromBinary(gameData.save.lastUpdated);
                     if (newDateTime > mostRecentDateTime)
                     {
                         mostRecentProfileId = profileId;

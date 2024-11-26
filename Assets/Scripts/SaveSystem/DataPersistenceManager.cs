@@ -157,8 +157,8 @@ namespace SaveSystem
             {
                 return;
             }
-            _currentGameData.lastUpdated = DateTime.Now.ToBinary();
-            _currentGameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            _currentGameData.save.lastUpdated = DateTime.Now.ToBinary();
+            _currentGameData.save.date = DateTime.Now.ToString("dd.MM.yy HH:mm");
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _currentGameData);
