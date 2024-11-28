@@ -66,18 +66,17 @@ namespace Dialogue.Managers
         
         private bool CheckIfDialogueCanTrigger(Dialogue dialogue)
         {
-            if (dialogue.info.dialogueType == DialogueInfo.Type.Repeatable)
+            switch (dialogue.info.dialogueType)
             {
-                return true;
-            }
-            if (dialogue.info.dialogueType == DialogueInfo.Type.QuestStarter)
-            {
-                if (QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state != QuestState.CanStart)
-                {
+                case DialogueInfo.Type.Repeatable:
+                    return true;
+                case DialogueInfo.Type.QuestStarter:
+                    return QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state ==
+                           QuestState.CanStart;
+                case DialogueInfo.Type.QuestProgression:
                     return false;
-                }
             }
-            return true;
+            return false;
         }
         
         private void UnlockDialogue(string triggerName, string dialogueName)
