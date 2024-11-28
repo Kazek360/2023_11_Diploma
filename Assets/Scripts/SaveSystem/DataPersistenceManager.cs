@@ -95,30 +95,24 @@ namespace SaveSystem
             {
                 case LoadMode.MainMenu:
                     ChangeCurrentGameDataToMostRecent();
-                    break;
+                    return;
                 case LoadMode.NewGame:
                     _currentGameData = new GameData();
-                    LoadGameData();
-                    break;
-                case LoadMode.FromSaveFile:
-                    LoadGameData();
                     break;
                 case LoadMode.DirectlyFromScene:
                     if (useMostRecentGameData)
                     {
                         ChangeCurrentGameDataToMostRecent();
-                        LoadGameData();
+                        CurrentLoadMode = LoadMode.FromSaveFile;
                     }
                     if (_currentGameData is null)
                     {
                         _currentGameData = new GameData();
-                        LoadGameData();
+                        CurrentLoadMode = LoadMode.NewGame;
                     }
                     break;
-                case LoadMode.BetweenScenes:
-                    LoadGameData();
-                    break;
             }
+            LoadGameData();
         }
         
         private void LoadGameData()
