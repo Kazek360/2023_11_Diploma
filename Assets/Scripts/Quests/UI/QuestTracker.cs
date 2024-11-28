@@ -37,7 +37,7 @@ namespace Quests.UI
             else
             {
                 title.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}";
-                description.text = $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
+                description.text = $"{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
                 StartCoroutine(ShowTracker());
             }
         }

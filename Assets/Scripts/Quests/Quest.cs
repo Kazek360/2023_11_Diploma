@@ -92,7 +92,6 @@ namespace Quests
             {
                 AddDescription();
             }
-            _currentStepIndex = 1;
         }
         
         public void InstantiateNextStep(Transform parentTransform, int progress = 0)
@@ -122,22 +121,28 @@ namespace Quests
         }
         public void InstantiateCurrentStep(Transform parentTransform)
         {
-            _currentStepInfo = info.firstStep;
-            AddCompletedDescription();
-            
-            for (var i = 1; i < _currentStepIndex - 1; i++)
+            if (_currentStepIndex == 0)
             {
-                foreach (var nextStepInfo in _currentStepInfo.nextSteps)
-                {
-                    if (QuestManager.Instance.CheckForRequiredFlagsState(nextStepInfo.requiredFlags))
-                    {
-                        _currentStepInfo = nextStepInfo;
-                        break;
-                    }
-                }
-                AddCompletedDescription();
+                InstantiateFirstStep(parentTransform);
             }
-            InstantiateNextStep(parentTransform, currentStepProgress);
+            else
+            {
+                _currentStepInfo = info.firstStep;
+                AddCompletedDescription();
+                for (var i = 1; i < _currentStepIndex - 1; i++)
+                {
+                    foreach (var nextStepInfo in _currentStepInfo.nextSteps)
+                    {
+                        if (QuestManager.Instance.CheckForRequiredFlagsState(nextStepInfo.requiredFlags))
+                        {
+                            _currentStepInfo = nextStepInfo;
+                            break;
+                        }
+                    }
+                    AddCompletedDescription();
+                }
+                InstantiateNextStep(parentTransform, currentStepProgress);
+            }
         }
     }
 }

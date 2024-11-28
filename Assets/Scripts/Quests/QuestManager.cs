@@ -171,13 +171,6 @@ namespace Quests
             return quest;
         }
 
-        private void InitializeOnNewGame()
-        {
-            QuestEvents.DeleteQuestSteps();
-            _quests = CreateQuestDictionary();
-            QuestEvents.StartQuest("prologue_1");
-        }
-
         public void LoadData(GameData gameData)
         {
             switch (DataPersistenceManager.Instance.CurrentLoadMode)
@@ -194,8 +187,14 @@ namespace Quests
             }
         }
         
+        private void InitializeOnNewGame()
+        {
+            QuestEvents.DeleteQuestSteps();
+            _quests = CreateQuestDictionary();
+            QuestEvents.StartQuest("prologue_1");
+        }
         
-        public void LoadDataFromSaveFile(GameData gameData)
+        private void LoadDataFromSaveFile(GameData gameData)
         {
             QuestEvents.DeleteQuestSteps();
 
@@ -240,7 +239,7 @@ namespace Quests
             LoadDataBetweenScenes(gameData);
         }
 
-        public void LoadDataBetweenScenes(GameData gameData)
+        private void LoadDataBetweenScenes(GameData gameData)
         {
             foreach (var quest in Instance.Quests.Values)
             {
