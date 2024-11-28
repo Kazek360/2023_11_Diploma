@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -7,8 +8,8 @@ namespace Quests.UI
     [RequireComponent(typeof(CanvasGroup))]
     public class QuestTracker : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _unvisibleText; 
-        [SerializeField] private TextMeshProUGUI _visibleText;  
+        [SerializeField] private TextMeshProUGUI title; 
+        [SerializeField] private TextMeshProUGUI description;  
         private CanvasGroup _canvasGroup;
         public CanvasGroup CanvasGroup => _canvasGroup;
 
@@ -35,13 +36,17 @@ namespace Quests.UI
             }
             else
             {
-                CanvasGroup.alpha = 1;
-                string questInfo = $"{QuestManager.Instance.TrackedQuest.info.displayName}" +
-                             $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
-                
-                _unvisibleText.text = questInfo;
-                _visibleText.text = questInfo;
+                title.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}";
+                description.text = $"\n{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
+                StartCoroutine(ShowTracker());
             }
+        }
+
+
+        private IEnumerator ShowTracker()
+        {
+            yield return new WaitForSeconds(0.125f);
+            CanvasGroup.alpha = 1;
         }
     }
 }
