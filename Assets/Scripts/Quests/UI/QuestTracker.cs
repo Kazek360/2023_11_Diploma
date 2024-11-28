@@ -2,12 +2,15 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Quests.UI
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class QuestTracker : MonoBehaviour
     {
+        [SerializeField] private RectTransform panelTransform; 
+        [SerializeField] private RectTransform textContainerTransform; 
         [SerializeField] private TextMeshProUGUI title; 
         [SerializeField] private TextMeshProUGUI description;  
         private CanvasGroup _canvasGroup;
@@ -38,6 +41,8 @@ namespace Quests.UI
             {
                 title.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}";
                 description.text = $"{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
+                LayoutRebuilder.ForceRebuildLayoutImmediate(textContainerTransform);
+                panelTransform.sizeDelta  = new Vector2(panelTransform.sizeDelta.x, textContainerTransform.rect.height);
                 StartCoroutine(ShowTracker());
             }
         }
