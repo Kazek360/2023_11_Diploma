@@ -92,7 +92,7 @@ namespace Interactions
                     ChangeClosestInteraction(_availableInteractions[0]);
                 }
             }
-            else if (_closestInteraction is not null)
+            else if (_closestInteraction != null)
             {
                 _closestInteraction.HideIndicator();
                 _closestInteraction = null;
@@ -109,7 +109,10 @@ namespace Interactions
         private void DisableInteraction(DialogueInfo info)
         {
             _enabled = false;
-            _closestInteraction.HideIndicator();
+            if (_closestInteraction != null)
+            {
+                _closestInteraction.HideIndicator();
+            }
         }
 
         private void EnableInteraction(DialogueInfo info)
