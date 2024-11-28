@@ -129,7 +129,7 @@ namespace Quests
             {
                 _currentStepInfo = info.firstStep;
                 AddCompletedDescription();
-                for (var i = 1; i < _currentStepIndex - 1; i++)
+                for (var i = 1; i < _currentStepIndex; i++)
                 {
                     foreach (var nextStepInfo in _currentStepInfo.nextSteps)
                     {
