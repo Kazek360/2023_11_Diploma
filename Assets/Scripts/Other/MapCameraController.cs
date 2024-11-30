@@ -5,6 +5,8 @@ using UnityEngine;
 public class MapCameraController : MonoBehaviour
 {
     [SerializeField] private float dragSpeed;
+    [SerializeField] private Vector2 minPosition;
+    [SerializeField] private Vector2 maxPosition;
     private Camera _camera;
     private Vector3 _dragOrigin;
     private bool _isDragging;
@@ -70,7 +72,10 @@ public class MapCameraController : MonoBehaviour
             var currentMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             var difference = _dragOrigin - currentMousePosition;
             if (difference.sqrMagnitude < 0.001f) difference = Vector3.zero;
-            _camera.transform.position += difference * dragSpeed;
+            var newPosition = _camera.transform.position + difference * dragSpeed;
+            newPosition.x = Mathf.Clamp(newPosition.x, minPosition.x, maxPosition.x);
+            newPosition.y = Mathf.Clamp(newPosition.y, minPosition.y, maxPosition.y);
+            _camera.transform.position = newPosition;
             yield return null;
         }
     }
