@@ -257,6 +257,34 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Map"",
+            ""id"": ""0365b8b9-a1a6-41ba-9af3-c631da01f268"",
+            ""actions"": [
+                {
+                    ""name"": ""Map Dragging"",
+                    ""type"": ""Button"",
+                    ""id"": ""47a758eb-2482-4e8d-9fc8-27d6a17da2c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7b3b53d5-c664-4352-a135-b97b0b934b69"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Dragging"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""UI"",
             ""id"": ""c2c3d9c4-5137-4770-9cc1-8aabe28b450c"",
             ""actions"": [
@@ -398,6 +426,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         // Story
         m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
         m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
+        // Map
+        m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
+        m_Map_MapDragging = m_Map.FindAction("Map Dragging", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
@@ -596,6 +627,52 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     }
     public StoryActions @Story => new StoryActions(this);
 
+    // Map
+    private readonly InputActionMap m_Map;
+    private List<IMapActions> m_MapActionsCallbackInterfaces = new List<IMapActions>();
+    private readonly InputAction m_Map_MapDragging;
+    public struct MapActions
+    {
+        private @PlayerControlls m_Wrapper;
+        public MapActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MapDragging => m_Wrapper.m_Map_MapDragging;
+        public InputActionMap Get() { return m_Wrapper.m_Map; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MapActions set) { return set.Get(); }
+        public void AddCallbacks(IMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MapActionsCallbackInterfaces.Add(instance);
+            @MapDragging.started += instance.OnMapDragging;
+            @MapDragging.performed += instance.OnMapDragging;
+            @MapDragging.canceled += instance.OnMapDragging;
+        }
+
+        private void UnregisterCallbacks(IMapActions instance)
+        {
+            @MapDragging.started -= instance.OnMapDragging;
+            @MapDragging.performed -= instance.OnMapDragging;
+            @MapDragging.canceled -= instance.OnMapDragging;
+        }
+
+        public void RemoveCallbacks(IMapActions instance)
+        {
+            if (m_Wrapper.m_MapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public MapActions @Map => new MapActions(this);
+
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
@@ -693,6 +770,10 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     public interface IStoryActions
     {
         void OnSkip(InputAction.CallbackContext context);
+    }
+    public interface IMapActions
+    {
+        void OnMapDragging(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

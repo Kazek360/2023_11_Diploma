@@ -9,7 +9,8 @@ using UnityEngine.InputSystem;
 namespace InputSystem
 {
     public class InputManager : Singleton<InputManager>, 
-        PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions, PlayerControlls.IUIActions
+        PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions, PlayerControlls.IUIActions, 
+        PlayerControlls.IMapActions
     {
         private PlayerControlls _controlls;
         public PlayerControlls Controlls => _controlls;
@@ -18,6 +19,7 @@ namespace InputSystem
         {
             _controlls.Player.RemoveCallbacks(this);
             _controlls.Story.RemoveCallbacks(this);
+            _controlls.Map.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
         }
         
@@ -33,6 +35,7 @@ namespace InputSystem
             _controlls.Player.SetCallbacks(this);
             _controlls.Story.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
+            _controlls.Map.SetCallbacks(this);
             
             _controlls.Player.Enable();
             _controlls.UI.Enable();
@@ -193,6 +196,19 @@ namespace InputSystem
                         UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
                         break;
                 }
+            }
+        }
+
+        public void OnMapDragging(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                MapCameraController.InvokeOnMapDragging();
+            }
+
+            if (context.canceled)
+            {
+                MapCameraController.InvokeOnMapDraggingStop();
             }
         }
         
