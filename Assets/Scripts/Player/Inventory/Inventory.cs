@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
@@ -245,6 +246,23 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 if (slot.Item.itemID == id)
                 {
                     result += slot.Count;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public HashSet<int> GetItems(ItemScriptableObject.ItemType type)
+    {
+        HashSet<int> result = new HashSet<int>();
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.Item is not null)
+            {
+                if (slot.Item.itemType == type)
+                {
+                    result.Add(slot.Item.itemID);
                 }
             }
         }
