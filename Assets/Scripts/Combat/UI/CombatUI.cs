@@ -228,6 +228,11 @@ public class CombatUI : UserInterface
         }
     }
 
+    public void OnItemConsumed()
+    {
+        //todo: IMPLEMENT UI REFRESH
+    }
+
     
     private IHittable GetCurrentlySelectedTarget()
     {
