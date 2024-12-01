@@ -1,8 +1,8 @@
-﻿using SaveSystem;
+﻿using Location;
+using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.SaveLoad
@@ -35,11 +35,11 @@ namespace UI.SaveLoad
                 if (profile.Equals("autosave"))
                 {
                     _saveSlotText.fontSize = 30;
-                    _saveSlotText.text = $"(automatyczny zapis)\n{gameData.currentScene} - {gameData.saveDate}"; 
+                    _saveSlotText.text = $"(automatyczny zapis)\n{gameData.scene.displayedName} - {gameData.save.date}"; 
                 }
                 else
                 {
-                    _saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
+                    _saveSlotText.text = $"{gameData.scene.displayedName} - {gameData.save.date}"; 
                 }
                 _profileData = gameData;
                 _saveSlotButton.onClick.AddListener(Load);
@@ -50,7 +50,7 @@ namespace UI.SaveLoad
         {
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.FromSaveFile;
             DataPersistenceManager.Instance.ChangeCurrentGameData(_profileData);
-            SceneManager.LoadSceneAsync(DataPersistenceManager.Instance.CurrentGameData.currentScene);
+            SceneLoader.InvokeOnSceneChanged(DataPersistenceManager.Instance.CurrentGameData.scene.name);
         }
     }
 }

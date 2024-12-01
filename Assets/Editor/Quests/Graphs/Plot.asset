@@ -16,7 +16,25 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -43, y: -785}
+    position: {x: -43.199997, y: -785.6}
+  - id: fcdd30c9-e86c-43bd-97c8-321d21507074
+    name: A1M1 - Zapomniany obiad
+    position: {x: 1952.8002, y: -785.5999}
+  - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    name: A1S1 - Ale jaja!
+    position: {x: 1723.2001, y: 499.20013}
+  - id: 0b7c4997-bb77-4737-9c31-1eb34415116f
+    name: A1S2 - Zaginiona chusta
+    position: {x: 3181.6006, y: 495.99994}
+  - id: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
+    name: "A1S4 - Pierwsza zagadka Stanis\u0142awa"
+    position: {x: 4240.8, y: 500.8}
+  - id: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    name: "A1M2 - K\u0142opoty w m\u0142ynie"
+    position: {x: 2860.8003, y: -792}
+  - id: f0b5d102-b305-4ec6-baee-8943891f2e79
+    name: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
+    position: {x: 6277.5996, y: -803.9999}
   questNodes:
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue_1
@@ -30,7 +48,7 @@ MonoBehaviour:
     connectedQuestNodes:
     - be40241b-8e9e-4303-b41d-6369e6aea539
     connectedQuestStepNode: 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    position: {x: -18, y: -139}
+    position: {x: -17.6, y: -138.4}
   - id: be40241b-8e9e-4303-b41d-6369e6aea539
     fileName: prologue_2
     flags: []
@@ -43,7 +61,7 @@ MonoBehaviour:
     connectedQuestNodes:
     - 65983f5f-7ecb-400b-b7e5-db805008bb3a
     connectedQuestStepNode: cc92ce85-d7a6-4e0e-b68e-84be689b49c0
-    position: {x: 254, y: -441}
+    position: {x: 254.4, y: -440.8}
   - id: 65983f5f-7ecb-400b-b7e5-db805008bb3a
     fileName: prologue_3
     flags: []
@@ -52,9 +70,78 @@ MonoBehaviour:
     description: "Obudzi\u0142em si\u0119 w domu po tygodniu"
     experience: 1001
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedQuestNodes: []
+    connectedQuestNodes:
+    - 33239c93-5981-49e2-af00-4a2e1242110a
     connectedQuestStepNode: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
-    position: {x: 531, y: -726}
+    position: {x: 531.2, y: -725.6}
+  - id: 33239c93-5981-49e2-af00-4a2e1242110a
+    fileName: A1M1
+    flags: []
+    displayName: Zapomniany obiad
+    category: 0
+    description: "Trzeba zanie\u015B\u0107 ojcu obiad"
+    experience: 400
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedQuestNodes:
+    - 768aea72-b424-4ec4-a203-df493aa79491
+    connectedQuestStepNode: 97f53155-3df9-4142-9a16-61188555ff1e
+    position: {x: 1978.4, y: -725.6}
+  - id: 768aea72-b424-4ec4-a203-df493aa79491
+    fileName: A1M2
+    flags: []
+    displayName: "K\u0142opoty w m\u0142ynie"
+    category: 0
+    description: "Ojciec potrzebuje pomocy w m\u0142ynie"
+    experience: 1000
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedQuestNodes:
+    - 521396f1-7647-4e2f-881e-315badf41cb7
+    connectedQuestStepNode: 5ae4b6bf-1b10-4a44-98f9-34ed1effa23d
+    position: {x: 2886.4, y: -732}
+  - id: 601dcb5b-0048-4d91-8f70-2fb76f1a2e4a
+    fileName: A1S1
+    flags: []
+    displayName: Ale jaja!
+    category: 1
+    description: Olga potrzebuje jaja na omlet
+    experience: 200
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedQuestNodes: []
+    connectedQuestStepNode: 0b4a61b2-960e-42f6-8f7d-aa3cb39b21cf
+    position: {x: 1748.8, y: 559.2}
+  - id: fc6470f8-d558-4992-92ff-6a5bf6f67e23
+    fileName: A1S2
+    flags: []
+    displayName: Zaginiona chusta
+    category: 1
+    description: "Dina zgubi\u0142a chust\u0119"
+    experience: 200
+    groupID: 0b7c4997-bb77-4737-9c31-1eb34415116f
+    connectedQuestNodes: []
+    connectedQuestStepNode: 56da8398-8b3e-4d58-b8cb-7194cc6959ea
+    position: {x: 3207.2, y: 556}
+  - id: 27d82cf9-b57a-49b5-a870-95f97146a384
+    fileName: A1S4
+    flags: []
+    displayName: "Pierwsza zagadka Stanis\u0142awa"
+    category: 1
+    description: "Stanis\u0142aw na pewno ma jak\u0105\u015B ciekaw\u0105 zagadk\u0119"
+    experience: 200
+    groupID: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
+    connectedQuestNodes: []
+    connectedQuestStepNode: 29fef397-d219-49ce-86f4-a852d27c187c
+    position: {x: 4266.4, y: 560.8}
+  - id: 521396f1-7647-4e2f-881e-315badf41cb7
+    fileName: A1M3
+    flags: []
+    displayName: " Rycerze z orlimi skrzyd\u0142ami"
+    category: 0
+    description: "Wr\xF3\u0107 do domu"
+    experience: 400
+    groupID: f0b5d102-b305-4ec6-baee-8943891f2e79
+    connectedQuestNodes: []
+    connectedQuestStepNode: 
+    position: {x: 6303.2, y: -744}
   questStepNodes:
   - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
     fileName: prologue_1_2
@@ -65,7 +152,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - a02b0fda-dc1e-46fc-bbc1-e2d880372c83
-    position: {x: 466, y: 7}
+    position: {x: 466.4, y: 7.200001}
   - id: a02b0fda-dc1e-46fc-bbc1-e2d880372c83
     fileName: prologue_1_3
     flags: []
@@ -76,7 +163,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 481b873a-02b8-4881-9f8b-605f0494182b
-    position: {x: 678, y: 7}
+    position: {x: 678.4, y: 7.200001}
   - id: 1e9e762e-0126-475b-9aec-44d6a9fe2002
     fileName: prologue_2_2
     flags: []
@@ -86,7 +173,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 9f125d79-469b-480f-9b3f-754e1bbffcdb
-    position: {x: 726, y: -295}
+    position: {x: 726.4, y: -294.4}
   - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
     fileName: prologue_3_1
     flags: []
@@ -96,7 +183,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 47bffa49-a738-4e30-91f2-6935224ff4fa
-    position: {x: 792, y: -593}
+    position: {x: 792, y: -592.8}
   - id: 47bffa49-a738-4e30-91f2-6935224ff4fa
     fileName: prologue_3_2
     flags: []
@@ -106,7 +193,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 085b9d11-c734-4de7-81ad-1e63ab09c1d8
-    position: {x: 1006, y: -593}
+    position: {x: 1006.4, y: -592.8}
   - id: 085b9d11-c734-4de7-81ad-1e63ab09c1d8
     fileName: prologue_3_3
     flags: []
@@ -116,7 +203,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 66d9d239-2051-4144-9ba7-b6261d951a49
-    position: {x: 1234, y: -593}
+    position: {x: 1234.4, y: -592.8}
   - id: 66d9d239-2051-4144-9ba7-b6261d951a49
     fileName: prologue_3_4
     flags: []
@@ -125,7 +212,7 @@ MonoBehaviour:
     prefab: {fileID: 3790966382433847377, guid: 33627fb81216170449ec2167d41633b8, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 1468, y: -593}
+    position: {x: 1468, y: -592.8}
   - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
     fileName: prologue_1_1
     flags: []
@@ -136,7 +223,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    position: {x: 254, y: 7}
+    position: {x: 254.4, y: 7.200001}
   - id: 481b873a-02b8-4881-9f8b-605f0494182b
     fileName: prologue_1_4
     flags: []
@@ -145,7 +232,7 @@ MonoBehaviour:
     prefab: {fileID: 259076332279978945, guid: 92d8f7fb459806647816594620505307, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 973, y: 7}
+    position: {x: 972.8, y: 7.200001}
   - id: cc92ce85-d7a6-4e0e-b68e-84be689b49c0
     fileName: prologue_2_1
     flags: []
@@ -155,7 +242,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 1e9e762e-0126-475b-9aec-44d6a9fe2002
-    position: {x: 513, y: -295}
+    position: {x: 512.8, y: -294.4}
   - id: 9f125d79-469b-480f-9b3f-754e1bbffcdb
     fileName: prologue_2_3
     flags: []
@@ -164,9 +251,293 @@ MonoBehaviour:
     prefab: {fileID: 3329530440797315691, guid: e70ba429f850d7b4cacf66d6ea48bb18, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 946, y: -295}
+    position: {x: 946.4, y: -294.4}
+  - id: 97f53155-3df9-4142-9a16-61188555ff1e
+    fileName: A1M1 - Step 1
+    flags: []
+    description: "Porozmawiaj z matk\u0105"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedNodes:
+    - ac47317d-d184-4c84-b855-e7088db31b6e
+    position: {x: 2303.2, y: -598.39996}
+  - id: ac47317d-d184-4c84-b855-e7088db31b6e
+    fileName: A1M1 - Step 2
+    flags: []
+    description: "Zanie\u015B ojcu obiad"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedNodes: []
+    position: {x: 2569.6, y: -598.39996}
+  - id: 5ae4b6bf-1b10-4a44-98f9-34ed1effa23d
+    fileName: A1M2 - Step 1
+    flags: []
+    description: Porozmawiaj z ojcem
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 33419d72-d520-4313-a3bd-8a45032f8e24
+    position: {x: 3210.4, y: -542.39996}
+  - id: 33419d72-d520-4313-a3bd-8a45032f8e24
+    fileName: A1M2 - Step 2
+    flags: []
+    description: Zbadaj zepsuty mechanizm
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 309bed60-d43a-4e88-940f-07b8c4f8c388
+    position: {x: 3436.8, y: -542.39996}
+  - id: 309bed60-d43a-4e88-940f-07b8c4f8c388
+    fileName: A1M2 - Step 3
+    flags: []
+    description: Porozmawiaj z Nestorem
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - ad3921a3-93ab-45f0-a757-23f8ebb50605
+    position: {x: 3704.8, y: -542.39996}
+  - id: ad3921a3-93ab-45f0-a757-23f8ebb50605
+    fileName: A1M2 - Step 4
+    flags: []
+    description: Porozmawiaj z ojcem
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 45237d58-6fe2-4b18-83f9-f9894ff9fb72
+    position: {x: 3929.6, y: -542.39996}
+  - id: 45237d58-6fe2-4b18-83f9-f9894ff9fb72
+    fileName: A1M2 - Step 5
+    flags: []
+    description: "Zbadaj okolic\u0119"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 5d33c280-e1dd-4648-95de-a4e0776898da
+    position: {x: 4143.2, y: -542.39996}
+  - id: 5d33c280-e1dd-4648-95de-a4e0776898da
+    fileName: A1M2 - Step 6
+    flags: []
+    description: "Zbadaj \u015Blady"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - f1a87678-efd6-47fa-8e14-1f0b05b07682
+    position: {x: 4366.4, y: -542.39996}
+  - id: f1a87678-efd6-47fa-8e14-1f0b05b07682
+    fileName: A1M2 - Step 7
+    flags: []
+    description: "Zbadaj kup\u0119 rupieci"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - b422cbcf-3b4f-4114-968d-75ca6166cca1
+    position: {x: 4584, y: -542.39996}
+  - id: 6b006f2c-468d-405f-8ad3-6d5e590a5f16
+    fileName: A1M2 - Step 9.1
+    flags: []
+    description: "Pozb\u0105d\u017A si\u0119 kota"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - c09ce13d-d00f-49f3-a8d4-36c68e40bdd9
+    position: {x: 5079.2, y: -542.39996}
+  - id: 3b091bb5-577a-4308-a966-ee52cdc3a44e
+    fileName: A1M2 - Step 9.2
+    flags: []
+    description: "Znajd\u017A zaginiony wisiorek M\u0142ynnika lub daj mu inne \u015Bwiecide\u0142ko"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - c09ce13d-d00f-49f3-a8d4-36c68e40bdd9
+    position: {x: 5079.2, y: -250.40001}
+  - id: 578a8d52-4669-408d-b576-9aed6e46ed06
+    fileName: A1M2 - Step 9.3
+    flags: []
+    description: "Pozb\u0105d\u017A si\u0119 M\u0142ynnika si\u0142\u0105"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 8c28c415-fcaf-4b13-8ea9-2035c8f7f09c
+    - c2e395f4-125c-4736-99e2-7db802ec9694
+    position: {x: 5079.2, y: 64}
+  - id: b422cbcf-3b4f-4114-968d-75ca6166cca1
+    fileName: A1M2 - Step 8
+    flags: []
+    description: "Porozmawiaj z m\u0142ynnikiem"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 6b006f2c-468d-405f-8ad3-6d5e590a5f16
+    - 3b091bb5-577a-4308-a966-ee52cdc3a44e
+    - 578a8d52-4669-408d-b576-9aed6e46ed06
+    position: {x: 4803.2, y: -542.39996}
+  - id: c09ce13d-d00f-49f3-a8d4-36c68e40bdd9
+    fileName: A1M2 - Step 10
+    flags: []
+    description: "Porozmawiaj z m\u0142ynnikiem"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - 8c28c415-fcaf-4b13-8ea9-2035c8f7f09c
+    position: {x: 5433.6, y: -542.39996}
+  - id: 8c28c415-fcaf-4b13-8ea9-2035c8f7f09c
+    fileName: A1M2 - Step 11
+    flags: []
+    description: "Napraw m\u0142yn"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes:
+    - aac66258-2207-4470-a66c-0c286bca2294
+    position: {x: 5780.8, y: -542.39996}
+  - id: c2e395f4-125c-4736-99e2-7db802ec9694
+    fileName: A1M2 - Step 12.2
+    flags: []
+    description: "Powiedz ojcu o z\u0142amanej z\u0119batce"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes: []
+    position: {x: 6000, y: 64}
+  - id: aac66258-2207-4470-a66c-0c286bca2294
+    fileName: A1M2 - Step 12.1
+    flags: []
+    description: Porozmawiaj z ojcem
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
+    connectedNodes: []
+    position: {x: 6020, y: -542.39996}
+  - id: 0b4a61b2-960e-42f6-8f7d-aa3cb39b21cf
+    fileName: A1S1 - Step 1
+    flags: []
+    description: "Porozmawiaj z Olg\u0105"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedNodes:
+    - 077e6406-4fee-4e0b-bb6f-966710846c2d
+    position: {x: 2045.6, y: 771.2}
+  - id: 077e6406-4fee-4e0b-bb6f-966710846c2d
+    fileName: A1S1 - Step 2
+    flags: []
+    description: "Id\u017A do kurnika"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedNodes:
+    - 5dc43dcb-67d3-465b-aa96-6a204e50453d
+    - fdd61c4c-1d80-4541-9ed0-36e9a556911c
+    position: {x: 2284.8, y: 771.2}
+  - id: d5c997fc-29f1-4429-8238-040d57601c33
+    fileName: A1S1 - Step 4
+    flags: []
+    description: Oddaj jaja Oldze
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedNodes: []
+    position: {x: 2896.8, y: 866.4}
+  - id: 5dc43dcb-67d3-465b-aa96-6a204e50453d
+    fileName: A1S1 - Step 3.1
+    flags: []
+    description: Walcz z kogutem
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedNodes:
+    - d5c997fc-29f1-4429-8238-040d57601c33
+    position: {x: 2596.8, y: 771.2}
+  - id: 56da8398-8b3e-4d58-b8cb-7194cc6959ea
+    fileName: A1S2 - Step 1
+    flags: []
+    description: "Porozmawiaj z Din\u0105"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 0b7c4997-bb77-4737-9c31-1eb34415116f
+    connectedNodes:
+    - d33b366e-dce0-416e-ba1b-d530efaf421c
+    position: {x: 3476.8, y: 726.4}
+  - id: d33b366e-dce0-416e-ba1b-d530efaf421c
+    fileName: A1S2 - Step 2
+    flags: []
+    description: "Znajd\u017A chust\u0119"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 0b7c4997-bb77-4737-9c31-1eb34415116f
+    connectedNodes:
+    - 4ebbf028-77d8-4c1c-9aac-8d0dc953b6e8
+    position: {x: 3720.8, y: 726.4}
+  - id: 4ebbf028-77d8-4c1c-9aac-8d0dc953b6e8
+    fileName: A1S2 - Step 3
+    flags: []
+    description: "Oddaj Dinie chust\u0119"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: 0b7c4997-bb77-4737-9c31-1eb34415116f
+    connectedNodes: []
+    position: {x: 3961.6, y: 726.4}
+  - id: 3f9ae06c-6746-4459-86fd-fccd698c50f5
+    fileName: A1S4 - Step 2
+    flags: []
+    description: "Znajd\u017A miejsce o kt\xF3rym m\xF3wi\u0142 Stanis\u0142aw"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
+    connectedNodes:
+    - 5dbd9955-4e24-4c2f-8393-e20fc95c30d9
+    position: {x: 4760.8, y: 732.8}
+  - id: 29fef397-d219-49ce-86f4-a852d27c187c
+    fileName: A1S4 - Step 1
+    flags: []
+    description: "Obud\u017A Stanis\u0142awa"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
+    connectedNodes:
+    - 3f9ae06c-6746-4459-86fd-fccd698c50f5
+    position: {x: 4536, y: 732.8}
+  - id: 5dbd9955-4e24-4c2f-8393-e20fc95c30d9
+    fileName: A1S4 - Step 3
+    flags: []
+    description: "Oddaj fajk\u0119 Stanis\u0142awowi"
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
+    connectedNodes: []
+    position: {x: 5020.8, y: 732.8}
+  - id: fdd61c4c-1d80-4541-9ed0-36e9a556911c
+    fileName: A1S1 - Step 3.2
+    flags: []
+    description: Ukradnij jajka
+    repeatAmount: 0
+    prefab: {fileID: 0}
+    groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
+    connectedNodes:
+    - d5c997fc-29f1-4429-8238-040d57601c33
+    position: {x: 2596.8, y: 1085.6}
   oldGroupNames:
   - Prologue
+  - A1M1 - Zapomniany obiad
+  - A1S1 - Ale jaja!
+  - A1S2 - Zaginiona chusta
+  - "A1S4 - Pierwsza zagadka Stanis\u0142awa"
+  - "A1M2 - K\u0142opoty w m\u0142ynie"
+  - "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
   oldUngroupedNodeNames: []
   oldGroupedNodeNames:
     list:
@@ -186,3 +557,49 @@ MonoBehaviour:
       - prologue_1
       - prologue_2
       - prologue_3
+    - Key: A1M1 - Zapomniany obiad
+      Value:
+      - A1M1 - Step 1
+      - A1M1 - Step 2
+      - A1M1
+    - Key: "A1M2 - K\u0142opoty w m\u0142ynie"
+      Value:
+      - A1M2 - Step 1
+      - A1M2 - Step 2
+      - A1M2 - Step 3
+      - A1M2 - Step 4
+      - A1M2 - Step 5
+      - A1M2 - Step 6
+      - A1M2 - Step 7
+      - A1M2 - Step 9.1
+      - A1M2 - Step 9.2
+      - A1M2 - Step 9.3
+      - A1M2 - Step 8
+      - A1M2 - Step 10
+      - A1M2 - Step 11
+      - A1M2 - Step 12.2
+      - A1M2 - Step 12.1
+      - A1M2
+    - Key: A1S1 - Ale jaja!
+      Value:
+      - A1S1 - Step 1
+      - A1S1 - Step 2
+      - A1S1 - Step 4
+      - A1S1 - Step 3.1
+      - A1S1 - Step 3.2
+      - A1S1
+    - Key: A1S2 - Zaginiona chusta
+      Value:
+      - A1S2 - Step 1
+      - A1S2 - Step 2
+      - A1S2 - Step 3
+      - A1S2
+    - Key: "A1S4 - Pierwsza zagadka Stanis\u0142awa"
+      Value:
+      - A1S4 - Step 2
+      - A1S4 - Step 1
+      - A1S4 - Step 3
+      - A1S4
+    - Key: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
+      Value:
+      - A1M3

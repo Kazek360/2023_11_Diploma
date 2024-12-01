@@ -8,11 +8,9 @@ namespace SaveSystem.Data
     [Serializable]
     public class GameData
     {
-        public long lastUpdated;
-        public string saveDate;
-        public string currentScene;
-        public Tuple<float, float> playerPosition;
-        public Dictionary<string, Dictionary<string, Tuple<float, float>>> charactersPosition;
+        public SaveData save;
+        public SceneData scene;
+        public CharacterPositionData charactersPosition;
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
         public Dictionary<string, bool> skillTreeNodesState;
         public Dictionary<string, int> resources;
@@ -21,18 +19,20 @@ namespace SaveSystem.Data
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
         public Dictionary<string, Flag> Flags;
-        public string inkVariables;
 
         public GameData()
         {
-            charactersPosition = new Dictionary<string, Dictionary<string, Tuple<float, float>>>();
+            save = new SaveData();
+            scene = new SceneData();
+            charactersPosition = new CharacterPositionData()
+            {
+                npcPositions = new Dictionary<string, List<CharacterPositionData.Position>>()
+            };
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
             skillTreeNodesState = new Dictionary<string, bool>();
             inventory = new Tuple<int, int>[7, 5];
             equipment = new int[5];
-            saveDate = "";
-            currentScene = "ForestPrologue";
         }
     }
 }

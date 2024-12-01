@@ -1,3 +1,4 @@
+using Location;
 using SaveSystem;
 using SaveSystem.Data;
 using TMPro;
@@ -29,7 +30,7 @@ namespace UI.SaveLoad
             }
             else
             {
-                _saveSlotText.text = $"{gameData.currentScene} - {gameData.saveDate}"; 
+                _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - {gameData.save.date}"; 
             }
 
             _profileName = profile;
@@ -39,8 +40,8 @@ namespace UI.SaveLoad
         private void Save()
         { 
             DataPersistenceManager.Instance.SaveGame(_profileName);
-            _saveSlotText.text = $"{DataPersistenceManager.Instance.CurrentGameData.currentScene} - " +
-                                 $"{DataPersistenceManager.Instance.CurrentGameData.saveDate}"; 
+            _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - " +
+                                 $"{DataPersistenceManager.Instance.CurrentGameData.save.date}"; 
         }
     }
 }

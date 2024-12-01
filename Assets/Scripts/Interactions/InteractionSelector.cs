@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Dialogue;
 using UnityEngine;
 
 namespace Interactions
@@ -7,6 +8,7 @@ namespace Interactions
     {
         private List<IInteractable> _availableInteractions = new List<IInteractable>();
         private IInteractable _closestInteraction;
+        private bool _enabled;
 
         private void OnEnable()
         {
@@ -14,6 +16,8 @@ namespace Interactions
             InteractionEvents.OnInteractionAreaExit += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger += TriggerClosestInteraction;
+            DialogueEvents.OnDialogueStarted += DisableInteraction;
+            DialogueEvents.OnDialogueFinished += EnableInteraction;
         }
         private void OnDisable()
         {
@@ -21,11 +25,21 @@ namespace Interactions
             InteractionEvents.OnInteractionAreaExit -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger -= TriggerClosestInteraction;
+            DialogueEvents.OnDialogueStarted -= DisableInteraction;
+            DialogueEvents.OnDialogueFinished -= EnableInteraction;
         }
 
+        private void Start()
+        {
+            _enabled = true;
+        }
+        
         private void Update()
         {
-            CalculateClosestInteraction();
+            if (_enabled)
+            {
+                CalculateClosestInteraction();
+            }
         }
 
         private void TriggerClosestInteraction()
@@ -70,22 +84,40 @@ namespace Interactions
                             currentClosestInteraction = availableInteraction;
                         }
                     }
-                    _closestInteraction.HideIndicator();
-                    _closestInteraction = currentClosestInteraction;
-                    _closestInteraction.ShowIndicator();
+
+                    ChangeClosestInteraction(currentClosestInteraction);
                 }
                 else
                 {
-                    _closestInteraction.HideIndicator();
-                    _closestInteraction = _availableInteractions[0];
-                    _closestInteraction.ShowIndicator();
+                    ChangeClosestInteraction(_availableInteractions[0]);
                 }
             }
-            else if (_closestInteraction is not null)
+            else if (_closestInteraction != null)
             {
                 _closestInteraction.HideIndicator();
                 _closestInteraction = null;
             }
+        }
+
+        private void ChangeClosestInteraction(IInteractable newClosestInteraction)
+        {
+            _closestInteraction.HideIndicator();
+            _closestInteraction = newClosestInteraction;
+            _closestInteraction.ShowIndicator();
+        }
+
+        private void DisableInteraction(DialogueInfo info)
+        {
+            _enabled = false;
+            if (_closestInteraction != null)
+            {
+                _closestInteraction.HideIndicator();
+            }
+        }
+
+        private void EnableInteraction(DialogueInfo info)
+        {
+            _enabled = true;
         }
     }
 }

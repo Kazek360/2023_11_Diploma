@@ -167,6 +167,10 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData gameData)
     {
+        if (DataPersistenceManager.Instance.CurrentLoadMode == LoadMode.NewGame)
+        {
+            return;
+        }
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
@@ -198,20 +202,6 @@ public class Inventory : MonoBehaviour, IDataPersistence
         {
             _equipmentSlots[i].EquipItem(GameConfig.itemLibrary.GetItem(gameData.equipment[i]));
         }
-    }
-
-    public void InitializeOnNewGame()
-    {
-    }
-
-    public void LoadDataFromSaveFile(GameData gameData)
-    {
-        LoadData(gameData);
-    }
-
-    public void LoadDataBetweenScenes(GameData gameData)
-    {
-        LoadData(gameData);
     }
 
     public void SaveData(ref GameData gameData)

@@ -11,7 +11,6 @@ namespace UI.Interfaces
             base.OnEnter();
             InputManager.Instance.Controlls.Player.Disable();
             InputManager.Instance.Controlls.UI.Disable();
-            InputManager.Instance.Controlls.Story.Enable();   
         }
         
         public override void OnExit()
@@ -19,7 +18,6 @@ namespace UI.Interfaces
             base.OnExit();
             InputManager.Instance.Controlls.Player.Enable();
             InputManager.Instance.Controlls.UI.Enable();
-            InputManager.Instance.Controlls.Story.Disable();   
         }
     }
 }

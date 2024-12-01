@@ -95,58 +95,33 @@ namespace SaveSystem
             {
                 case LoadMode.MainMenu:
                     ChangeCurrentGameDataToMostRecent();
-                    break;
+                    return;
                 case LoadMode.NewGame:
                     _currentGameData = new GameData();
-                    InitializeDataOnNewGame();
-                    break;
-                case LoadMode.FromSaveFile:
-                    LoadGameDataFromSaveFile();
                     break;
                 case LoadMode.DirectlyFromScene:
                     if (useMostRecentGameData)
                     {
                         ChangeCurrentGameDataToMostRecent();
-                        LoadGameDataFromSaveFile();
+                        CurrentLoadMode = LoadMode.FromSaveFile;
                     }
                     if (_currentGameData is null)
                     {
                         _currentGameData = new GameData();
-                        InitializeDataOnNewGame();
+                        CurrentLoadMode = LoadMode.NewGame;
                     }
                     break;
-                case LoadMode.BetweenScenes:
-                    LoadGameDataBetweenScenes();
-                    break;
             }
-        }
-
-        private void InitializeDataOnNewGame()
-        {
-            foreach (var dataPersistenceObject in _dataPersistenceObjects)
-            {
-                dataPersistenceObject.InitializeOnNewGame();
-            }
+            LoadGameData();
         }
         
-        private void LoadGameDataFromSaveFile()
+        private void LoadGameData()
         {
             if (_currentGameData is not null)
             {
                 foreach (var dataPersistenceObject in _dataPersistenceObjects)
                 {
-                    dataPersistenceObject.LoadDataFromSaveFile(_currentGameData);
-                }
-            }
-        }
-        
-        private void LoadGameDataBetweenScenes()
-        {
-            if (_currentGameData is not null)
-            {
-                foreach (var dataPersistenceObject in _dataPersistenceObjects)
-                {
-                    dataPersistenceObject.LoadDataBetweenScenes(_currentGameData);
+                    dataPersistenceObject.LoadData(_currentGameData);
                 }
             }
         }
@@ -157,9 +132,8 @@ namespace SaveSystem
             {
                 return;
             }
-            _currentGameData.lastUpdated = DateTime.Now.ToBinary();
-            _currentGameData.saveDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
-            _currentGameData.currentScene = SceneManager.GetActiveScene().name;
+            _currentGameData.save.lastUpdated = DateTime.Now.ToBinary();
+            _currentGameData.save.date = DateTime.Now.ToString("dd.MM.yy HH:mm");
             foreach (var dataPersistenceObject in _dataPersistenceObjects)
             {
                 dataPersistenceObject.SaveData(ref _currentGameData);

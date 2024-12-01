@@ -1,3 +1,4 @@
+using System;
 using Cutscenes;
 using Dialogue;
 using InputSystem;
@@ -174,5 +175,11 @@ namespace Player
             position.z = 0;
             transform.position = position;
         }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            _rigidbody.velocity = Vector2.zero;
+        }
+        
     }
 }

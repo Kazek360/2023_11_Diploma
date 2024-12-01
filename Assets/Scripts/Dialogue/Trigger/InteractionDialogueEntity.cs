@@ -44,7 +44,7 @@ namespace Dialogue.Trigger
                 StartDialogue();
             }
         }
-
+        
         public Vector3 GetCoordinates()
         {
             return transform.position;

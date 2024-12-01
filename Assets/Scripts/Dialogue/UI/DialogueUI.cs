@@ -7,6 +7,7 @@ using InputSystem;
 using Quests;
 using UI;
 using UI.Interfaces;
+using UnityEngine.Serialization;
 
 namespace Dialogue.UI
 {
@@ -16,7 +17,7 @@ namespace Dialogue.UI
         public override UserInterfaceState State => UserInterfaceState.Dialogue;
         
         [Header("Params")] 
-        [SerializeField] private float typingSpeed;
+        [SerializeField] private float typingDelay;
         
         [Header("Components")] 
         [SerializeField] private Animator portraitAnimator;
@@ -138,6 +139,7 @@ namespace Dialogue.UI
                 QuestEvents.StartQuest(_currentDialogue.questToStart.name);
             }
             dialogueText.text = "";
+            portraitAnimator.Play("none");
         }
         
         private IEnumerator DisplayLine(string line)
@@ -167,7 +169,7 @@ namespace Dialogue.UI
                 else
                 {
                     dialogueText.maxVisibleCharacters++;
-                    yield return new WaitForSeconds(typingSpeed);
+                    yield return new WaitForSeconds(typingDelay);
                 }
             }
             DisplayChoices();
