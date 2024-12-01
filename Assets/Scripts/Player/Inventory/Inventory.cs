@@ -234,5 +234,22 @@ public class Inventory : MonoBehaviour, IDataPersistence
             }
         }
     }
+
+    public int CountItems(int id)
+    {
+        int result = 0;
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.Item is not null)
+            {
+                if (slot.Item.itemID == id)
+                {
+                    result += slot.Count;
+                }
+            }
+        }
+
+        return result;
+    }
 }
 
