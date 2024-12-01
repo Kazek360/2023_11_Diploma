@@ -102,6 +102,31 @@ public class Inventory : MonoBehaviour, IDataPersistence
     {
         _inventorySlots[x, y].RemoveItem();
     }
+    
+    public int RemoveItem(int itemID, int amountToRemove)
+    {
+        ItemScriptableObject item = _itemLibrary.GetItem(itemID);
+        
+        foreach (InventorySlot inventorySlot in _inventorySlots)
+        {
+            if (amountToRemove == 0)
+            {
+                return amountToRemove;
+            }
+            if (inventorySlot.Item is null)
+            {
+                continue;
+            }
+
+            if (inventorySlot.Item.itemID == itemID)
+            {
+                int removeNow = Math.Min(amountToRemove, inventorySlot.Count);
+                inventorySlot.RemoveItem(removeNow);
+                amountToRemove -= removeNow;
+            }
+        }
+        return amountToRemove;
+    }
 
     /**
      * Place items in given position in inventory
@@ -162,6 +187,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     private void LoadDefault()
     {
+        AddItem(1, 2);
         AddItem(2, 1);
         AddItem(4, 1);
     }
