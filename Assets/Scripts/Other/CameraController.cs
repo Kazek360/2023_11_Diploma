@@ -36,6 +36,11 @@ public class CameraController : MonoBehaviour
     {
         OnCameraDragStop?.Invoke();
     }
+    public static event Action<Vector2> OnCameraZooming;
+    public static void InvokeOnCameraZooming(Vector2 zoom)
+    {
+        OnCameraZooming?.Invoke(zoom);
+    }
     public static event Action OnCameraFollow;
     public static void InvokeOnCameraFollow()
     {
@@ -48,6 +53,7 @@ public class CameraController : MonoBehaviour
         OnCameraDragged += DragCamera;
         OnCameraDragStop += StopCameraDrag;
         OnCameraFollow += EnableFollowingPlayer;
+        OnCameraZooming += HandleZoom;
     }
     private void OnDisable()
     {
@@ -55,6 +61,7 @@ public class CameraController : MonoBehaviour
         OnCameraDragged -= DragCamera;
         OnCameraDragStop -= StopCameraDrag;
         OnCameraFollow -= EnableFollowingPlayer;
+        OnCameraZooming -= HandleZoom;
     }
     
     private void Start()
@@ -67,8 +74,6 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        HandleZoom();
-        
         if (_isFollowingPlayer)
         {
             FollowPlayer();
@@ -141,15 +146,12 @@ public class CameraController : MonoBehaviour
     private float _targetZoom; 
     private float _zoomVelocity = 0.0f; 
 
-    private void HandleZoom()
+    private void HandleZoom(Vector2 scrollValue)
     {
-        float scrollData = Input.GetAxis("Mouse ScrollWheel");
-        if (scrollData != 0f)
-        {
-            _targetZoom -= scrollData * zoomSpeed;
-            _targetZoom = Mathf.Clamp(_targetZoom, _minZoom, _maxZoom); 
-        }
-
+        var zoomValue = scrollValue.y;
+        
+        _targetZoom -= zoomValue * zoomSpeed;
+        _targetZoom = Mathf.Clamp(_targetZoom, _minZoom, _maxZoom); 
         _camera.orthographicSize = Mathf.SmoothDamp(_camera.orthographicSize, _targetZoom, ref _zoomVelocity, 0.2f);
     }
 

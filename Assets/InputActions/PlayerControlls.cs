@@ -55,7 +55,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CenterCamera"",
+                    ""name"": ""Center Camera"",
                     ""type"": ""Button"",
                     ""id"": ""db3cb28f-681a-4514-a826-1c3cb3d08677"",
                     ""expectedControlType"": ""Button"",
@@ -64,7 +64,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseMovement"",
+                    ""name"": ""Mouse Movement"",
                     ""type"": ""Button"",
                     ""id"": ""361d610a-1285-4e7b-aabb-fa8c7b27a9ff"",
                     ""expectedControlType"": ""Button"",
@@ -73,13 +73,22 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CameraDragging"",
+                    ""name"": ""Camera Dragging"",
                     ""type"": ""Button"",
                     ""id"": ""34ee03d6-8b3d-4c65-aa93-71fe0eac7c4d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Camera Zooming"",
+                    ""type"": ""Value"",
+                    ""id"": ""219fb60c-ab35-4ac0-9f3d-7154b0f9170a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -167,7 +176,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CenterCamera"",
+                    ""action"": ""Center Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -178,7 +187,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseMovement"",
+                    ""action"": ""Mouse Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -189,9 +198,64 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CameraDragging"",
+                    ""action"": ""Camera Dragging"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c6d0bbe9-90cc-4269-b8be-0600fdd4e748"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Zooming"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d4e16b38-e04d-445c-bd43-8e80b445d716"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""58ef5d2a-d3c9-41ac-95d6-7d68e34465e0"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f3328d56-a953-43d0-8a36-de158b4961af"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""c2365a95-5967-498b-9813-fa905cfcdee2"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -484,9 +548,10 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
-        m_Player_CenterCamera = m_Player.FindAction("CenterCamera", throwIfNotFound: true);
-        m_Player_MouseMovement = m_Player.FindAction("MouseMovement", throwIfNotFound: true);
-        m_Player_CameraDragging = m_Player.FindAction("CameraDragging", throwIfNotFound: true);
+        m_Player_CenterCamera = m_Player.FindAction("Center Camera", throwIfNotFound: true);
+        m_Player_MouseMovement = m_Player.FindAction("Mouse Movement", throwIfNotFound: true);
+        m_Player_CameraDragging = m_Player.FindAction("Camera Dragging", throwIfNotFound: true);
+        m_Player_CameraZooming = m_Player.FindAction("Camera Zooming", throwIfNotFound: true);
         // Story
         m_Story = asset.FindActionMap("Story", throwIfNotFound: true);
         m_Story_Skip = m_Story.FindAction("Skip", throwIfNotFound: true);
@@ -569,6 +634,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CenterCamera;
     private readonly InputAction m_Player_MouseMovement;
     private readonly InputAction m_Player_CameraDragging;
+    private readonly InputAction m_Player_CameraZooming;
     public struct PlayerActions
     {
         private @PlayerControlls m_Wrapper;
@@ -579,6 +645,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
         public InputAction @MouseMovement => m_Wrapper.m_Player_MouseMovement;
         public InputAction @CameraDragging => m_Wrapper.m_Player_CameraDragging;
+        public InputAction @CameraZooming => m_Wrapper.m_Player_CameraZooming;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -606,6 +673,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CameraDragging.started += instance.OnCameraDragging;
             @CameraDragging.performed += instance.OnCameraDragging;
             @CameraDragging.canceled += instance.OnCameraDragging;
+            @CameraZooming.started += instance.OnCameraZooming;
+            @CameraZooming.performed += instance.OnCameraZooming;
+            @CameraZooming.canceled += instance.OnCameraZooming;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -628,6 +698,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CameraDragging.started -= instance.OnCameraDragging;
             @CameraDragging.performed -= instance.OnCameraDragging;
             @CameraDragging.canceled -= instance.OnCameraDragging;
+            @CameraZooming.started -= instance.OnCameraZooming;
+            @CameraZooming.performed -= instance.OnCameraZooming;
+            @CameraZooming.canceled -= instance.OnCameraZooming;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -839,6 +912,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnCenterCamera(InputAction.CallbackContext context);
         void OnMouseMovement(InputAction.CallbackContext context);
         void OnCameraDragging(InputAction.CallbackContext context);
+        void OnCameraZooming(InputAction.CallbackContext context);
     }
     public interface IStoryActions
     {
