@@ -275,6 +275,7 @@ public class CombatUI : UserInterface
         _combatSystem.UpdateUICounters();
         ShowAbilities();
         ShowItems();
+        _entityManager.UpdateEntityHealthbars();
         
         SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }

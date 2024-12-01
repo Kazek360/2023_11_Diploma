@@ -290,4 +290,15 @@ public class EntityManager : MonoBehaviour
         entityVec.Sort((p1,p2)=>p1.GetComponent<IHittable>().GetAgility().CompareTo(p2.GetComponent<IHittable>().GetAgility()));
         return entityVec;
     }
+
+    public void UpdateEntityHealthbars()
+    {
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().activeInHierarchy)
+            {
+                entity.ModifyHealth(0);
+            }
+        }
+    }
 }

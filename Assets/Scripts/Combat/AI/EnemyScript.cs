@@ -83,7 +83,6 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        Debug.Log(_partner.GetEntityName() + " PARTNERED");
         _combatSystem.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
     }
 
