@@ -49,11 +49,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
         _entityManager = gameObject.GetComponentInParent<EntityManager>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        if (IsMaterial() && Partner is not null)
-        {
-            _partner = Partner.GetComponent<IHittable>();
-            _partner.SetPartnerEntity(this);
-        }
+        // if (IsMaterial() && Partner is not null)
+        // {
+        //     _partner = Partner.GetComponent<IHittable>();
+        //     _partner.SetPartnerEntity(this);
+        // }
         _combatUI = _combatSystem.GetCombatUI();
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
@@ -83,6 +83,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
+        Debug.Log(_partner.GetEntityName() + " PARTNERED");
         _combatSystem.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
     }
 

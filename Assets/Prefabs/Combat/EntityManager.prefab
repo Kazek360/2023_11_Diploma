@@ -58,8 +58,14 @@ MonoBehaviour:
   - {fileID: 6078088242183548141}
   - {fileID: 6372094905163893427}
   - {fileID: 6763971817192993707}
+  entityPrefabs:
+  - {fileID: 8893886096949609619, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
+  - {fileID: 8893886096949609619, guid: 311e896d1269e15428c0502e15efb213, type: 3}
+  - {fileID: 3908626592184313377, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
+  - {fileID: 3908626592184313377, guid: edb4db0a3df4ac546850c9fcfb6c2721, type: 3}
   EnemiesToDefeat: 2
   SceneToOpenAfterVictory: 4
+  entitiesString: 
   SceneToOpenAfterLoss: 4
 --- !u!114 &8440659529418416235
 MonoBehaviour:
@@ -73,14 +79,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8636b406f9ad60a49a8e38753f1fbe21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexPrefab: {fileID: 4220744316967080218, guid: edd7f0828a0b64c40ac48c06eb624abd, type: 3}
-  mainCamera: {fileID: 0}
   currentUnit: {fileID: 0}
   combatUI: {fileID: 0}
-  width: 5
-  height: 4
-  cellSize: 2.9
-  offset: {x: -3, y: -3}
+  combatEnvironmentManager: {fileID: 0}
 --- !u!1001 &3401584708333840510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -354,32 +355,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TheBadGuy(TM) (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 6508188991034881442, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
-      propertyPath: m_SortingLayer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6508188991034881442, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 362952979
-      objectReference: {fileID: 0}
     - target: {fileID: 9182913053722766761, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
       propertyPath: Partner
-      value: 
-      objectReference: {fileID: 6763971817192993707}
-    - target: {fileID: 9182913053722766761, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
-      propertyPath: partner
       value: 
       objectReference: {fileID: 6763971817192993707}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3908626592184313377, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 176609132055869688}
-    - targetCorrespondingSourceObject: {fileID: 3908626592184313377, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8548408422395656752}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
 --- !u!4 &5227192370419483184 stripped
 Transform:
@@ -391,43 +374,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3908626592184313377, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
   m_PrefabInstance: {fileID: 6987869478831611543}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &176609132055869688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6253210053961578678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7b6a5e90673d7244ba73b670ba747a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 50
-  currentState: 0
-  GridX: 4
-  GridY: 3
---- !u!95 &8548408422395656752
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6253210053961578678}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 14050d7b34028b34aa68b967be335b70, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7773300550958847370
 PrefabInstance:
   m_ObjectHideFlags: 0

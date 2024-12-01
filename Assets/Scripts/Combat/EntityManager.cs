@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Combat;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -12,12 +15,15 @@ public class EntityManager : MonoBehaviour
 {
     private CombatSystem _combatSystem;
     [FormerlySerializedAs("turnOrder")] [SerializeField] private List<GameObject> TurnOrder;
+    [SerializeField] private List<GameObject> entityPrefabs;
     
     private List<IHittable> _turnOrder;
     private List<UnitCombat> _combatUnits;
 
     [FormerlySerializedAs("enemiesToDefeat")] [SerializeField] private int EnemiesToDefeat;
     [FormerlySerializedAs("sceneToOpenAfterVictory")] [SerializeField] private int SceneToOpenAfterVictory;
+    [SerializeField] [TextArea] private String entitiesString;
+    
     [SerializeField] private int SceneToOpenAfterLoss;
     private int _enemiesDefeated;
 
@@ -26,6 +32,7 @@ public class EntityManager : MonoBehaviour
     void OnEnable()
     {
         _combatSystem = GetComponent<CombatSystem>();
+        TurnOrder = SpawnEntities();
         _currentEntity = -1;
         _turnOrder = new List<IHittable>();
         _combatUnits = new List<UnitCombat>();
@@ -45,7 +52,7 @@ public class EntityManager : MonoBehaviour
 
     public void Start()
     {
-        ShowEntities(true);
+        //ShowEntities(true);
     }
 
 
@@ -251,5 +258,36 @@ public class EntityManager : MonoBehaviour
                 _combatSystem.DisableDeadEntityInQueue(i);
             }
         }
+    }
+
+    private List<GameObject> SpawnEntities()
+    {
+        List<GameObject> entityVec = new List<GameObject>();
+        String[] entityLines = entitiesString.Split("\n");
+        int[][] entities = new int[entityLines.Length][];
+        for(int i = 0; i < entityLines.Length; i++)
+        {
+            entities[i] = new int[4];   //Format: entity_number,x,y
+            String[] entityValues = entityLines[i].Split(",");
+            entities[i][0] = int.Parse(entityValues[0]);
+            entities[i][1] = int.Parse(entityValues[1]);
+            entities[i][2] = int.Parse(entityValues[2]);
+            if (entityValues.Length > 3)
+            {
+                entities[i][3] = int.Parse(entityValues[3]);
+            }
+
+            GameObject spawned = Instantiate(entityPrefabs[entities[i][0]], gameObject.transform);
+            spawned.GetComponent<UnitCombat>().SetGridLocation(entities[i][1], entities[i][2]);
+            if (entityValues.Length > 3)
+            {
+                entities[i][3] = int.Parse(entityValues[3]);
+                spawned.GetComponent<IHittable>().SetPartnerEntity(entityVec[entities[i][3]].GetComponent<IHittable>());
+                entityVec[entities[i][3]].GetComponent<IHittable>().SetPartnerEntity(spawned.GetComponent<IHittable>());
+            }
+            entityVec.Add(spawned);
+        }
+        entityVec.Sort((p1,p2)=>p1.GetComponent<IHittable>().GetAgility().CompareTo(p2.GetComponent<IHittable>().GetAgility()));
+        return entityVec;
     }
 }

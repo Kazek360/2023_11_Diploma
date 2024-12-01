@@ -361,6 +361,7 @@ GameObject:
   - component: {fileID: 6179210004353432894}
   - component: {fileID: 5851942012657732704}
   - component: {fileID: 2885540216543266031}
+  - component: {fileID: 6097160398675784597}
   m_Layer: 0
   m_Name: EvilSpirit
   m_TagString: Enemy
@@ -428,7 +429,7 @@ SpriteRenderer:
   m_SortingLayerID: 362952979
   m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c170f8d72d3d20243be3c995179ff1fa, type: 3}
+  m_Sprite: {fileID: -561178529, guid: 902c49f7788b93e4d8ecd30b56d96fa6, type: 3}
   m_Color: {r: 0.35533974, g: 0.14231044, b: 0.7735849, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -501,6 +502,27 @@ MonoBehaviour:
   currentState: 0
   GridX: 0
   GridY: 0
+--- !u!95 &6097160398675784597
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908626592184313377}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14050d7b34028b34aa68b967be335b70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6787655916285253652
 GameObject:
   m_ObjectHideFlags: 0
