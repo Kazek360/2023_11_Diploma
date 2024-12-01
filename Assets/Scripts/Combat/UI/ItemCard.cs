@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ItemCard : MonoBehaviour, ITooltippable
 {
-    private UsableItem itemObject;
+    private ItemScriptableObject itemObject;
     [SerializeField] private Image ItemImage;
     [SerializeField] private TextMeshProUGUI ItemNameField;
     [SerializeField] private TextMeshProUGUI ItemCountField;
@@ -24,13 +24,12 @@ public class ItemCard : MonoBehaviour, ITooltippable
         
     }
     
-    public void SetItem(UsableItem itemObject, int orderNumber)
+    public void SetItem(ItemScriptableObject itemObject)
     {
         this.itemObject = itemObject;
-        ItemNameField.text = itemObject.ItemName;
+        ItemNameField.text = itemObject.itemName;
         ItemCountField.text = ItemCount() + "";
         ItemImage.sprite = itemObject.ItemSprite();
-        _itemOrderInEntityList = orderNumber;
     }
     
     /**
@@ -48,19 +47,25 @@ public class ItemCard : MonoBehaviour, ITooltippable
      */
     public void OnClicked()
     {
+        Debug.Log("ITEM USED");
         itemObject.Use();
+        GameConfig.PlayerInventory.RemoveItem(itemObject.itemID, 1);
         ItemCountField.text = ItemCount() + "";
+        if (ItemCount() <= 0)
+        {
+            gameObject.SetActive(false);
+        }
         _controllerClass.OnItemConsumed();
     }
 
     public int ItemCount()
     {
-        return GameConfig.PlayerInventory.CountItems(itemObject.ItemID);
+        return GameConfig.PlayerInventory.CountItems(itemObject.itemID);
     }
     
     public string GetTooltipHeader()
     {
-        return itemObject.ItemName;
+        return itemObject.itemName;
     }
 
     public string GetTooltipDesc()
