@@ -268,6 +268,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map Zooming"",
+                    ""type"": ""Value"",
+                    ""id"": ""63d81a71-9f7b-4d30-bd66-7a27355ff18b"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,61 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""Map Dragging"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""6347821a-ef9d-4578-86f5-ac110507750f"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Zooming"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a9f47272-dff8-4be2-b133-58e627febd01"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""64e4d000-e0e6-41d3-8e84-ec04af1de815"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d47b3333-e544-428d-bc59-deb5aedfbc4e"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5d9acf38-c667-459f-b08b-8a41669aa2fa"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Map Zooming"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -429,6 +493,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         // Map
         m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
         m_Map_MapDragging = m_Map.FindAction("Map Dragging", throwIfNotFound: true);
+        m_Map_MapZooming = m_Map.FindAction("Map Zooming", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_ToggleQuestLog = m_UI.FindAction("Toggle Quest Log", throwIfNotFound: true);
@@ -631,11 +696,13 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Map;
     private List<IMapActions> m_MapActionsCallbackInterfaces = new List<IMapActions>();
     private readonly InputAction m_Map_MapDragging;
+    private readonly InputAction m_Map_MapZooming;
     public struct MapActions
     {
         private @PlayerControlls m_Wrapper;
         public MapActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MapDragging => m_Wrapper.m_Map_MapDragging;
+        public InputAction @MapZooming => m_Wrapper.m_Map_MapZooming;
         public InputActionMap Get() { return m_Wrapper.m_Map; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -648,6 +715,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @MapDragging.started += instance.OnMapDragging;
             @MapDragging.performed += instance.OnMapDragging;
             @MapDragging.canceled += instance.OnMapDragging;
+            @MapZooming.started += instance.OnMapZooming;
+            @MapZooming.performed += instance.OnMapZooming;
+            @MapZooming.canceled += instance.OnMapZooming;
         }
 
         private void UnregisterCallbacks(IMapActions instance)
@@ -655,6 +725,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @MapDragging.started -= instance.OnMapDragging;
             @MapDragging.performed -= instance.OnMapDragging;
             @MapDragging.canceled -= instance.OnMapDragging;
+            @MapZooming.started -= instance.OnMapZooming;
+            @MapZooming.performed -= instance.OnMapZooming;
+            @MapZooming.canceled -= instance.OnMapZooming;
         }
 
         public void RemoveCallbacks(IMapActions instance)
@@ -774,6 +847,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     public interface IMapActions
     {
         void OnMapDragging(InputAction.CallbackContext context);
+        void OnMapZooming(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

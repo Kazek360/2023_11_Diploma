@@ -212,6 +212,14 @@ namespace InputSystem
             }
         }
         
+        public void OnMapZooming(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                MapCameraController.InvokeOnMapZooming(context.ReadValue<Vector2>());
+            }
+        }
+        
         public void OnToggleEscape(InputAction.CallbackContext context)
         {
             if (context.performed)
