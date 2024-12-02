@@ -57,11 +57,11 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         _effectsOverTime = new List<EffectOverTime>();
-        if (IsMaterial() && partner is not null)
-        {
-            _partner = partner.GetComponent<IHittable>();
-            _partner.SetPartnerEntity(this);
-        }
+        // if (IsMaterial() && partner is not null && partner )
+        // {
+        //     _partner = partner.GetComponent<IHittable>();
+        //     _partner.SetPartnerEntity(this);
+        // }
         for (int i = 0; i < abilities.Count; i++)
         {
             _cooldowns.Add(0);
@@ -99,6 +99,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
      */
     public void ProcessTurn()
     {
+        Debug.Log(this.GetEntityName() + " TURN");
+        Debug.Log(_partner.GetEntityName() + " PARTNERED");
         foreach (EffectOverTime effect in _effectsOverTime)
         {
             effect.ProcessTurn(this);

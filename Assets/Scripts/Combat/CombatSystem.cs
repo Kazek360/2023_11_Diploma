@@ -141,6 +141,7 @@ namespace Combat
             _currentHittable = hittable;
             UpdateUICounters();
             combatUI.ShowAbilities();
+            combatUI.ShowItems();
             combatEnvironmentManager.HighlightNeighborsInRadius(_currentGridObject, 1, false, _currentIsMaterial);
         }
 
@@ -220,7 +221,7 @@ namespace Combat
         /**
          * Update UI counters with current values
          */
-        private void UpdateUICounters()
+        public void UpdateUICounters()
         {
             combatUI.SetMovementCounter(_movementLeft, _startingMovement);
             combatUI.SetActionCounter(_actionsLeft, _startingActions);

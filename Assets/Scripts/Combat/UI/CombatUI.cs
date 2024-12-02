@@ -22,6 +22,8 @@ public class CombatUI : UserInterface
     [SerializeField] private GameObject LowerScreen;
     [FormerlySerializedAs("abilitiesScrollContent")] [SerializeField] private GameObject AbilitiesScrollContent;
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
+    [SerializeField] private GameObject ItemsScrollContent;
+    [SerializeField] private GameObject ItemCardPrefab;
     [FormerlySerializedAs("entityManager")] [SerializeField] private GameObject EntityManager;
     [FormerlySerializedAs("movementCounter")] [SerializeField] private GameObject MovementCounter;
     [SerializeField] private Image MovementFillImage;
@@ -72,6 +74,7 @@ public class CombatUI : UserInterface
     public void ShowCombatUI(IHittable entity)
     {
         AbilitiesScrollContent.SetActive(true);
+        ItemsScrollContent.SetActive(true);
         MovementCounter.SetActive(true);
         ActionCounter.SetActive(true);
         HealthCounter.gameObject.SetActive(true);
@@ -101,6 +104,32 @@ public class CombatUI : UserInterface
         }
     }
 
+    /**
+    * Populate UI with item cards
+    */
+    public void ShowItems()
+    {
+        //TODO: SHOW ITEM CARDS
+        if (_currentEntity.IsMaterial())
+        {
+            HashSet<int> items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+            foreach (var itemId in items)
+            {
+                var itemCard = Instantiate(ItemCardPrefab, ItemsScrollContent.transform);
+                ItemCard itemCardScript = itemCard.GetComponent<ItemCard>();
+                itemCardScript.SetItem(GameConfig.itemLibrary.GetItem(itemId));
+                itemCardScript.SetController(this);
+                if (_combatSystem.ActionsLeft > 0)
+                {
+                    itemCard.GetComponent<Button>().interactable = true;
+                }
+                else
+                {
+                    itemCard.GetComponent<Button>().interactable = false;
+                }
+            }
+        }
+    }
     
     /**
     * Show targets and range for the selected ability
@@ -186,7 +215,12 @@ public class CombatUI : UserInterface
             Transform child = AbilitiesScrollContent.transform.GetChild(i);
             Destroy(child.gameObject);
         }
+        for (int i = 0; i < ItemsScrollContent.transform.childCount; i++) {
+            Transform child = ItemsScrollContent.transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
         AbilitiesScrollContent.SetActive(false);
+        ItemsScrollContent.SetActive(false);
         MovementCounter.SetActive(false);
         ActionCounter.SetActive(false);
         HealthCounter.gameObject.SetActive(false);
@@ -210,7 +244,9 @@ public class CombatUI : UserInterface
         DisableCombatUI();
         _combatSystem.ActionsLeft--;
         ShowCombatUI(_currentEntity);
+        _combatSystem.UpdateUICounters();
         ShowAbilities();
+        ShowItems();
         
         SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }
@@ -226,6 +262,22 @@ public class CombatUI : UserInterface
         {
             ShowTargets(ability);
         }
+    }
+
+    public void OnItemConsumed()
+    {
+        //todo: IMPLEMENT UI REFRESH
+        HideTargets();
+        _abilitiesToggleGroup.SetAllTogglesOff();
+        DisableCombatUI();
+        _combatSystem.ActionsLeft--;
+        ShowCombatUI(_currentEntity);
+        _combatSystem.UpdateUICounters();
+        ShowAbilities();
+        ShowItems();
+        _entityManager.UpdateEntityHealthbars();
+        
+        SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }
 
     

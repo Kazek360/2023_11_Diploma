@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class Grid<TGridObject>
 {
@@ -11,7 +14,7 @@ public class Grid<TGridObject>
 
     private TGridObject[,] _gridArray;
 
-    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<int, int, TGridObject> createGridObject)
+    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<int, int, TGridObject> createGridObject, Char[][] tiles)
     {
         _width = width;
         _height = height;
@@ -23,7 +26,10 @@ public class Grid<TGridObject>
         {
             for (int y = 0; y < _gridArray.GetLength(1); y++)
             {
-                _gridArray[x, y] = createGridObject(x, y);
+                if (tiles[y][x].Equals('1'))
+                {
+                    _gridArray[x, y] = createGridObject(x, y);
+                }
             }
         }
     }

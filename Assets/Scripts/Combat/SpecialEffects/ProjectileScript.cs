@@ -10,6 +10,7 @@ public class ProjectileScript : MonoBehaviour
 {
     private GameObject _target;
     [FormerlySerializedAs("speed")] [SerializeField] private float Speed;
+    [SerializeField] private GameObject BangObject;
     void Start()
     {
         
@@ -26,6 +27,8 @@ public class ProjectileScript : MonoBehaviour
         transform.position +=  Speed * Time.deltaTime * moveDir;
         if (Vector3.Distance(_target.transform.position, transform.position) < Speed * Time.deltaTime * 2)
         {
+            var bang = Instantiate(BangObject);
+            bang.transform.position = gameObject.transform.position;
             Destroy(gameObject);
         }
     }

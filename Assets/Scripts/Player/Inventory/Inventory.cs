@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
 using UnityEngine;
@@ -101,6 +102,31 @@ public class Inventory : MonoBehaviour, IDataPersistence
     {
         _inventorySlots[x, y].RemoveItem();
     }
+    
+    public int RemoveItem(int itemID, int amountToRemove)
+    {
+        ItemScriptableObject item = _itemLibrary.GetItem(itemID);
+        
+        foreach (InventorySlot inventorySlot in _inventorySlots)
+        {
+            if (amountToRemove == 0)
+            {
+                return amountToRemove;
+            }
+            if (inventorySlot.Item is null)
+            {
+                continue;
+            }
+
+            if (inventorySlot.Item.itemID == itemID)
+            {
+                int removeNow = Math.Min(amountToRemove, inventorySlot.Count);
+                inventorySlot.RemoveItem(removeNow);
+                amountToRemove -= removeNow;
+            }
+        }
+        return amountToRemove;
+    }
 
     /**
      * Place items in given position in inventory
@@ -161,6 +187,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     private void LoadDefault()
     {
+        AddItem(1, 2);
         AddItem(2, 1);
         AddItem(4, 1);
     }
@@ -233,6 +260,40 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 gameData.equipment[i] = -1;
             }
         }
+    }
+
+    public int CountItems(int id)
+    {
+        int result = 0;
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.Item is not null)
+            {
+                if (slot.Item.itemID == id)
+                {
+                    result += slot.Count;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public HashSet<int> GetItems(ItemScriptableObject.ItemType type)
+    {
+        HashSet<int> result = new HashSet<int>();
+        foreach (var slot in _inventorySlots)
+        {
+            if (slot.Item is not null)
+            {
+                if (slot.Item.itemType == type)
+                {
+                    result.Add(slot.Item.itemID);
+                }
+            }
+        }
+
+        return result;
     }
 }
 

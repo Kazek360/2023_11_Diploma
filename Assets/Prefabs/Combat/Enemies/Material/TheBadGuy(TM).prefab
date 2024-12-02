@@ -444,6 +444,8 @@ GameObject:
   - component: {fileID: 6508188991034881442}
   - component: {fileID: 9182913053722766761}
   - component: {fileID: 6179210004353432894}
+  - component: {fileID: 3927507724361088681}
+  - component: {fileID: 402189242472530763}
   m_Layer: 0
   m_Name: TheBadGuy(TM)
   m_TagString: Enemy
@@ -508,8 +510,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 362952979
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -561178529, guid: 902c49f7788b93e4d8ecd30b56d96fa6, type: 3}
   m_Color: {r: 0.6009256, g: 0.6037736, b: 0.6037736, a: 1}
@@ -568,6 +570,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3927507724361088681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908626592184313377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b6a5e90673d7244ba73b670ba747a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 50
+  currentState: 0
+  GridX: 4
+  GridY: 3
+--- !u!95 &402189242472530763
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908626592184313377}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14050d7b34028b34aa68b967be335b70, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8308030875231964273
 GameObject:
   m_ObjectHideFlags: 0
