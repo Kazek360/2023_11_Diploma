@@ -145,6 +145,11 @@ namespace Player
             _rigidbody.velocity = Vector2.zero;
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isRunning", false);
+            
+            // zatrzymaj animacje przed czasem
+            _animator.Play("Idle");
+            
+            
         }
 
         private void EnableMovement(DialogueInfo dialogue)
