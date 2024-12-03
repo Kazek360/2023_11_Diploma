@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Quests;
 using Quests.Flags;
+using Tutorials;
 
 namespace SaveSystem.Data
 {
@@ -19,7 +20,8 @@ namespace SaveSystem.Data
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
         public Dictionary<string, Flag> Flags;
-
+        public Dictionary<string, Tutorial> tutorials;
+        
         public GameData()
         {
             save = new SaveData();
@@ -33,6 +35,7 @@ namespace SaveSystem.Data
             skillTreeNodesState = new Dictionary<string, bool>();
             inventory = new Tuple<int, int>[7, 5];
             equipment = new int[5];
+            tutorials = new Dictionary<string, Tutorial>();
         }
     }
 }
