@@ -361,6 +361,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         return Material;
     }
     
+    public bool IsPlayerControlled()
+    {
+        return false;
+    }
+
     public IHittable GetPartner()
     {
         return _partner;

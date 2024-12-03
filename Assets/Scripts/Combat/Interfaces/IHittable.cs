@@ -85,6 +85,7 @@ public interface IHittable
     public void DeactivateTargetClickArea();
 
     public bool IsMaterial();
+    public bool IsPlayerControlled();
 
     public IHittable GetPartner();
 

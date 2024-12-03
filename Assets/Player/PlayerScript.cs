@@ -284,6 +284,11 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         return true;
     }
 
+    public bool IsPlayerControlled()
+    {
+        return true;
+    }
+
     public IHittable GetPartner()
     {
         return _partner;

@@ -20,7 +20,7 @@ public class EntityManager : MonoBehaviour
     private List<IHittable> _turnOrder;
     private List<UnitCombat> _combatUnits;
 
-    [FormerlySerializedAs("enemiesToDefeat")] [SerializeField] private int EnemiesToDefeat;
+    private int _enemiesToDefeat;
     [FormerlySerializedAs("sceneToOpenAfterVictory")] [SerializeField] private int SceneToOpenAfterVictory;
     [SerializeField] [TextArea] private String entitiesString;
     
@@ -31,6 +31,7 @@ public class EntityManager : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
+        _enemiesToDefeat = 0;
         _combatSystem = GetComponent<CombatSystem>();
         TurnOrder = SpawnEntities();
         _currentEntity = -1;
@@ -45,6 +46,10 @@ public class EntityManager : MonoBehaviour
             var unit = entity.GetComponent<UnitCombat>();
             _combatSystem.SetEntityToGrid(unit, hittable.IsMaterial());
             _combatUnits.Add(unit);
+            if (hittable.IsMaterial() && !hittable.IsPlayerControlled())
+            {
+                _enemiesToDefeat++;
+            }
         }
         _combatSystem.DisplayQueue(_turnOrder);
         NextTurn();
@@ -179,7 +184,7 @@ public class EntityManager : MonoBehaviour
     public void OnEnemyDefeated()
     {
         _enemiesDefeated++;
-        if (_enemiesDefeated >= EnemiesToDefeat)
+        if (_enemiesDefeated >= _enemiesToDefeat)
         {
             ShowCombatSummary(true);
         }
