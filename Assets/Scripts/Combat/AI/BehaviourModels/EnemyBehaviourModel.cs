@@ -17,4 +17,23 @@ public class EnemyBehaviourModel : MonoBehaviour
         _entityManager = entityManager;
         _entity = entity;
     }
+    
+    protected IHittable GetClosestEnemy()
+    {
+        int dist = 999;
+        IHittable currTarget = null;
+        
+        List<IHittable> players = _entityManager.GetEntities(true, _entity.IsMaterial());
+        foreach (var target in players)
+        {
+            int currDist =
+                _environmentManager.GetDistance(_entity.GetUnitCombatScript(), target.GetUnitCombatScript());
+            if (currDist < dist)
+            {
+                currTarget = target;
+                dist = currDist;
+            }
+        }
+        return currTarget;
+    }
 }

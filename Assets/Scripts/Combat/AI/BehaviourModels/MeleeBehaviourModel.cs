@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 public class MeleeBehaviourModel : EnemyBehaviourModel
 {
     private IHittable _target;
+    [SerializeField] private int prefDist;
+    [SerializeField] private int minDist;
     public override void ProcessTurn(IHittable entity, CombatSystem combatSystem, CombatEnvironmentManager environmentManager,
         EntityManager entityManager)
     {
@@ -19,25 +21,6 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
             return;
         }
         StartCoroutine(MovementPhase());
-    }
-
-    private IHittable GetClosestEnemy()
-    {
-        int dist = 999;
-        IHittable currTarget = null;
-        
-        List<IHittable> players = _entityManager.GetEntities(true, _entity.IsMaterial());
-        foreach (var target in players)
-        {
-            int currDist =
-                _environmentManager.GetDistance(_entity.GetUnitCombatScript(), target.GetUnitCombatScript());
-            if (currDist < dist)
-            {
-                currTarget = target;
-                dist = currDist;
-            }
-        }
-        return currTarget;
     }
 
     private IEnumerator MovementPhase()
