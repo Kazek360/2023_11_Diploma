@@ -33,14 +33,6 @@ namespace Quests.UI
             QuestEvents.OnQuestFinish -= AddQuestFinishedPopup;
         }
     
-        // private void LateUpdate()
-        // {
-        //     if (_popupQueue.Count > 0 && !_popupDisplayed)
-        //     {
-        //         StartCoroutine(ShowPopup());
-        //     }
-        // }
-    
         private void AddQuestStartedPopup(string questID)
         {
             var quest = QuestManager.Instance.GetQuestById(questID);
