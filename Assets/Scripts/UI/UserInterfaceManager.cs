@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Quests.UI;
 using Shared;
 using UI.Interfaces;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace UI
         private void Start()
         {
             ChangeState(initialState);
+            QuestPopup.isInterfaceAssigned = true;
         }
 
         /// <summary>
