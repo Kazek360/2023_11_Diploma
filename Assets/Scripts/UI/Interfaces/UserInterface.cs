@@ -10,8 +10,7 @@ namespace UI.Interfaces
         public CanvasGroup CanvasGroup => _canvasGroup;
 
         public abstract UserInterfaceState State { get; }
-
-
+        
         protected virtual void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -30,5 +29,4 @@ namespace UI.Interfaces
             CanvasGroup.blocksRaycasts = false;
         }
     }
-    
 }

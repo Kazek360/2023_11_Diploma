@@ -24,7 +24,6 @@ namespace UI.Interfaces
             base.OnEnter();
             Time.timeScale = 0;
             InputManager.Instance.Controlls.Player.Disable();
-            
         }
         public override void OnExit()
         {
