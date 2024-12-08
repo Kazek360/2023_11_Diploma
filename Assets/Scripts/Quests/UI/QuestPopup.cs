@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Quests;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QuestSystem.UI
+namespace Quests.UI
 {
     public class QuestPopup : MonoBehaviour
     {
