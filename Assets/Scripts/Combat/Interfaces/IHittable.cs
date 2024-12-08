@@ -104,4 +104,8 @@ public interface IHittable
     public bool IsDead();
 
     public void ApplyOverTimeEffect(EffectOverTime effectOverTime);
+
+    public void OnAbilityCast(int i);
+
+    public void AfterTurnEffects();
 }

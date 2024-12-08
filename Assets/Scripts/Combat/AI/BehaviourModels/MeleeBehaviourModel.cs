@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Combat;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MeleeBehaviourModel : EnemyBehaviourModel
 {
@@ -14,7 +15,7 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         _target = GetClosestEnemy();
         if (_target == null)
         {
-            //TODO: TRIGGER NEXT TURN
+            _entity.AfterTurnEffects();
             return;
         }
         StartCoroutine(MovementPhase());
@@ -22,7 +23,7 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
 
     private IHittable GetClosestEnemy()
     {
-        int dist = 99;
+        int dist = 999;
         IHittable currTarget = null;
         
         List<IHittable> players = _entityManager.GetEntities(true, _entity.IsMaterial());
@@ -65,37 +66,50 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         while (_combatSystem.ActionsLeft > 0)
         {
             PerformAction();
+            if (_target.IsDead())
+            {
+                _target = GetClosestEnemy();
+                StartCoroutine(MovementPhase());
+                return;
+            }
         }
-        //TODO: TRIGGER NEXT TURN
+        _entity.AfterTurnEffects();
     }
 
     private void PerformAction()
     {
-        var cooldowns = _entity.GetCooldowns();
-        var abilities = _entity.GetAbilities();
+        
         int chosenAbility = ChooseAbility();
         if (chosenAbility != -1)
         {
             CastAbility(chosenAbility);
         }
-
-        for (int i = 0; i < cooldowns.Count; i++)
-        {
-            cooldowns[i] = Math.Max(0, cooldowns[i] - 1);
-        }
     }
 
-    private void ChooseAbility()
-    {
-        
-    }
-    
-    private void CastAbility(int i)
+    private int ChooseAbility()
     {
         var abilities = _entity.GetAbilities();
-        var ability = abilities[i];
+        var cooldowns = _entity.GetCooldowns();
+        int currWeight = -1;
+        int currCandidate = -1;
+        
+        for (int i = 0; i < abilities.Count; i++)
+        {
+            if (cooldowns[i] > 0) continue;
+            if (abilities[i].GetAbilityWeight(_entity) > currWeight)
+            {
+                currWeight = abilities[i].GetAbilityWeight(_entity);
+                currCandidate = i;
+            }
+        }
+
+        return currCandidate;
+    }
+
+    private List<IHittable> GetAbilityTargetCandidates(AbilityScriptableObjectReworked abilitySO)
+    {
         List<IHittable> targetCandidates = new List<IHittable>();
-        foreach (var targetType in ability.ViableTargets)
+        foreach (var targetType in abilitySO.ViableTargets)
         {
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
@@ -118,6 +132,15 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
             }
         }
 
+        return targetCandidates;
+    }
+    
+    private void CastAbility(int i)
+    {
+        var abilities = _entity.GetAbilities();
+        var ability = abilities[i];
+        List<IHittable> targetCandidates = GetAbilityTargetCandidates(ability);
+
         List<IHittable> possibleTargets = new List<IHittable>();
         foreach (var target in targetCandidates)
         {
@@ -130,8 +153,8 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         if (possibleTargets.Count > 0)
         {
             int chosenTarget = Random.Range(0, possibleTargets.Count);
-            _cooldowns[i] = ability.Cooldown;
-            ability.CastAbility(possibleTargets[chosenTarget], this);
+            _entity.OnAbilityCast(i);
+            ability.CastAbility(possibleTargets[chosenTarget], _entity);
         }
     }
 

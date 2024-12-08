@@ -363,4 +363,16 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     {
         _effectsOverTime.Add(effectOverTime);
     }
+
+    public void OnAbilityCast(int i)
+    {
+        //TODO: SHIFT IMPLEMENTATION
+        throw new NotImplementedException();
+    }
+
+    public void AfterTurnEffects()
+    {
+        //TODO: SHIFT IMPLEMENTATION
+        throw new NotImplementedException();
+    }
 }
