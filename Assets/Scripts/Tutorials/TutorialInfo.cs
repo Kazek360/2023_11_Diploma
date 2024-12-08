@@ -6,6 +6,6 @@ namespace Tutorials
     public class TutorialInfo : ScriptableObject
     {
         public string title;
-        public string description;
+        [TextArea] public string description;
     }
 }

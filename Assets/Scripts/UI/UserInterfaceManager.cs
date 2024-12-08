@@ -26,12 +26,13 @@ namespace UI
                 foreach (var state in FindObjectsOfType<UserInterface>())
                     _states.Add(state.State, state);
             }
-        }
-
-        private void Start()
-        {
             ChangeState(initialState);
         }
+
+        // private void Start()
+        // {
+        //     ChangeState(initialState);
+        // }
 
         /// <summary>
         /// Changes UI state and calls OnExit and OnEntered
