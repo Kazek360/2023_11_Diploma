@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UI;
+using UI.Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Quests.UI
 {
@@ -10,59 +11,76 @@ namespace Quests.UI
     {
         [Header("Components")] 
         [SerializeField] private TextMeshProUGUI popupText;
-        [SerializeField] private Image popupImage;
-    
+
+        private CanvasGroup _canvasGroup;
         private Queue<string> _popupQueue;
         private bool _popupDisplayed;
         
         private void Awake()
         {
-            popupText.gameObject.SetActive(false);
-            popupImage.gameObject.SetActive(false);
             _popupQueue = new Queue<string>();
             _popupDisplayed = false;
+            _canvasGroup = GetComponent<CanvasGroup>();
         }
         private void OnEnable()
         {
-            QuestEvents.OnQuestStart += AddStartQuestPopup;
-            QuestEvents.OnQuestFinish += AddFinishQuestPopup;
+            QuestEvents.OnQuestStart += AddQuestStartedPopup;
+            QuestEvents.OnQuestFinish += AddQuestFinishedPopup;
         }
         private void OnDisable()
         {
-            QuestEvents.OnQuestStart -= AddStartQuestPopup;
-            QuestEvents.OnQuestFinish -= AddFinishQuestPopup;
+            QuestEvents.OnQuestStart -= AddQuestStartedPopup;
+            QuestEvents.OnQuestFinish -= AddQuestFinishedPopup;
         }
     
-        private void LateUpdate()
+        // private void LateUpdate()
+        // {
+        //     if (_popupQueue.Count > 0 && !_popupDisplayed)
+        //     {
+        //         StartCoroutine(ShowPopup());
+        //     }
+        // }
+    
+        private void AddQuestStartedPopup(string questID)
         {
-            if (_popupQueue.Count > 0 && !_popupDisplayed)
+            var quest = QuestManager.Instance.GetQuestById(questID);
+            _popupQueue.Enqueue($"Zadanie rozpoczęte\n{quest.info.displayName}");
+            if (!_popupDisplayed)
             {
                 StartCoroutine(ShowPopup());
             }
         }
-    
-        private void AddStartQuestPopup(string questID)
-        {
-            var quest = QuestManager.Instance.GetQuestById(questID);
-            _popupQueue.Enqueue($"Zadanie rozpoczęte\n{quest.info.displayName}");
-        }
         
-        private void AddFinishQuestPopup(string questID)
+        private void AddQuestFinishedPopup(string questID)
         {
             var quest = QuestManager.Instance.GetQuestById(questID);
             _popupQueue.Enqueue($"Zadanie zakończone\n{quest.info.displayName}");
+            if (!_popupDisplayed)
+            {
+                StartCoroutine(ShowPopup());
+            }
         }
         
         private IEnumerator ShowPopup()
         {
-            _popupDisplayed = true;
+            while (UserInterfaceManager.Instance.CurrentStateType != UserInterfaceState.Exploration)
+            {
+                yield return null;
+            }
             popupText.text = _popupQueue.Dequeue();
-            popupText.gameObject.SetActive(true);
-            popupImage.gameObject.SetActive(true);
-            yield return new WaitForSeconds(3f);
-            popupText.gameObject.SetActive(false);
-            popupImage.gameObject.SetActive(false);
-            _popupDisplayed = false;
+            Debug.Log(popupText.text);
+            _canvasGroup.alpha = 1;
+            _popupDisplayed = true;
+            yield return new WaitForSeconds(5f);
+            _canvasGroup.alpha = 0;
+            if (_popupQueue.Count > 0)
+            {
+                StartCoroutine(ShowPopup());
+            }
+            else
+            {
+                _popupDisplayed = false;
+            }
         }
     }
 }
