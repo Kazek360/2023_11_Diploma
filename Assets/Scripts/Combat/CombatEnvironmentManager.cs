@@ -297,6 +297,12 @@ public class CombatEnvironmentManager : MonoBehaviour
         InitGrid();
         return _grid.GetGridObject(x, y);
     }
+    
+    public GridObject GetGridObject(Vector2 vec)
+    {
+        InitGrid();
+        return _grid.GetGridObject((int)vec.x, (int)vec.y);
+    }
 
     private void InitGrid()
     {

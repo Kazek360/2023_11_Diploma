@@ -110,7 +110,7 @@ namespace Combat
          * <param name='x'>x coordinate on hex map</param>
          * <param name='y'>y coordinate on hex map</param>
          */
-        private void MoveTo(int x, int y)
+        public void MoveTo(int x, int y)
         {
             _movementLeft--;
             var vec = currentUnit.GetGridLocation();
