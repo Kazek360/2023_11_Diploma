@@ -5,5 +5,5 @@ using UnityEngine;
 
 public abstract class EnemyBehaviourModel
 {
-    public abstract void ProcessTurn(CombatSystem combatSystem, CombatEnvironmentManager environmentManager);
+    public abstract void ProcessTurn(IHittable entity, CombatSystem combatSystem, CombatEnvironmentManager environmentManager, EntityManager entityManager);
 }

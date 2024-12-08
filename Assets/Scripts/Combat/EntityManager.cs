@@ -180,6 +180,31 @@ public class EntityManager : MonoBehaviour
 
         return enemyEntities;
     }
+    
+    public List<IHittable> GetEntities(bool isSeekingPlayer, bool isSeekingMaterial)
+    {
+        String tagStr = isSeekingPlayer ? "Player" : "Enemy";
+        List<IHittable> entities = new List<IHittable>();
+        if (_turnOrder is null)
+        {
+            _turnOrder = new List<IHittable>();
+            foreach (var entity in TurnOrder)
+            {
+                var hittable = entity.GetComponent<IHittable>();
+                _turnOrder.Add(hittable);
+            }
+        }
+        
+        foreach (var entity in _turnOrder)
+        {
+            if (entity.GetGameObject().CompareTag(tagStr) && entity.IsMaterial() == isSeekingMaterial && !entity.IsDead())
+            {
+                entities.Add(entity);
+            }
+        }
+
+        return entities;
+    }
 
     public void OnEnemyDefeated()
     {

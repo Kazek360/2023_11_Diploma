@@ -167,22 +167,22 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
+                targetCandidates.AddRange(_entityManager.GetEntities(false, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
+                targetCandidates.AddRange(_entityManager.GetEntities(true, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
+                targetCandidates.AddRange(_entityManager.GetEntities(true, false));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
+                targetCandidates.AddRange(_entityManager.GetEntities(false, false));
             }
         }
 
