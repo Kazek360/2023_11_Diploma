@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UI;
-using UI.Interfaces;
 using UnityEngine;
 
 namespace Quests.UI
@@ -26,11 +25,13 @@ namespace Quests.UI
         {
             QuestEvents.OnQuestStart += AddQuestStartedPopup;
             QuestEvents.OnQuestFinish += AddQuestFinishedPopup;
+            PlayerEvents.OnLevelUp += AddLevelUpPopup;
         }
         private void OnDisable()
         {
             QuestEvents.OnQuestStart -= AddQuestStartedPopup;
             QuestEvents.OnQuestFinish -= AddQuestFinishedPopup;
+            PlayerEvents.OnLevelUp -= AddLevelUpPopup;
         }
     
         private void AddQuestStartedPopup(string questID)
@@ -52,6 +53,16 @@ namespace Quests.UI
                 StartCoroutine(ShowPopup());
             }
         }
+        
+        private void AddLevelUpPopup()
+        {
+            _popupQueue.Enqueue($"Następny poziom");
+            if (!_popupDisplayed)
+            {
+                StartCoroutine(ShowPopup());
+            }
+        }
+        
         
         private IEnumerator ShowPopup()
         {

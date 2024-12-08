@@ -21,7 +21,14 @@ namespace Tutorials
         {
             tutorials[tutorial.name].hasTriggered = true;
             TutorialUI.InvokeOnTutorialTrigger(tutorial);
-            UserInterfaceManager.Instance.ChangeStateWithoutVisibilityChange(UserInterfaceState.Tutorial);
+            if (UserInterfaceManager.Instance.CurrentStateType == UserInterfaceState.Exploration)
+            {
+                UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Tutorial);
+            }
+            else
+            {
+                UserInterfaceManager.Instance.ChangeStateWithoutVisibilityChange(UserInterfaceState.Tutorial);
+            }
         }
         
         private Dictionary<string, Tutorial> CreateTutorialDictionary()
