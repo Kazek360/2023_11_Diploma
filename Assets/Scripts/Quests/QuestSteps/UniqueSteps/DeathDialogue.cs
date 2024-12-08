@@ -1,8 +1,9 @@
 using Cutscenes;
 using Dialogue;
+using Quests.QuestSteps.DialogueQuestStep;
 using UnityEngine;
 
-public class DeathDialogue : DialogueQuestStep
+public class DeathDialogue : DialoguesQuestStep
 {
     private GameObject _deathRealmToTeleport;
     private GameObject _shoreToTeleport;
@@ -10,34 +11,54 @@ public class DeathDialogue : DialogueQuestStep
     protected override void OnEnable()
     {
         base.OnEnable();
-        AreaEvent.OnAreaEnter += AreaEntered;
-        CutsceneEvents.OnCutsceneFinished += TeleportPlayer;
+        AreaEvent.OnAreaEnter += CheckIfCorrectAreaEntered;
+        CutsceneEvents.OnCutsceneFinished += TeleportPlayerToDeathRealm;
         _deathRealmToTeleport = GameObject.Find("DeathArea");
         _shoreToTeleport = GameObject.Find("ShoreArea");
         _playerToTeleport = GameObject.Find("Player");
     }
     
-    private void TeleportPlayer()
+    private void TeleportPlayerToDeathRealm()
     {
         _playerToTeleport.gameObject.transform.position = _deathRealmToTeleport.transform.position;
     }
-    protected void AreaEntered(string areaName, string objectName)
+    private void TeleportPlayerToShore()
     {
-        if (areaName.Equals(_deathRealmToTeleport.name))
+        _playerToTeleport.gameObject.transform.position = _shoreToTeleport.transform.position;
+    }
+    private void CheckIfCorrectAreaEntered(string areaName, string objectName)
+    {
+        switch (currentDialogueIndex)
         {
-            AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
+            case 0:
+                if (areaName.Equals(_deathRealmToTeleport.name))
+                {
+                    AreaEvent.EnterCorrectArea(_deathRealmToTeleport.name);
+                }
+                break;
+            case 1:
+                if (areaName.Equals(_shoreToTeleport.name))
+                {
+                    AreaEvent.EnterCorrectArea(_shoreToTeleport.name);
+                }
+                break;
         }
     }
-    protected override void FinishStep(DialogueInfo dialogue)
+    
+    protected override void NextDialogue()
     {
-        if (dialoguesInfo.name == dialogue.name)
+        currentDialogueIndex++;
+        if (currentDialogueIndex == dialogues.Count)
         {
-            Finish();
-            Destroy(_deathRealmToTeleport);
-            _playerToTeleport.gameObject.transform.position = _shoreToTeleport.transform.position;
-            AreaEvent.OnAreaEnter -= AreaEntered;
-            CutsceneEvents.OnCutsceneFinished -= TeleportPlayer;
-            Delete();
+            AreaEvent.OnAreaEnter -= CheckIfCorrectAreaEntered;
+            CutsceneEvents.OnCutsceneFinished -= TeleportPlayerToDeathRealm;
+            FinishAndDelete();
+        }
+        else
+        {
+            DialogueEvents.InvokeOnDialogueUnlocked(dialogues[currentDialogueIndex].triggerName, 
+                dialogues[currentDialogueIndex].name);
+            TeleportPlayerToShore();
         }
     }
 }

@@ -1,7 +1,5 @@
 using System;
 using Quests.ScriptableObjects;
-using QuestSystem;
-
 
 namespace Quests
 {

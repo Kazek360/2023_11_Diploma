@@ -26,12 +26,13 @@ namespace UI
                 foreach (var state in FindObjectsOfType<UserInterface>())
                     _states.Add(state.State, state);
             }
-        }
-
-        private void Start()
-        {
             ChangeState(initialState);
         }
+
+        // private void Start()
+        // {
+        //     ChangeState(initialState);
+        // }
 
         /// <summary>
         /// Changes UI state and calls OnExit and OnEntered
@@ -54,7 +55,29 @@ namespace UI
             _currentState = States[state];
             _currentState.OnEnter();
         }
+        
+        /// <summary>
+        /// Changes UI state and calls OnEntered
+        /// </summary>
+        /// <param name="state"></param>
+        public void ChangeStateWithoutVisibilityChange(UserInterfaceState state)
+        {
+            if (!States.ContainsKey(state))
+            {
+                Debug.LogError("Tried to change UI state to non-existing one!");
+                return;
+            }
+            if (_currentState is not null){
+                if (_currentState.State is UserInterfaceState.Tutorial)
+                {
+                    _previousState = _currentState.State;
+                }
+            }
+            _currentState = States[state];
+            _currentState.OnEnter();
+        }
+        
     }
     public enum UserInterfaceState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
-        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map }
+        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map, Tutorial }
 }

@@ -45,7 +45,6 @@ namespace Quests
         {
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
-            QuestEvents.OnQuestFinish += FinishQuest;
             QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
         }
 
@@ -53,7 +52,6 @@ namespace Quests
         {
             QuestEvents.OnQuestStart -= StartQuest;
             QuestEvents.OnQuestProgress -= ProgressQuest;
-            QuestEvents.OnQuestFinish -= FinishQuest;
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
         }
 
@@ -107,6 +105,7 @@ namespace Quests
 
         private void FinishQuest(string id)
         {
+            QuestEvents.FinishQuest(id);
             var quest = GetQuestById(id);
             
             PlayerStats.GetInstance().AddXp(quest.info.experience);
