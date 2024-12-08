@@ -28,12 +28,10 @@ namespace UI
             }
         }
 
-        
         private void Start()
         {
-             ChangeState(initialState);
+            ChangeState(initialState);
         }
-
 
         /// <summary>
         /// Changes UI state and calls OnExit and OnEntered
@@ -80,5 +78,5 @@ namespace UI
         
     }
     public enum UserInterfaceState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
-        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map, Tutorial }
+        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map, Tutorial, Credits, GameStart }
 }
