@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
 using Shared;
+using UI;
 using UnityEngine;
 
 namespace Tutorials
@@ -17,10 +17,11 @@ namespace Tutorials
             tutorials = CreateTutorialDictionary();
         }
         
-        
-        public void TriggerTutorial()
+        public void TriggerTutorial(TutorialInfo tutorial)
         {
-            
+            tutorials[tutorial.name].hasTriggered = true;
+            TutorialUI.InvokeOnTutorialTrigger(tutorial);
+            UserInterfaceManager.Instance.ChangeStateWithoutVisibilityChange(UserInterfaceState.Tutorial);
         }
         
         private Dictionary<string, Tutorial> CreateTutorialDictionary()

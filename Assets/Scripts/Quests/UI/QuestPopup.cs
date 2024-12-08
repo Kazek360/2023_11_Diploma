@@ -68,7 +68,6 @@ namespace Quests.UI
                 yield return null;
             }
             popupText.text = _popupQueue.Dequeue();
-            Debug.Log(popupText.text);
             _canvasGroup.alpha = 1;
             _popupDisplayed = true;
             yield return new WaitForSeconds(5f);
