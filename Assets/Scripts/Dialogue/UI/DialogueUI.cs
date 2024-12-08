@@ -7,7 +7,6 @@ using InputSystem;
 using Quests;
 using UI;
 using UI.Interfaces;
-using UnityEngine.Serialization;
 
 namespace Dialogue.UI
 {
@@ -37,11 +36,6 @@ namespace Dialogue.UI
         
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
         
         private void OnEnable()
         {
