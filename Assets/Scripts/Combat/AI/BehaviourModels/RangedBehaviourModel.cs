@@ -66,7 +66,6 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         }
         PerformAction();
         AttackPhase();
-        return;
     }
 
     private void RetreatPhase()
@@ -74,7 +73,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         _target = GetClosestEnemy();
         if (DistanceToTarget() >= prefDist)
         {
-            //TODO: AFTER TURN
+            _entity.AfterTurnEffects();
             return;
         }
 
@@ -82,7 +81,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
 
         if (retreatPath.Count == 0)
         {
-            //TODO: AFTER TURN
+            _entity.AfterTurnEffects();
             return;
         }
         StartCoroutine(RetreatAlongPath(retreatPath));
@@ -121,7 +120,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
                 yield return new WaitForSeconds(0.3f);
             }
         }
-        //TODO: AFTER TURN
+        _entity.AfterTurnEffects();
     }
 
     private int PerformAction()
