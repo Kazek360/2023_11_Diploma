@@ -24,9 +24,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         
     }
 
-    private void PositioningPhase(int requiredMovement)
+    private void PositioningPhase(List<GridObject> requiredMovement)
     {
-        if (requiredMovement > _combatSystem.MovementLeft)
+        if (requiredMovement.Count - 1 > _combatSystem.MovementLeft)
         {
             RetreatPhase();
             return;
@@ -37,9 +37,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
             RetreatPhase();
             return;
         }
-        
-        //TODO GET CLOSER
-        
+
+        StartCoroutine(ApproachTarget(requiredMovement));
+
     }
 
     private void AttackPhase()
@@ -51,32 +51,80 @@ public class RangedBehaviourModel : EnemyBehaviourModel
             return;
         }
 
-        int requiredMovement = RequiredMovementCalc();
+        var requiredMovement = RepositioningRequiredMovementCalc();
 
-        if (requiredMovement == -1)
+        if (requiredMovement is null)
         {
             RetreatPhase();
             return;
         }
 
-        if (requiredMovement > 0)
+        if (requiredMovement.Count - 1 > 0)
         {
             PositioningPhase(requiredMovement);
             return;
         }
-
-        //TODO ATTACK
         PerformAction();
         AttackPhase();
-
+        return;
     }
 
     private void RetreatPhase()
     {
-        
+        _target = GetClosestEnemy();
+        if (DistanceToTarget() >= prefDist)
+        {
+            //TODO: AFTER TURN
+            return;
+        }
+
+        var retreatPath = RetreatRequiredMovementCalc();
+
+        if (retreatPath.Count == 0)
+        {
+            //TODO: AFTER TURN
+            return;
+        }
+        StartCoroutine(RetreatAlongPath(retreatPath));
     }
 
-    private void PerformAction()
+    private IEnumerator ApproachTarget(List<GridObject> path)
+    {
+        for (int i = 1; i < path.Count - 1; i++)
+        {
+            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            {
+                break;
+            }
+            var nextHex = path[i];
+            _combatSystem.MoveTo(nextHex.X, nextHex.Y);
+            while (_entity.GetUnitCombatScript().currentState != UnitCombat.State.Idling)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+        }
+        AttackPhase();
+    }
+    
+    private IEnumerator RetreatAlongPath(List<GridObject> path)
+    {
+        for (int i = 1; i < path.Count - 1; i++)
+        {
+            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            {
+                break;
+            }
+            var nextHex = path[i];
+            _combatSystem.MoveTo(nextHex.X, nextHex.Y);
+            while (_entity.GetUnitCombatScript().currentState != UnitCombat.State.Idling)
+            {
+                yield return new WaitForSeconds(0.3f);
+            }
+        }
+        //TODO: AFTER TURN
+    }
+
+    private int PerformAction()
     {
         
         int chosenAbility = ChooseAbility();
@@ -84,30 +132,60 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         {
             CastAbility(chosenAbility);
         }
+        return chosenAbility;
     }
 
-    private int RequiredMovementCalc()
+    private List<GridObject> RepositioningRequiredMovementCalc()
     {
-        int result = -1;
+        int reqDistance = -1;
         var abilities = _entity.GetAbilities();
         var cooldowns = _entity.GetCooldowns();
         for (int i = 0; i < abilities.Count; i++)
         {
             if (cooldowns[i] > 0) continue;
-            if (result == -1)
+            if (reqDistance == -1)
             {
-                result = 99;
+                reqDistance = 99;
             }
             if (abilities[i].Range <= DistanceToTarget())
             {
-                result = 0;
-            } else
+                reqDistance = 0;
+                return new List<GridObject>();
+            }
+            else
             {
 
-                result = Math.Min(result, DistanceToTarget() - abilities[i].Range);
+                reqDistance = Math.Min(reqDistance, DistanceToTarget() - abilities[i].Range);
             }
         }
-        return result;
+
+        if (reqDistance == -1)
+        {
+            return null;
+        }
+        
+        var entityGrid = _environmentManager.GetGridObject(_entity.GetUnitCombatScript().GetGridLocation());
+        var targetGrid = _environmentManager.GetGridObject(_target.GetUnitCombatScript().GetGridLocation());
+        var path = _environmentManager.FindShortestPathToDistance(entityGrid, targetGrid, _entity.IsMaterial(),
+            reqDistance);
+        return path;
+    }
+    
+    private List<GridObject> RetreatRequiredMovementCalc()
+    {
+        var path = new List<GridObject>();
+        var entityGrid = _environmentManager.GetGridObject(_entity.GetUnitCombatScript().GetGridLocation());
+        var targetGrid = _environmentManager.GetGridObject(_target.GetUnitCombatScript().GetGridLocation());
+        for (int reqDistance = prefDist; reqDistance > 0; reqDistance--)
+        {
+            var tmp = _environmentManager.FindShortestPathToDistance(entityGrid, targetGrid, _entity.IsMaterial(),
+                reqDistance);
+            if (tmp.Count - 1 <= _combatSystem.MovementLeft)
+            {
+                return tmp;
+            }
+        }
+        return path;
     }
 
     private int ChooseAbility()
