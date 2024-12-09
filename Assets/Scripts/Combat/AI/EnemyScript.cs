@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private List<AbilityScriptableObjectReworked> _abilities;
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
+    private EnemyBehaviourModel _behaviourModel;
 
     private CombatSystem _combatSystem;
     private CombatUI _combatUI;
@@ -44,6 +45,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         _isDead = false;
         _unitCombat = GetComponent<UnitCombat>();
+        _behaviourModel = GetComponent<EnemyBehaviourModel>();
         _currentHealth = Stats.MaxHealthPoints;
         _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
@@ -83,7 +85,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        _combatSystem.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _combatSystem.EnemyTurnSetup(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _behaviourModel.ProcessTurn(this, _combatSystem, _combatSystem.GetCombatEnvironmentManager() ,_entityManager);
     }
 
     /**

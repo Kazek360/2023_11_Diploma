@@ -8,8 +8,6 @@ using Random = UnityEngine.Random;
 public class MeleeBehaviourModel : EnemyBehaviourModel
 {
     private IHittable _target;
-    [SerializeField] private int prefDist;
-    [SerializeField] private int minDist;
     public override void ProcessTurn(IHittable entity, CombatSystem combatSystem, CombatEnvironmentManager environmentManager,
         EntityManager entityManager)
     {
@@ -20,39 +18,36 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
             _entity.AfterTurnEffects();
             return;
         }
-        StartCoroutine(MovementPhase());
+        MovementPhase();
     }
 
-    private IEnumerator MovementPhase()
+    private void MovementPhase()
     {
-        var entityGrid = _environmentManager.GetGridObject(_entity.GetUnitCombatScript().GetGridLocation());
-        var targetGrid = _environmentManager.GetGridObject(_target.GetUnitCombatScript().GetGridLocation());
-        var path = _environmentManager.FindShortestPathTo(entityGrid, targetGrid, _entity.IsMaterial());
-        for (int i = 1; i < path.Count - 1; i++)
+        if (_combatSystem.MovementLeft > 0)
         {
-            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
-            {
-                break;
-            }
-            var nextHex = path[i];
-            _combatSystem.MoveTo(nextHex.X, nextHex.Y);
-            while (_entity.GetUnitCombatScript().currentState != UnitCombat.State.Idling)
-            {
-                yield return new WaitForSeconds(0.3f);
-            }
+            var chase = StartCoroutine(ChaseEnemy());
         }
-        AttackPhase();
+        else
+        {
+            AttackPhase();
+        }
     }
 
     private void AttackPhase()
     {
         while (_combatSystem.ActionsLeft > 0)
         {
+            Debug.Log("ATTACK");
             int chosenAbilityId = PerformAction();
             if (_target.IsDead())
             {
                 _target = GetClosestEnemy();
-                StartCoroutine(MovementPhase());
+                if (_target == null || _combatSystem.MovementLeft == 0)
+                {
+                    _entity.AfterTurnEffects();
+                    return;
+                }
+                MovementPhase();
                 return;
             }
 
@@ -61,7 +56,36 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
                 break;
             }
         }
+        //Debug.Log("ATTACK END");
         _entity.AfterTurnEffects();
+    }
+
+    private IEnumerator ChaseEnemy()
+    {
+        Debug.Log("COROUTINE START");
+        var entityGrid = _environmentManager.GetGridObject(_entity.GetUnitCombatScript().GetGridLocation());
+        var targetGrid = _environmentManager.GetGridObject(_target.GetUnitCombatScript().GetGridLocation());
+        var path = _environmentManager.FindShortestPathTo(entityGrid, targetGrid, _entity.IsMaterial());
+        
+        for (int i = 1; i < path.Count - 1; i++)
+        {
+            //Debug.Log("LOOP ITER");
+            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            {
+                break;
+            }
+            var nextHex = path[i];
+            _combatSystem.MoveTo(nextHex.X, nextHex.Y);
+            UnitCombat unitScript = _entity.GetUnitCombatScript();
+            while (unitScript.currentState != UnitCombat.State.Idling)
+            {
+                Debug.Log("YIELD");
+                yield return new WaitForSeconds(0.5f);
+                Debug.Log("YIELD OVER");
+            }
+            Debug.Log("WHILE OVER");
+        }
+        AttackPhase();
     }
 
     private int PerformAction()

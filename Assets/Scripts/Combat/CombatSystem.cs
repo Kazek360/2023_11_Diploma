@@ -161,6 +161,14 @@ namespace Combat
             StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
 
+        public void EnemyTurnSetup(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
+        {
+            _currentIsPlayer = false;
+            _movementLeft = movement;
+            SetCurrentMaterial(movedEntity.IsMaterial());
+            ShowStage(movedEntity.IsMaterial());
+        }
+
         /**
          * Reinitializes movement after previous break
          */
@@ -351,6 +359,11 @@ namespace Combat
         public int GetDistance(UnitCombat unitScript)
         {
             return combatEnvironmentManager.GetDistance(currentUnit, unitScript);
+        }
+
+        public CombatEnvironmentManager GetCombatEnvironmentManager()
+        {
+            return combatEnvironmentManager;
         }
     }
 }

@@ -34,6 +34,11 @@ public class EnemyBehaviourModel : MonoBehaviour
                 dist = currDist;
             }
         }
+
+        if (currTarget != null)
+        {
+            Debug.Log("ENEMY CHOSEN: " + currTarget.GetEntityName());
+        }
         return currTarget;
     }
 }

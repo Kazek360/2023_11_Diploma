@@ -45,6 +45,11 @@ public class RangedBehaviourModel : EnemyBehaviourModel
     private void AttackPhase()
     {
         _target = GetClosestEnemy();
+        if (_target == null)
+        {
+            _entity.AfterTurnEffects();
+            return;
+        }
         if (_combatSystem.ActionsLeft == 0)
         {
             RetreatPhase();
@@ -71,6 +76,11 @@ public class RangedBehaviourModel : EnemyBehaviourModel
     private void RetreatPhase()
     {
         _target = GetClosestEnemy();
+        if (_target is null)
+        {
+            _entity.AfterTurnEffects();
+            return; 
+        }
         if (DistanceToTarget() >= prefDist)
         {
             _entity.AfterTurnEffects();
