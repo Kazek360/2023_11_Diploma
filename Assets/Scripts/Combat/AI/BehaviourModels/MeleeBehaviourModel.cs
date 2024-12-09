@@ -48,18 +48,23 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
     {
         while (_combatSystem.ActionsLeft > 0)
         {
-            PerformAction();
+            int chosenAbilityId = PerformAction();
             if (_target.IsDead())
             {
                 _target = GetClosestEnemy();
                 StartCoroutine(MovementPhase());
                 return;
             }
+
+            if (chosenAbilityId == -1)
+            {
+                break;
+            }
         }
         _entity.AfterTurnEffects();
     }
 
-    private void PerformAction()
+    private int PerformAction()
     {
         
         int chosenAbility = ChooseAbility();
@@ -67,6 +72,7 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         {
             CastAbility(chosenAbility);
         }
+        return chosenAbility;
     }
 
     private int ChooseAbility()
