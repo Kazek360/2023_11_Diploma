@@ -1,7 +1,7 @@
 ﻿using Interactions;
 using UnityEngine;
 
-namespace Dialogue.Trigger
+namespace Dialogues.Trigger
 {
     //This class triggers dialogue by interaction
     public class InteractionDialogueEntity : DialogueEntity, IInteractable
@@ -12,7 +12,7 @@ namespace Dialogue.Trigger
         
         private bool _disabled;
         
-        private void OnEnable()
+        protected void OnEnable()
         {
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;

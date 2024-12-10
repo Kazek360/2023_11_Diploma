@@ -1,11 +1,11 @@
 using UnityEngine;
 
-namespace Dialogue.Trigger
+namespace Dialogues.Trigger
 {
     //This class triggers dialogue by entering area
     public class AreaDialogueEntity : DialogueEntity
     {
-        private void OnEnable()
+        protected void OnEnable()
         {
             AreaEvent.OnCorrectAreaEnter += TriggerDialogue;
         }

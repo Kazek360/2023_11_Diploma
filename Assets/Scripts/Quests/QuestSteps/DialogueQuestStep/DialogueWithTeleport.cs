@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Dialogue;
+using Dialogues;
 
 public class DialogueWithTeleport : DialogueQuestStep
 {

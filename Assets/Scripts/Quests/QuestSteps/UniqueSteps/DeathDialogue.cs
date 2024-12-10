@@ -1,5 +1,5 @@
 using Cutscenes;
-using Dialogue;
+using Dialogues;
 using Quests.QuestSteps.DialogueQuestStep;
 using UnityEngine;
 
@@ -56,7 +56,7 @@ public class DeathDialogue : DialoguesQuestStep
         }
         else
         {
-            DialogueEvents.InvokeOnDialogueUnlocked(dialogues[currentDialogueIndex].triggerName, 
+            DialogueEvent.UnlockDialogue(dialogues[currentDialogueIndex].triggerName, 
                 dialogues[currentDialogueIndex].name);
             TeleportPlayerToShore();
         }

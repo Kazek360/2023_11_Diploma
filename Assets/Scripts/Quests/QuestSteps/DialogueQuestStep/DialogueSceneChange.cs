@@ -1,4 +1,4 @@
-using Dialogue;
+using Dialogues;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

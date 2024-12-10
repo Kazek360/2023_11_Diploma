@@ -1,8 +1,9 @@
 using System;
+using Dialogues.Trigger;
 
-namespace Dialogue
+namespace Dialogues
 {
-    public static class DialogueEvents
+    public static class DialogueEvent
     {
         public static event Action<string> OnDialogueTriggered;
         public static void TriggerDialogue(string triggerName)
@@ -24,12 +25,15 @@ namespace Dialogue
         {
             OnDialogueContinued?.Invoke();
         }
-        
         public static event Action<string, string> OnDialogueUnlocked;
-        public static void InvokeOnDialogueUnlocked(string triggerName, string dialogueName)
+        public static void UnlockDialogue(string triggerName, string dialogueName)
         {
             OnDialogueUnlocked?.Invoke(triggerName, dialogueName);
         }
+        public static event Action<string, DialogueEntity> OnEntitySubscribed;
+        public static void SubscribeToManager(string triggerName, DialogueEntity entity)
+        {
+            OnEntitySubscribed?.Invoke(triggerName, entity);
+        }
     }
-
 }

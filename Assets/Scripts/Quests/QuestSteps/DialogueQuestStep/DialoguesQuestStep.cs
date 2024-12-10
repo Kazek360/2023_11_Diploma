@@ -1,6 +1,7 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
-using Dialogue;
+using Dialogues;
 using UnityEngine;
 
 namespace Quests.QuestSteps.DialogueQuestStep
@@ -14,17 +15,24 @@ namespace Quests.QuestSteps.DialogueQuestStep
         {
             base.OnEnable();
             currentDialogueIndex = 0;
-            DialogueEvents.OnDialogueFinished += CheckIfCorrectDialogue;
-            DialogueEvents.InvokeOnDialogueUnlocked(dialogues[currentDialogueIndex].triggerName, 
-                dialogues[currentDialogueIndex].name);
+            DialogueEvent.OnDialogueFinished += CheckIfCorrectDialogue;
         }
         
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            DialogueEvents.OnDialogueFinished -= CheckIfCorrectDialogue;
+            DialogueEvent.OnDialogueFinished -= CheckIfCorrectDialogue;
         }
-
+        private IEnumerator Start()
+        {
+            while (!DialogueManager.isInitialized)
+            {
+                yield return null;
+            }
+            DialogueEvent.UnlockDialogue(dialogues[currentDialogueIndex].triggerName, 
+                dialogues[currentDialogueIndex].name);
+        }
+        
         private void CheckIfCorrectDialogue(DialogueInfo dialogue)
         {
             if (dialogues[currentDialogueIndex].name == dialogue.name)
@@ -42,7 +50,7 @@ namespace Quests.QuestSteps.DialogueQuestStep
             }
             else
             {
-                DialogueEvents.InvokeOnDialogueUnlocked(dialogues[currentDialogueIndex].triggerName, 
+                DialogueEvent.UnlockDialogue(dialogues[currentDialogueIndex].triggerName, 
                     dialogues[currentDialogueIndex].name);
             }
         }

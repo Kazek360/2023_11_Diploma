@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dialogue.Trigger
+namespace Dialogues.Trigger
 {
+    /// <summary>
+    /// Klasa przechowująca informacje o dialogach dla określonej postaci
+    /// </summary>
     public class DialogueEntity : MonoBehaviour
     {
         [Header("Name")]
@@ -11,7 +14,20 @@ namespace Dialogue.Trigger
         
         [NonSerialized] public List<Dialogue> dialogues;
         [NonSerialized] public Dialogue currentDialogue;
+
+        private void Awake()
+        {
+            dialogues = new List<Dialogue>();
+        }
         
+        protected void Start()
+        {
+            DialogueEvent.SubscribeToManager(triggerName, this);
+        }
+
+        /// <summary>
+        /// Metoda zmieniająca obecny dialog
+        /// </summary>
         public virtual void ChangeCurrentDialogue()
         {
             foreach (var dialogue in dialogues)
@@ -33,9 +49,12 @@ namespace Dialogue.Trigger
             }
         }
         
+        /// <summary>
+        /// Metoda rozpoczynająca obecny dialog i zmieniająca jego stan
+        /// </summary>
         protected void StartDialogue()
         {
-            DialogueEvents.StartDialogue(currentDialogue.info);
+            DialogueEvent.StartDialogue(currentDialogue.info);
             
             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
             {
@@ -43,6 +62,5 @@ namespace Dialogue.Trigger
                 ChangeCurrentDialogue();
             }
         }
-        
     }
 }

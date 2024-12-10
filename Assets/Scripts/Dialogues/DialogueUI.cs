@@ -8,7 +8,7 @@ using Quests;
 using UI;
 using UI.Interfaces;
 
-namespace Dialogue.UI
+namespace Dialogues
 {
     //Class managing the currently triggered dialogue.
     public class DialogueUI : UserInterface
@@ -39,14 +39,14 @@ namespace Dialogue.UI
         
         private void OnEnable()
         {
-            DialogueEvents.OnDialogueStarted += StartDialogue;
-            DialogueEvents.OnDialogueContinued += ContinueDialogue;
+            DialogueEvent.OnDialogueStarted += StartDialogue;
+            DialogueEvent.OnDialogueContinued += ContinueDialogue;
         }
 
         private void OnDisable()
         {
-            DialogueEvents.OnDialogueStarted -= StartDialogue;
-            DialogueEvents.OnDialogueContinued -= ContinueDialogue;
+            DialogueEvent.OnDialogueStarted -= StartDialogue;
+            DialogueEvent.OnDialogueContinued -= ContinueDialogue;
         }
         
         public override void OnEnter()
@@ -127,7 +127,7 @@ namespace Dialogue.UI
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
-            DialogueEvents.FinishDialogue(_currentDialogue);
+            DialogueEvent.FinishDialogue(_currentDialogue);
             if (_currentDialogue.questToStart != null)
             {
                 QuestEvents.StartQuest(_currentDialogue.questToStart.name);

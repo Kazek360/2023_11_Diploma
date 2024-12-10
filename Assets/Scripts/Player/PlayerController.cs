@@ -1,6 +1,5 @@
-using System;
 using Cutscenes;
-using Dialogue;
+using Dialogues;
 using InputSystem;
 using UnityEngine;
 
@@ -31,9 +30,9 @@ namespace Player
             InputEvents.OnMovementStop += StopPlayerMovement;
             InputEvents.OnMouseMovement += HandleMouseMovement;
             
-            DialogueEvents.OnDialogueStarted += StopMovement;
+            DialogueEvent.OnDialogueStarted += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
-            DialogueEvents.OnDialogueFinished += EnableMovement;
+            DialogueEvent.OnDialogueFinished += EnableMovement;
             CutsceneEvents.OnCutsceneFinished += EnableMovement;
         }
 
@@ -44,9 +43,9 @@ namespace Player
             InputEvents.OnMovementStop -= StopPlayerMovement;
             InputEvents.OnMouseMovement -= HandleMouseMovement;
             
-            DialogueEvents.OnDialogueStarted -= StopMovement;
+            DialogueEvent.OnDialogueStarted -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
-            DialogueEvents.OnDialogueFinished -= EnableMovement;
+            DialogueEvent.OnDialogueFinished -= EnableMovement;
             CutsceneEvents.OnCutsceneFinished -= EnableMovement;
         }
 
