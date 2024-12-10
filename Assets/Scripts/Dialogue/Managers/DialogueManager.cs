@@ -94,11 +94,13 @@ namespace Dialogue.Managers
         private Dictionary<string, DialogueEntity> CreateDialogueEntityDictionary()
         {
             var entitiesOnScene = FindObjectsOfType<DialogueEntity>();
+            
             var dictionary = new Dictionary<string, DialogueEntity>();
             
             foreach (var entity in entitiesOnScene)
             {
                 dictionary.Add(entity.triggerName, entity);
+                entity.dialogues = new List<Dialogue>();
             }
             
             var allDialoguesOnScene = 

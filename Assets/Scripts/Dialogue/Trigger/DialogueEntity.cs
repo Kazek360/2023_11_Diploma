@@ -11,11 +11,6 @@ namespace Dialogue.Trigger
         
         [NonSerialized] public List<Dialogue> dialogues;
         [NonSerialized] public Dialogue currentDialogue;
-
-        protected void Awake()
-        {
-            dialogues = new List<Dialogue>();
-        }
         
         public virtual void ChangeCurrentDialogue()
         {

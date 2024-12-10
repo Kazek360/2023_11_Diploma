@@ -17,20 +17,15 @@ namespace UI
         
         private UserInterface _currentState;
         public UserInterfaceState CurrentStateType => _currentState.State;
-        
-        private new void Awake()
+
+        private void OnEnable()
         {
-            base.Awake();
             if (States is null)
             {
                 _states = new();
                 foreach (var state in FindObjectsOfType<UserInterface>())
                     _states.Add(state.State, state);
             }
-        }
-
-        private void Start()
-        {
             ChangeState(initialState);
             QuestPopup.isInterfaceAssigned = true;
         }
