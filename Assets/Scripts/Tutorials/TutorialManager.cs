@@ -53,9 +53,21 @@ namespace Tutorials
 
         public void LoadData(GameData gameData)
         {
+            switch (DataPersistenceManager.Instance.CurrentLoadMode)
+            {
+                case LoadMode.FromSaveFile:
+                    LoadDataFromSaveFile(gameData);
+                    break;
+            }
+        }
+        
+        private void LoadDataFromSaveFile(GameData gameData)
+        {
             var loadedTutorials = gameData.tutorials;
+            Debug.Log( gameData.tutorials.Count);
             foreach (var pair in loadedTutorials)
             {
+                Debug.Log($"{pair.Key} : {pair.Value.hasTriggered}");
                 tutorials[pair.Key].hasTriggered = loadedTutorials[pair.Key].hasTriggered;
             }
         }
