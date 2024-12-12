@@ -5,13 +5,15 @@ namespace Dialogues.Trigger
     //This class triggers dialogue by entering area
     public class AreaDialogueEntity : DialogueEntity
     {
-        protected void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             AreaEvent.OnCorrectAreaEnter += TriggerDialogue;
         }
         
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             AreaEvent.OnCorrectAreaEnter -= TriggerDialogue;
         }
         

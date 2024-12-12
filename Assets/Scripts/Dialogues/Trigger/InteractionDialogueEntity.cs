@@ -12,14 +12,16 @@ namespace Dialogues.Trigger
         
         private bool _disabled;
         
-        protected void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;
         }
         
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
         }

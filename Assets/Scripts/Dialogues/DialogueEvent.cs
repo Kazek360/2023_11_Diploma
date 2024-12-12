@@ -5,11 +5,6 @@ namespace Dialogues
 {
     public static class DialogueEvent
     {
-        public static event Action<string> OnDialogueTriggered;
-        public static void TriggerDialogue(string triggerName)
-        {
-            OnDialogueTriggered?.Invoke(triggerName);
-        }
         public static event Action<DialogueInfo> OnDialogueStarted;
         public static void StartDialogue(DialogueInfo dialogue)
         {
@@ -29,6 +24,12 @@ namespace Dialogues
         public static void UnlockDialogue(string triggerName, string dialogueName)
         {
             OnDialogueUnlocked?.Invoke(triggerName, dialogueName);
+        }
+        
+        public static event Action OnManagerPinged;
+        public static void Ping()
+        {
+            OnManagerPinged?.Invoke();
         }
         public static event Action<string, DialogueEntity> OnEntitySubscribed;
         public static void SubscribeToManager(string triggerName, DialogueEntity entity)

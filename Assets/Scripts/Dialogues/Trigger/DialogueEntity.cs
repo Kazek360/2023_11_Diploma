@@ -19,12 +19,21 @@ namespace Dialogues.Trigger
         {
             dialogues = new List<Dialogue>();
         }
-        
-        protected void Start()
+
+        protected virtual void OnEnable()
+        {
+            DialogueEvent.OnManagerPinged += SubscribeToManager;
+        }
+        protected virtual void OnDisable()
+        {
+            DialogueEvent.OnManagerPinged -= SubscribeToManager;
+        }
+
+        private void SubscribeToManager()
         {
             DialogueEvent.SubscribeToManager(triggerName, this);
         }
-
+        
         /// <summary>
         /// Metoda zmieniająca obecny dialog
         /// </summary>

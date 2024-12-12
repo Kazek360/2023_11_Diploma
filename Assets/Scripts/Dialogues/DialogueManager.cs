@@ -26,7 +26,6 @@ namespace Dialogues
         {
             DialogueEvent.OnEntitySubscribed += InitializeEntity;
             DialogueEvent.OnDialogueUnlocked += UnlockDialogue;
-            isInitialized = true;
         }
         
         private void OnDisable()
@@ -34,7 +33,13 @@ namespace Dialogues
             DialogueEvent.OnDialogueUnlocked -= UnlockDialogue;
             DialogueEvent.OnEntitySubscribed -= InitializeEntity;
         }
-        
+
+        private void Start()
+        {
+            DialogueEvent.Ping();
+            isInitialized = true;
+        }
+
         /// <summary>
         /// Metoda sprawdzająca, czy dialog może zostać uruchomiony
         /// </summary>
