@@ -17,10 +17,14 @@ namespace Tutorials
             tutorials = CreateTutorialDictionary();
         }
         
-        public void TriggerTutorial(TutorialInfo tutorial)
+        public void TriggerTutorial(TutorialInfo info)
         {
-            tutorials[tutorial.name].hasTriggered = true;
-            TutorialUI.InvokeOnTutorialTrigger(tutorial);
+            if (tutorials[info.name].hasTriggered)
+            {
+                return;
+            }
+            tutorials[info.name].hasTriggered = true;
+            TutorialUI.InvokeOnTutorialTrigger(info);
             if (UserInterfaceManager.Instance.CurrentStateType == UserInterfaceState.Exploration)
             {
                 UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Tutorial);
