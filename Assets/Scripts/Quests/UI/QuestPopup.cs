@@ -14,7 +14,6 @@ namespace Quests.UI
         private CanvasGroup _canvasGroup;
         private Queue<string> _popupQueue;
         private bool _popupDisplayed;
-        public static bool isInterfaceAssigned = false;
         
         private void Awake()
         {
@@ -66,7 +65,7 @@ namespace Quests.UI
         
         private IEnumerator ShowPopup()
         {
-            while (!isInterfaceAssigned)
+            while (!UserInterfaceManager.isInitialized)
             {
                 yield return null;
             }
