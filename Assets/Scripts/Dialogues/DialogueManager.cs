@@ -63,7 +63,7 @@ namespace Dialogues
         private void UnlockDialogue(string triggerName, string dialogueName)
         {
             var entity = _dialogueEntityDictionary[triggerName];
-            var dialogue = entity.dialogues.Find((match) => match.info.name.Equals(dialogueName));
+            var dialogue = entity.dialogues.Find(match => match.info.name.Equals(dialogueName));
 
             if (dialogue != null)
             {
@@ -79,14 +79,11 @@ namespace Dialogues
         /// <param name="entity">Obiekt do zinicjalizowania</param>
         private void InitializeEntity(string triggerName, DialogueEntity entity)
         {
-            Debug.Log("Elo 1");
             if (_dialogueEntityDictionary.ContainsKey(triggerName))
             {
                 return;
             }
             _dialogueEntityDictionary.Add(triggerName, entity);
-            
-            Debug.Log("Elo 2");
             
             foreach (var dialogue in _allDialoguesOnScene)
             {
