@@ -20,6 +20,7 @@ namespace Dialogues
         {
             base.Awake();
             _allDialoguesOnScene = LoadDialogues();
+            isInitialized = false;
         }
         
         private void OnEnable()

@@ -27,7 +27,13 @@ namespace UI
         {
             onInterfaceSubscribed?.Invoke(state, userInterface);
         }
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            isInitialized = false;
+        }
+
         private void OnEnable()
         {
             onInterfaceSubscribed += AddToDictionary;
