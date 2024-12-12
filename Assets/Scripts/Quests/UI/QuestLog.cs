@@ -25,13 +25,14 @@ namespace Quests.UI
         private Quest _selectedQuest;
         private Button _defaultSelectedButton;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             QuestEvents.OnQuestStateChange += QuestStateChange;
         }
-
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             QuestEvents.OnQuestStateChange -= QuestStateChange;
         }
         

@@ -37,14 +37,16 @@ namespace Dialogues
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
         
-        private void OnEnable()
+        
+        protected override void OnEnable()
         {
+            base.OnEnable();
             DialogueEvent.OnDialogueStarted += StartDialogue;
             DialogueEvent.OnDialogueContinued += ContinueDialogue;
         }
-
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             DialogueEvent.OnDialogueStarted -= StartDialogue;
             DialogueEvent.OnDialogueContinued -= ContinueDialogue;
         }
