@@ -25,14 +25,12 @@ namespace Dialogues
         private void OnEnable()
         {
             DialogueEvent.OnEntitySubscribed += InitializeEntity;
-            //DialogueEvent.OnDialogueTriggered += StartDialogue;
             DialogueEvent.OnDialogueUnlocked += UnlockDialogue;
             isInitialized = true;
         }
         
         private void OnDisable()
         {
-            //DialogueEvent.OnDialogueTriggered -= StartDialogue;
             DialogueEvent.OnDialogueUnlocked -= UnlockDialogue;
             DialogueEvent.OnEntitySubscribed -= InitializeEntity;
         }
