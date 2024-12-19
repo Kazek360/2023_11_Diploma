@@ -32,12 +32,16 @@ namespace Quests.UI
         protected override void OnEnable()
         {
             base.OnEnable();
-            QuestEvents.OnQuestStateChange += QuestStateChange;
+            QuestEvents.OnQuestAdded += AddToQuestLogOnLoad;
+            QuestEvents.OnQuestStarted += AddQuestToLog;
+            QuestEvents.OnQuestFinished += AddQuestToFinishedCategory;
         }
         protected override void OnDisable()
         {
             base.OnDisable();
-            QuestEvents.OnQuestStateChange -= QuestStateChange;
+            QuestEvents.OnQuestAdded -= AddToQuestLogOnLoad;
+            QuestEvents.OnQuestStarted -= AddQuestToLog;
+            QuestEvents.OnQuestFinished -= AddQuestToFinishedCategory;
         }
         
         public override void OnEnter()
@@ -58,23 +62,30 @@ namespace Quests.UI
             InputManager.Instance.Controlls.Player.Enable();
         }
         
-        private void QuestStateChange(Quest quest)
+        private void AddToQuestLogOnLoad(Quest quest)
         {
             if (quest.state == QuestState.InProgress)
             {
-                var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
-
-                _defaultSelectedButton = questLogButton.button;
+                AddQuestToLog(quest);
             }
             else if (quest.state == QuestState.Finished)
             {
-                var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
-                questLogButton =
-                    scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () => { SetQuestInfo(quest); });
-                _defaultSelectedButton = questLogButton.button;
+                AddQuestToFinishedCategory(quest);
             }
         }
 
+        private void AddQuestToLog(Quest quest)
+        {
+            var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
+            _defaultSelectedButton = questLogButton.button;
+        }
+        private void AddQuestToFinishedCategory(Quest quest)
+        {
+            var questLogButton =
+                scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () => { SetQuestInfo(quest); });
+            _defaultSelectedButton = questLogButton.button;
+        }
+        
         private void SetQuestInfo(Quest quest)
         {
             _selectedQuest = quest;

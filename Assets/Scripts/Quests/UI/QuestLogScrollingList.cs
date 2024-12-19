@@ -65,9 +65,12 @@ namespace Quests.UI
         public QuestLogButton MoveQuestLogButtonToFinishedCategory(Quest quest, UnityAction selectAction)
         {
             var index = GetIndexFromQuestCategory(quest.info.questCategory);
-            Destroy(_questDictionary[index][quest.info.name].gameObject);
-            _questDictionary[index].Remove(quest.info.name);
-
+            if (_questDictionary[index].ContainsKey(quest.info.name))
+            {
+                Destroy(_questDictionary[index][quest.info.name].gameObject);
+                _questDictionary[index].Remove(quest.info.name); 
+            }
+            
             var questLogButton =
                 Instantiate(questLogButtonPrefab, categoryContentParents.Last().transform)
                     .GetComponent<QuestLogButton>();

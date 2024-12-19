@@ -1,5 +1,4 @@
 using System;
-using Quests.ScriptableObjects;
 
 namespace Quests
 {
@@ -9,6 +8,11 @@ namespace Quests
         public static void StartQuest(string id)
         {
             OnQuestStart?.Invoke(id);
+        }
+        public static event Action<Quest> OnQuestStarted;
+        public static void StartQuest(Quest quest)
+        {
+            OnQuestStarted?.Invoke(quest);
         }
 
         public static event Action<string> OnQuestProgress;
@@ -22,23 +26,23 @@ namespace Quests
         {
             OnQuestFinish?.Invoke(id);
         }
-    
-        public static event Action<Quest> OnQuestStateChange;
-        public static void ChangeQuestState(Quest quest)
+        
+        public static event Action<Quest> OnQuestFinished;
+        public static void FinishQuest(Quest quest)
         {
-            OnQuestStateChange?.Invoke(quest);
+            OnQuestFinished?.Invoke(quest);
+        }
+        
+        public static event Action<Quest> OnQuestAdded;
+        public static void AddQuestToLog(Quest quest)
+        {
+            OnQuestAdded?.Invoke(quest);
         }
         
         public static event Action OnQuestTracking;
         public static void TrackQuest()
         {
             OnQuestTracking?.Invoke();
-        }
-        
-        public static event Action<QuestStepInfo> OnQuestStepStarted;
-        public static void InvokeOnQuestStepStarted(QuestStepInfo info)
-        {
-            OnQuestStepStarted?.Invoke(info);
         }
         
         public static event Action<string> OnQuestStepProgress;
@@ -52,5 +56,4 @@ namespace Quests
             OnQuestStepsDelete?.Invoke();
         }
     }
-   
 }
