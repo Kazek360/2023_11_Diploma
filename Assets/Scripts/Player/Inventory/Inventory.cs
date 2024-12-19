@@ -11,14 +11,13 @@ using UnityEngine;
  */
 public class Inventory : MonoBehaviour, IDataPersistence
 {
-    private ItemLibrary _itemLibrary;
+    
     
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
     public void OnEnable()
     {
         GameConfig.PlayerInventory = this;
-        _itemLibrary = GameConfig.itemLibrary;
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
@@ -105,7 +104,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
     
     public int RemoveItem(int itemID, int amountToRemove)
     {
-        ItemScriptableObject item = _itemLibrary.GetItem(itemID);
+        var item = ItemLibrary.Instance.GetItem(itemID);
         
         foreach (InventorySlot inventorySlot in _inventorySlots)
         {
@@ -138,7 +137,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     public void AddItem(int itemID, int amount, int x, int y)
     {
-        bool success = _inventorySlots[x, y].AddItem(_itemLibrary.GetItem(itemID), amount);
+        bool success = _inventorySlots[x, y].AddItem(ItemLibrary.Instance.GetItem(itemID), amount);
         if (!success)
         {
             throw new Exception("DODANIE PRZEDMIOTU NIE POWIODŁO SIĘ");
@@ -155,7 +154,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     public int AddItem(int itemID, int amount)
     {
-        ItemScriptableObject item = _itemLibrary.GetItem(itemID);
+        var item = ItemLibrary.Instance.GetItem(itemID);
         
         foreach (InventorySlot inventorySlot in _inventorySlots)
         {
@@ -227,7 +226,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
         for (int i = 0; i < gameData.equipment.GetLength(0); i++)
         {
-            _equipmentSlots[i].EquipItem(GameConfig.itemLibrary.GetItem(gameData.equipment[i]));
+            _equipmentSlots[i].EquipItem(ItemLibrary.Instance.GetItem(gameData.equipment[i]));
         }
     }
 

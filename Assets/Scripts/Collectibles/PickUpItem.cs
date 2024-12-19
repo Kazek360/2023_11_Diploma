@@ -17,7 +17,7 @@ namespace Collectibles
         public void OnEnable()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.sprite = GameConfig.itemLibrary.GetItem(itemId).ItemSprite();
+            _spriteRenderer.sprite = ItemLibrary.Instance.GetItem(itemId).ItemSprite();
         }
     
         public void OnTriggerEnter2D(Collider2D other)
@@ -38,12 +38,12 @@ namespace Collectibles
     
         public string GetTooltipHeader()
         {
-            return GameConfig.itemLibrary.GetItem(itemId).itemName;
+            return ItemLibrary.Instance.GetItem(itemId).itemName;
         }
     
         public string GetTooltipDesc()
         {
-            return GameConfig.itemLibrary.GetItem(itemId).ItemDesc();
+            return ItemLibrary.Instance.GetItem(itemId).ItemDesc();
         }
 
         public void TriggerInteraction()
