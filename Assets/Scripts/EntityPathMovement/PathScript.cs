@@ -3,81 +3,116 @@ using UnityEngine;
 
 public class PathScript : MonoBehaviour
 {
-    [SerializeField] private List<Transform> controlPoints; 
-    private List<Vector3> _targets;
+    [SerializeField] private List<Transform> points; 
+    [SerializeField] private float alpha = 0.5f;     
+    [SerializeField] private float interval = 0.05f; 
+    private List<Vector3> path;
 
     private void OnEnable()
     {
-        GeneratePathPoints();
+        BuildPath();
     }
 
     private void OnDrawGizmos()
     {
-        if (controlPoints == null || controlPoints.Count < 2)
+        if (points == null || points.Count < 2)
         {
-            Debug.LogWarning("You need 2 controle points, to make a Catmull-Rom.(PathManager)");
+            Debug.LogWarning("You need at least two points!");
             return;
         }
 
-        for (int i = 0; i < controlPoints.Count - 1; i++)
+        Gizmos.color = Color.red;
+        for (int i = 0; i < GetSegmentCount(); i++)
         {
-            DrawCatmullRomSpline(i);
+            DrawSpline(i);
         }
     }
 
-    private void GeneratePathPoints()
+    private void BuildPath()
     {
-        _targets = new List<Vector3>();
+        path = new List<Vector3>();
 
-        for (int i = 0; i < controlPoints.Count - 1; i++)
+        for (int i = 0; i < GetSegmentCount(); i++)
         {
-            Vector3 p0 = controlPoints[Mathf.Max(i - 1, 0)].position;
-            Vector3 p1 = controlPoints[i].position;
-            Vector3 p2 = controlPoints[i + 1].position;
-            Vector3 p3 = controlPoints[Mathf.Min(i + 2, controlPoints.Count - 1)].position;
+            Vector3 p0 = GetPoint(i - 1);
+            Vector3 p1 = GetPoint(i);
+            Vector3 p2 = GetPoint(i + 1);
+            Vector3 p3 = GetPoint(i + 2);
 
-            float step = 0.05f; 
+            CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3, alpha);
 
-            for (float t = 0; t <= 1; t += step)
+            for (float t = 0f; t <= 1f; t += interval)
             {
-                Vector3 point = CatmullRom(p0, p1, p2, p3, t);
-                _targets.Add(point); 
+                Vector3 position = curve.GetPoint(t);
+                path.Add(position);
             }
         }
     }
 
-    private void DrawCatmullRomSpline(int index)
+    private void DrawSpline(int segmentIndex)
     {
-        Vector3 p0 = controlPoints[Mathf.Max(index - 1, 0)].position;
-        Vector3 p1 = controlPoints[index].position;
-        Vector3 p2 = controlPoints[index + 1].position;
-        Vector3 p3 = controlPoints[Mathf.Min(index + 2, controlPoints.Count - 1)].position;
+        Vector3 p0 = GetPoint(segmentIndex - 1);
+        Vector3 p1 = GetPoint(segmentIndex);
+        Vector3 p2 = GetPoint(segmentIndex + 1);
+        Vector3 p3 = GetPoint(segmentIndex + 2);
 
-        float step = 0.05f;
-        Vector3 previousPoint = p1;
-        for (float t = 0; t <= 1; t += step)
+        CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3, alpha);
+
+        Vector3 previousPoint = curve.GetPoint(0f);
+
+        for (float t = interval; t <= 1f + Mathf.Epsilon; t += interval)
         {
-            Vector3 point = CatmullRom(p0, p1, p2, p3, t);
-            Gizmos.DrawLine(previousPoint, point);
-            previousPoint = point;
+            Vector3 currentPoint = curve.GetPoint(t);
+            Gizmos.DrawLine(previousPoint, currentPoint);
+            previousPoint = currentPoint;
         }
     }
 
-    private Vector3 CatmullRom(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
-    {
-        float t2 = t * t;
-        float t3 = t2 * t;
 
-        return 0.5f * (
-            (2 * p1) +
-            (-p0 + p2) * t +
-            (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 +
-            (-p0 + 3 * p1 - 3 * p2 + p3) * t3
-        );
+    private Vector3 GetPoint(int index)
+    {
+        if (index < 0)
+            return points[0].position;
+        if (index >= points.Count)
+            return points[points.Count - 1].position;
+        return points[index].position;
     }
-    
+
+
+    private int GetSegmentCount()
+    {
+        return Mathf.Max(points.Count - 1, 1);
+    }
+
+
     public List<Vector3> GetTargets()
     {
-        return _targets;
+        return path;
+    }
+
+
+    private struct CatmullRomCurve
+    {
+        public Vector3 P0, P1, P2, P3;
+
+        public CatmullRomCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float alpha)
+        {
+            P0 = p0;
+            P1 = p1;
+            P2 = p2;
+            P3 = p3;
+        }
+        public Vector3 GetPoint(float t)
+        {
+            float t2 = t * t;
+            float t3 = t2 * t;
+
+            return 0.5f * (
+                (2f * P1) +
+                (-P0 + P2) * t +
+                (2f * P0 - 5f * P1 + 4f * P2 - P3) * t2 +
+                (-P0 + 3f * P1 - 3f * P2 + P3) * t3
+            );
+        }
     }
 }
