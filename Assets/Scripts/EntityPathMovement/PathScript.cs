@@ -4,7 +4,6 @@ using UnityEngine;
 public class PathScript : MonoBehaviour
 {
     [SerializeField] private List<Transform> points; 
-    [SerializeField] private float alpha = 0.5f;     
     [SerializeField] private float interval = 0.05f; 
     private List<Vector3> path;
 
@@ -39,7 +38,7 @@ public class PathScript : MonoBehaviour
             Vector3 p2 = GetPoint(i + 1);
             Vector3 p3 = GetPoint(i + 2);
 
-            CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3, alpha);
+            CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3);
 
             for (float t = 0f; t <= 1f; t += interval)
             {
@@ -56,7 +55,7 @@ public class PathScript : MonoBehaviour
         Vector3 p2 = GetPoint(segmentIndex + 1);
         Vector3 p3 = GetPoint(segmentIndex + 2);
 
-        CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3, alpha);
+        CatmullRomCurve curve = new CatmullRomCurve(p0, p1, p2, p3);
 
         Vector3 previousPoint = curve.GetPoint(0f);
 
@@ -95,7 +94,7 @@ public class PathScript : MonoBehaviour
     {
         public Vector3 P0, P1, P2, P3;
 
-        public CatmullRomCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float alpha)
+        public CatmullRomCurve(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
         {
             P0 = p0;
             P1 = p1;
