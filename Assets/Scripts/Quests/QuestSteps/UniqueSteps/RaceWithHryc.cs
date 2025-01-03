@@ -1,10 +1,12 @@
 using System.Collections;
 using Dialogues;
 using Quests;
+using Tutorials;
 using UnityEngine;
 
 public class RaceWithHryc : DialogueAreaQuestStep
 {
+    [SerializeField] private TutorialInfo inventoryTutorial;
     [SerializeField] private string delayFlag;
     
     private bool _raceFinished;
@@ -72,6 +74,8 @@ public class RaceWithHryc : DialogueAreaQuestStep
             {
                 GameConfig.PlayerInventory.AddItem("slingshot", 1);
             }
+            
+            TutorialManager.Instance.TriggerTutorial(inventoryTutorial);
             Destroy(area);
             FinishAndDelete();
         } 
