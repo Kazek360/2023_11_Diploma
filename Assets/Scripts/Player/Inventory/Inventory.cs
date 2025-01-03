@@ -223,7 +223,10 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
         for (int i = 0; i < gameData.inventory.equipment.GetLength(0); i++)
         {
-            _equipmentSlots[i].EquipItem(ItemLibrary.Instance.GetItem(gameData.inventory.equipment[i]));
+            if (!gameData.inventory.equipment[i].Equals(""))
+            {
+                _equipmentSlots[i].EquipItem(ItemLibrary.Instance.GetItem(gameData.inventory.equipment[i]));
+            }
         }
     }
 
