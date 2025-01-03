@@ -11,7 +11,7 @@ public class ItemScriptableObject : ScriptableObject
         EQUIPMENT, CONSUMABLE, REGULAR
     }
     
-    [SerializeField] public int itemID;
+    
     [SerializeField] public string itemName;
     [SerializeField][TextArea] protected string itemDesc;
     [Tooltip("Multiple, because of imagination system")][SerializeField] private List<Sprite> itemSprites;
@@ -92,7 +92,7 @@ public class ItemScriptableObject : ScriptableObject
     
     public void ChangeImagination(int currImagination)
     {
-        PlayerStats.GetInstance().ItemRemoved(itemID);
+        PlayerStats.GetInstance().ItemRemoved(name);
         foreach (var modifier in modifiers)
         {
             PlayerStats.GetInstance().AddItemModifier(modifier);

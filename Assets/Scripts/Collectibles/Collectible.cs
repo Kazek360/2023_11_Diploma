@@ -6,18 +6,20 @@ namespace Collectibles
     /**
      * Controller for an item that can be picked up by a player
      */
-    public class PickUpItem : MonoBehaviour, ITooltippable, IInteractable
+    public class Collectible : MonoBehaviour, ITooltippable, IInteractable
     {
-        [SerializeField] private int itemId;
+        [SerializeField] private string itemId;
         [SerializeField] private int amount;
         [SerializeField] private GameObject pickupIndicatorSprite;
         
         private SpriteRenderer _spriteRenderer;
+        private ItemScriptableObject _itemInfo;
         
-        public void OnEnable()
+        public void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.sprite = ItemLibrary.Instance.GetItem(itemId).ItemSprite();
+            _itemInfo = ItemLibrary.Instance.GetItem(itemId);
+            _spriteRenderer.sprite = _itemInfo.ItemSprite();
         }
     
         public void OnTriggerEnter2D(Collider2D other)
@@ -38,12 +40,12 @@ namespace Collectibles
     
         public string GetTooltipHeader()
         {
-            return ItemLibrary.Instance.GetItem(itemId).itemName;
+            return _itemInfo.itemName;
         }
     
         public string GetTooltipDesc()
         {
-            return ItemLibrary.Instance.GetItem(itemId).ItemDesc();
+            return _itemInfo.ItemDesc();
         }
 
         public void TriggerInteraction()

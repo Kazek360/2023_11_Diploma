@@ -66,11 +66,11 @@ public class PlayerStats
         return res;
     }
 
-    public void ItemRemoved(int itemID)
+    public void ItemRemoved(string itemID)
     {
         for (int i = _itemStatModifiers.Count - 1; i >= 0; i--)
         {
-            if (_itemStatModifiers[i].ItemID == itemID)
+            if (_itemStatModifiers[i].ItemID.Equals(itemID))
             {
                 _itemStatModifiers.RemoveAt(i);
             }
@@ -225,7 +225,6 @@ public class PlayerStats
         _witHp = val;
     }
     
-    
     public void ModifyWitHealth(int val)
     {
         _witHp = Math.Min(Math.Max(0, _witHp + val), GetStat(StatType.WitHealth));
@@ -258,9 +257,9 @@ public class ItemStatModifier
 {
     [SerializeField]private StatType _statType;
     [SerializeField]private int _modifier;
-    [SerializeField]private int _itemID;
+    [SerializeField]private string _itemID;
 
-    public ItemStatModifier(StatType statType, int modifier, int itemID)
+    public ItemStatModifier(StatType statType, int modifier, string itemID)
     {
         _statType = statType;
         _modifier = modifier;
@@ -271,7 +270,7 @@ public class ItemStatModifier
 
     public int Modifier => _modifier;
 
-    public int ItemID => _itemID;
+    public string ItemID => _itemID;
 
     public string StatString()
     {

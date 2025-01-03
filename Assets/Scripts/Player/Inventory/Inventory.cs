@@ -11,8 +11,6 @@ using UnityEngine;
  */
 public class Inventory : MonoBehaviour, IDataPersistence
 {
-    
-    
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
     public void OnEnable()
@@ -102,11 +100,11 @@ public class Inventory : MonoBehaviour, IDataPersistence
         _inventorySlots[x, y].RemoveItem();
     }
     
-    public int RemoveItem(int itemID, int amountToRemove)
+    public int RemoveItem(string id, int amountToRemove)
     {
-        var item = ItemLibrary.Instance.GetItem(itemID);
+        var item = ItemLibrary.Instance.GetItem(id);
         
-        foreach (InventorySlot inventorySlot in _inventorySlots)
+        foreach (var inventorySlot in _inventorySlots)
         {
             if (amountToRemove == 0)
             {
@@ -117,7 +115,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 continue;
             }
 
-            if (inventorySlot.Item.itemID == itemID)
+            if (inventorySlot.Item.name.Equals(id))
             {
                 int removeNow = Math.Min(amountToRemove, inventorySlot.Count);
                 inventorySlot.RemoveItem(removeNow);
@@ -130,14 +128,14 @@ public class Inventory : MonoBehaviour, IDataPersistence
     /**
      * Place items in given position in inventory
      *
-     * <param name="itemID">ID of the desired item</param>
+     * <param name="id">ID of the desired item</param>
      * <param name="amount">Amount of the desired item</param>
      * <param name="x">X coordinate in inventory grid</param>
      * <param name="y">Y coordinate in inventory grid</param>
      */
-    public void AddItem(int itemID, int amount, int x, int y)
+    public void AddItem(string id, int amount, int x, int y)
     {
-        bool success = _inventorySlots[x, y].AddItem(ItemLibrary.Instance.GetItem(itemID), amount);
+        bool success = _inventorySlots[x, y].AddItem(ItemLibrary.Instance.GetItem(id), amount);
         if (!success)
         {
             throw new Exception("DODANIE PRZEDMIOTU NIE POWIODŁO SIĘ");
@@ -148,15 +146,15 @@ public class Inventory : MonoBehaviour, IDataPersistence
      * Add multiple of a given item to inventory
      * Generally used in most cases of item acquisition
      *
-     * <param name="itemID">ID of an item to be added</param>
+     * <param name="id">ID of an item to be added</param>
      * <param name="amount">Amount of an item to be added</param>
      * <returns>Amount of items which the function was unable to add</returns>
      */
-    public int AddItem(int itemID, int amount)
+    public int AddItem(string id, int amount)
     {
-        var item = ItemLibrary.Instance.GetItem(itemID);
+        var item = ItemLibrary.Instance.GetItem(id);
         
-        foreach (InventorySlot inventorySlot in _inventorySlots)
+        foreach (var inventorySlot in _inventorySlots)
         {
             if (amount == 0)
             {
@@ -170,7 +168,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 continue;
             }
 
-            if (inventorySlot.Item.itemID == itemID)
+            if (inventorySlot.Item.name.Equals(id))
             {
                 int toAdd = Math.Min(amount, item.maxStackSize - inventorySlot.Count);
                 inventorySlot.AddItem(item, toAdd);
@@ -186,9 +184,9 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     private void LoadDefault()
     {
-        AddItem(1, 2);
-        AddItem(2, 1);
-        AddItem(4, 1);
+        AddItem("beer", 2);
+        AddItem("knife", 1);
+        AddItem("slingshot", 1);
     }
 
     public void LoadData(GameData gameData)
@@ -213,20 +211,20 @@ public class Inventory : MonoBehaviour, IDataPersistence
             }
         }
         
-        for (var i = 0; i < gameData.inventory.GetLength(0); i++)
+        for (var i = 0; i < gameData.inventory.items.GetLength(0); i++)
         {
-            for (var j = 0; j < gameData.inventory.GetLength(1); j++)
+            for (var j = 0; j < gameData.inventory.items.GetLength(1); j++)
             {
-                if (gameData.inventory[i, j] is not null)
+                if (gameData.inventory.items[i, j] is not null)
                 {
-                    AddItem(gameData.inventory[i, j].Item1, gameData.inventory[i, j].Item2, i, j);
+                    AddItem(gameData.inventory.items[i, j].Item1, gameData.inventory.items[i, j].Item2, i, j);
                 }
             }
         }
 
-        for (int i = 0; i < gameData.equipment.GetLength(0); i++)
+        for (int i = 0; i < gameData.inventory.equipment.GetLength(0); i++)
         {
-            _equipmentSlots[i].EquipItem(ItemLibrary.Instance.GetItem(gameData.equipment[i]));
+            _equipmentSlots[i].EquipItem(ItemLibrary.Instance.GetItem(gameData.inventory.equipment[i]));
         }
     }
 
@@ -238,12 +236,12 @@ public class Inventory : MonoBehaviour, IDataPersistence
             {
                 if (_inventorySlots[i, j].Item is not null)
                 {
-                    gameData.inventory[i, j] =
-                        new Tuple<int, int>(_inventorySlots[i, j].Item.itemID, _inventorySlots[i, j].Count);
+                    gameData.inventory.items[i, j] =
+                        new Tuple<string, int>(_inventorySlots[i, j].Item.name, _inventorySlots[i, j].Count);
                 }
                 else
                 {
-                    gameData.inventory[i, j] = null;
+                    gameData.inventory.items[i, j] = null;
                 }
             }
         }
@@ -252,23 +250,23 @@ public class Inventory : MonoBehaviour, IDataPersistence
         {
             if (_equipmentSlots[i].Item is not null)
             {
-                gameData.equipment[i] = _equipmentSlots[i].Item.itemID;
+                gameData.inventory.equipment[i] = _equipmentSlots[i].Item.name;
             }
             else
             {
-                gameData.equipment[i] = -1;
+                gameData.inventory.equipment[i] = "";
             }
         }
     }
 
-    public int CountItems(int id)
+    public int CountItems(string id)
     {
         int result = 0;
         foreach (var slot in _inventorySlots)
         {
             if (slot.Item is not null)
             {
-                if (slot.Item.itemID == id)
+                if (slot.Item.name.Equals(id))
                 {
                     result += slot.Count;
                 }
@@ -278,16 +276,16 @@ public class Inventory : MonoBehaviour, IDataPersistence
         return result;
     }
 
-    public HashSet<int> GetItems(ItemScriptableObject.ItemType type)
+    public HashSet<string> GetItems(ItemScriptableObject.ItemType type)
     {
-        HashSet<int> result = new HashSet<int>();
+        var result = new HashSet<string>();
         foreach (var slot in _inventorySlots)
         {
             if (slot.Item is not null)
             {
                 if (slot.Item.itemType == type)
                 {
-                    result.Add(slot.Item.itemID);
+                    result.Add(slot.Item.name);
                 }
             }
         }

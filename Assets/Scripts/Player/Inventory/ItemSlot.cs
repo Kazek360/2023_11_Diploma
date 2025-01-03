@@ -67,7 +67,7 @@ public class InventorySlot : ItemSlot
             return true;
         }
 
-        if (_item.itemID == item.itemID)
+        if (_item.name.Equals(item.name))
         {
             _count += count;
         }
@@ -120,8 +120,8 @@ public class EquipmentSlot : ItemSlot
     
     public override void Use()
     {
-        PlayerStats.GetInstance().ItemRemoved(_item.itemID);
-        GameConfig.PlayerInventory.AddItem(_item.itemID, 1);
+        PlayerStats.GetInstance().ItemRemoved(_item.name);
+        GameConfig.PlayerInventory.AddItem(_item.name, 1);
         if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
         {
             _item.Unequip();
@@ -133,8 +133,8 @@ public class EquipmentSlot : ItemSlot
     {
         if (_item is not null)
         {
-            PlayerStats.GetInstance().ItemRemoved(_item.itemID);
-            GameConfig.PlayerInventory.AddItem(_item.itemID, 1);
+            PlayerStats.GetInstance().ItemRemoved(_item.name);
+            GameConfig.PlayerInventory.AddItem(_item.name, 1);
             if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
             {
                 _item.Unequip();

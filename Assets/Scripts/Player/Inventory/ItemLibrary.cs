@@ -7,7 +7,7 @@ using UnityEngine;
  */
 public class ItemLibrary : Singleton<ItemLibrary>
 {
-    private Dictionary<int, ItemScriptableObject> _items;
+    private Dictionary<string, ItemScriptableObject> _items;
     protected override void Awake()
     {
         base.Awake();
@@ -20,22 +20,21 @@ public class ItemLibrary : Singleton<ItemLibrary>
      * <param name="id">ID of desired item</param>
      * <returns>Requested item object</returns>
      */
-    public ItemScriptableObject GetItem(int id)
+    public ItemScriptableObject GetItem(string id)
     {
         return _items[id];
     }
-    private Dictionary<int, ItemScriptableObject> CreateItemDictionary()
+    private Dictionary<string, ItemScriptableObject> CreateItemDictionary()
     {
         var allItems = Resources.LoadAll<ItemScriptableObject>("Items");
-        var idToDictionary = new Dictionary<int, ItemScriptableObject>();
+        var idToDictionary = new Dictionary<string, ItemScriptableObject>();
         foreach (var item in allItems)
         {
-            if (idToDictionary.ContainsKey(item.itemID))
+            if (idToDictionary.ContainsKey(item.name))
             {
                 Debug.LogWarning($"Found Duplicate ID: {item.name}");
             }
-
-            idToDictionary.Add(item.itemID, item);
+            idToDictionary.Add(item.name, item);
         }
 
         return idToDictionary;
