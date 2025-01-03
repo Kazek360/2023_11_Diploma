@@ -186,7 +186,6 @@ public class Inventory : MonoBehaviour, IDataPersistence
     {
         AddItem("beer", 2);
         AddItem("knife", 1);
-        AddItem("slingshot", 1);
     }
 
     public void LoadData(GameData gameData)

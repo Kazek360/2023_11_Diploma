@@ -62,6 +62,16 @@ public class RaceWithHryc : DialogueAreaQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
+            if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward_knife")
+                && !QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_winner_player"))
+            {
+                GameConfig.PlayerInventory.RemoveItem("knife", 1);
+            }
+            else if(QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward_slingshot")
+                    && QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_winner_player"))
+            {
+                GameConfig.PlayerInventory.AddItem("slingshot", 1);
+            }
             Destroy(area);
             FinishAndDelete();
         } 
