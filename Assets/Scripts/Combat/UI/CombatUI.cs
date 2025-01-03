@@ -112,12 +112,12 @@ public class CombatUI : UserInterface
         //TODO: SHOW ITEM CARDS
         if (_currentEntity.IsMaterial())
         {
-            HashSet<int> items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+            var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
             foreach (var itemId in items)
             {
                 var itemCard = Instantiate(ItemCardPrefab, ItemsScrollContent.transform);
                 ItemCard itemCardScript = itemCard.GetComponent<ItemCard>();
-                itemCardScript.SetItem(GameConfig.itemLibrary.GetItem(itemId));
+                itemCardScript.SetItem(ItemLibrary.Instance.GetItem(itemId));
                 itemCardScript.SetController(this);
                 if (_combatSystem.ActionsLeft > 0)
                 {

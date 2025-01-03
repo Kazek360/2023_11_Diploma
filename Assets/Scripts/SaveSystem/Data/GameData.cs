@@ -15,8 +15,7 @@ namespace SaveSystem.Data
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
         public Dictionary<string, bool> skillTreeNodesState;
         public Dictionary<string, int> resources;
-        public Tuple<int, int>[,] inventory;
-        public int[] equipment;
+        public InventoryData inventory;
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
         public Dictionary<string, Flag> Flags;
@@ -26,15 +25,18 @@ namespace SaveSystem.Data
         {
             save = new SaveData();
             scene = new SceneData();
-            charactersPosition = new CharacterPositionData()
+            charactersPosition = new CharacterPositionData
             {
                 npcPositions = new Dictionary<string, List<CharacterPositionData.Position>>()
+            };
+            inventory = new InventoryData
+            {
+                items = new Tuple<string, int>[7, 5],
+                equipment = new string[5]
             };
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
             skillTreeNodesState = new Dictionary<string, bool>();
-            inventory = new Tuple<int, int>[7, 5];
-            equipment = new int[5];
             tutorials = new Dictionary<string, Tutorial>();
         }
     }

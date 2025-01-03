@@ -22,6 +22,6 @@ namespace Quests.ScriptableObjects
 
         [Header("Rewards")] 
         public int experience;
-        public List<int> items;
+        public List<string> items;
     }
 }

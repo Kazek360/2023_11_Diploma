@@ -4,8 +4,8 @@ namespace Collectibles
 {
     public static class CollectibleEvents
     {
-        public static event Action<int> OnCollectiblePickup;
-        public static void PickupCollectible(int id)
+        public static event Action<string> OnCollectiblePickup;
+        public static void PickupCollectible(string id)
         {
             OnCollectiblePickup?.Invoke(id);
         }
