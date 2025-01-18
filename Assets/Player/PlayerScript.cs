@@ -100,7 +100,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        Debug.Log(_partner.GetEntityName() + " PARTNERED");
+        //Debug.Log(_partner.GetEntityName() + " PARTNERED");
         foreach (EffectOverTime effect in _effectsOverTime)
         {
             effect.ProcessTurn(this);

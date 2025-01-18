@@ -9,9 +9,13 @@ public class EnemyBehaviourModel : MonoBehaviour
     protected CombatEnvironmentManager _environmentManager;
     protected EntityManager _entityManager;
     protected IHittable _entity;
+    protected int _movementLeft;
+    protected int _actionsLeft;
     
     public virtual void ProcessTurn(IHittable entity, CombatSystem combatSystem, CombatEnvironmentManager environmentManager, EntityManager entityManager)
     {
+        _movementLeft = entity.GetAgility();
+        _actionsLeft = entity.GetImagination();
         _combatSystem = combatSystem;
         _environmentManager = environmentManager;
         _entityManager = entityManager;
@@ -37,7 +41,7 @@ public class EnemyBehaviourModel : MonoBehaviour
 
         if (currTarget != null)
         {
-            Debug.Log("ENEMY CHOSEN: " + currTarget.GetEntityName());
+            //Debug.Log("ENEMY CHOSEN: " + currTarget.GetEntityName());
         }
         return currTarget;
     }

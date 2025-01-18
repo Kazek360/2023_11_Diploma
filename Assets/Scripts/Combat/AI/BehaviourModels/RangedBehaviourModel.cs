@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Combat;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,25 +15,25 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         EntityManager entityManager)
     {
         base.ProcessTurn(entity, combatSystem, environmentManager, entityManager);
-        _target = GetClosestEnemy();
-        if (_target == null)
-        {
-            _entity.AfterTurnEffects();
-            return;
-        }
         AttackPhase();
         
     }
 
     private void PositioningPhase(List<GridObject> requiredMovement)
     {
-        if (requiredMovement.Count - 1 > _combatSystem.MovementLeft)
+        if (requiredMovement.Count - 1 > _movementLeft)
         {
             RetreatPhase();
             return;
         }
 
-        if (minDist - DistanceToTarget() > _combatSystem.MovementLeft)
+        /*
+         Whether or not the unit can retreat later to minDist
+         moves to get in range = requiredMovement.Count - 1
+         moves to return to minDist = minDist - (currentDistance - requiredMovement.Count - 1)
+         together = minDist - currentDist + 2 * (requiredMovement.Count - 1)
+         */
+        if (minDist - DistanceToTarget() + (requiredMovement.Count() - 1) * 2 > _movementLeft)
         {
             RetreatPhase();
             return;
@@ -50,26 +51,32 @@ public class RangedBehaviourModel : EnemyBehaviourModel
             _entity.AfterTurnEffects();
             return;
         }
-        if (_combatSystem.ActionsLeft == 0)
+        if (_actionsLeft == 0)
         {
             RetreatPhase();
             return;
         }
 
         var requiredMovement = RepositioningRequiredMovementCalc();
-
+        
         if (requiredMovement is null)
         {
             RetreatPhase();
             return;
         }
-
-        if (requiredMovement.Count - 1 > 0)
+        
+        if (requiredMovement.Count > 0)
         {
             PositioningPhase(requiredMovement);
             return;
         }
-        PerformAction();
+        int performedAction = PerformAction();
+        
+         if (performedAction == -1)  //No action can be performed - theoretically unreachable but just in case
+         {
+             RetreatPhase();
+             return;
+         }
         AttackPhase();
     }
 
@@ -99,14 +106,16 @@ public class RangedBehaviourModel : EnemyBehaviourModel
 
     private IEnumerator ApproachTarget(List<GridObject> path)
     {
-        for (int i = 1; i < path.Count - 1; i++)
+        yield return new WaitForSeconds(0.3f);
+        for (int i = 1; i < path.Count(); i++)
         {
-            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            if (DistanceToTarget() <= 1 || _movementLeft <= 0)
             {
                 break;
             }
             var nextHex = path[i];
             _combatSystem.MoveTo(nextHex.X, nextHex.Y);
+            _movementLeft--;
             while (_entity.GetUnitCombatScript().currentState != UnitCombat.State.Idling)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -117,9 +126,10 @@ public class RangedBehaviourModel : EnemyBehaviourModel
     
     private IEnumerator RetreatAlongPath(List<GridObject> path)
     {
-        for (int i = 1; i < path.Count - 1; i++)
+        yield return new WaitForSeconds(0.3f);
+        for (int i = 1; i < path.Count(); i++)
         {
-            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            if (DistanceToTarget() <= 1 || _movementLeft <= 0)
             {
                 break;
             }
@@ -139,6 +149,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         int chosenAbility = ChooseAbility();
         if (chosenAbility != -1)
         {
+            _actionsLeft--;
             CastAbility(chosenAbility);
         }
         return chosenAbility;
@@ -156,14 +167,12 @@ public class RangedBehaviourModel : EnemyBehaviourModel
             {
                 reqDistance = 99;
             }
-            if (abilities[i].Range <= DistanceToTarget())
+            if (abilities[i].Range >= DistanceToTarget())
             {
-                reqDistance = 0;
                 return new List<GridObject>();
             }
             else
             {
-
                 reqDistance = Math.Min(reqDistance, DistanceToTarget() - abilities[i].Range);
             }
         }
@@ -189,7 +198,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         {
             var tmp = _environmentManager.FindShortestPathToDistance(entityGrid, targetGrid, _entity.IsMaterial(),
                 reqDistance);
-            if (tmp.Count - 1 <= _combatSystem.MovementLeft)
+            if (tmp.Count - 1 <= _movementLeft)
             {
                 return tmp;
             }
@@ -207,7 +216,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         for (int i = 0; i < abilities.Count; i++)
         {
             if (cooldowns[i] > 0) continue;
-            if (abilities[i].GetAbilityWeight(_entity) > currWeight && abilities[i].Range <= DistanceToTarget())
+            if (abilities[i].GetAbilityWeight(_entity) > currWeight && abilities[i].Range >= DistanceToTarget())
             {
                 currWeight = abilities[i].GetAbilityWeight(_entity);
                 currCandidate = i;
