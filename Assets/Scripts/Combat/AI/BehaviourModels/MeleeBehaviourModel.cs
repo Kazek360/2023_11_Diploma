@@ -12,18 +12,18 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         EntityManager entityManager)
     {
         base.ProcessTurn(entity, combatSystem, environmentManager, entityManager);
+        MovementPhase();
+    }
+
+    private void MovementPhase()
+    {
         _target = GetClosestEnemy();
         if (_target == null)
         {
             _entity.AfterTurnEffects();
             return;
         }
-        MovementPhase();
-    }
-
-    private void MovementPhase()
-    {
-        if (_combatSystem.MovementLeft > 0)
+        if (_movementLeft > 0)
         {
             var chase = StartCoroutine(ChaseEnemy());
         }
@@ -35,18 +35,12 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
 
     private void AttackPhase()
     {
-        while (_combatSystem.ActionsLeft > 0)
+        while (_actionsLeft > 0)
         {
             Debug.Log("ATTACK");
             int chosenAbilityId = PerformAction();
             if (_target.IsDead())
             {
-                _target = GetClosestEnemy();
-                if (_target == null || _combatSystem.MovementLeft == 0)
-                {
-                    _entity.AfterTurnEffects();
-                    return;
-                }
                 MovementPhase();
                 return;
             }
@@ -56,13 +50,12 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
                 break;
             }
         }
-        //Debug.Log("ATTACK END");
+        Debug.Log("ATTACK END");
         _entity.AfterTurnEffects();
     }
 
     private IEnumerator ChaseEnemy()
     {
-        Debug.Log("COROUTINE START");
         var entityGrid = _environmentManager.GetGridObject(_entity.GetUnitCombatScript().GetGridLocation());
         var targetGrid = _environmentManager.GetGridObject(_target.GetUnitCombatScript().GetGridLocation());
         var path = _environmentManager.FindShortestPathTo(entityGrid, targetGrid, _entity.IsMaterial());
@@ -70,20 +63,18 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         for (int i = 1; i < path.Count - 1; i++)
         {
             //Debug.Log("LOOP ITER");
-            if (DistanceToTarget() <= 1 || _combatSystem.MovementLeft <= 0)
+            if (DistanceToTarget() <= 1 || _movementLeft <= 0)
             {
                 break;
             }
             var nextHex = path[i];
             _combatSystem.MoveTo(nextHex.X, nextHex.Y);
+            _movementLeft--;
             UnitCombat unitScript = _entity.GetUnitCombatScript();
             while (unitScript.currentState != UnitCombat.State.Idling)
             {
-                Debug.Log("YIELD");
                 yield return new WaitForSeconds(0.5f);
-                Debug.Log("YIELD OVER");
             }
-            Debug.Log("WHILE OVER");
         }
         AttackPhase();
     }
@@ -94,6 +85,7 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         int chosenAbility = ChooseAbility();
         if (chosenAbility != -1)
         {
+            _actionsLeft--;
             CastAbility(chosenAbility);
         }
         return chosenAbility;
