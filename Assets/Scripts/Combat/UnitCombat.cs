@@ -65,9 +65,12 @@ public class UnitCombat : MonoBehaviour
         {
             _rigidbody.position = _currentDestination;
             currentState = State.Idling;
+            Debug.Log("IDLED");
         }
         else
         {
+            //Debug.Log("MOVING TO " + _currentDestination.x + " " + _currentDestination.y);
+            //Debug.Log("POSITION " + transform.position.x + " " + transform.position.y);
             _rigidbody.position = Vector2.MoveTowards(transform.position, _currentDestination, Speed * Time.deltaTime);
         }
     }

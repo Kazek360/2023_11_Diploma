@@ -142,22 +142,22 @@ public class CombatUI : UserInterface
         {
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetMaterialPlayers());
+                candidateTargets.AddRange(_entityManager.GetEntities(true, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetMaterialEnemies());
+                candidateTargets.AddRange(_entityManager.GetEntities(false, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetImmaterialPlayers());
+                candidateTargets.AddRange(_entityManager.GetEntities(true, false));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
-                candidateTargets.AddRange(_entityManager.GetImmaterialEnemies());
+                candidateTargets.AddRange(_entityManager.GetEntities(false, false));
             }
         }
         _possibleTargets = new List<IHittable>();

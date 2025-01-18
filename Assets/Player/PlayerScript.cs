@@ -100,7 +100,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        Debug.Log(_partner.GetEntityName() + " PARTNERED");
+        //Debug.Log(_partner.GetEntityName() + " PARTNERED");
         foreach (EffectOverTime effect in _effectsOverTime)
         {
             effect.ProcessTurn(this);
@@ -362,5 +362,17 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
     {
         _effectsOverTime.Add(effectOverTime);
+    }
+
+    public void OnAbilityCast(int i)
+    {
+        //TODO: SHIFT IMPLEMENTATION
+        throw new NotImplementedException();
+    }
+
+    public void AfterTurnEffects()
+    {
+        //TODO: SHIFT IMPLEMENTATION
+        throw new NotImplementedException();
     }
 }

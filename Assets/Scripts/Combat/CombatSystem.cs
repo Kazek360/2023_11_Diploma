@@ -110,7 +110,7 @@ namespace Combat
          * <param name='x'>x coordinate on hex map</param>
          * <param name='y'>y coordinate on hex map</param>
          */
-        private void MoveTo(int x, int y)
+        public void MoveTo(int x, int y)
         {
             _movementLeft--;
             var vec = currentUnit.GetGridLocation();
@@ -159,6 +159,14 @@ namespace Combat
             SetCurrentMaterial(movedEntity.IsMaterial());
             ShowStage(movedEntity.IsMaterial());
             StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
+        }
+
+        public void EnemyTurnSetup(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
+        {
+            _currentIsPlayer = false;
+            _movementLeft = movement;
+            SetCurrentMaterial(movedEntity.IsMaterial());
+            ShowStage(movedEntity.IsMaterial());
         }
 
         /**
@@ -351,6 +359,11 @@ namespace Combat
         public int GetDistance(UnitCombat unitScript)
         {
             return combatEnvironmentManager.GetDistance(currentUnit, unitScript);
+        }
+
+        public CombatEnvironmentManager GetCombatEnvironmentManager()
+        {
+            return combatEnvironmentManager;
         }
     }
 }

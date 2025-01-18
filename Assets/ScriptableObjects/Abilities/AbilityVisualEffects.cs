@@ -7,7 +7,6 @@ public class AbilityVisualEffects: MonoBehaviour
 {
     public static void ApplyEffect(IHittable caster, IHittable target, float durationOrSpeed, AbilityVisualEffectTypes effectType, GameObject effectObject)
     {
-        Debug.Log("VISUAL EFFECT");
         if (effectType == AbilityVisualEffectTypes.PROJECTILE)
         {
             var projectile = Instantiate(effectObject);
