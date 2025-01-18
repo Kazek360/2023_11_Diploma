@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Dialogue;
+using Dialogues;
 using UnityEngine;
 
 namespace Interactions
@@ -16,8 +16,8 @@ namespace Interactions
             InteractionEvents.OnInteractionAreaExit += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger += TriggerClosestInteraction;
-            DialogueEvents.OnDialogueStarted += DisableInteraction;
-            DialogueEvents.OnDialogueFinished += EnableInteraction;
+            DialogueEvent.OnDialogueStarted += DisableInteraction;
+            DialogueEvent.OnDialogueFinished += EnableInteraction;
         }
         private void OnDisable()
         {
@@ -25,8 +25,8 @@ namespace Interactions
             InteractionEvents.OnInteractionAreaExit -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger -= TriggerClosestInteraction;
-            DialogueEvents.OnDialogueStarted -= DisableInteraction;
-            DialogueEvents.OnDialogueFinished -= EnableInteraction;
+            DialogueEvent.OnDialogueStarted -= DisableInteraction;
+            DialogueEvent.OnDialogueFinished -= EnableInteraction;
         }
 
         private void Start()

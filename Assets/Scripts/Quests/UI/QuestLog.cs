@@ -20,19 +20,28 @@ namespace Quests.UI
         [SerializeField] private TextMeshProUGUI currentStepText;
         [SerializeField] private TextMeshProUGUI stepsText;
         [SerializeField] private Button trackQuestButton;
-        [SerializeField] private TextMeshProUGUI trackQuestButtonText;
-
+        [SerializeField] private RectTransform trackQuestButtonTransform;
+        
+        [Header("Additional")] 
+        [SerializeField] private Sprite trackImage;
+        [SerializeField] private Sprite stopTrackingImage;
+        
         private Quest _selectedQuest;
         private Button _defaultSelectedButton;
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            QuestEvents.OnQuestStateChange += QuestStateChange;
+            base.OnEnable();
+            QuestEvents.OnQuestAdded += AddToQuestLogOnLoad;
+            QuestEvents.OnQuestStarted += AddQuestToLog;
+            QuestEvents.OnQuestFinished += AddQuestToFinishedCategory;
         }
-
-        private void OnDisable()
+        protected override void OnDisable()
         {
-            QuestEvents.OnQuestStateChange -= QuestStateChange;
+            base.OnDisable();
+            QuestEvents.OnQuestAdded -= AddToQuestLogOnLoad;
+            QuestEvents.OnQuestStarted -= AddQuestToLog;
+            QuestEvents.OnQuestFinished -= AddQuestToFinishedCategory;
         }
         
         public override void OnEnter()
@@ -53,23 +62,30 @@ namespace Quests.UI
             InputManager.Instance.Controlls.Player.Enable();
         }
         
-        private void QuestStateChange(Quest quest)
+        private void AddToQuestLogOnLoad(Quest quest)
         {
             if (quest.state == QuestState.InProgress)
             {
-                var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
-
-                _defaultSelectedButton = questLogButton.button;
+                AddQuestToLog(quest);
             }
             else if (quest.state == QuestState.Finished)
             {
-                var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
-                questLogButton =
-                    scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () => { SetQuestInfo(quest); });
-                _defaultSelectedButton = questLogButton.button;
+                AddQuestToFinishedCategory(quest);
             }
         }
 
+        private void AddQuestToLog(Quest quest)
+        {
+            var questLogButton = scrollingList.GetQuestLogButton(quest, () => { SetQuestInfo(quest); });
+            _defaultSelectedButton = questLogButton.button;
+        }
+        private void AddQuestToFinishedCategory(Quest quest)
+        {
+            var questLogButton =
+                scrollingList.MoveQuestLogButtonToFinishedCategory(quest, () => { SetQuestInfo(quest); });
+            _defaultSelectedButton = questLogButton.button;
+        }
+        
         private void SetQuestInfo(Quest quest)
         {
             _selectedQuest = quest;
@@ -98,10 +114,14 @@ namespace Quests.UI
             else
             {
                 trackQuestButton.gameObject.SetActive(true);
-                currentStepText.color = Color.white;
+                currentStepText.color = new Color(239f/255, 186f/255, 65f/255);
             }
 
-            trackQuestButtonText.text = _selectedQuest.Equals(QuestManager.Instance.TrackedQuest) ? "Przestań śledzić" : "Śledź";
+            trackQuestButton.image.sprite = _selectedQuest.Equals(QuestManager.Instance.TrackedQuest) 
+                ? stopTrackingImage : trackImage;
+            trackQuestButtonTransform.sizeDelta = _selectedQuest.Equals(QuestManager.Instance.TrackedQuest) 
+                ? new Vector2(350, trackQuestButtonTransform.sizeDelta.y) : 
+                new Vector2(250, trackQuestButtonTransform.sizeDelta.y);;
         }
 
         public void SetTrackedQuest()
@@ -109,12 +129,14 @@ namespace Quests.UI
             if (_selectedQuest.Equals(QuestManager.Instance.TrackedQuest))
             {
                 QuestManager.Instance.TrackedQuest = null;
-                trackQuestButtonText.text = "Śledź";
+                trackQuestButton.image.sprite = trackImage;
+                trackQuestButtonTransform.sizeDelta = new Vector2(250, trackQuestButtonTransform.sizeDelta.y);
             }
             else
             {
                 QuestManager.Instance.TrackedQuest = _selectedQuest;
-                trackQuestButtonText.text = "Przestań śledzić";
+                trackQuestButton.image.sprite = stopTrackingImage;
+                trackQuestButtonTransform.sizeDelta = new Vector2(350, trackQuestButtonTransform.sizeDelta.y);
             }
         }
     }

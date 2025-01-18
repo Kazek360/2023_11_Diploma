@@ -1,3 +1,5 @@
+using System.Collections;
+using UI;
 using UnityEngine;
 
 namespace Tutorials
@@ -5,8 +7,12 @@ namespace Tutorials
     public class TutorialTriggerOnStart : MonoBehaviour
     {
         [SerializeField] private TutorialInfo tutorial;
-        private void Start()
+        private IEnumerator Start()
         {
+            while (!UserInterfaceManager.isInitialized)
+            {
+                yield return null;
+            }
             TutorialManager.Instance.TriggerTutorial(tutorial);
         }
     }

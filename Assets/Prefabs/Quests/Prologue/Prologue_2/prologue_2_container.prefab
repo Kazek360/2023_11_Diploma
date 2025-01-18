@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1068143324654690057}
-  - component: {fileID: 7815238609110407855}
   - component: {fileID: 922953552566553514}
   m_Layer: 0
   m_Name: NestorArea
@@ -33,41 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4230355746164658804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &7815238609110407855
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596134385176773425}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 4
 --- !u!114 &922953552566553514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,8 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: NestorPrologue
-  interactionKeyImage: {fileID: 0}
-  autoTrigger: 1
 --- !u!1 &3384998664439028022
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,8 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: ShorePrologue
-  interactionKeyImage: {fileID: 0}
-  autoTrigger: 1
 --- !u!1 &5006643425860773193
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,8 +207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: WolvesPrologue
-  interactionKeyImage: {fileID: 0}
-  autoTrigger: 1
 --- !u!1 &6059353420836310293
 GameObject:
   m_ObjectHideFlags: 0

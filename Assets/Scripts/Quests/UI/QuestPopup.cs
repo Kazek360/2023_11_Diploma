@@ -63,9 +63,12 @@ namespace Quests.UI
             }
         }
         
-        
         private IEnumerator ShowPopup()
         {
+            while (!UserInterfaceManager.isInitialized)
+            {
+                yield return null;
+            }
             while (UserInterfaceManager.Instance.CurrentStateType != UserInterfaceState.Exploration)
             {
                 yield return null;

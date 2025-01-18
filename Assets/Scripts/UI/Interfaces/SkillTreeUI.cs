@@ -9,13 +9,15 @@ namespace UI.Interfaces
         public override UserInterfaceState State => UserInterfaceState.SkillTree;
         
         [SerializeField] private TextMeshProUGUI skillPointsValue;
-    
-        public void OnEnable()
+        
+        protected override void OnEnable()
         {
+            base.OnEnable();
             PlayerResourcesEvents.OnSkillPointsChange += ChangeSkillPointsValue;
         }
-        public void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             PlayerResourcesEvents.OnSkillPointsChange -= ChangeSkillPointsValue;
         }
 

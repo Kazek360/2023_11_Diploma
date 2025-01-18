@@ -1,5 +1,6 @@
+using System.Collections;
 using UnityEngine;
-using Dialogue;
+using Dialogues;
 
 public class DialogueQuestStep : BaseQuestStep
 {
@@ -7,14 +8,22 @@ public class DialogueQuestStep : BaseQuestStep
     protected override void OnEnable()
     {
         base.OnEnable();
-        DialogueEvents.OnDialogueFinished += FinishStep;
-        DialogueEvents.InvokeOnDialogueUnlocked(dialoguesInfo.triggerName, dialoguesInfo.name);
+        DialogueEvent.OnDialogueFinished += FinishStep;
+    }
+
+    private IEnumerator Start()
+    {
+        while (!DialogueManager.isInitialized)
+        {
+            yield return null;
+        }
+        DialogueEvent.UnlockDialogue(dialoguesInfo.triggerName, dialoguesInfo.name);
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        DialogueEvents.OnDialogueFinished -= FinishStep;
+        DialogueEvent.OnDialogueFinished -= FinishStep;
     }
 
     protected virtual void FinishStep(DialogueInfo dialogue)

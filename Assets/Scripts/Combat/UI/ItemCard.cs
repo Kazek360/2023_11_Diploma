@@ -49,7 +49,7 @@ public class ItemCard : MonoBehaviour, ITooltippable
     {
         Debug.Log("ITEM USED");
         itemObject.Use();
-        GameConfig.PlayerInventory.RemoveItem(itemObject.itemID, 1);
+        GameConfig.PlayerInventory.RemoveItem(itemObject.name, 1);
         ItemCountField.text = ItemCount() + "";
         if (ItemCount() <= 0)
         {
@@ -60,7 +60,7 @@ public class ItemCard : MonoBehaviour, ITooltippable
 
     public int ItemCount()
     {
-        return GameConfig.PlayerInventory.CountItems(itemObject.itemID);
+        return GameConfig.PlayerInventory.CountItems(itemObject.name);
     }
     
     public string GetTooltipHeader()

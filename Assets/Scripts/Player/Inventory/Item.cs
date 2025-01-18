@@ -11,13 +11,13 @@ public enum EquipmentSlotType {head, torso, hand, legs, feet}
  */
 public class Item
 {
-    private int _itemID;
+    private string _itemID;
     private string _itemName;
     protected string _itemDesc;
     private List<Sprite> _itemSprites;
     private int _maxStackSize;
 
-    public Item(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize)
+    public Item(string itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize)
     {
         _itemID = itemID;
         _itemName = itemName;
@@ -26,7 +26,7 @@ public class Item
         _maxStackSize = maxStackSize;
     }
 
-    public int ItemID => _itemID;
+    public string ItemID => _itemID;
 
     public string ItemName => _itemName;
 
@@ -63,7 +63,7 @@ public class EquipmentItem: Item
     private List<ItemStatModifier> _modifiers;
     private List<ItemStatModifier> _imaginationModifiers;
 
-    public EquipmentItem(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, Action equip, Action unequip, 
+    public EquipmentItem(string itemID, string itemName, string itemDesc, List<Sprite> itemSprites, Action equip, Action unequip, 
         EquipmentSlotType equipmentSlotType, List<ItemStatModifier> modifiers, List<ItemStatModifier> imaginationModifiers) : base(itemID, itemName, itemDesc, itemSprites, 1)
     {
         _equip = equip;
@@ -135,7 +135,7 @@ public class UsableItem: Item
     private Action _use;
     private bool _destroyOnUse;
 
-    public UsableItem(int itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize, Action use, bool destroyOnUse) : base(itemID, itemName, itemDesc, itemSprites, maxStackSize)
+    public UsableItem(string itemID, string itemName, string itemDesc, List<Sprite> itemSprites, int maxStackSize, Action use, bool destroyOnUse) : base(itemID, itemName, itemDesc, itemSprites, maxStackSize)
     {
         _use = use;
         _destroyOnUse = destroyOnUse;

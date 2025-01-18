@@ -20,12 +20,14 @@ namespace Tutorials
             OnTutorialTrigger?.Invoke(info);
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             OnTutorialTrigger += ChangeText;
         }
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
             OnTutorialTrigger -= ChangeText;
         }
 

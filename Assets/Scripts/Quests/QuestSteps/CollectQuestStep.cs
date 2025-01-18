@@ -5,7 +5,7 @@ namespace Quests.QuestSteps
 {
     public class CollectQuestStep : BaseQuestStep
     {
-        [SerializeField] protected int itemID;
+        [SerializeField] protected string itemID;
         
         protected override void OnEnable()
         {
@@ -18,7 +18,7 @@ namespace Quests.QuestSteps
             CollectibleEvents.OnCollectiblePickup -= IncreaseProgress;
         }
         
-        private void IncreaseProgress(int id)
+        private void IncreaseProgress(string id)
         {
             if (itemID == id)
             {

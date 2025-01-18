@@ -1,5 +1,5 @@
 using UnityEngine;
-using Dialogue;
+using Dialogues;
 using Location;
 
 public class DialogueAreaSceneChange : DialogueAreaQuestStep

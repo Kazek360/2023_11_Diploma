@@ -1,40 +1,42 @@
 using System.Collections.Generic;
+using Shared;
 using UnityEngine;
 
 /**
  * ItemLibrary is used to instantiate predefined items
- * Will soon be replaced with Resources based SOs
  */
-public class ItemLibrary: MonoBehaviour
+public class ItemLibrary : Singleton<ItemLibrary>
 {
-    [SerializeField] private List<ItemScriptableObject> items;
-
-    void Awake()
+    private Dictionary<string, ItemScriptableObject> _items;
+    protected override void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        if (GameConfig.itemLibrary is null)
-        {
-            GameConfig.itemLibrary = this;
-        }
+        base.Awake();
+        _items = CreateItemDictionary();
     }
-
-
+    
     /**
      * Get a reference to item object
      *
      * <param name="id">ID of desired item</param>
      * <returns>Requested item object</returns>
      */
-    public ItemScriptableObject GetItem(int id)
+    public ItemScriptableObject GetItem(string id)
     {
-        foreach (ItemScriptableObject item in items)
+        return _items[id];
+    }
+    private Dictionary<string, ItemScriptableObject> CreateItemDictionary()
+    {
+        var allItems = Resources.LoadAll<ItemScriptableObject>("Items");
+        var idToDictionary = new Dictionary<string, ItemScriptableObject>();
+        foreach (var item in allItems)
         {
-            if (item.itemID == id)
+            if (idToDictionary.ContainsKey(item.name))
             {
-                return item;
+                Debug.LogWarning($"Found Duplicate ID: {item.name}");
             }
+            idToDictionary.Add(item.name, item);
         }
 
-        return null;
+        return idToDictionary;
     }
 }

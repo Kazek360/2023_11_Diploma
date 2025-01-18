@@ -69,18 +69,12 @@ namespace Quests
             return allFlagsTriggered;
         }
 
-        private void ChangeQuestState(string id, QuestState state)
-        {
-            var quest = GetQuestById(id);
-            quest.state = state;
-            QuestEvents.ChangeQuestState(quest);
-        }
-
         private void StartQuest(string id)
         {
             var quest = GetQuestById(id);
             quest.InstantiateFirstStep(transform);
-            ChangeQuestState(id, QuestState.InProgress);
+            quest.state = QuestState.InProgress;
+            QuestEvents.StartQuest(quest);
             TrackedQuest = quest;
         }
         
@@ -114,7 +108,8 @@ namespace Quests
                 GameConfig.PlayerInventory.AddItem(item, 1);
             }
 
-            ChangeQuestState(id, QuestState.Finished);
+            quest.state = QuestState.Finished;
+            QuestEvents.FinishQuest(quest);
 
             foreach (var nextQuestInfo in quest.info.nextQuests)
             {
@@ -126,7 +121,8 @@ namespace Quests
                     }
                     else
                     {
-                        ChangeQuestState(nextQuestInfo.name, QuestState.CanStart);
+                        var nextQuest = GetQuestById(id);
+                        nextQuest.state = QuestState.CanStart;
                     }
                 }
             }
@@ -217,7 +213,6 @@ namespace Quests
             {
                 if (quest.state == QuestState.InProgress)
                 {
-                    QuestEvents.ChangeQuestState(quest);
                     quest.InstantiateCurrentStep(transform);
                 }
                 else if (quest.state == QuestState.Finished)
@@ -242,7 +237,7 @@ namespace Quests
         {
             foreach (var quest in Instance.Quests.Values)
             {
-                QuestEvents.ChangeQuestState(quest);
+                QuestEvents.AddQuestToLog(quest);
             }
             QuestEvents.TrackQuest();
         }

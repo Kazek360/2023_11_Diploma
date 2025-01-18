@@ -15,6 +15,20 @@ namespace UI.Interfaces
         {
             _canvasGroup = GetComponent<CanvasGroup>();
         }
+
+        protected virtual void OnEnable()
+        {
+            UserInterfaceManager.onInterfacePinged += SubscribeToManager;
+        }
+        protected virtual void OnDisable()
+        {
+            UserInterfaceManager.onInterfacePinged -= SubscribeToManager;
+        }
+
+        private void SubscribeToManager()
+        {
+            UserInterfaceManager.SubscribeToManager(State, this);
+        }
         
         public virtual void OnEnter()
         {

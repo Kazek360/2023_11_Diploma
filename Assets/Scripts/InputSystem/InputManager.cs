@@ -1,5 +1,5 @@
 using Cutscenes;
-using Dialogue;
+using Dialogues;
 using Interactions;
 using Shared;
 using UI;
@@ -118,7 +118,7 @@ namespace InputSystem
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
                     case UserInterfaceState.Dialogue:
-                        DialogueEvents.ContinueDialogue();
+                        DialogueEvent.ContinueDialogue();
                         break;
                     case UserInterfaceState.Cutscene:
                         CutsceneEvents.SkipCutscene();

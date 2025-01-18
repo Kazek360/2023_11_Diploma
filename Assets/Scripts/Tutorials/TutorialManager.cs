@@ -17,10 +17,14 @@ namespace Tutorials
             tutorials = CreateTutorialDictionary();
         }
         
-        public void TriggerTutorial(TutorialInfo tutorial)
+        public void TriggerTutorial(TutorialInfo info)
         {
-            tutorials[tutorial.name].hasTriggered = true;
-            TutorialUI.InvokeOnTutorialTrigger(tutorial);
+            if (tutorials[info.name].hasTriggered)
+            {
+                return;
+            }
+            tutorials[info.name].hasTriggered = true;
+            TutorialUI.InvokeOnTutorialTrigger(info);
             if (UserInterfaceManager.Instance.CurrentStateType == UserInterfaceState.Exploration)
             {
                 UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Tutorial);
@@ -48,6 +52,16 @@ namespace Tutorials
         }
 
         public void LoadData(GameData gameData)
+        {
+            switch (DataPersistenceManager.Instance.CurrentLoadMode)
+            {
+                case LoadMode.FromSaveFile:
+                    LoadDataFromSaveFile(gameData);
+                    break;
+            }
+        }
+        
+        private void LoadDataFromSaveFile(GameData gameData)
         {
             var loadedTutorials = gameData.tutorials;
             foreach (var pair in loadedTutorials)

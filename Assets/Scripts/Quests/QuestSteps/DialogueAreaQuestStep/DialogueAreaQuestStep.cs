@@ -1,5 +1,5 @@
 using UnityEngine;
-using Dialogue;
+using Dialogues;
 
 public class DialogueAreaQuestStep : DialogueQuestStep
 {
