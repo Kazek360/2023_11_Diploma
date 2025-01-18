@@ -317,7 +317,7 @@ public class EntityManager : MonoBehaviour
             }
             entityVec.Add(spawned);
         }
-        entityVec.Sort((p1,p2)=>p1.GetComponent<IHittable>().GetAgility().CompareTo(p2.GetComponent<IHittable>().GetAgility()));
+        entityVec.Sort((p1,p2)=>p2.GetComponent<IHittable>().GetAgility().CompareTo(p1.GetComponent<IHittable>().GetAgility()));
         return entityVec;
     }
 
