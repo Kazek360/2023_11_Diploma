@@ -20,7 +20,7 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         _target = GetClosestEnemy();
         if (_target == null)
         {
-            _entity.AfterTurnEffects();
+            StartCoroutine(WaitToEndTurn());
             return;
         }
         if (_movementLeft > 0)
@@ -51,7 +51,8 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
             }
         }
         Debug.Log("ATTACK END");
-        _entity.AfterTurnEffects();
+        
+        StartCoroutine(WaitToEndTurn());
     }
 
     private IEnumerator ChaseEnemy()
@@ -168,4 +169,9 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         return _environmentManager.GetDistance(_entity.GetUnitCombatScript(), _target.GetUnitCombatScript());
     }
     
+    private IEnumerator WaitToEndTurn()
+    {
+        yield return new WaitForSeconds(0.3f);
+        _entity.AfterTurnEffects();
+    }
 }

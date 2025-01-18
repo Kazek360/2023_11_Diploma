@@ -48,7 +48,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         _target = GetClosestEnemy();
         if (_target == null)
         {
-            _entity.AfterTurnEffects();
+            StartCoroutine(WaitToEndTurn());
             return;
         }
         if (_actionsLeft == 0)
@@ -85,12 +85,12 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         _target = GetClosestEnemy();
         if (_target is null)
         {
-            _entity.AfterTurnEffects();
+            StartCoroutine(WaitToEndTurn());
             return; 
         }
         if (DistanceToTarget() >= prefDist)
         {
-            _entity.AfterTurnEffects();
+            StartCoroutine(WaitToEndTurn());
             return;
         }
 
@@ -98,7 +98,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
 
         if (retreatPath.Count == 0)
         {
-            _entity.AfterTurnEffects();
+            StartCoroutine(WaitToEndTurn());
             return;
         }
         StartCoroutine(RetreatAlongPath(retreatPath));
@@ -140,7 +140,7 @@ public class RangedBehaviourModel : EnemyBehaviourModel
                 yield return new WaitForSeconds(0.3f);
             }
         }
-        _entity.AfterTurnEffects();
+        StartCoroutine(WaitToEndTurn());
     }
 
     private int PerformAction()
@@ -281,5 +281,11 @@ public class RangedBehaviourModel : EnemyBehaviourModel
     private int DistanceToTarget()
     {
         return _environmentManager.GetDistance(_entity.GetUnitCombatScript(), _target.GetUnitCombatScript());
+    }
+    
+    private IEnumerator WaitToEndTurn()
+    {
+        yield return new WaitForSeconds(0.3f);
+        _entity.AfterTurnEffects();
     }
 }
