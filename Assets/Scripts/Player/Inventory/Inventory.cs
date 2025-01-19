@@ -184,8 +184,8 @@ public class Inventory : MonoBehaviour, IDataPersistence
      */
     private void LoadDefault()
     {
-        AddItem("beer", 2);
-        AddItem("knife", 1);
+        AddItem("stick", 1);
+        AddItem("slingshot", 1);
     }
 
     public void LoadData(GameData gameData)
