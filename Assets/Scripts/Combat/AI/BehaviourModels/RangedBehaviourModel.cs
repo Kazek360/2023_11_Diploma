@@ -104,6 +104,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         StartCoroutine(RetreatAlongPath(retreatPath));
     }
 
+    /**
+     * Unit will approach target and then start attacking
+     */
     private IEnumerator ApproachTarget(List<GridObject> path)
     {
         yield return new WaitForSeconds(0.3f);
@@ -124,6 +127,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         AttackPhase();
     }
     
+    /**
+     * Unit will go along the passed path
+     */
     private IEnumerator RetreatAlongPath(List<GridObject> path)
     {
         yield return new WaitForSeconds(0.3f);
@@ -144,6 +150,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         StartCoroutine(WaitToEndTurn());
     }
 
+    /**
+     * Choose ability with greatest weight and use it if able
+     */
     private int PerformAction()
     {
         
@@ -156,6 +165,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         return chosenAbility;
     }
 
+    /**
+     * Calculate path for repositioning phase
+     */
     private List<GridObject> RepositioningRequiredMovementCalc()
     {
         int reqDistance = -1;
@@ -190,6 +202,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         return path;
     }
     
+    /**
+     * Calculate path for retreat phase
+     */
     private List<GridObject> RetreatRequiredMovementCalc()
     {
         var path = new List<GridObject>();
@@ -207,6 +222,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         return path;
     }
 
+    /**
+     * Choose an available ability with the greatest weight
+     */
     private int ChooseAbility()
     {
         var abilities = _entity.GetAbilities();
@@ -227,6 +245,9 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         return currCandidate;
     }
 
+    /**
+     * Get all units that passed ability would be able to target
+     */
     private List<IHittable> GetAbilityTargetCandidates(AbilityScriptableObjectReworked abilitySO)
     {
         List<IHittable> targetCandidates = new List<IHittable>();
@@ -256,6 +277,11 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         return targetCandidates;
     }
     
+    /**
+     * Cast ability on a viable target
+     *
+     * <param name="i" > Position of an ability in unit's ability vector.</param>
+     */
     private void CastAbility(int i)
     {
         var abilities = _entity.GetAbilities();
@@ -278,11 +304,18 @@ public class RangedBehaviourModel : EnemyBehaviourModel
             ability.CastAbility(possibleTargets[chosenTarget], _entity);
         }
     }
-
+    
+    /**
+     * Calculate distance to currently chosen target in a straight line
+     */
     private int DistanceToTarget()
     {
         return _environmentManager.GetDistance(_entity.GetUnitCombatScript(), _target.GetUnitCombatScript());
     }
+    
+    /**
+     * Just wait for animations to run out
+     */
     
     private IEnumerator WaitToEndTurn()
     {
