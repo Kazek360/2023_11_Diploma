@@ -22,6 +22,10 @@ public class EnemyBehaviourModel : MonoBehaviour
         _entity = entity;
     }
     
+    
+    /**
+     * Get closest enemy (player controlled) target
+     */
     protected IHittable GetClosestEnemy()
     {
         int dist = 999;
