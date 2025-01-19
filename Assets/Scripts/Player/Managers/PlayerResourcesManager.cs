@@ -6,7 +6,18 @@ using UnityEngine;
 public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
 {
     public static PlayerResourcesManager Instance { get; private set; }
-    public int SkillPoints { get; private set; }
+    
+    private int _skillpoints;
+    public int SkillPoints
+    {
+        get => _skillpoints;
+        set
+        {
+            _skillpoints = value;
+            PlayerResourcesEvents.InvokeOnSkillPointsValueChanged(value);
+        }
+    }
+
     private void Awake() 
     { 
         if (Instance != null && Instance != this) 
@@ -32,12 +43,10 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
     private void IncreaseSkillPoints()
     {
         SkillPoints++;
-        PlayerResourcesEvents.ChangeSkillPointsValue(SkillPoints);
     }
     private void DecreaseSkillPoints(string id)
     {
         SkillPoints--;
-        PlayerResourcesEvents.ChangeSkillPointsValue(SkillPoints);
     }
 
     public void LoadData(GameData gameData)

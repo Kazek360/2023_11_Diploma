@@ -8,62 +8,72 @@ using UnityEngine.UI;
 
 public class SkillTreeButton : MonoBehaviour, ITooltippable
 {
-    [SerializeField] public Button button;
     [SerializeField] public SkillTreeNodeSO skillTreeNodeInfo;
+    
+    private Button _button;
+    private Image _image;
+    private bool _activated;
+    
+    private void Awake()
+    {
+        _button = GetComponent<Button>();
+        _image = GetComponent<Image>();
+        _button.onClick.AddListener(ActivateNodeUsingSkillPoint);
+    }
 
     public void OnEnable()
     {
-        PlayerResourcesEvents.OnSkillPointsChange += CheckIfNodeCanBeEnabled;
-        if (PlayerResourcesManager.Instance is not null)
-        {
-            CheckIfNodeCanBeEnabled(PlayerResourcesManager.Instance.SkillPoints);
-        }
+        PlayerResourcesEvents.OnSkillPointsValueChanged += CheckIfNodeCanBeEnabled;
     }
     
     public void OnDisable()
     {
-        PlayerResourcesEvents.OnSkillPointsChange -= CheckIfNodeCanBeEnabled;
+        PlayerResourcesEvents.OnSkillPointsValueChanged -= CheckIfNodeCanBeEnabled;
     }
 
     public void Start()
     {
         gameObject.GetComponentInChildren<TextMeshProUGUI>().text = skillTreeNodeInfo.displayName;
-        if (PlayerResourcesManager.Instance.SkillPoints == 0)
-        {
-            button.enabled = false;
-            button.image.color = Color.gray;
-        }
         var node = SkillTreeManager.GetNodeByName(skillTreeNodeInfo.name);
         if (node.state == SkillTreeNode.State.Activated)
         {
             ActivateNode();
         }
+        CheckIfNodeCanBeEnabled(PlayerResourcesManager.Instance.SkillPoints);
     }
 
     private void CheckIfNodeCanBeEnabled(int value)
     {
-        var node = SkillTreeManager.GetNodeByName(skillTreeNodeInfo.name);
-        if (node.state == SkillTreeNode.State.Activated || node.state == SkillTreeNode.State.CannotBeActivated)
+        if (_activated)
         {
             return;
         }
         
-        switch (value)
+        var node = SkillTreeManager.GetNodeByName(skillTreeNodeInfo.name);
+        
+        if (node.state == SkillTreeNode.State.CannotBeActivated)
         {
-            case > 0:
-                button.enabled = true;
-                button.image.color = Color.white;
-                break;
-            case 0:
-                button.enabled = false;
-                button.image.color = Color.gray;
-                break;
+            _button.interactable = false;
+            _image.color = Color.gray;
+            return;
+        }
+
+        if (value > 0)
+        {
+            _button.interactable = true;
+            _image.color = Color.white;
+        }
+        else
+        {
+            _button.interactable = false;
+            _image.color = Color.gray;
         }
     }
     private void ActivateNode()
     {
-        button.enabled = false;
-        button.image.color = Color.cyan;
+        _activated = true;
+        _button.interactable = false;
+        _image.color = Color.green;
         foreach (var modifier in skillTreeNodeInfo.appliedModifiers)
         {
             PlayerStats.GetInstance().AddSkillTreeModifier(modifier);
@@ -74,13 +84,12 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         }
     }
     
-    public void ActivateNodeUsingSkillPoint()
+    private void ActivateNodeUsingSkillPoint()
     {
         ActivateNode();
         SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
     }
     
-
     public string GetTooltipHeader()
     {
         return skillTreeNodeInfo.displayName;
@@ -88,7 +97,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
 
     public string GetTooltipDesc()
     {
-        StringBuilder str = new StringBuilder();
+        var str = new StringBuilder();
         str.Append(skillTreeNodeInfo.description);
         if (skillTreeNodeInfo.appliedModifiers.Count > 0)
         {
