@@ -37,7 +37,6 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
     {
         while (_actionsLeft > 0)
         {
-            Debug.Log("ATTACK");
             int chosenAbilityId = PerformAction();
             if (_target.IsDead())
             {
@@ -50,7 +49,6 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
                 break;
             }
         }
-        Debug.Log("ATTACK END");
         
         StartCoroutine(WaitToEndTurn());
     }

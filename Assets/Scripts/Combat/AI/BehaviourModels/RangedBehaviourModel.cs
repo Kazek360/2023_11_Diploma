@@ -129,7 +129,8 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         yield return new WaitForSeconds(0.3f);
         for (int i = 1; i < path.Count(); i++)
         {
-            if (DistanceToTarget() <= 1 || _movementLeft <= 0)
+            Debug.Log(path[i].X + " " + path[i].Y);
+            if (_movementLeft <= 0)
             {
                 break;
             }
