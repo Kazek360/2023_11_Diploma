@@ -13,7 +13,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
 
     public void OnEnable()
     {
-        PlayerResourcesEvents.OnSkillPointsChange += CheckIfNodeCanBeEnabled;
+        PlayerResourcesEvents.OnSkillPointsValueChanged += CheckIfNodeCanBeEnabled;
         if (PlayerResourcesManager.Instance is not null)
         {
             CheckIfNodeCanBeEnabled(PlayerResourcesManager.Instance.SkillPoints);
@@ -22,7 +22,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     
     public void OnDisable()
     {
-        PlayerResourcesEvents.OnSkillPointsChange -= CheckIfNodeCanBeEnabled;
+        PlayerResourcesEvents.OnSkillPointsValueChanged -= CheckIfNodeCanBeEnabled;
     }
 
     public void Start()
@@ -80,7 +80,6 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
         SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
     }
     
-
     public string GetTooltipHeader()
     {
         return skillTreeNodeInfo.displayName;

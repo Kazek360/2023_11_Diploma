@@ -2,9 +2,9 @@ using System;
 
 public class PlayerResourcesEvents
 {
-    public static event Action<int> OnSkillPointsChange;
-    public static void ChangeSkillPointsValue(int value)
+    public static event Action<int> OnSkillPointsValueChanged;
+    public static void InvokeOnSkillPointsValueChanged(int value)
     {
-        OnSkillPointsChange?.Invoke(value);
+        OnSkillPointsValueChanged?.Invoke(value);
     }
 }
