@@ -17,7 +17,7 @@ public class EquipmentSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI ImaginationInvested;
 
     private int _imaginationInvested = 0;
-    private string _lastItemId;
+    private string _lastItemId = "";
 
     public void EquipItem(Item item)
     {
