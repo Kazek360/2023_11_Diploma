@@ -54,17 +54,12 @@ public class EntityManager : MonoBehaviour
         _combatSystem.DisplayQueue(_turnOrder);
         NextTurn();
     }
-
-    public void Start()
-    {
-        //ShowEntities(true);
-    }
-
-
+    
     public void NextTurn()
     {
         _combatSystem.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
+        
     }
 
     /**
@@ -84,6 +79,10 @@ public class EntityManager : MonoBehaviour
             UpdateDeadEntitiesInQueue();
             _combatSystem.SetCurrentUnit(_combatUnits[_currentEntity], _currentEntity);
             _turnOrder[_currentEntity].ProcessTurn();
+            if (_currentEntity == 1)
+            {
+                CombatEvents.InvokeOnTurnEnd();
+            }
         }
     }
 
