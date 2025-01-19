@@ -22,6 +22,10 @@ public class ItemLibrary : Singleton<ItemLibrary>
      */
     public ItemScriptableObject GetItem(string id)
     {
+        if (_items.Count == 0)  //It's horrible and I hate that I need to do it - will patch later
+        {
+            Awake();
+        }
         return _items[id];
     }
     private Dictionary<string, ItemScriptableObject> CreateItemDictionary()
