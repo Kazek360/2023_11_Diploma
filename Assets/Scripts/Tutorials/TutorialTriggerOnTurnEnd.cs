@@ -18,7 +18,6 @@ namespace Tutorials
         
         private void Trigger()
         {
-            Debug.Log("Elo żelo");
             TutorialManager.Instance.TriggerTutorial(tutorial);
         }
     }
