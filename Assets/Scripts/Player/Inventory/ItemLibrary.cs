@@ -22,7 +22,11 @@ public class ItemLibrary : Singleton<ItemLibrary>
      */
     public ItemScriptableObject GetItem(string id)
     {
-        if (_items.Count == 0)  //It's horrible and I hate that I need to do it - will patch later
+        if (_items is null)  //It's horrible and I hate that I need to do it - will patch later
+        {
+            Awake();
+        }
+        else if (_items.Count == 0)  //It's horrible and I hate that I need to do it - will patch later
         {
             Awake();
         }
