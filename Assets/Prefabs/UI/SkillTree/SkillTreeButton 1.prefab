@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0.8784314}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -211,19 +211,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4751343150745799186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2480242481295399747}
-        m_TargetAssemblyTypeName: SkillTreeButton, Assembly-CSharp
-        m_MethodName: ActivateNodeUsingSkillPoint
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &2480242481295399747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a585c01a59b2ed74d8d1b5b38b632519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 5949962201583941703}
   skillTreeNodeInfo: {fileID: 11400000, guid: 9dfebdc0b7fdbe747b40021db57a37b8, type: 2}
 --- !u!1 &7982575730309597737
 GameObject:
