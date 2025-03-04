@@ -1,12 +1,13 @@
 ﻿using System;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using Shared;
 using UnityEngine.SceneManagement;
 
 namespace Location
 {
-    public class SceneInfo : Singleton<SceneInfo>, IDataPersistence
+    public class SceneInfo : Singleton<SceneInfo>, ISavable
     {
         public string displayedSceneName;
         [NonSerialized] public string currentScene;
@@ -16,12 +17,7 @@ namespace Location
             base.Awake();
             currentScene = SceneManager.GetActiveScene().name;
         }
-
-        public void LoadData(GameData gameData)
-        {
-            
-        }
-
+        
         public void SaveData(ref GameData gameData)
         {
             gameData.scene.name = currentScene;

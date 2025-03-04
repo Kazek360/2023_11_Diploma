@@ -1,25 +1,34 @@
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
+using Shared;
 using Skill.Events;
 using UnityEngine;
 
 namespace Skill.Managers
 {
-    public class SkillTreeManager : MonoBehaviour, IDataPersistence
+    public class SkillTreeManager : Singleton<SkillTreeManager>, ISavable, IFromFileLoadable, IBetweenScenesLoadable
     {
         private static Dictionary<string, SkillTreeNode> _skillTreeNodesDictionary;
         
         private void OnEnable()
         {
+            SaveSystemEvents.OnFromFileLoad += LoadDataFromSaveFile;
+            SaveSystemEvents.OnBetweenScenesLoad += LoadDataBetweenScenes;
+            
             SkillTreeEvents.OnNodeActivation += ActivateNode;
         }
         private void OnDisable()
         {
+            SaveSystemEvents.OnFromFileLoad -= LoadDataFromSaveFile;
+            SaveSystemEvents.OnBetweenScenesLoad -= LoadDataBetweenScenes;
+            
             SkillTreeEvents.OnNodeActivation -= ActivateNode;
         }
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _skillTreeNodesDictionary = CreateSkillTreeNodesDictionary();
             EnableActivation();
         }
@@ -78,8 +87,8 @@ namespace Skill.Managers
             }
             return skillTreeNode;
         }
-
-        public void LoadData(GameData gameData)
+        
+        public void LoadDataFromSaveFile(GameData gameData)
         {
             foreach (var skillTreeNode in gameData.skillTreeNodesState)
             {
@@ -88,6 +97,11 @@ namespace Skill.Managers
                     _skillTreeNodesDictionary[skillTreeNode.Key].state = SkillTreeNode.State.Activated;
                 }
             }
+            EnableActivation();
+        }
+
+        public void LoadDataBetweenScenes(GameData gameData)
+        {
             EnableActivation();
         }
 

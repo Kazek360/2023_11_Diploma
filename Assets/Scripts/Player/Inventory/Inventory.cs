@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using UnityEngine;
 
 /**
@@ -9,12 +10,15 @@ using UnityEngine;
  *
  * Allows for equipping items, dropping and picking them up, as well as other interactions
  */
-public class Inventory : MonoBehaviour, IDataPersistence
+public class Inventory : MonoBehaviour, ISavable
 {
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
     public void OnEnable()
     {
+        SaveSystemEvents.OnFromFileLoad += LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+        
         GameConfig.PlayerInventory = this;
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
@@ -38,6 +42,12 @@ public class Inventory : MonoBehaviour, IDataPersistence
         }
     }
 
+    public void OnDisable()
+    {
+        SaveSystemEvents.OnFromFileLoad -= LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+    }
+    
     /**
      * Get a slot in given coordinates of inventory grid
      *
@@ -190,10 +200,6 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData gameData)
     {
-        if (DataPersistenceManager.Instance.CurrentLoadMode == LoadMode.NewGame)
-        {
-            return;
-        }
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),

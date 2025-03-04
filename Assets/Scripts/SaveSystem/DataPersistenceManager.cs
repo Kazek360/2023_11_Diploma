@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using Shared;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,7 +22,7 @@ namespace SaveSystem
         private GameData _currentGameData;
         public GameData CurrentGameData => _currentGameData;
 
-        private static List<IDataPersistence> _dataPersistenceObjects;
+        private static List<ISavable> _dataPersistenceObjects;
         
         private LoadMode _currentLoadMode = LoadMode.DirectlyFromScene;
 
@@ -31,10 +32,10 @@ namespace SaveSystem
             set => _currentLoadMode = value;
         }
 
-        private new void Awake()
+        protected override void Awake()
         {
             base.Awake();
-            if (_dataHandler is null)
+            if (_dataHandler == null)
             {
                 _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
             }
@@ -42,24 +43,12 @@ namespace SaveSystem
 
         private void OnEnable()
         {
-            SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void OnDisable()
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            if (SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
-            {
-                _currentLoadMode = LoadMode.MainMenu;
-            }
-            LoadGame();
-            _currentLoadMode = LoadMode.BetweenScenes;
         }
         
         private void OnSceneUnloaded(Scene scene)
@@ -73,7 +62,12 @@ namespace SaveSystem
                 SaveGameData();
             }
         }
-        
+
+        private void Start()
+        {
+            LoadGame();
+        }
+
         public Dictionary<string, GameData> LoadAllGameData()
         {
             return _dataHandler.LoadAllData();
@@ -91,39 +85,41 @@ namespace SaveSystem
         private void LoadGame()
         {
             _dataPersistenceObjects = FindAllDataPersistenceObjects();
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
+            {
+                ChangeCurrentGameDataToMostRecent();
+                return;
+            }
             switch (_currentLoadMode)
             {
-                case LoadMode.MainMenu:
-                    ChangeCurrentGameDataToMostRecent();
-                    return;
                 case LoadMode.NewGame:
                     _currentGameData = new GameData();
+                    SaveSystemEvents.InvokeOnNewGame();
+                    break;
+                case LoadMode.FromSaveFile:
+                    SaveSystemEvents.InvokeOnFromFileLoad(CurrentGameData);
+                    break;
+                case LoadMode.BetweenScenes:
+                    SaveSystemEvents.InvokeOnBetweenScenesLoad(CurrentGameData);
                     break;
                 case LoadMode.DirectlyFromScene:
                     if (useMostRecentGameData)
                     {
                         ChangeCurrentGameDataToMostRecent();
-                        CurrentLoadMode = LoadMode.FromSaveFile;
+                        SaveSystemEvents.InvokeOnFromFileLoad(CurrentGameData);
                     }
-                    if (_currentGameData is null)
+                    if (_currentGameData == null)
                     {
                         _currentGameData = new GameData();
-                        CurrentLoadMode = LoadMode.NewGame;
+                        SaveSystemEvents.InvokeOnNewGame();
                     }
                     break;
+                default:
+                    _currentGameData = new GameData();
+                    SaveSystemEvents.InvokeOnNewGame();
+                    break;
             }
-            LoadGameData();
-        }
-        
-        private void LoadGameData()
-        {
-            if (_currentGameData is not null)
-            {
-                foreach (var dataPersistenceObject in _dataPersistenceObjects)
-                {
-                    dataPersistenceObject.LoadData(_currentGameData);
-                }
-            }
+            _currentLoadMode = LoadMode.BetweenScenes;
         }
         
         private void SaveGameData()
@@ -146,12 +142,12 @@ namespace SaveSystem
             _dataHandler.SaveData(_currentGameData, profile);
         }
         
-        private List<IDataPersistence> FindAllDataPersistenceObjects()
+        private List<ISavable> FindAllDataPersistenceObjects()
         {
-            IEnumerable<IDataPersistence> dataPersistenceObjects =
-                FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+            IEnumerable<ISavable> dataPersistenceObjects =
+                FindObjectsOfType<MonoBehaviour>().OfType<ISavable>();
             
-            return new List<IDataPersistence>(dataPersistenceObjects);
+            return new List<ISavable>(dataPersistenceObjects);
         }
         
         public bool HasGameData()
@@ -162,6 +158,6 @@ namespace SaveSystem
 
     public enum LoadMode
     {
-        DirectlyFromScene, FromSaveFile, BetweenScenes, NewGame, MainMenu
+        DirectlyFromScene, FromSaveFile, BetweenScenes, NewGame
     }
 }
