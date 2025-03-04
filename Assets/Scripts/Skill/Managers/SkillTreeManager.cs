@@ -16,6 +16,7 @@ namespace Skill.Managers
         {
             SaveSystemEvents.OnFromFileLoad += LoadDataFromSaveFile;
             SaveSystemEvents.OnBetweenScenesLoad += LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave += SaveData;
             
             SkillTreeEvents.OnNodeActivation += ActivateNode;
         }
@@ -23,6 +24,7 @@ namespace Skill.Managers
         {
             SaveSystemEvents.OnFromFileLoad -= LoadDataFromSaveFile;
             SaveSystemEvents.OnBetweenScenesLoad -= LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave -= SaveData;
             
             SkillTreeEvents.OnNodeActivation -= ActivateNode;
         }
@@ -105,7 +107,7 @@ namespace Skill.Managers
             EnableActivation();
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             foreach (var skillTreeNode in _skillTreeNodesDictionary)
             {

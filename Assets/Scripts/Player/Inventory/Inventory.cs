@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour, ISavable
     {
         SaveSystemEvents.OnFromFileLoad += LoadData;
         SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+        SaveSystemEvents.OnSave += SaveData;
         
         GameConfig.PlayerInventory = this;
         _inventorySlots = new InventorySlot[7,5];
@@ -46,6 +47,7 @@ public class Inventory : MonoBehaviour, ISavable
     {
         SaveSystemEvents.OnFromFileLoad -= LoadData;
         SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+        SaveSystemEvents.OnSave -= SaveData;
     }
     
     /**
@@ -236,7 +238,7 @@ public class Inventory : MonoBehaviour, ISavable
         }
     }
 
-    public void SaveData(ref GameData gameData)
+    public void SaveData(GameData gameData)
     {
         for (var i = 0; i < _inventorySlots.GetLength(0); i++)
         {

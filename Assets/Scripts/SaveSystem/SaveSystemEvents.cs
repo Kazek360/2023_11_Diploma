@@ -20,5 +20,11 @@ namespace SaveSystem
         {
             OnBetweenScenesLoad?.Invoke(data);
         }
+        public static event Action<GameData> OnSave;
+        public static void InvokeOnSave(GameData data)
+        {
+            OnSave?.Invoke(data);
+        }
+        
     }
 }

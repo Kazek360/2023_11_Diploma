@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using SaveSystem.Data;
 using SaveSystem.Interfaces;
 using Shared;
@@ -21,8 +20,6 @@ namespace SaveSystem
         
         private GameData _currentGameData;
         public GameData CurrentGameData => _currentGameData;
-
-        private static List<ISavable> _dataPersistenceObjects;
         
         private LoadMode _currentLoadMode = LoadMode.DirectlyFromScene;
 
@@ -84,7 +81,6 @@ namespace SaveSystem
         }
         private void LoadGame()
         {
-            _dataPersistenceObjects = FindAllDataPersistenceObjects();
             if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
             {
                 ChangeCurrentGameDataToMostRecent();
@@ -124,30 +120,19 @@ namespace SaveSystem
         
         private void SaveGameData()
         {
-            if (_currentGameData is null || SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
+            if (_currentGameData == null || SceneManager.GetActiveScene().name.Equals("MainMenu"))
             {
                 return;
             }
             _currentGameData.save.lastUpdated = DateTime.Now.ToBinary();
             _currentGameData.save.date = DateTime.Now.ToString("dd.MM.yy HH:mm");
-            foreach (var dataPersistenceObject in _dataPersistenceObjects)
-            {
-                dataPersistenceObject.SaveData(ref _currentGameData);
-            }
+            SaveSystemEvents.InvokeOnSave(_currentGameData);
         }
         
         public void SaveGame(string profile)
         {
             SaveGameData();
             _dataHandler.SaveData(_currentGameData, profile);
-        }
-        
-        private List<ISavable> FindAllDataPersistenceObjects()
-        {
-            IEnumerable<ISavable> dataPersistenceObjects =
-                FindObjectsOfType<MonoBehaviour>().OfType<ISavable>();
-            
-            return new List<ISavable>(dataPersistenceObjects);
         }
         
         public bool HasGameData()

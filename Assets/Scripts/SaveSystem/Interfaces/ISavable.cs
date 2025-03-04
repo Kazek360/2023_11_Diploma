@@ -4,6 +4,6 @@ namespace SaveSystem.Interfaces
 {
     public interface ISavable
     {
-        void SaveData(ref GameData gameData);
+        void SaveData(GameData gameData);
     }
 }

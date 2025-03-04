@@ -18,7 +18,16 @@ namespace Location
             currentScene = SceneManager.GetActiveScene().name;
         }
         
-        public void SaveData(ref GameData gameData)
+        private void OnEnable()
+        {
+            SaveSystemEvents.OnSave += SaveData;
+        }
+        private void OnDisable()
+        {
+            SaveSystemEvents.OnSave -= SaveData;
+        }
+        
+        public void SaveData(GameData gameData)
         {
             gameData.scene.name = currentScene;
             gameData.scene.displayedName = displayedSceneName;

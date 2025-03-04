@@ -16,12 +16,14 @@ namespace Location
         {
             SaveSystemEvents.OnFromFileLoad += LoadData;
             SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
         }
 
         private void OnDisable()
         {
             SaveSystemEvents.OnFromFileLoad -= LoadData;
             SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
         }
         
         private void Start()
@@ -83,7 +85,7 @@ namespace Location
             }
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             if (PlayerPosition.instance != null)
             {

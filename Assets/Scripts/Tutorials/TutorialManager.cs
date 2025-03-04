@@ -22,12 +22,14 @@ namespace Tutorials
         {
             SaveSystemEvents.OnFromFileLoad += LoadData;
             SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
         }
 
         private void OnDisable()
         {
             SaveSystemEvents.OnFromFileLoad -= LoadData;
             SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
         }
         
         public void TriggerTutorial(TutorialInfo info)
@@ -73,7 +75,7 @@ namespace Tutorials
             }
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             gameData.tutorials = tutorials;
         }

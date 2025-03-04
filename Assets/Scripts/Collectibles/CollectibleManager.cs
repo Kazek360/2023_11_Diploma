@@ -30,12 +30,14 @@ namespace Collectibles
         {
             SaveSystemEvents.OnFromFileLoad += LoadData;
             SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
         }
 
         private void OnDisable()
         {
             SaveSystemEvents.OnFromFileLoad -= LoadData;
             SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
         }
         
         private void LoadData(GameData gameData)
@@ -52,7 +54,7 @@ namespace Collectibles
             }
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             if (!gameData.collectiblesState.ContainsKey(_currentScene))
             {

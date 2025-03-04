@@ -21,6 +21,7 @@ public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavabl
     {
         SaveSystemEvents.OnFromFileLoad += LoadData;
         SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+        SaveSystemEvents.OnSave += SaveData;
         
         PlayerEvents.OnLevelUp += IncreaseSkillPoints;
         SkillTreeEvents.OnNodeActivation += DecreaseSkillPoints;
@@ -29,6 +30,7 @@ public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavabl
     {
         SaveSystemEvents.OnFromFileLoad -= LoadData;
         SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+        SaveSystemEvents.OnSave -= SaveData;
         
         PlayerEvents.OnLevelUp -= IncreaseSkillPoints;
         SkillTreeEvents.OnNodeActivation -= DecreaseSkillPoints;
@@ -53,7 +55,7 @@ public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavabl
         PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
     }
 
-    public void SaveData(ref GameData gameData)
+    public void SaveData(GameData gameData)
     {
         if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))
         {
