@@ -47,6 +47,7 @@ namespace Quests
             SaveSystemEvents.OnNewGame += InitializeOnNewGame;
             SaveSystemEvents.OnFromFileLoad += LoadDataFromSaveFile;
             SaveSystemEvents.OnBetweenScenesLoad += LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave += SaveData;
             
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
@@ -58,6 +59,7 @@ namespace Quests
             SaveSystemEvents.OnNewGame -= InitializeOnNewGame;
             SaveSystemEvents.OnFromFileLoad -= LoadDataFromSaveFile;
             SaveSystemEvents.OnBetweenScenesLoad -= LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave -= SaveData;
             
             QuestEvents.OnQuestStart -= StartQuest;
             QuestEvents.OnQuestProgress -= ProgressQuest;
@@ -235,7 +237,7 @@ namespace Quests
             QuestEvents.TrackQuest();
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             gameData.Quests = _quests;
             gameData.trackedQuest = TrackedQuest.info.name;

@@ -34,6 +34,7 @@ namespace SaveSystem.Data
                 items = new Tuple<string, int>[7, 5],
                 equipment = new string[5]
             };
+            trackedQuest = "";
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
             resources = new Dictionary<string, int>();
             skillTreeNodesState = new Dictionary<string, bool>();
