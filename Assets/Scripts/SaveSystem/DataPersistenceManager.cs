@@ -40,6 +40,7 @@ namespace SaveSystem
 
         private void OnEnable()
         {
+            SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
@@ -48,9 +49,14 @@ namespace SaveSystem
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
         
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            LoadGame();
+        }
+        
         private void OnSceneUnloaded(Scene scene)
         {
-            if (SceneManager.GetActiveScene().name.Equals("MainMenu") || SceneManager.GetActiveScene().name.Equals("BlueMainMenu"))
+            if (SceneManager.GetActiveScene().name.Equals("MainMenu"))
             {
                 return;
             }
@@ -58,11 +64,6 @@ namespace SaveSystem
             {
                 SaveGameData();
             }
-        }
-
-        private void Start()
-        {
-            LoadGame();
         }
 
         public Dictionary<string, GameData> LoadAllGameData()
@@ -86,6 +87,7 @@ namespace SaveSystem
                 ChangeCurrentGameDataToMostRecent();
                 return;
             }
+            Debug.Log(CurrentGameData);
             switch (_currentLoadMode)
             {
                 case LoadMode.NewGame:
