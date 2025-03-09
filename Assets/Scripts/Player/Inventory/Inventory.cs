@@ -10,12 +10,13 @@ using UnityEngine;
  *
  * Allows for equipping items, dropping and picking them up, as well as other interactions
  */
-public class Inventory : MonoBehaviour, ISavable
+public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
 {
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
     public void OnEnable()
     {
+        SaveSystemEvents.OnNewGame += InitializeOnNewGame;
         SaveSystemEvents.OnFromFileLoad += LoadData;
         SaveSystemEvents.OnBetweenScenesLoad += LoadData;
         SaveSystemEvents.OnSave += SaveData;
@@ -36,15 +37,11 @@ public class Inventory : MonoBehaviour, ISavable
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-
-        if (_inventorySlots[0,0].Item is null)
-        {
-            LoadDefault();
-        }
     }
 
     public void OnDisable()
     {
+        SaveSystemEvents.OnNewGame -= InitializeOnNewGame;
         SaveSystemEvents.OnFromFileLoad -= LoadData;
         SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
         SaveSystemEvents.OnSave -= SaveData;
@@ -191,15 +188,12 @@ public class Inventory : MonoBehaviour, ISavable
         return amount;
     }
 
-    /**
-     * Adds the default inventory items
-     */
-    private void LoadDefault()
+    public void InitializeOnNewGame()
     {
         AddItem("stick", 1);
         AddItem("knife", 1);
     }
-
+    
     public void LoadData(GameData gameData)
     {
         _inventorySlots = new InventorySlot[7,5];
@@ -302,5 +296,7 @@ public class Inventory : MonoBehaviour, ISavable
 
         return result;
     }
+
+    
 }
 
