@@ -8,17 +8,17 @@ namespace UI.Interfaces
     {
         public override UserInterfaceState State => UserInterfaceState.SkillTree;
         
-        [SerializeField] private TextMeshProUGUI skillPointsValue;
+        [SerializeField] private TextMeshProUGUI skillPointsText;
         
         protected override void OnEnable()
         {
             base.OnEnable();
-            PlayerResourcesEvents.OnSkillPointsChange += ChangeSkillPointsValue;
+            PlayerResourcesEvents.OnSkillPointsValueChanged += ChangeSkillPointsValue;
         }
         protected override void OnDisable()
         {
             base.OnDisable();
-            PlayerResourcesEvents.OnSkillPointsChange -= ChangeSkillPointsValue;
+            PlayerResourcesEvents.OnSkillPointsValueChanged -= ChangeSkillPointsValue;
         }
 
         public override void OnEnter()
@@ -36,7 +36,7 @@ namespace UI.Interfaces
     
         private void ChangeSkillPointsValue(int value)
         {
-            skillPointsValue.text = value.ToString();
+            skillPointsText.text = value.ToString();
         }
     }
 }

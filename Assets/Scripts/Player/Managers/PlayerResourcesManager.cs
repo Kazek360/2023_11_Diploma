@@ -1,30 +1,37 @@
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
+using Shared;
 using Skill.Events;
-using UnityEngine;
 
-public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
+public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavable
 {
-    public static PlayerResourcesManager Instance { get; private set; }
-    public int SkillPoints { get; private set; }
-    private void Awake() 
-    { 
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        } 
+    private int _skillpoints;
+    public int SkillPoints
+    {
+        get => _skillpoints;
+        set
+        {
+            _skillpoints = value;
+            PlayerResourcesEvents.InvokeOnSkillPointsValueChanged(value);
+        }
     }
+    
     public void OnEnable()
     {
+        SaveSystemEvents.OnFromFileLoad += LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+        SaveSystemEvents.OnSave += SaveData;
+        
         PlayerEvents.OnLevelUp += IncreaseSkillPoints;
         SkillTreeEvents.OnNodeActivation += DecreaseSkillPoints;
     }
     public void OnDisable()
     {
+        SaveSystemEvents.OnFromFileLoad -= LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+        SaveSystemEvents.OnSave -= SaveData;
+        
         PlayerEvents.OnLevelUp -= IncreaseSkillPoints;
         SkillTreeEvents.OnNodeActivation -= DecreaseSkillPoints;
     }
@@ -32,20 +39,14 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
     private void IncreaseSkillPoints()
     {
         SkillPoints++;
-        PlayerResourcesEvents.ChangeSkillPointsValue(SkillPoints);
     }
     private void DecreaseSkillPoints(string id)
     {
         SkillPoints--;
-        PlayerResourcesEvents.ChangeSkillPointsValue(SkillPoints);
     }
 
     public void LoadData(GameData gameData)
     {
-        if (DataPersistenceManager.Instance.CurrentLoadMode == LoadMode.NewGame)
-        {
-            return;
-        }
         PlayerStats.GetInstance();
         SkillPoints = gameData.resources["SkillPoints"];
         PlayerStats.GetInstance().Level = gameData.resources["Level"];
@@ -54,7 +55,7 @@ public class PlayerResourcesManager : MonoBehaviour, IDataPersistence
         PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
     }
 
-    public void SaveData(ref GameData gameData)
+    public void SaveData(GameData gameData)
     {
         if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))
         {

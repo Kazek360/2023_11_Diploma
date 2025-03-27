@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -72,6 +70,7 @@ namespace Combat
         /**
          * Set the currently active unit
          * <param name='newUnit'>moved unit</param>
+         * <param name='placeInQueue'>place in turn queue that entity takes</param>
          */
         public void SetCurrentUnit(UnitCombat newUnit, int placeInQueue)
         {
@@ -110,7 +109,7 @@ namespace Combat
          * <param name='x'>x coordinate on hex map</param>
          * <param name='y'>y coordinate on hex map</param>
          */
-        private void MoveTo(int x, int y)
+        public void MoveTo(int x, int y)
         {
             _movementLeft--;
             var vec = currentUnit.GetGridLocation();
@@ -128,6 +127,7 @@ namespace Combat
          * <param name='movement'>movement for the turn</param>
          * <param name='actions'>actions for the turn</param>
          * <param name='isMaterial'>is the player material</param>
+         * <param name='hittable'>hittable script belonging to current unit</param>
          */
         public void PlayerTurnStart(int movement, int actions, bool isMaterial, IHittable hittable)
         {
@@ -145,20 +145,12 @@ namespace Combat
             combatEnvironmentManager.HighlightNeighborsInRadius(_currentGridObject, 1, false, _currentIsMaterial);
         }
 
-        /**
-         * Begins the enemy turn.
-         * <param name='movement'>movement for the turn</param>
-         * <param name='prefRange'>preferred range of the enemy</param>
-         * <param name='target'>which player shall the enemy target</param>
-         * <param name='movedEntity'>which entity is being moved</param>
-         */
-        public void MovementStage(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
+        public void EnemyTurnSetup(int movement, int prefRange, UnitCombat target, EnemyScript movedEntity)
         {
             _currentIsPlayer = false;
             _movementLeft = movement;
             SetCurrentMaterial(movedEntity.IsMaterial());
             ShowStage(movedEntity.IsMaterial());
-            StartCoroutine(MoveAlongPath(prefRange, target, movedEntity));
         }
 
         /**
@@ -182,40 +174,6 @@ namespace Combat
         {
             yield return new WaitForSeconds(0.1f);
             combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
-        }
-
-
-        /**
-         * A coroutine moving the enemy along the path to a hex on the preferred range from target player
-         * <param name='prefRange'>preferred range of the enemy</param>
-         * <param name='target'>which player shall the enemy target</param>
-         * <param name='movedEntity'>which entity is being moved</param>
-         */
-        IEnumerator MoveAlongPath(int prefRange, UnitCombat target, EnemyScript movedEntity)
-        {
-            var vec = currentUnit.GetGridLocation();
-            var currHex = combatEnvironmentManager.GetGridObject((int)vec[0], (int)vec[1]);
-            
-            var vec2 = target.GetGridLocation();
-            var finishHex = combatEnvironmentManager.GetGridObject((int)vec2[0], (int)vec2[1]);
-            
-            var path = combatEnvironmentManager.FindShortestPathTo(currHex, finishHex, _currentIsMaterial);
-        
-            for (int i = 1; i < path.Count - 1; i++)
-            {
-                if (combatEnvironmentManager.GetDistance(currHex, finishHex) <= prefRange || _movementLeft <= 0)
-                {
-                    break;
-                }
-                var nextHex = path[i];
-                MoveTo(nextHex.X, nextHex.Y);
-                while (currentUnit.currentState != UnitCombat.State.Idling)
-                {
-                    yield return new WaitForSeconds(0.3f);
-                }
-                currHex = nextHex;
-            }
-            movedEntity.TurnAfterMovement();
         }
 
         /**
@@ -299,15 +257,15 @@ namespace Combat
         
         /**
          * Show  the summary of a finished combat
-         * <param name='IsVictory'>whether the player has won an encounter</param>
+         * <param name='isVictory'>whether the player has won an encounter</param>
          * <param name='players'>list of players in combat</param>
          * <param name='enemies'>list of enemies in combat</param>
          */
-        public void ShowCombatSummary(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
+        public void ShowCombatSummary(bool isVictory, List<IHittable> players, List<IHittable> enemies)
         {
             combatUI.DisableCombatUI();
             combatEnvironmentManager.ClearGrid();
-            combatUI.ShowCombatSummary(IsVictory, players, enemies);
+            combatUI.ShowCombatSummary(isVictory, players, enemies);
         }
 
         public int ActionsLeft
@@ -328,12 +286,6 @@ namespace Combat
             set => _startingActions = value;
         }
 
-        public int MovementLeft
-        {
-            get => _movementLeft;
-            set => _movementLeft = value;
-        }
-
         public void DisplayQueue(List<IHittable> entities)
         {
             combatUI.FillQueue(entities);
@@ -351,6 +303,11 @@ namespace Combat
         public int GetDistance(UnitCombat unitScript)
         {
             return combatEnvironmentManager.GetDistance(currentUnit, unitScript);
+        }
+
+        public CombatEnvironmentManager GetCombatEnvironmentManager()
+        {
+            return combatEnvironmentManager;
         }
     }
 }

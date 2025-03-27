@@ -1,14 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Collectibles
 {
-    public class CollectibleManager : MonoBehaviour, IDataPersistence
+    public class CollectibleManager : MonoBehaviour, ISavable
     {
         [SerializeField] private string tagToSearch;
         
@@ -27,7 +26,21 @@ namespace Collectibles
             }
         }
     
-        public void LoadData(GameData gameData)
+        private void OnEnable()
+        {
+            SaveSystemEvents.OnFromFileLoad += LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
+        }
+
+        private void OnDisable()
+        {
+            SaveSystemEvents.OnFromFileLoad -= LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
+        }
+        
+        private void LoadData(GameData gameData)
         {
             if (gameData.collectiblesState.ContainsKey(_currentScene))
             {
@@ -41,21 +54,7 @@ namespace Collectibles
             }
         }
 
-        public void InitializeOnNewGame()
-        {
-        }
-
-        public void LoadDataFromSaveFile(GameData gameData)
-        {
-            LoadData(gameData);
-        }
-
-        public void LoadDataBetweenScenes(GameData gameData)
-        {
-            LoadData(gameData);
-        }
-
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             if (!gameData.collectiblesState.ContainsKey(_currentScene))
             {

@@ -3,12 +3,13 @@ using Quests.Flags;
 using Quests.ScriptableObjects;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using Shared;
 using UnityEngine;
 
 namespace Quests
 {
-    public class QuestManager : Singleton<QuestManager>, IDataPersistence
+    public class QuestManager : Singleton<QuestManager>, INewGameInitializable, IFromFileLoadable, IBetweenScenesLoadable
     {
         [Header("Load Globals JSON")] 
         [SerializeField] private TextAsset loadGlobals;
@@ -43,6 +44,11 @@ namespace Quests
 
         private void OnEnable()
         {
+            SaveSystemEvents.OnNewGame += InitializeOnNewGame;
+            SaveSystemEvents.OnFromFileLoad += LoadDataFromSaveFile;
+            SaveSystemEvents.OnBetweenScenesLoad += LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave += SaveData;
+            
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
             QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
@@ -50,6 +56,11 @@ namespace Quests
 
         private void OnDisable()
         {
+            SaveSystemEvents.OnNewGame -= InitializeOnNewGame;
+            SaveSystemEvents.OnFromFileLoad -= LoadDataFromSaveFile;
+            SaveSystemEvents.OnBetweenScenesLoad -= LoadDataBetweenScenes;
+            SaveSystemEvents.OnSave -= SaveData;
+            
             QuestEvents.OnQuestStart -= StartQuest;
             QuestEvents.OnQuestProgress -= ProgressQuest;
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
@@ -165,31 +176,15 @@ namespace Quests
 
             return quest;
         }
-
-        public void LoadData(GameData gameData)
-        {
-            switch (DataPersistenceManager.Instance.CurrentLoadMode)
-            {
-                case LoadMode.NewGame:
-                    InitializeOnNewGame();
-                    break;
-                case LoadMode.FromSaveFile:
-                    LoadDataFromSaveFile(gameData);
-                    break;
-                case LoadMode.BetweenScenes:
-                    LoadDataBetweenScenes(gameData);
-                    break;
-            }
-        }
         
-        private void InitializeOnNewGame()
+        public void InitializeOnNewGame()
         {
             QuestEvents.DeleteQuestSteps();
             _quests = CreateQuestDictionary();
             QuestEvents.StartQuest("prologue_1");
         }
         
-        private void LoadDataFromSaveFile(GameData gameData)
+        public void LoadDataFromSaveFile(GameData gameData)
         {
             QuestEvents.DeleteQuestSteps();
 
@@ -233,7 +228,7 @@ namespace Quests
             LoadDataBetweenScenes(gameData);
         }
 
-        private void LoadDataBetweenScenes(GameData gameData)
+        public void LoadDataBetweenScenes(GameData gameData)
         {
             foreach (var quest in Instance.Quests.Values)
             {
@@ -242,7 +237,7 @@ namespace Quests
             QuestEvents.TrackQuest();
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             gameData.Quests = _quests;
             gameData.trackedQuest = TrackedQuest.info.name;

@@ -54,22 +54,16 @@ public class EntityManager : MonoBehaviour
         _combatSystem.DisplayQueue(_turnOrder);
         NextTurn();
     }
-
-    public void Start()
-    {
-        //ShowEntities(true);
-    }
-
-
+    
     public void NextTurn()
     {
         _combatSystem.ClearGrid();
         StartCoroutine(NextTurnCoroutine());
+        
     }
 
     /**
     * A coroutine switching current player.
-     * TODO: AFTER ANIMATIONS WILL BE ADDED, HERE WAIT FOR THEM TO FINISH
     */  
     private IEnumerator NextTurnCoroutine()
     {
@@ -84,9 +78,16 @@ public class EntityManager : MonoBehaviour
             UpdateDeadEntitiesInQueue();
             _combatSystem.SetCurrentUnit(_combatUnits[_currentEntity], _currentEntity);
             _turnOrder[_currentEntity].ProcessTurn();
+            if (_currentEntity == 1)
+            {
+                CombatEvents.InvokeOnTurnEnd();
+            }
         }
     }
 
+    /**
+     * Legacy function for getting material players. Risky to change this close to testing
+     */
     public List<IHittable> GetMaterialPlayers()
     {
         List<IHittable> playerEntities = new List<IHittable>();
@@ -109,34 +110,17 @@ public class EntityManager : MonoBehaviour
 
         return playerEntities;
     }
-
-    public List<IHittable> GetMaterialEnemies()
-    {
-        List<IHittable> enemyEntities = new List<IHittable>();
-        if (_turnOrder is null)
-        {
-            _turnOrder = new List<IHittable>();
-            foreach (var entity in TurnOrder)
-            {
-                var hittable = entity.GetComponent<IHittable>();
-                _turnOrder.Add(hittable);
-            }
-        }
-        foreach (var entity in _turnOrder)
-        {
-            if (entity.GetGameObject().CompareTag("Enemy") && entity.IsMaterial() && !entity.IsDead())
-            {
-                enemyEntities.Add(entity);
-                //Debug.Log(entity.name);
-            }
-        }
-
-        return enemyEntities;
-    }
     
-    public List<IHittable> GetImmaterialPlayers()
+    /**
+     * Get list of all entities fulfilling conditions
+     * 
+     * <param name="isSeekingPlayer">Are units sought controlled by player</param>>
+     * <param name="isSeekingMaterial">Are units sought on the material layer</param>>
+     */
+    public List<IHittable> GetEntities(bool isSeekingPlayer, bool isSeekingMaterial)
     {
-        List<IHittable> playerEntities = new List<IHittable>();
+        String tagStr = isSeekingPlayer ? "Player" : "Enemy";
+        List<IHittable> entities = new List<IHittable>();
         if (_turnOrder is null)
         {
             _turnOrder = new List<IHittable>();
@@ -146,39 +130,16 @@ public class EntityManager : MonoBehaviour
                 _turnOrder.Add(hittable);
             }
         }
+        
         foreach (var entity in _turnOrder)
         {
-            if (entity.GetGameObject().CompareTag("Player") && !entity.IsMaterial() && !entity.IsDead())
+            if (entity.GetGameObject().CompareTag(tagStr) && entity.IsMaterial() == isSeekingMaterial && !entity.IsDead())
             {
-                playerEntities.Add(entity);
+                entities.Add(entity);
             }
         }
 
-        return playerEntities;
-    }
-
-    public List<IHittable> GetImmaterialEnemies()
-    {
-        List<IHittable> enemyEntities = new List<IHittable>();
-        if (_turnOrder is null)
-        {
-            _turnOrder = new List<IHittable>();
-            foreach (var entity in TurnOrder)
-            {
-                var hittable = entity.GetComponent<IHittable>();
-                _turnOrder.Add(hittable);
-            }
-        }
-        foreach (var entity in _turnOrder)
-        {
-            if (entity.GetGameObject().CompareTag("Enemy") && !entity.IsMaterial() && !entity.IsDead())
-            {
-                enemyEntities.Add(entity);
-                //Debug.Log(entity.name);
-            }
-        }
-
-        return enemyEntities;
+        return entities;
     }
 
     public void OnEnemyDefeated()
@@ -255,6 +216,9 @@ public class EntityManager : MonoBehaviour
         _combatSystem.ShowCombatSummary(IsVictory, players, enemies);
     }
     
+    /**
+     * Make sure that all dead entities are taken care of
+     */
     public void UpdateDeadEntitiesInQueue() {
         for (int i = 0; i < _turnOrder.Count; i++)
         {
@@ -264,7 +228,10 @@ public class EntityManager : MonoBehaviour
             }
         }
     }
-
+    
+    /**
+     * Spawn ell entities passed to the script and place them on the map
+     */
     private List<GameObject> SpawnEntities()
     {
         List<GameObject> entityVec = new List<GameObject>();
@@ -292,7 +259,7 @@ public class EntityManager : MonoBehaviour
             }
             entityVec.Add(spawned);
         }
-        entityVec.Sort((p1,p2)=>p1.GetComponent<IHittable>().GetAgility().CompareTo(p2.GetComponent<IHittable>().GetAgility()));
+        entityVec.Sort((p1,p2)=>p2.GetComponent<IHittable>().GetAgility().CompareTo(p1.GetComponent<IHittable>().GetAgility()));
         return entityVec;
     }
 

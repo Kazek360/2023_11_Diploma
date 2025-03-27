@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using UnityEngine;
 
 /**
@@ -9,12 +10,17 @@ using UnityEngine;
  *
  * Allows for equipping items, dropping and picking them up, as well as other interactions
  */
-public class Inventory : MonoBehaviour, IDataPersistence
+public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
 {
     private InventorySlot[,] _inventorySlots;
     private EquipmentSlot[] _equipmentSlots;
     public void OnEnable()
     {
+        SaveSystemEvents.OnNewGame += InitializeOnNewGame;
+        SaveSystemEvents.OnFromFileLoad += LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+        SaveSystemEvents.OnSave += SaveData;
+        
         GameConfig.PlayerInventory = this;
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
@@ -31,13 +37,16 @@ public class Inventory : MonoBehaviour, IDataPersistence
                 _inventorySlots[i, j] = new InventorySlot();
             }
         }
-
-        if (_inventorySlots[0,0].Item is null)
-        {
-            LoadDefault();
-        }
     }
 
+    public void OnDisable()
+    {
+        SaveSystemEvents.OnNewGame -= InitializeOnNewGame;
+        SaveSystemEvents.OnFromFileLoad -= LoadData;
+        SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+        SaveSystemEvents.OnSave -= SaveData;
+    }
+    
     /**
      * Get a slot in given coordinates of inventory grid
      *
@@ -179,21 +188,14 @@ public class Inventory : MonoBehaviour, IDataPersistence
         return amount;
     }
 
-    /**
-     * Adds the default inventory items
-     */
-    private void LoadDefault()
+    public void InitializeOnNewGame()
     {
-        AddItem("beer", 2);
+        AddItem("stick", 1);
         AddItem("knife", 1);
     }
-
+    
     public void LoadData(GameData gameData)
     {
-        if (DataPersistenceManager.Instance.CurrentLoadMode == LoadMode.NewGame)
-        {
-            return;
-        }
         _inventorySlots = new InventorySlot[7,5];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
@@ -230,7 +232,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
         }
     }
 
-    public void SaveData(ref GameData gameData)
+    public void SaveData(GameData gameData)
     {
         for (var i = 0; i < _inventorySlots.GetLength(0); i++)
         {
@@ -294,5 +296,7 @@ public class Inventory : MonoBehaviour, IDataPersistence
 
         return result;
     }
+
+    
 }
 

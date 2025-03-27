@@ -270,6 +270,43 @@ public class CombatEnvironmentManager : MonoBehaviour
         return finalPathHexes;
     }
 
+
+    public List<GridObject> FindShortestPathToDistance(GridObject startHex, GridObject finishHex, bool _currentIsMaterial, int desiredDist)
+    {
+        List<GridObject> result = null;
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                GridObject curr = _grid.GetGridObject(i, j);
+                if (curr is null)
+                {
+                    continue;
+                }
+                if (GetDistance(curr, finishHex) != desiredDist)
+                {
+                    continue;
+                }
+
+                if (result is null)
+                {
+                    result = FindShortestPathTo(startHex, curr, _currentIsMaterial);
+                }
+                else
+                {
+                    var tmp = FindShortestPathTo(startHex, curr, _currentIsMaterial);
+                    if (tmp.Count < result.Count)
+                    {
+                        result = tmp;
+                    }
+                }
+            }
+        }
+
+        
+        return result;
+    }
+
     /**
      * Algorithm moving an object to its correct place on a hex map
      * <param name='unitCombat'>moved unit</param>
@@ -296,6 +333,12 @@ public class CombatEnvironmentManager : MonoBehaviour
     {
         InitGrid();
         return _grid.GetGridObject(x, y);
+    }
+    
+    public GridObject GetGridObject(Vector2 vec)
+    {
+        InitGrid();
+        return _grid.GetGridObject((int)vec.x, (int)vec.y);
     }
 
     private void InitGrid()

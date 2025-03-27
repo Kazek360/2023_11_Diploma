@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private List<AbilityScriptableObjectReworked> _abilities;
     private List<int> _cooldowns;
     private UnitCombat _unitCombat;
+    private EnemyBehaviourModel _behaviourModel;
 
     private CombatSystem _combatSystem;
     private CombatUI _combatUI;
@@ -44,6 +45,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         _isDead = false;
         _unitCombat = GetComponent<UnitCombat>();
+        _behaviourModel = GetComponent<EnemyBehaviourModel>();
         _currentHealth = Stats.MaxHealthPoints;
         _currentPsyche = Stats.MaxPsychePoints;
         _combatSystem = gameObject.GetComponentInParent<CombatSystem>();
@@ -83,7 +85,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public void ProcessTurn()
     {
         Debug.Log(this.GetEntityName() + " TURN");
-        _combatSystem.MovementStage(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _combatSystem.EnemyTurnSetup(Stats.Agility, Stats.PreferredRange, _currentTarget.GetUnitCombatScript(), this);
+        _behaviourModel.ProcessTurn(this, _combatSystem, _combatSystem.GetCombatEnvironmentManager() ,_entityManager);
     }
 
     /**
@@ -92,12 +95,34 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
      */
     public void TurnAfterMovement()
     {
+        //TODO: TO REPLACE WITH AfterTurnEffects
         int chosenAbility = ChoosePossibleAbility();
         if (chosenAbility != -1)
         {
             CastAbility(chosenAbility);
         }
 
+        for (int i = 0; i < _cooldowns.Count; i++)
+        {
+            _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
+        }
+        _entityManager.NextTurn();
+        foreach (EffectOverTime effect in _effectsOverTime)
+        {
+            effect.ProcessTurn(this);
+        }
+
+        for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
+        {
+            if (_effectsOverTime[i].DurationLeft == 0)
+            {
+                _effectsOverTime.RemoveAt(i);
+            }
+        }
+    }
+    
+    public void AfterTurnEffects()
+    {
         for (int i = 0; i < _cooldowns.Count; i++)
         {
             _cooldowns[i] = Math.Max(0, _cooldowns[i] - 1);
@@ -167,22 +192,22 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetMaterialEnemies());
+                targetCandidates.AddRange(_entityManager.GetEntities(false, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetMaterialPlayers());
+                targetCandidates.AddRange(_entityManager.GetEntities(true, true));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetImmaterialPlayers());
+                targetCandidates.AddRange(_entityManager.GetEntities(true, false));
             }
             
             if (targetType == AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial)
             {
-                targetCandidates.AddRange(_entityManager.GetImmaterialEnemies());
+                targetCandidates.AddRange(_entityManager.GetEntities(false, false));
             }
         }
 
@@ -440,5 +465,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         Debug.Log("TIMED EFFECT APPLIED");
         _effectsOverTime.Add(effectOverTime);
+    }
+
+    public void OnAbilityCast(int i)
+    {
+        _cooldowns[i] = _abilities[i].Cooldown;
     }
 }

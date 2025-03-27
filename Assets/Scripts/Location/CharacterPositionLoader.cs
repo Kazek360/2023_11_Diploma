@@ -1,15 +1,30 @@
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using Shared;
 using UnityEngine;
 
 namespace Location
 {
-    public class CharacterPositionLoader : Singleton<CharacterPositionLoader>, IDataPersistence
+    public class CharacterPositionLoader : Singleton<CharacterPositionLoader>, ISavable, IFromFileLoadable, IBetweenScenesLoadable
     {
         [SerializeField] private string tagToSearchNpc;
         private string _currentScene;
+        
+        private void OnEnable()
+        {
+            SaveSystemEvents.OnFromFileLoad += LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
+        }
+
+        private void OnDisable()
+        {
+            SaveSystemEvents.OnFromFileLoad -= LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
+        }
         
         private void Start()
         {
@@ -32,14 +47,14 @@ namespace Location
             }
         }
 
-        private void LoadDataFromSaveFile(GameData gameData)
+        public void LoadDataFromSaveFile(GameData gameData)
         {
             var playerPosition = gameData.charactersPosition.playerPosition;
             PlayerPosition.instance.transform.position = new Vector3(playerPosition.x, playerPosition.y);
             LoadNpcPosition(gameData);
         }
 
-        private void LoadDataBetweenScenes(GameData gameData)
+        public void LoadDataBetweenScenes(GameData gameData)
         {
             LoadNpcPosition(gameData);
             
@@ -70,7 +85,7 @@ namespace Location
             }
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             if (PlayerPosition.instance != null)
             {

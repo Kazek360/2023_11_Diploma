@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using SaveSystem;
 using SaveSystem.Data;
+using SaveSystem.Interfaces;
 using Shared;
 using UI;
 using UnityEngine;
 
 namespace Tutorials
 {
-    public class TutorialManager : Singleton<TutorialManager>, IDataPersistence
+    public class TutorialManager : Singleton<TutorialManager>, ISavable
     {
         public Dictionary<string, Tutorial> tutorials;
 
@@ -15,6 +16,20 @@ namespace Tutorials
         {
             base.Awake();
             tutorials = CreateTutorialDictionary();
+        }
+        
+        private void OnEnable()
+        {
+            SaveSystemEvents.OnFromFileLoad += LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad += LoadData;
+            SaveSystemEvents.OnSave += SaveData;
+        }
+
+        private void OnDisable()
+        {
+            SaveSystemEvents.OnFromFileLoad -= LoadData;
+            SaveSystemEvents.OnBetweenScenesLoad -= LoadData;
+            SaveSystemEvents.OnSave -= SaveData;
         }
         
         public void TriggerTutorial(TutorialInfo info)
@@ -50,18 +65,8 @@ namespace Tutorials
             }
             return idToDictionary;
         }
-
-        public void LoadData(GameData gameData)
-        {
-            switch (DataPersistenceManager.Instance.CurrentLoadMode)
-            {
-                case LoadMode.FromSaveFile:
-                    LoadDataFromSaveFile(gameData);
-                    break;
-            }
-        }
         
-        private void LoadDataFromSaveFile(GameData gameData)
+        private void LoadData(GameData gameData)
         {
             var loadedTutorials = gameData.tutorials;
             foreach (var pair in loadedTutorials)
@@ -70,7 +75,7 @@ namespace Tutorials
             }
         }
 
-        public void SaveData(ref GameData gameData)
+        public void SaveData(GameData gameData)
         {
             gameData.tutorials = tutorials;
         }

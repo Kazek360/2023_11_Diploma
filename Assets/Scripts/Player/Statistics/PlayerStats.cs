@@ -162,12 +162,12 @@ public class PlayerStats
      */
     private void BasicSetup()
     {
-        _baseStats.Add(new BaseStat(StatType.WitAgility, 2));
+        _baseStats.Add(new BaseStat(StatType.WitAgility, 3));
         _baseStats.Add(new BaseStat(StatType.WitStrength, 3));
         _baseStats.Add(new BaseStat(StatType.WitLuck, 3));
         _baseStats.Add(new BaseStat(StatType.WitImagination, 2));
         _baseStats.Add(new BaseStat(StatType.WitHealth, 8));
-        _baseStats.Add(new BaseStat(StatType.NestorAgility, 3));
+        _baseStats.Add(new BaseStat(StatType.NestorAgility, 2));
         _baseStats.Add(new BaseStat(StatType.NestorStrength, 4));
         _baseStats.Add(new BaseStat(StatType.NestorLuck, 1));
         _baseStats.Add(new BaseStat(StatType.NestorImagination, 2));
