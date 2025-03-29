@@ -87,7 +87,6 @@ namespace SaveSystem
                 ChangeCurrentGameDataToMostRecent();
                 return;
             }
-            Debug.Log(CurrentGameData);
             switch (_currentLoadMode)
             {
                 case LoadMode.NewGame:
