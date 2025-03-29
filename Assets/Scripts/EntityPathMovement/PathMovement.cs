@@ -37,12 +37,12 @@ public class PathMovement : MonoBehaviour
             {
                 var position = _parentTransform.position;
                 Vector3 moveDir = (target - position).normalized;
-                _rigidbody.velocity = moveDir * Speed;
+                _rigidbody.linearVelocity = moveDir * Speed;
                 
                 yield return new WaitForSeconds(0.01f);
             }
         }
-        _rigidbody.velocity = new Vector2(0, 0);
+        _rigidbody.linearVelocity = new Vector2(0, 0);
         PathEvents.EndMovement();
     }
 
