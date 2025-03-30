@@ -17,8 +17,8 @@ namespace Quests.ScriptableObjects
         public List<QuestInfo> requiredQuests;
         public List<QuestInfo> nextQuests;
 
-        [Header("Steps")]
-        public QuestStepInfo firstStep;
+        [Header("Steps Transitions")]
+        public List<QuestStepTransition> firstStepTransitions;
 
         [Header("Rewards")] 
         public int experience;

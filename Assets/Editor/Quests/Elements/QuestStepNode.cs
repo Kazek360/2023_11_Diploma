@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Editor.Quests.Utilities;
+﻿using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
-using Quests.ScriptableObjects;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,8 +10,7 @@ namespace Editor.Quests.Elements
     public class QuestStepNode : BaseNode
     {
         public Port outputPort;
-
-        public List<FlagInfo> flags;
+        
         public string description;
         public int repeatAmount;
         public GameObject prefab;
@@ -22,7 +18,6 @@ namespace Editor.Quests.Elements
         public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
             base.Initialize(nodeName, questGraphView, position);
-            flags = new List<FlagInfo>();
             description = "";
             repeatAmount = 0;
         }
@@ -31,7 +26,6 @@ namespace Editor.Quests.Elements
         {
             base.Draw();
             DrawPorts();
-            DrawFlags();
             DrawDescription();
             DrawRepeatAmount();
             DrawStepPrefab();
@@ -48,27 +42,6 @@ namespace Editor.Quests.Elements
             outputPort = this.CreatePort("Next Step", Direction.Output, Port.Capacity.Multi);
             outputContainer.Add(outputPort);
         }
-        
-        private void DrawFlags()
-        {
-            var flagsContainer = new VisualElement();
-            flagsContainer.AddToClassList("quest-node__custom-container");
-            var flagsFoldout = QuestGraphUtilities.CreateFoldout("Flags");
-            
-            var flagsButtonContainer = 
-                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons(flagsFoldout, flags);
-            flagsFoldout.Add(flagsButtonContainer);
-            
-            foreach (var flag in flags)
-            {
-                var flagObjectField = QuestGraphUtilities.CreateObjectField(flags, flag);
-                flagsFoldout.Add(flagObjectField);
-            }
-            
-            flagsContainer.Add(flagsFoldout);
-            extensionContainer.Add(flagsContainer);
-        }
-
         
         private void DrawDescription()
         {

@@ -14,7 +14,7 @@ namespace Editor.Quests.Elements
         public Port outputQuestPort;
         
         public Port outputQuestStepPort;
-        public string connectedFirstStepNode;
+        public List<string> connectedFirstStepNodes;
         
         public List<FlagInfo> flags;
         public string displayName;
@@ -90,7 +90,7 @@ namespace Editor.Quests.Elements
             
             //Output Port
             outputQuestPort = this.CreatePort("Next Quests", Direction.Output, Port.Capacity.Multi);
-            outputQuestStepPort = this.CreatePort("First Step", Direction.Output, Port.Capacity.Single);
+            outputQuestStepPort = this.CreatePort("First Step", Direction.Output, Port.Capacity.Multi);
             outputContainer.Add(outputQuestPort);
             outputContainer.Add(outputQuestStepPort);
         }

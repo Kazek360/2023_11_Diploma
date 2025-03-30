@@ -10,6 +10,7 @@ namespace Editor.Quests.Save
         [SerializeField] public List<QuestGroupSaveData> groups;
         public List<QuestNodeSaveData> questNodes;
         public List<QuestStepNodeSaveData> questStepNodes;
+        public List<QuestStepTransitionNodeSaveData> questStepTransitionNodes;
         public List<string> oldGroupNames;
         public List<string> oldUngroupedNodeNames;
         public SerializableDictionary<string, List<string>> oldGroupedNodeNames;
@@ -20,6 +21,7 @@ namespace Editor.Quests.Save
             groups = new List<QuestGroupSaveData>();
             questNodes = new List<QuestNodeSaveData>();
             questStepNodes = new List<QuestStepNodeSaveData>();
+            questStepTransitionNodes = new List<QuestStepTransitionNodeSaveData>();
         }
     }
 }

@@ -8,7 +8,6 @@ using Shared;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Editor.Quests.Utilities
 {
@@ -21,9 +20,11 @@ namespace Editor.Quests.Utilities
         private static List<QuestGroup> _groups;
         private static List<QuestNode> _questNodes;
         private static List<QuestStepNode> _questStepNodes;
+        private static List<QuestStepTransitionNode> _questStepTransitionNodes;
         
         private static Dictionary<string, QuestInfo> _createdQuests;
         private static Dictionary<string, QuestStepInfo> _createdQuestsSteps;
+        private static Dictionary<string, QuestStepTransition> _createdQuestsStepsTransitions;
 
         private static Dictionary<string, QuestGroup> _loadedGroups;
         private static Dictionary<string, BaseNode> _loadedNodes;
@@ -37,8 +38,10 @@ namespace Editor.Quests.Utilities
             _groups = new List<QuestGroup>();
             _questNodes = new List<QuestNode>();
             _questStepNodes = new List<QuestStepNode>();
+            _questStepTransitionNodes = new List<QuestStepTransitionNode>();
             _createdQuests = new Dictionary<string, QuestInfo>();
             _createdQuestsSteps = new Dictionary<string, QuestStepInfo>();
+            _createdQuestsStepsTransitions = new Dictionary<string, QuestStepTransition>();
             _loadedGroups = new Dictionary<string, QuestGroup>();
             _loadedNodes = new Dictionary<string, BaseNode>();
         }
@@ -83,9 +86,58 @@ namespace Editor.Quests.Utilities
         
         private static void SaveNodes(QuestGraphSaveDataSO graphData)
         {
-            var groupedNodeNames = new SerializedDictionary<string, List<string>>();
+            var groupedNodeNames = new SerializableDictionary<string, List<string>>();
             var ungroupedNodeNames = new List<string>();
             
+            SaveQuestStepNodes(graphData, groupedNodeNames, ungroupedNodeNames);
+            SaveQuestStepTransitionNodes(graphData, groupedNodeNames, ungroupedNodeNames);
+
+            SaveQuestNodes(graphData, groupedNodeNames, ungroupedNodeNames);
+            
+            foreach (var node in _questNodes)
+            {
+                SaveQuestNodeConnectionsToScriptableObject(node);
+            }
+            foreach (var node in _questStepNodes)
+            {
+                SaveQuestStepNodeConnectionsToScriptableObject(node);
+            }
+
+            foreach (var node in _questStepTransitionNodes)
+            {
+                SaveQuestStepTransitionNodeConnectionsToScriptableObject(node);
+            }
+
+            UpdateOldUngroupedNodes(ungroupedNodeNames, graphData);
+            UpdateOldGroupedNodes(groupedNodeNames, graphData);
+        }
+
+        private static void SaveQuestNodes(QuestGraphSaveDataSO graphData, 
+            SerializableDictionary<string, List<string>> groupedNodeNames, List<string> ungroupedNodeNames)
+        {
+            foreach (var node in _questNodes)
+            {
+                SaveQuestNodeToGraph(node, graphData);
+                SaveQuestNodeToScriptableObject(node);
+
+                if (node.group == null)
+                {
+                    ungroupedNodeNames.Add(node.fileName);
+                }
+                else
+                {
+                    if (!groupedNodeNames.ContainsKey(node.group.title))
+                    {
+                        groupedNodeNames.Add(node.group.title, new List<string>());
+                    }
+                    groupedNodeNames[node.group.title].Add(node.fileName);
+                }
+            }
+        }
+        
+        private static void SaveQuestStepNodes(QuestGraphSaveDataSO graphData, 
+            SerializableDictionary<string, List<string>> groupedNodeNames, List<string> ungroupedNodeNames)
+        {
             foreach (var node in _questStepNodes)
             {
                 SaveQuestStepNodeToGraph(node, graphData);
@@ -105,11 +157,15 @@ namespace Editor.Quests.Utilities
                 }
                 
             }
-            
-            foreach (var node in _questNodes)
+        }
+        
+        private static void SaveQuestStepTransitionNodes(QuestGraphSaveDataSO graphData, 
+            SerializableDictionary<string, List<string>> groupedNodeNames, List<string> ungroupedNodeNames)
+        {
+            foreach (var node in _questStepTransitionNodes)
             {
-                SaveQuestNodeToGraph(node, graphData);
-                SaveQuestNodeToScriptableObject(node);
+                SaveQuestStepTransitionNodeToGraph(node, graphData);
+                SaveQuestStepTransitionNodeToScriptableObject(node);
 
                 if (node.group == null)
                 {
@@ -125,34 +181,21 @@ namespace Editor.Quests.Utilities
                 }
                 
             }
-            
-            foreach (var node in _questNodes)
-            {
-                SaveQuestNodeConnectionsToScriptableObject(node);
-            }
-            foreach (var node in _questStepNodes)
-            {
-                SaveQuestStepNodeConnectionsToScriptableObject(node);
-            }
-
-            UpdateOldUngroupedNodes(ungroupedNodeNames, graphData);
-            UpdateOldGroupedNodes(groupedNodeNames, graphData);
         }
         
         private static void SaveQuestNodeToGraph(QuestNode node, QuestGraphSaveDataSO graphData)
         {
-            var connectedNodes = new List<string>();
-            var connectedQuestStep = "";
+            var connectedQuestNodes = new List<string>();
+            var connectedQuestStepNodes = new List<string>();
             foreach (var edge in node.outputQuestPort.connections)
             {
                 var inputNode = (QuestNode) edge.input.node;
-                connectedNodes.Add(inputNode.ID);
+                connectedQuestNodes.Add(inputNode.ID);
             }
             foreach (var edge in node.outputQuestStepPort.connections)
             {
-                var inputNode = (QuestStepNode) edge.input.node;
-                connectedQuestStep = inputNode.ID;
-                node.connectedFirstStepNode = connectedQuestStep;
+                var inputNode = (BaseNode) edge.input.node;
+                connectedQuestStepNodes.Add(inputNode.ID);
             }
 
             var flagsCopy = new List<FlagInfo>();
@@ -171,8 +214,8 @@ namespace Editor.Quests.Utilities
                 description = node.description,
                 experience = node.experience,
                 groupID = node.group?.ID,
-                connectedQuestNodes = connectedNodes,
-                connectedQuestStepNode = connectedQuestStep,
+                connectedQuestNodes = connectedQuestNodes,
+                connectedQuestStepNodes = connectedQuestStepNodes,
                 position = node.GetPosition().position
             };
             graphData.questNodes.Add(nodeData);
@@ -183,21 +226,14 @@ namespace Editor.Quests.Utilities
             var connectedNodes = new List<string>();
             foreach (var edge in node.outputPort.connections)
             {
-                var inputNode = (QuestStepNode) edge.input.node;
+                var inputNode = (BaseNode) edge.input.node;
                 connectedNodes.Add(inputNode.ID);
-            }
-
-            var flagsCopy = new List<FlagInfo>();
-            foreach (var flag in node.flags)
-            {
-                flagsCopy.Add(flag);
             }
             
             var nodeData = new QuestStepNodeSaveData
             {
                 id = node.ID,
                 fileName = node.fileName,
-                flags = flagsCopy,
                 description = node.description,
                 repeatAmount = node.repeatAmount,
                 prefab = node.prefab,
@@ -207,8 +243,34 @@ namespace Editor.Quests.Utilities
             };
             graphData.questStepNodes.Add(nodeData);
         }
-        
-        
+
+        private static void SaveQuestStepTransitionNodeToGraph(QuestStepTransitionNode node, QuestGraphSaveDataSO graphData)
+        {
+            var connectedNodes = new List<string>();
+            foreach (var edge in node.outputPort.connections)
+            {
+                var inputNode = (BaseNode) edge.input.node;
+                connectedNodes.Add(inputNode.ID);
+            }
+            
+            var flagsCopy = new List<FlagInfo>();
+            foreach (var flag in node.flags)
+            {
+                flagsCopy.Add(flag);
+            }
+            
+            var nodeData = new QuestStepTransitionNodeSaveData
+            {
+                id = node.ID,
+                fileName = node.fileName,
+                flags = flagsCopy,
+                groupID = node.group?.ID,
+                connectedNodes = connectedNodes,
+                position = node.GetPosition().position
+            };
+            graphData.questStepTransitionNodes.Add(nodeData);
+            
+        }
         private static void SaveQuestNodeToScriptableObject(QuestNode node)
         {
             QuestInfo quest;
@@ -229,13 +291,7 @@ namespace Editor.Quests.Utilities
             quest.experience = node.experience;
             quest.requiredQuests = new List<QuestInfo>();
             quest.nextQuests = new List<QuestInfo>();
-            if (node.connectedFirstStepNode != null)
-            {
-                if (!node.connectedFirstStepNode.Equals(""))
-                {
-                    quest.firstStep = _createdQuestsSteps[node.connectedFirstStepNode];
-                } 
-            }
+            quest.firstStepTransitions = new List<QuestStepTransition>();
             _createdQuests.Add(node.ID, quest);
             SaveAsset(quest);
         }
@@ -256,10 +312,45 @@ namespace Editor.Quests.Utilities
             questStep.description = node.description;
             questStep.repeatAmount = node.repeatAmount;
             questStep.prefab = node.prefab;
-            questStep.requiredFlags = new List<FlagInfo>(node.flags);
-            questStep.nextSteps = new List<QuestStepInfo>();
+            questStep.transitions = new List<QuestStepTransition>();
             _createdQuestsSteps.Add(node.ID, questStep);
             SaveAsset(questStep);
+        }
+
+        private static void SaveQuestStepTransitionNodeToScriptableObject(QuestStepTransitionNode node)
+        {
+            QuestStepTransition questStepTransition;
+            
+            if (node.group != null)
+            {
+                questStepTransition = CreateAsset<QuestStepTransition>($"{_containerFolderPath}/{node.group.title}", node.fileName);
+            }
+            else
+            {
+                questStepTransition = CreateAsset<QuestStepTransition>($"{_containerFolderPath}/Global", node.fileName);
+            }
+
+            questStepTransition.requiredFlags = new List<FlagInfo>(node.flags);
+            _createdQuestsStepsTransitions.Add(node.ID, questStepTransition);
+            SaveAsset(questStepTransition);
+        }
+
+        private static QuestStepTransition CreateQuestStepTransitionScriptableObject(BaseNode node)
+        {
+            QuestStepTransition questStepTransition;
+            if (node.group != null)
+            {
+                questStepTransition = CreateAsset<QuestStepTransition>($"{_containerFolderPath}/{node.group.title}", 
+                    $"{node.fileName}_step_transition");
+            }
+            else
+            {
+                questStepTransition = CreateAsset<QuestStepTransition>($"{_containerFolderPath}/Global", 
+                    $"{node.fileName}_step_transition");
+            }
+            
+            SaveAsset(questStepTransition);
+            return questStepTransition;
         }
         
         private static void SaveQuestNodeConnectionsToScriptableObject(QuestNode node)
@@ -281,6 +372,22 @@ namespace Editor.Quests.Utilities
                     quest.nextQuests.Add(_createdQuests[inputNode.ID]);
                 }
             }
+
+            foreach (var edge in node.outputQuestStepPort.connections)
+            {
+                var inputNode = edge.input.node;
+                if (inputNode is QuestStepTransitionNode transitionNode)
+                {
+                    quest.firstStepTransitions.Add(_createdQuestsStepsTransitions[transitionNode.ID]);
+                }
+                else if (inputNode is QuestStepNode questStepNode)
+                {
+                    var questStepTransition = CreateQuestStepTransitionScriptableObject(node);
+                    questStepTransition.nextStep = _createdQuestsSteps[questStepNode.ID];
+                    SaveAsset(questStepTransition);
+                    quest.firstStepTransitions.Add(questStepTransition);
+                }
+            }
             SaveAsset(quest);
         }
         
@@ -290,15 +397,38 @@ namespace Editor.Quests.Utilities
             
             foreach (var edge in node.outputPort.connections)
             {
-                var inputNode = (QuestStepNode) edge.input.node;
-                if (inputNode != null)
+                var inputNode = edge.input.node;
+                
+                if (inputNode is QuestStepTransitionNode transitionNode)
                 {
-                    questStep.nextSteps.Add(_createdQuestsSteps[inputNode.ID]);
+                    questStep.transitions.Add(_createdQuestsStepsTransitions[transitionNode.ID]);
+                }
+                else if (inputNode is QuestStepNode questStepNode)
+                {
+                    var questStepTransition = CreateQuestStepTransitionScriptableObject(node);
+                    questStepTransition.nextStep = _createdQuestsSteps[questStepNode.ID];
+                    SaveAsset(questStepTransition);
+                    questStep.transitions.Add(questStepTransition);
                 }
             }
             SaveAsset(questStep);
         }
 
+        private static void SaveQuestStepTransitionNodeConnectionsToScriptableObject(QuestStepTransitionNode node)
+        {
+            var questStepTransition = _createdQuestsStepsTransitions[node.ID];
+            
+            foreach (var edge in node.outputPort.connections)
+            {
+                var inputNode = (QuestStepNode) edge.input.node;
+                if (inputNode != null)
+                {
+                    questStepTransition.nextStep = _createdQuestsSteps[inputNode.ID];
+                }
+            }
+            SaveAsset(questStepTransition);
+        }
+        
         private static void UpdateOldGroups(List<string> currentGroupNames, QuestGraphSaveDataSO graphData)
         {
             if (graphData.oldGroupNames != null && graphData.oldGroupNames.Count > 0)
@@ -325,7 +455,7 @@ namespace Editor.Quests.Utilities
             graphData.oldUngroupedNodeNames = new List<string>(currentUngroupedNodeNames);
         }
         
-        private static void UpdateOldGroupedNodes(SerializedDictionary<string, List<string>> currentGroupedNodeNames, 
+        private static void UpdateOldGroupedNodes(SerializableDictionary<string, List<string>> currentGroupedNodeNames, 
             QuestGraphSaveDataSO graphData)
         {
             if (graphData.oldGroupedNodeNames != null && graphData.oldGroupedNodeNames.Count > 0)
@@ -365,6 +495,7 @@ namespace Editor.Quests.Utilities
             LoadGroups(graphData.groups);
             LoadQuestNodes(graphData.questNodes);
             LoadQuestStepNodes(graphData.questStepNodes);
+            LoadQuestStepTransitionNodes(graphData.questStepTransitionNodes);
             LoadNodeConnections();
         }
 
@@ -389,7 +520,7 @@ namespace Editor.Quests.Utilities
                 node.description = nodeData.description;
                 node.experience = nodeData.experience;
                 node.connectedNodes = nodeData.connectedQuestNodes;
-                node.connectedFirstStepNode = nodeData.connectedQuestStepNode;
+                node.connectedFirstStepNodes = nodeData.connectedQuestStepNodes;
                 node.Draw();
                 _graphView.AddElement(node);
 
@@ -410,7 +541,6 @@ namespace Editor.Quests.Utilities
             {
                 var node = _graphView.CreateQuestStepNode(nodeData.fileName, nodeData.position, false);
                 node.ID = nodeData.id;
-                node.flags = nodeData.flags;
                 node.description = nodeData.description;
                 node.repeatAmount = nodeData.repeatAmount;
                 node.prefab = nodeData.prefab;
@@ -429,6 +559,28 @@ namespace Editor.Quests.Utilities
             }
         }
         
+        private static void LoadQuestStepTransitionNodes(List<QuestStepTransitionNodeSaveData> nodes)
+        {
+            foreach (var nodeData in nodes)
+            {
+                var node = _graphView.CreateQuestStepTransitionNode(nodeData.fileName, nodeData.position, false);
+                node.ID = nodeData.id;
+                node.flags = nodeData.flags;
+                node.connectedNodes = nodeData.connectedNodes;
+                node.Draw();
+                _graphView.AddElement(node);
+
+                _loadedNodes.Add(node.ID, node);
+                
+                if (!string.IsNullOrEmpty(nodeData.groupID))
+                {
+                    var group = _loadedGroups[nodeData.groupID];
+                    node.group = group;
+                    group.AddElement(node);
+                }
+            }
+        }
+        
         private static void LoadNodeConnections()
         {
             foreach (var loadedNode in _loadedNodes)
@@ -444,13 +596,14 @@ namespace Editor.Quests.Utilities
 
                 if (loadedNode.Value is QuestNode questNode)
                 {
-                    if (!questNode.connectedFirstStepNode.Equals(""))
+                    var stepPort = (Port) questNode.outputContainer.Children().ToList()[1];
+                    
+                    foreach (var connectedNode in questNode.connectedFirstStepNodes)
                     {
-                        var stepPort = (Port) questNode.outputContainer.Children().ToList()[1];
-                        var stepInputPort = (Port) _loadedNodes[questNode.connectedFirstStepNode].inputContainer.Children().First();
-                        var edge = stepPort.ConnectTo(stepInputPort);
+                        var inputPort = (Port) _loadedNodes[connectedNode].inputContainer.Children().First();
+                        var edge = stepPort.ConnectTo(inputPort);
                         _graphView.AddElement(edge);
-                        questNode.RefreshPorts(); 
+                        questNode.RefreshPorts();
                     }
                 }
             }
@@ -495,6 +648,10 @@ namespace Editor.Quests.Utilities
                 {
                     _questStepNodes.Add(questStepNode);
                 }
+                else if(graphElement is QuestStepTransitionNode questStepTransitionNode)
+                {
+                    _questStepTransitionNodes.Add(questStepTransitionNode);
+                }
                 else if(graphElement is QuestGroup group)
                 {
                     _groups.Add(group);
@@ -528,5 +685,4 @@ namespace Editor.Quests.Utilities
             AssetDatabase.Refresh();
         }
     }
-
 }

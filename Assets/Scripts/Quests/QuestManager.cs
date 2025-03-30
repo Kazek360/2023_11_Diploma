@@ -212,7 +212,7 @@ namespace Quests
                 }
                 else if (quest.state == QuestState.Finished)
                 {
-                    quest.AddCompletedQuestDescriptions();
+                    quest.PassThroughCompletedSteps();
                 }
             }
             
