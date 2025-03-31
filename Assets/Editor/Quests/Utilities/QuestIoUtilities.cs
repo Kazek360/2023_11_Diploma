@@ -121,7 +121,24 @@ namespace Editor.Quests.Utilities
             UpdateOldUngroupedNodes(ungroupedNodeNames, graphData);
             UpdateOldGroupedNodes(groupedNodeNames, graphData);
         }
-
+        
+        private static void AddToNameGroup(BaseNode node, SerializableDictionary<string, List<string>> groupedNodeNames, 
+            List<string> ungroupedNodeNames)
+        {
+            if (node.group == null)
+            {
+                ungroupedNodeNames.Add(node.fileName);
+            }
+            else
+            {
+                if (!groupedNodeNames.ContainsKey(node.group.title))
+                {
+                    groupedNodeNames.Add(node.group.title, new List<string>());
+                }
+                groupedNodeNames[node.group.title].Add(node.fileName);
+            }
+        }
+        
         private static void SaveQuestNodes(QuestGraphSaveDataSO graphData, 
             SerializableDictionary<string, List<string>> groupedNodeNames, List<string> ungroupedNodeNames)
         {
@@ -129,19 +146,7 @@ namespace Editor.Quests.Utilities
             {
                 SaveQuestNodeToGraph(node, graphData);
                 SaveQuestNodeToScriptableObject(node);
-
-                if (node.group == null)
-                {
-                    ungroupedNodeNames.Add(node.fileName);
-                }
-                else
-                {
-                    if (!groupedNodeNames.ContainsKey(node.group.title))
-                    {
-                        groupedNodeNames.Add(node.group.title, new List<string>());
-                    }
-                    groupedNodeNames[node.group.title].Add(node.fileName);
-                }
+                AddToNameGroup(node, groupedNodeNames, ungroupedNodeNames);
             }
         }
         
@@ -152,19 +157,7 @@ namespace Editor.Quests.Utilities
             {
                 SaveQuestTransitionNodeToGraph(node, graphData);
                 SaveQuestTransitionNodeToScriptableObject(node);
-
-                if (node.group == null)
-                {
-                    ungroupedNodeNames.Add(node.fileName);
-                }
-                else
-                {
-                    if (!groupedNodeNames.ContainsKey(node.group.title))
-                    {
-                        groupedNodeNames.Add(node.group.title, new List<string>());
-                    }
-                    groupedNodeNames[node.group.title].Add(node.fileName);
-                }
+                AddToNameGroup(node, groupedNodeNames, ungroupedNodeNames);
             }
         }
         
@@ -175,20 +168,7 @@ namespace Editor.Quests.Utilities
             {
                 SaveQuestStepNodeToGraph(node, graphData);
                 SaveQuestStepNodeToScriptableObject(node);
-
-                if (node.group == null)
-                {
-                    ungroupedNodeNames.Add(node.fileName);
-                }
-                else
-                {
-                    if (!groupedNodeNames.ContainsKey(node.group.title))
-                    {
-                        groupedNodeNames.Add(node.group.title, new List<string>());
-                    }
-                    groupedNodeNames[node.group.title].Add(node.fileName);
-                }
-                
+                AddToNameGroup(node, groupedNodeNames, ungroupedNodeNames);
             }
         }
         
@@ -199,20 +179,7 @@ namespace Editor.Quests.Utilities
             {
                 SaveQuestStepTransitionNodeToGraph(node, graphData);
                 SaveQuestStepTransitionNodeToScriptableObject(node);
-
-                if (node.group == null)
-                {
-                    ungroupedNodeNames.Add(node.fileName);
-                }
-                else
-                {
-                    if (!groupedNodeNames.ContainsKey(node.group.title))
-                    {
-                        groupedNodeNames.Add(node.group.title, new List<string>());
-                    }
-                    groupedNodeNames[node.group.title].Add(node.fileName);
-                }
-                
+                AddToNameGroup(node, groupedNodeNames, ungroupedNodeNames);
             }
         }
         
