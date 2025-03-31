@@ -134,7 +134,7 @@ namespace Quests
         {
             ChooseFirstStep();
             AddCompletedDescription();
-            for (var i = 1; i <= _currentStepIndex; i++)
+            for (var i = 1; i < _currentStepIndex; i++)
             {
                 ChooseNextStep();
                 AddCompletedDescription();
