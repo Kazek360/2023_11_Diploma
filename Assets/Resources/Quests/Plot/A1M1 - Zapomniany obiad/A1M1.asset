@@ -15,11 +15,9 @@ MonoBehaviour:
   displayName: Zapomniany obiad
   questCategory: 0
   description: "Trzeba zanie\u015B\u0107 ojcu obiad"
-  requiredFlags: []
-  requiredQuests:
-  - {fileID: 11400000, guid: 687d74847c4961744acae8a1de7c034b, type: 2}
-  nextQuests:
-  - {fileID: 11400000, guid: 20ed9ad827d03d040b94bfe037b05650, type: 2}
-  firstStep: {fileID: 11400000, guid: d01b3b62cd65882498381d59884b94d7, type: 2}
   experience: 400
   items: []
+  firstStepTransitions:
+  - {fileID: 11400000, guid: bbe2edbe039b0244fac7af7f4ad65d06, type: 2}
+  nextQuestsTransitions:
+  - {fileID: 11400000, guid: a9753a98b1d43214283eb378e6c14c4f, type: 2}
