@@ -16,7 +16,6 @@ namespace Editor.Quests.Elements
         public Port outputQuestStepPort;
         public List<string> connectedFirstStepNodes;
         
-        public List<FlagInfo> flags;
         public string displayName;
         public QuestCategory category;
         public string description;
@@ -29,14 +28,12 @@ namespace Editor.Quests.Elements
             category = QuestCategory.MainQuest;
             description = "";
             experience = 0;
-            flags = new List<FlagInfo>();
         }
 
         public override void Draw()
         {
             base.Draw();
             DrawPorts();
-            DrawFlags();
 
             //Display Name
             var displayNameContainer = new VisualElement();
@@ -85,34 +82,14 @@ namespace Editor.Quests.Elements
         private void DrawPorts()
         {
             //Input Port
-            inputPort = this.CreatePort("Required Quest", Direction.Input, Port.Capacity.Multi);
+            inputPort = this.CreatePort("Previous Quest", Direction.Input, Port.Capacity.Multi);
             inputContainer.Add(inputPort);
             
             //Output Port
-            outputQuestPort = this.CreatePort("Next Quests", Direction.Output, Port.Capacity.Multi);
+            outputQuestPort = this.CreatePort("Next Quest", Direction.Output, Port.Capacity.Multi);
             outputQuestStepPort = this.CreatePort("First Step", Direction.Output, Port.Capacity.Multi);
             outputContainer.Add(outputQuestPort);
             outputContainer.Add(outputQuestStepPort);
-        }
-
-        private void DrawFlags()
-        {
-            var flagsContainer = new VisualElement();
-            flagsContainer.AddToClassList("quest-node__custom-container");
-            var flagsFoldout = QuestGraphUtilities.CreateFoldout("Flags");
-            
-            var flagsButtonContainer = 
-                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons(flagsFoldout, flags);
-            flagsFoldout.Add(flagsButtonContainer);
-            
-            foreach (var flag in flags)
-            {
-                var flagObjectField = QuestGraphUtilities.CreateObjectField(flags, flag);
-                flagsFoldout.Add(flagObjectField);
-            }
-            
-            flagsContainer.Add(flagsFoldout);
-            extensionContainer.Add(flagsContainer);
         }
 
         private void DrawDescription()

@@ -10,18 +10,14 @@ namespace Quests.ScriptableObjects
         public QuestCategory questCategory;
         [TextArea] public string description;
         
-        [Header("Flag Requirements")]
-        public List<FlagInfo> requiredFlags;
-        
-        [Header("Quests")]
-        public List<QuestInfo> requiredQuests;
-        public List<QuestInfo> nextQuests;
-
-        [Header("Steps Transitions")]
-        public List<QuestStepTransition> firstStepTransitions;
-
         [Header("Rewards")] 
         public int experience;
         public List<string> items;
+        
+        [Header("First Step Transitions")]
+        public List<QuestStepTransition> firstStepTransitions;
+        
+        [Header("Quests Transitions")]
+        public List<QuestTransition> nextQuestsTransitions;
     }
 }

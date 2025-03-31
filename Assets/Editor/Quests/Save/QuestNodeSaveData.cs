@@ -10,7 +10,6 @@ namespace Editor.Quests.Save
     {
         public string id;
         public string fileName;
-        public List<FlagInfo> flags;
         public string displayName;
         public QuestCategory category;
         [TextArea] public string description;

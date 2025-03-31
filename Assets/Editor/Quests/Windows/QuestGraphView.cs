@@ -68,6 +68,7 @@ namespace Editor.Quests.Windows
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(CreateGroupContextualMenu());
             this.AddManipulator(CreateQuestNodeContextualMenu());
+            this.AddManipulator(CreateQuestTransitionNodeContextualMenu());
             this.AddManipulator(CreateQuestStepNodeContextualMenu());
             this.AddManipulator(CreateQuestStepTransitionNodeContextualMenu());
         }
@@ -108,13 +109,20 @@ namespace Editor.Quests.Windows
                 
                 switch (startPort.node)
                 {
-                    case QuestNode when startPort.portName.Equals("Next Quests") && port.node is not QuestNode:
-                    case QuestNode when startPort.portName.Equals("Required Quest") && !port.portName.Equals("Next Quests"):
-                    case QuestNode when startPort.portName.Equals("First Step") && port.node is QuestNode:
+                    case QuestNode or QuestTransitionNode when 
+                        (startPort.portName.Equals("Next Quest") || startPort.portName.Equals("Previous Quest")) && 
+                        port.node is QuestStepNode or QuestStepTransitionNode:
+                    case QuestNode or QuestTransitionNode when 
+                        startPort.portName.Equals("Previous Quest") && port.portName.Equals("First Step"):
+                    case QuestNode when startPort.portName.Equals("First Step") && 
+                                        port.node is QuestNode or QuestTransitionNode:
+                    case QuestTransitionNode when port.node is QuestTransitionNode:
+                        return;
                     case QuestStepNode or QuestStepTransitionNode when startPort.portName.Equals("Next Step") 
-                                                                       && port.node is QuestNode:
+                                                                       && port.node is QuestNode or QuestTransitionNode:
                     case QuestStepNode or QuestStepTransitionNode when startPort.portName.Equals("Previous Step") 
-                                                                       && port.portName.Equals("Next Quests"):
+                                                                       && (port.portName.Equals("Next Quest") || 
+                                                                           port.node is QuestTransitionNode):  
                     case QuestStepTransitionNode when port.node is QuestStepTransitionNode:
                         return;
                 }
@@ -176,6 +184,27 @@ namespace Editor.Quests.Windows
         public QuestStepTransitionNode CreateQuestStepTransitionNode(string nodeName, Vector2 position, bool shouldDraw = true)
         {
             var node = new QuestStepTransitionNode();
+            node.Initialize(nodeName, this, position);
+            if (shouldDraw)
+            {
+                node.Draw();
+            }
+            AddNode(node);
+            return node;
+        }
+        
+        private IManipulator CreateQuestTransitionNodeContextualMenu()
+        {
+            var contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Add Quest Transition", 
+                    actionEvent => AddElement(CreateQuestTransitionNode("quest_transition", actionEvent.eventInfo.mousePosition)))
+            );
+            return contextualMenuManipulator;
+        }
+        
+        public QuestTransitionNode CreateQuestTransitionNode(string nodeName, Vector2 position, bool shouldDraw = true)
+        {
+            var node = new QuestTransitionNode();
             node.Initialize(nodeName, this, position);
             if (shouldDraw)
             {

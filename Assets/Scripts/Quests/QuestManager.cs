@@ -122,17 +122,19 @@ namespace Quests
             quest.state = QuestState.Finished;
             QuestEvents.FinishQuest(quest);
 
-            foreach (var nextQuestInfo in quest.info.nextQuests)
+            foreach (var transition in quest.info.nextQuestsTransitions)
             {
-                if (CheckForRequiredFlagsState(nextQuestInfo.requiredFlags))
+                if (CheckForRequiredFlagsState(transition.requiredFlags))
                 {
+                    var nextQuestInfo = transition.nextQuest;
+                    
                     if (nextQuestInfo.questCategory == QuestCategory.MainQuest)
                     {
                         QuestEvents.StartQuest(nextQuestInfo.name);
                     }
                     else
                     {
-                        var nextQuest = GetQuestById(id);
+                        var nextQuest = GetQuestById(nextQuestInfo.name);
                         nextQuest.state = QuestState.CanStart;
                     }
                 }
