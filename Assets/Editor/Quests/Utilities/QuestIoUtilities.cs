@@ -3,6 +3,7 @@ using System.Linq;
 using Editor.Quests.Elements;
 using Editor.Quests.Save;
 using Editor.Quests.Windows;
+using Player.Inventory;
 using Quests.ScriptableObjects;
 using Shared;
 using UnityEditor;
@@ -206,6 +207,7 @@ namespace Editor.Quests.Utilities
                 category = node.category,
                 description = node.description,
                 experience = node.experience,
+                rewards = node.rewards,
                 groupID = node.group?.ID,
                 connectedQuestNodes = connectedQuestNodes,
                 connectedQuestStepNodes = connectedQuestStepNodes,
@@ -308,6 +310,7 @@ namespace Editor.Quests.Utilities
             quest.questCategory = node.category;
             quest.description = node.description;
             quest.experience = node.experience;
+            quest.items = new List<ItemWithAmount>(node.rewards);
             quest.nextQuestsTransitions = new List<QuestTransition>();
             quest.firstStepTransitions = new List<QuestStepTransition>();
             _createdQuests.Add(node.ID, quest);
@@ -589,6 +592,7 @@ namespace Editor.Quests.Utilities
                 node.category = nodeData.category;
                 node.description = nodeData.description;
                 node.experience = nodeData.experience;
+                node.rewards = nodeData.rewards;
                 node.connectedNodes = nodeData.connectedQuestNodes;
                 node.connectedFirstStepNodes = nodeData.connectedQuestStepNodes;
                 node.Draw();

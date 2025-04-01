@@ -116,7 +116,7 @@ namespace Quests
             PlayerStats.GetInstance().AddXp(quest.info.experience);
             foreach (var item in quest.info.items)
             {
-                GameConfig.PlayerInventory.AddItem(item, 1);
+                GameConfig.PlayerInventory.AddItem(item.item.name, item.amount);
             }
 
             quest.state = QuestState.Finished;

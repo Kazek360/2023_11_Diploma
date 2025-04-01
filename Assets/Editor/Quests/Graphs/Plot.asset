@@ -16,25 +16,25 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -43.00003, y: -784.99994}
+    position: {x: -43, y: -785}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: A1M1 - Zapomniany obiad
-    position: {x: 1952.9999, y: -784.99994}
+    position: {x: 1953, y: -785}
   - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
     name: A1S1 - Ale jaja!
-    position: {x: 1723.9999, y: 499.99997}
+    position: {x: 1723.9998, y: 499.99997}
   - id: 0b7c4997-bb77-4737-9c31-1eb34415116f
     name: A1S2 - Zaginiona chusta
-    position: {x: 3181.9998, y: 496.99988}
+    position: {x: 3182.0002, y: 497}
   - id: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
     name: "A1S4 - Pierwsza zagadka Stanis\u0142awa"
-    position: {x: 4240.9995, y: 502.00003}
+    position: {x: 4241.0005, y: 501.99997}
   - id: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
     name: "A1M2 - K\u0142opoty w m\u0142ynie"
-    position: {x: 2860.9998, y: -790.99994}
+    position: {x: 2861, y: -791}
   - id: f0b5d102-b305-4ec6-baee-8943891f2e79
     name: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
-    position: {x: 6278, y: -802.99994}
+    position: {x: 6277.9995, y: -803}
   questNodes:
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue_1
@@ -43,6 +43,9 @@ MonoBehaviour:
     description: "Poszed\u0142em pobawi\u0107 si\u0119 w lesie wraz z Hrycem. Co
       mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
     experience: 1001
+    rewards:
+    - item: {fileID: 11400000, guid: b21a95f7a1cd3694da08742295798eeb, type: 2}
+      amount: 5
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedQuestNodes:
     - be40241b-8e9e-4303-b41d-6369e6aea539
@@ -56,6 +59,7 @@ MonoBehaviour:
     description: "Uda\u0142o ci si\u0119 prze\u017Cy\u0107 swoj\u0105 \u015Bmier\u0107
       (tak jakby). Tylko co teraz?"
     experience: 1001
+    rewards: []
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedQuestNodes:
     - 65983f5f-7ecb-400b-b7e5-db805008bb3a
@@ -68,6 +72,7 @@ MonoBehaviour:
     category: 0
     description: "Obudzi\u0142em si\u0119 w domu po tygodniu"
     experience: 1001
+    rewards: []
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedQuestNodes:
     - 33239c93-5981-49e2-af00-4a2e1242110a
@@ -80,6 +85,7 @@ MonoBehaviour:
     category: 0
     description: "Trzeba zanie\u015B\u0107 ojcu obiad"
     experience: 400
+    rewards: []
     groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
     connectedQuestNodes:
     - 768aea72-b424-4ec4-a203-df493aa79491
@@ -92,6 +98,7 @@ MonoBehaviour:
     category: 0
     description: "Ojciec potrzebuje pomocy w m\u0142ynie"
     experience: 1000
+    rewards: []
     groupID: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
     connectedQuestNodes:
     - 521396f1-7647-4e2f-881e-315badf41cb7
@@ -104,6 +111,7 @@ MonoBehaviour:
     category: 1
     description: Olga potrzebuje jaja na omlet
     experience: 200
+    rewards: []
     groupID: b6ef633a-160c-4e4b-99f0-df1d27341c90
     connectedQuestNodes: []
     connectedQuestStepNodes:
@@ -115,6 +123,7 @@ MonoBehaviour:
     category: 1
     description: "Dina zgubi\u0142a chust\u0119"
     experience: 200
+    rewards: []
     groupID: 0b7c4997-bb77-4737-9c31-1eb34415116f
     connectedQuestNodes: []
     connectedQuestStepNodes:
@@ -126,6 +135,7 @@ MonoBehaviour:
     category: 1
     description: "Stanis\u0142aw na pewno ma jak\u0105\u015B ciekaw\u0105 zagadk\u0119"
     experience: 200
+    rewards: []
     groupID: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
     connectedQuestNodes: []
     connectedQuestStepNodes:
@@ -137,6 +147,7 @@ MonoBehaviour:
     category: 0
     description: "Wr\xF3\u0107 do domu"
     experience: 400
+    rewards: []
     groupID: f0b5d102-b305-4ec6-baee-8943891f2e79
     connectedQuestNodes: []
     connectedQuestStepNodes: []

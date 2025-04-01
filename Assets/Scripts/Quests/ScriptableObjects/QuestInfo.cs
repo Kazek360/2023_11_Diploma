@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Player.Inventory;
+using Shared;
 using UnityEngine;
 
 namespace Quests.ScriptableObjects
@@ -12,7 +14,7 @@ namespace Quests.ScriptableObjects
         
         [Header("Rewards")] 
         public int experience;
-        public List<string> items;
+        public List<ItemWithAmount> items;
         
         [Header("First Step Transitions")]
         public List<QuestStepTransition> firstStepTransitions;

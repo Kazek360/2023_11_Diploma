@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
+using Player.Inventory;
 using Quests.ScriptableObjects;
+using Shared;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -20,6 +22,7 @@ namespace Editor.Quests.Elements
         public QuestCategory category;
         public string description;
         public int experience;
+        public List<ItemWithAmount> rewards;
         
         public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
@@ -28,6 +31,7 @@ namespace Editor.Quests.Elements
             category = QuestCategory.MainQuest;
             description = "";
             experience = 0;
+            rewards = new List<ItemWithAmount>();
         }
 
         public override void Draw()
@@ -67,14 +71,7 @@ namespace Editor.Quests.Elements
             DrawExperienceField();
 
             //Rewards
-            var rewardsContainer = new VisualElement();
-            rewardsContainer.AddToClassList("quest-node__custom-container");
-            var rewardsFoldout = QuestGraphUtilities.CreateFoldout("Rewards");
-            var rewardsButtonContainer = 
-                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons<FlagInfo>(rewardsFoldout, new List<FlagInfo>());
-            rewardsFoldout.Add(rewardsButtonContainer);
-            rewardsContainer.Add(rewardsFoldout);
-            extensionContainer.Add(rewardsContainer);
+            DrawRewards();
             
             RefreshExpandedState();
         }
@@ -122,6 +119,26 @@ namespace Editor.Quests.Elements
             experienceFoldout.Add(experienceIntegerField);
             experienceContainer.Add(experienceFoldout);
             extensionContainer.Add(experienceContainer);
+        }
+
+        private void DrawRewards()
+        {
+            var rewardsContainer = new VisualElement();
+            rewardsContainer.AddToClassList("quest-node__custom-container");
+            var rewardsFoldout = QuestGraphUtilities.CreateFoldout("Rewards");
+            var rewardBox =
+                QuestGraphUtilities.CreateObjectFieldWithAmountListManipulatorButtons<ItemScriptableObject>(rewardsFoldout, rewards);
+            rewardsFoldout.Add(rewardBox);
+            
+            foreach (var item in rewards)
+            {
+                var rewardObjectFieldWithAmount = 
+                    QuestGraphUtilities.CreateObjectFieldWithAmount<ItemScriptableObject>(rewards, item);
+                rewardsFoldout.Add(rewardObjectFieldWithAmount);
+            }
+            
+            rewardsContainer.Add(rewardsFoldout);
+            extensionContainer.Add(rewardsContainer);
         }
     }
 }

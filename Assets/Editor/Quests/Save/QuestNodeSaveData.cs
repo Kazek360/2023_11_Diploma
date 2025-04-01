@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Player.Inventory;
 using Quests.ScriptableObjects;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ namespace Editor.Quests.Save
         public QuestCategory category;
         [TextArea] public string description;
         public int experience;
+        public List<ItemWithAmount> rewards;
         public string groupID;
         public List<string> connectedQuestNodes;
         public List<string> connectedQuestStepNodes;
