@@ -257,6 +257,7 @@ namespace Editor.Quests.Utilities
                 id = node.ID,
                 fileName = node.fileName,
                 description = node.description,
+                isHidden = node.isHidden,
                 repeatAmount = node.repeatAmount,
                 prefab = node.prefab,
                 groupID = node.group?.ID,
@@ -367,6 +368,7 @@ namespace Editor.Quests.Utilities
             }
             
             questStep.description = node.description;
+            questStep.isHidden = node.isHidden;
             questStep.repeatAmount = node.repeatAmount;
             questStep.prefab = node.prefab;
             questStep.transitions = new List<QuestStepTransition>();
@@ -638,6 +640,7 @@ namespace Editor.Quests.Utilities
                 var node = _graphView.CreateQuestStepNode(nodeData.fileName, nodeData.position, false);
                 node.ID = nodeData.id;
                 node.description = nodeData.description;
+                node.isHidden = nodeData.isHidden;
                 node.repeatAmount = nodeData.repeatAmount;
                 node.prefab = nodeData.prefab;
                 node.connectedNodes = nodeData.connectedNodes;

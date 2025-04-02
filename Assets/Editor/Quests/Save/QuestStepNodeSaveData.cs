@@ -10,6 +10,7 @@ namespace Editor.Quests.Save
         public string id;
         public string fileName;
         [TextArea] public string description;
+        public bool isHidden;
         public int repeatAmount;
         public GameObject prefab;
         public string groupID;

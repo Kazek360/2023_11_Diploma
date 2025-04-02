@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Editor.Quests.Elements;
 using Player.Inventory;
-using Shared;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -144,6 +142,22 @@ namespace Editor.Quests.Utilities
             };
             
             return foldout;
+        }
+        
+        public static Toggle CreateToggle(bool value, string label = null, 
+            EventCallback<ChangeEvent<bool>> onValueChanged = null)
+        {
+            var toggle = new Toggle
+            {
+                value = value,
+                label = label
+            };
+            
+            if (onValueChanged != null)
+            {
+                toggle.RegisterValueChangedCallback(onValueChanged);
+            }
+            return toggle;
         }
         
         public static Button CreateButton(string text, Action onClick = null)

@@ -12,12 +12,14 @@ namespace Editor.Quests.Elements
         public Port outputPort;
         
         public string description;
+        public bool isHidden;
         public int repeatAmount;
         public GameObject prefab;
         
         public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
             base.Initialize(nodeName, questGraphView, position);
+            isHidden = false;
             description = "";
             repeatAmount = 0;
         }
@@ -27,6 +29,7 @@ namespace Editor.Quests.Elements
             base.Draw();
             DrawPorts();
             DrawDescription();
+            DrawIsHiddenToggle();
             DrawRepeatAmount();
             DrawStepPrefab();
             RefreshExpandedState();
@@ -58,6 +61,22 @@ namespace Editor.Quests.Elements
             descriptionContainer.Add(descriptionFoldout);
             extensionContainer.Add(descriptionContainer);
         }
+        
+        private void DrawIsHiddenToggle()
+        {
+            var isHiddenContainer = new VisualElement();
+            isHiddenContainer.AddToClassList("quest-node__custom-container");
+            var isHiddenFoldout = QuestGraphUtilities.CreateFoldout("Is Hidden");
+            var isHiddenToggle = QuestGraphUtilities.CreateToggle(isHidden, null, 
+                callback =>
+                {
+                    isHidden = callback.newValue;
+                });
+            isHiddenFoldout.Add(isHiddenToggle);
+            isHiddenContainer.Add(isHiddenFoldout);
+            extensionContainer.Add(isHiddenContainer);
+        }
+        
         
         private void DrawRepeatAmount()
         {
