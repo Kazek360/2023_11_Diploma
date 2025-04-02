@@ -78,16 +78,28 @@ namespace Quests
 
         private void AddDescription()
         {
+            if (_currentStepInfo.isHidden)
+            {
+                return;
+            }
             stepsDescriptions.Add($"{_currentStepInfo.description}");
         }
         
         private void AddDescriptionWithProgress()
         {
+            if (_currentStepInfo.isHidden)
+            {
+                return;
+            }
             stepsDescriptions.Add($"{_currentStepInfo.description} ({_currentStep.Progress}/{_currentStepInfo.repeatAmount})");
         }
         
         private void AddCompletedDescription()
         {
+            if (_currentStepInfo.isHidden)
+            {
+                return;
+            }
             if (_currentStepInfo.repeatAmount > 1)
             {
                 stepsDescriptions.Add($"{_currentStepInfo.description} " +
@@ -101,8 +113,11 @@ namespace Quests
         
         public void UpdateStepProgress()
         {
-            stepsDescriptions[_currentStepIndex - 1] = $"{_currentStepInfo.description} ({_currentStep.Progress}" +
-                                                       $"/{_currentStepInfo.repeatAmount})";
+            if (!_currentStepInfo.isHidden)
+            {
+                stepsDescriptions[_currentStepIndex - 1] = $"{_currentStepInfo.description} ({_currentStep.Progress}" +
+                                                           $"/{_currentStepInfo.repeatAmount})";
+            }
             currentStepProgress = _currentStep.Progress;
         }
         

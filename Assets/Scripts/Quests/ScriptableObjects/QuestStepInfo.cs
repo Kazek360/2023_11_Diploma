@@ -7,8 +7,7 @@ namespace Quests.ScriptableObjects
     {
         [Header("General")]
         [TextArea] public string description;
-
-        [Header("Repeat")]
+        public bool isHidden;
         public int repeatAmount;
         
         [Header("Prefab")] 
