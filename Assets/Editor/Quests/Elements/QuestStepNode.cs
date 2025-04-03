@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Editor.Quests.Utilities;
+﻿using Editor.Quests.Utilities;
 using Editor.Quests.Windows;
-using Quests.ScriptableObjects;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,16 +10,16 @@ namespace Editor.Quests.Elements
     public class QuestStepNode : BaseNode
     {
         public Port outputPort;
-
-        public List<FlagInfo> flags;
+        
         public string description;
+        public bool isHidden;
         public int repeatAmount;
         public GameObject prefab;
         
         public override void Initialize(string nodeName, QuestGraphView questGraphView, Vector2 position)
         {
             base.Initialize(nodeName, questGraphView, position);
-            flags = new List<FlagInfo>();
+            isHidden = false;
             description = "";
             repeatAmount = 0;
         }
@@ -31,8 +28,8 @@ namespace Editor.Quests.Elements
         {
             base.Draw();
             DrawPorts();
-            DrawFlags();
             DrawDescription();
+            DrawIsHiddenToggle();
             DrawRepeatAmount();
             DrawStepPrefab();
             RefreshExpandedState();
@@ -49,27 +46,6 @@ namespace Editor.Quests.Elements
             outputContainer.Add(outputPort);
         }
         
-        private void DrawFlags()
-        {
-            var flagsContainer = new VisualElement();
-            flagsContainer.AddToClassList("quest-node__custom-container");
-            var flagsFoldout = QuestGraphUtilities.CreateFoldout("Flags");
-            
-            var flagsButtonContainer = 
-                QuestGraphUtilities.CreateObjectFieldListManipulatorButtons(flagsFoldout, flags);
-            flagsFoldout.Add(flagsButtonContainer);
-            
-            foreach (var flag in flags)
-            {
-                var flagObjectField = QuestGraphUtilities.CreateObjectField(flags, flag);
-                flagsFoldout.Add(flagObjectField);
-            }
-            
-            flagsContainer.Add(flagsFoldout);
-            extensionContainer.Add(flagsContainer);
-        }
-
-        
         private void DrawDescription()
         {
             var descriptionContainer = new VisualElement();
@@ -85,6 +61,22 @@ namespace Editor.Quests.Elements
             descriptionContainer.Add(descriptionFoldout);
             extensionContainer.Add(descriptionContainer);
         }
+        
+        private void DrawIsHiddenToggle()
+        {
+            var isHiddenContainer = new VisualElement();
+            isHiddenContainer.AddToClassList("quest-node__custom-container");
+            var isHiddenFoldout = QuestGraphUtilities.CreateFoldout("Is Hidden");
+            var isHiddenToggle = QuestGraphUtilities.CreateToggle(isHidden, null, 
+                callback =>
+                {
+                    isHidden = callback.newValue;
+                });
+            isHiddenFoldout.Add(isHiddenToggle);
+            isHiddenContainer.Add(isHiddenFoldout);
+            extensionContainer.Add(isHiddenContainer);
+        }
+        
         
         private void DrawRepeatAmount()
         {

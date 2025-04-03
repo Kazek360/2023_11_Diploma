@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Quests.ScriptableObjects;
 using UnityEngine;
 
 namespace Editor.Quests.Save
@@ -10,8 +9,8 @@ namespace Editor.Quests.Save
     {
         public string id;
         public string fileName;
-        public List<FlagInfo> flags;
         [TextArea] public string description;
+        public bool isHidden;
         public int repeatAmount;
         public GameObject prefab;
         public string groupID;

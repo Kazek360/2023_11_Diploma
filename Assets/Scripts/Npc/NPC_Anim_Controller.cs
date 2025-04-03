@@ -28,10 +28,10 @@ public class NPC_Anim_Controller : MonoBehaviour
 
     public void Update()
     {
-        if (_rigidbody.velocity.x != 0 || _rigidbody.velocity.y != 0)
+        if (_rigidbody.linearVelocity.x != 0 || _rigidbody.linearVelocity.y != 0)
         {
-            _animator.SetFloat(X, _rigidbody.velocity.x);
-            _animator.SetFloat(Y, _rigidbody.velocity.y);
+            _animator.SetFloat(X, _rigidbody.linearVelocity.x);
+            _animator.SetFloat(Y, _rigidbody.linearVelocity.y);
                 
             _animator.SetBool(IsRunning, true);
         }

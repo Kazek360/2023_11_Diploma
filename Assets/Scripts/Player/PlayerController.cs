@@ -71,7 +71,7 @@ namespace Player
             {
                 var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
                 _isMouseMoving = false;
-                _rigidbody.velocity = movementVector * currentSpeed;
+                _rigidbody.linearVelocity = movementVector * currentSpeed;
                 SetAnimationParameters(movementVector);
             }
         }
@@ -85,7 +85,7 @@ namespace Player
                 if (_isMouseMoving)
                 {
                     Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
-                    _rigidbody.velocity = direction * currentSpeed;
+                    _rigidbody.linearVelocity = direction * currentSpeed;
 
                     SetAnimationParameters(direction);
 
@@ -141,7 +141,7 @@ namespace Player
         
         private void StopPlayerMovement()
         {
-            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.linearVelocity = Vector2.zero;
             _animator.SetBool("isWalking", false);
             _animator.SetBool("isRunning", false);
             
@@ -182,7 +182,7 @@ namespace Player
 
         private void OnCollisionExit2D(Collision2D other)
         {
-            _rigidbody.velocity = Vector2.zero;
+            _rigidbody.linearVelocity = Vector2.zero;
         }
         
     }

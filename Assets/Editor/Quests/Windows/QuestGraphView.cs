@@ -68,7 +68,9 @@ namespace Editor.Quests.Windows
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(CreateGroupContextualMenu());
             this.AddManipulator(CreateQuestNodeContextualMenu());
+            this.AddManipulator(CreateQuestTransitionNodeContextualMenu());
             this.AddManipulator(CreateQuestStepNodeContextualMenu());
+            this.AddManipulator(CreateQuestStepTransitionNodeContextualMenu());
         }
 
         private void AddMinimap()
@@ -104,13 +106,24 @@ namespace Editor.Quests.Windows
                 {
                     return;
                 }
-
-                switch (startPort.portName)
+                
+                switch (startPort.node)
                 {
-                    case "Next Quests" when !port.portName.Equals("Required Quest"):
-                    case "Required Quest" when !port.portName.Equals("Next Quests"):
-                    case "Next Step" or "First Step" when !port.portName.Equals("Previous Step"):
-                    case "Previous Step" when !(port.portName.Equals("Next Step") || port.portName.Equals("First Step")):
+                    case QuestNode or QuestTransitionNode when 
+                        (startPort.portName.Equals("Next Quest") || startPort.portName.Equals("Previous Quest")) && 
+                        port.node is QuestStepNode or QuestStepTransitionNode:
+                    case QuestNode or QuestTransitionNode when 
+                        startPort.portName.Equals("Previous Quest") && port.portName.Equals("First Step"):
+                    case QuestNode when startPort.portName.Equals("First Step") && 
+                                        port.node is QuestNode or QuestTransitionNode:
+                    case QuestTransitionNode when port.node is QuestTransitionNode:
+                        return;
+                    case QuestStepNode or QuestStepTransitionNode when startPort.portName.Equals("Next Step") 
+                                                                       && port.node is QuestNode or QuestTransitionNode:
+                    case QuestStepNode or QuestStepTransitionNode when startPort.portName.Equals("Previous Step") 
+                                                                       && (port.portName.Equals("Next Quest") || 
+                                                                           port.node is QuestTransitionNode):  
+                    case QuestStepTransitionNode when port.node is QuestStepTransitionNode:
                         return;
                 }
                 
@@ -122,7 +135,7 @@ namespace Editor.Quests.Windows
         private IManipulator CreateQuestNodeContextualMenu()
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Quest Node", 
+                menuEvent => menuEvent.menu.AppendAction("Add Quest", 
                     actionEvent => AddElement(CreateQuestNode("quest", actionEvent.eventInfo.mousePosition)))
                 );
             return contextualMenuManipulator;
@@ -142,7 +155,7 @@ namespace Editor.Quests.Windows
         private IManipulator CreateQuestStepNodeContextualMenu()
         {
             var contextualMenuManipulator = new ContextualMenuManipulator(
-                menuEvent => menuEvent.menu.AppendAction("Add Quest Step Node", 
+                menuEvent => menuEvent.menu.AppendAction("Add Quest Step", 
                     actionEvent => AddElement(CreateQuestStepNode("quest_step", actionEvent.eventInfo.mousePosition)))
             );
             return contextualMenuManipulator;
@@ -150,6 +163,48 @@ namespace Editor.Quests.Windows
         public QuestStepNode CreateQuestStepNode(string nodeName, Vector2 position, bool shouldDraw = true)
         {
             var node = new QuestStepNode();
+            node.Initialize(nodeName, this, position);
+            if (shouldDraw)
+            {
+                node.Draw();
+            }
+            AddNode(node);
+            return node;
+        }
+        
+        private IManipulator CreateQuestStepTransitionNodeContextualMenu()
+        {
+            var contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Add Quest Step Transition", 
+                    actionEvent => AddElement(CreateQuestStepTransitionNode("quest_step_transition", actionEvent.eventInfo.mousePosition)))
+            );
+            return contextualMenuManipulator;
+        }
+        
+        public QuestStepTransitionNode CreateQuestStepTransitionNode(string nodeName, Vector2 position, bool shouldDraw = true)
+        {
+            var node = new QuestStepTransitionNode();
+            node.Initialize(nodeName, this, position);
+            if (shouldDraw)
+            {
+                node.Draw();
+            }
+            AddNode(node);
+            return node;
+        }
+        
+        private IManipulator CreateQuestTransitionNodeContextualMenu()
+        {
+            var contextualMenuManipulator = new ContextualMenuManipulator(
+                menuEvent => menuEvent.menu.AppendAction("Add Quest Transition", 
+                    actionEvent => AddElement(CreateQuestTransitionNode("quest_transition", actionEvent.eventInfo.mousePosition)))
+            );
+            return contextualMenuManipulator;
+        }
+        
+        public QuestTransitionNode CreateQuestTransitionNode(string nodeName, Vector2 position, bool shouldDraw = true)
+        {
+            var node = new QuestTransitionNode();
             node.Initialize(nodeName, this, position);
             if (shouldDraw)
             {

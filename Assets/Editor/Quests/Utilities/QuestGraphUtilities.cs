@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Editor.Quests.Elements;
+using Player.Inventory;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -58,7 +58,6 @@ namespace Editor.Quests.Utilities
                 label = label
             };
             
-            
             if (onValueChanged != null)
             {
                 integerField.RegisterValueChangedCallback(onValueChanged);
@@ -92,6 +91,48 @@ namespace Editor.Quests.Utilities
             return objectField;
         }
         
+        public static VisualElement CreateObjectFieldWithAmount<T>(List<ItemWithAmount> list, ItemWithAmount itemWithAmount) 
+            where T : ScriptableObject
+        {
+            var objectFieldContainer = new VisualElement
+            {
+                style = { flexDirection = FlexDirection.Row }
+            };
+            
+            var objectField = new ObjectField
+            {
+                value = itemWithAmount.item, 
+                objectType = typeof(T),
+                allowSceneObjects = false
+            };
+
+            objectField.RegisterValueChangedCallback(callback =>
+            {
+                if (callback.previousValue != null)
+                {
+                    if (callback.previousValue is T previousObject)
+                    {
+                        list.RemoveAll(x => x.item == previousObject); // Usuwamy poprzedni wpis
+                    }
+                }
+                if (callback.newValue is T selectedObject)
+                {
+                    itemWithAmount.item = selectedObject;
+                    list.Add(itemWithAmount);
+                }
+            });
+            
+            var amountIntegerField = CreateIntegerField(itemWithAmount.amount, null,
+                callback =>
+                {
+                    itemWithAmount.amount = callback.newValue;
+                });
+
+            objectFieldContainer.Add(objectField);
+            objectFieldContainer.Add(amountIntegerField);
+            return objectFieldContainer;
+        }
+        
         public static Foldout CreateFoldout(string title, bool collapsed = false)
         {
             var foldout = new Foldout
@@ -101,6 +142,22 @@ namespace Editor.Quests.Utilities
             };
             
             return foldout;
+        }
+        
+        public static Toggle CreateToggle(bool value, string label = null, 
+            EventCallback<ChangeEvent<bool>> onValueChanged = null)
+        {
+            var toggle = new Toggle
+            {
+                value = value,
+                label = label
+            };
+            
+            if (onValueChanged != null)
+            {
+                toggle.RegisterValueChangedCallback(onValueChanged);
+            }
+            return toggle;
         }
         
         public static Button CreateButton(string text, Action onClick = null)
@@ -123,6 +180,38 @@ namespace Editor.Quests.Utilities
             var buttonPlus = CreateButton("+", () =>
             {
                 var objectField = CreateObjectField(list);
+                objectField.AddToClassList("quest-node__object-field");
+                foldout.Add(objectField);
+            });
+            buttonPlus.AddToClassList("quest-node__button");
+            var buttonMinus = CreateButton("-", () =>
+            {
+                if (foldout.childCount > 1)
+                {
+                    foldout.RemoveAt(foldout.childCount - 1);
+                    if (list.Count > 0)
+                    {
+                        list.RemoveAt(list.Count - 1);
+                    }
+                }
+            });
+            buttonMinus.AddToClassList("quest-node__button");
+            buttonContainer.Add(buttonPlus);
+            buttonContainer.Add(buttonMinus);
+            return buttonContainer;
+        }
+        
+        public static VisualElement CreateObjectFieldWithAmountListManipulatorButtons<T>(Foldout foldout, 
+            List<ItemWithAmount> list) where T : ScriptableObject
+        {
+            var buttonContainer = new VisualElement
+            {
+                style = { flexDirection = FlexDirection.Row }
+            };
+            
+            var buttonPlus = CreateButton("+", () =>
+            {
+                var objectField = CreateObjectFieldWithAmount<T>(list, new ItemWithAmount());
                 objectField.AddToClassList("quest-node__object-field");
                 foldout.Add(objectField);
             });

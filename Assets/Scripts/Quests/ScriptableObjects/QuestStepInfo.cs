@@ -5,19 +5,15 @@ namespace Quests.ScriptableObjects
 {
     public class QuestStepInfo : ScriptableObject
     {
-        [Header("Required Flags")]
-        public List<FlagInfo> requiredFlags;
-        
         [Header("General")]
         [TextArea] public string description;
-
-        [Header("Repeat")]
+        public bool isHidden;
         public int repeatAmount;
         
         [Header("Prefab")] 
         public GameObject prefab;
 
-        [Header("Next Steps")] 
-        public List<QuestStepInfo> nextSteps;
+        [Header("Transitions")] 
+        public List<QuestStepTransition> transitions;
     }
 }

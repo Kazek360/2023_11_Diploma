@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Player.Inventory;
+using Shared;
 using UnityEngine;
 
 namespace Quests.ScriptableObjects
@@ -10,18 +12,14 @@ namespace Quests.ScriptableObjects
         public QuestCategory questCategory;
         [TextArea] public string description;
         
-        [Header("Flag Requirements")]
-        public List<FlagInfo> requiredFlags;
-        
-        [Header("Quests")]
-        public List<QuestInfo> requiredQuests;
-        public List<QuestInfo> nextQuests;
-
-        [Header("Steps")]
-        public QuestStepInfo firstStep;
-
         [Header("Rewards")] 
         public int experience;
-        public List<string> items;
+        public List<ItemWithAmount> items;
+        
+        [Header("First Step Transitions")]
+        public List<QuestStepTransition> firstStepTransitions;
+        
+        [Header("Quests Transitions")]
+        public List<QuestTransition> nextQuestsTransitions;
     }
 }
