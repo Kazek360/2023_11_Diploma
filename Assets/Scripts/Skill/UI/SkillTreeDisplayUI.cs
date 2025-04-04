@@ -14,6 +14,7 @@ public class SkillTreeDisplayUI : MonoBehaviour
     [SerializeField] private GameObject unlockButtonDisabled;
 
     private SkillTreeNodeSO _selectedSkill;
+    private SkillTreeNodeUI _nodeUI;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,20 +32,22 @@ public class SkillTreeDisplayUI : MonoBehaviour
         PlayerResourcesEvents.OnSkillPointsValueChanged -= SkillButtonAvailability;
     }
 
-    public void SetDisplayedSkill(SkillTreeNodeSO skillTreeNodeSo)
+    public void SetDisplayedSkill(SkillTreeNodeUI nodeUI)
     {
-        if (skillTreeNodeSo is null)
+        if (nodeUI is null)
         {
             skillName.text = "";
             skillDesc.text = "";
             _selectedSkill = null;
+            _nodeUI = null;
             SkillButtonAvailability(0);
             return;
         }
         //TODO: SKILL COST CHECK
-        _selectedSkill = skillTreeNodeSo;
-        skillName.text = skillTreeNodeSo.displayName;
-        skillDesc.text = skillTreeNodeSo.GetDesc();
+        _nodeUI = nodeUI;
+        _selectedSkill = nodeUI.skillTreeNodeInfo;
+        skillName.text = nodeUI.skillTreeNodeInfo.displayName;
+        skillDesc.text = nodeUI.skillTreeNodeInfo.GetDesc();
         SkillButtonAvailability(0);
     }
     
@@ -85,5 +88,10 @@ public class SkillTreeDisplayUI : MonoBehaviour
             unlockButtonDisabled.SetActive(true);
             unlockButton.SetActive(false);
         }
+    }
+
+    public void UnlockSkill()
+    {
+        _nodeUI.ActivateNodeUsingSkillPoints();
     }
 }

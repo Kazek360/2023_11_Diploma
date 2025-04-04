@@ -9,6 +9,7 @@ namespace UI.Interfaces
         public override UserInterfaceState State => UserInterfaceState.SkillTree;
         
         [SerializeField] private TextMeshProUGUI skillPointsText;
+        [SerializeField] private SkillTreeFacade skillTreeFacade;
         
         protected override void OnEnable()
         {
@@ -32,6 +33,7 @@ namespace UI.Interfaces
             base.OnExit();
             Time.timeScale = 1;
             InputManager.Instance.Controlls.Player.Enable();
+            skillTreeFacade.Deselect();
         }
     
         private void ChangeSkillPointsValue(int value)

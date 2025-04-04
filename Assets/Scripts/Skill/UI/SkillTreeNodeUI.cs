@@ -1,4 +1,5 @@
 using Skill;
+using Skill.Events;
 using Skill.Managers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,6 +42,12 @@ public class SkillTreeNodeUI : MonoBehaviour
         {
             UnlockedAbilities.GetInstance().UnlockAbility(ability);
         }
+    }
+    
+    public void ActivateNodeUsingSkillPoints()
+    {
+        ActivateNode();
+        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
     }
 
     private void ValueChanged(bool val)
