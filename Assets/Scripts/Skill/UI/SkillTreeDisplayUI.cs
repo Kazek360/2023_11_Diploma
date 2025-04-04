@@ -14,7 +14,7 @@ public class SkillTreeDisplayUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        skillPoints.text = "Punkty umiejętności: " + PlayerResourcesManager.Instance.SkillPoints;
     }
 
     // Update is called once per frame

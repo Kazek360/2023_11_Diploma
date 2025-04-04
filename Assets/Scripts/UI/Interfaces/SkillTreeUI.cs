@@ -36,7 +36,7 @@ namespace UI.Interfaces
     
         private void ChangeSkillPointsValue(int value)
         {
-            skillPointsText.text = value.ToString();
+            skillPointsText.text = "Punkty umiejętności: " + value.ToString();
         }
     }
 }
