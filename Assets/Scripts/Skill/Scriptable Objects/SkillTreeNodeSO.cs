@@ -10,6 +10,7 @@ public class SkillTreeNodeSO : ScriptableObject
     
     [Header("Requirements")]
     [SerializeField] public List<SkillTreeNodeSO> requiredNodes;
+    [SerializeField] public int skillPointsCost;
     
     [Header("Effects")]
     [SerializeField] public List<SkillTreeStatModifier> appliedModifiers;
