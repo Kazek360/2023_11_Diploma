@@ -40,5 +40,10 @@ namespace UI.Interfaces
         {
             skillPointsText.text = "Punkty umiejętności: " + value.ToString();
         }
+
+        public void ExitButton()
+        {
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
+        }
     }
 }
