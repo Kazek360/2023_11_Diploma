@@ -35,7 +35,7 @@ namespace Skill.Managers
             EnableActivation();
         }
         
-        private void ActivateNode(string id)
+        private void ActivateNode(string id, int skillPoints)
         {
             _skillTreeNodesDictionary[id].state = SkillTreeNode.State.Activated;
             EnableActivation();

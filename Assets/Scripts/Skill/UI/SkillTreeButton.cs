@@ -87,7 +87,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     private void ActivateNodeUsingSkillPoint()
     {
         ActivateNode();
-        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
+        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name, skillTreeNodeInfo.skillPointsCost);
     }
     
     public string GetTooltipHeader()

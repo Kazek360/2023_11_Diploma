@@ -40,9 +40,15 @@ public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavabl
     {
         SkillPoints++;
     }
-    private void DecreaseSkillPoints(string id)
+    
+    // private void DecreaseSkillPoints(string id)
+    // {
+    //     SkillPoints--;
+    // }
+    
+    private void DecreaseSkillPoints(string id, int skillPoints)
     {
-        SkillPoints--;
+        SkillPoints -= skillPoints;
     }
 
     public void LoadData(GameData gameData)

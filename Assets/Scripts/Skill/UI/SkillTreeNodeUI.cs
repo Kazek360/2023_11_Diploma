@@ -47,7 +47,7 @@ public class SkillTreeNodeUI : MonoBehaviour
     public void ActivateNodeUsingSkillPoints()
     {
         ActivateNode();
-        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
+        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name, skillTreeNodeInfo.skillPointsCost);
     }
 
     private void ValueChanged(bool val)
