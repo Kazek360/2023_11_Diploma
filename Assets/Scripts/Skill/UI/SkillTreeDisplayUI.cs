@@ -35,7 +35,7 @@ public class SkillTreeDisplayUI : MonoBehaviour
         }
         //TODO: SKILL COST CHECK
         skillName.text = skillTreeNodeSo.displayName;
-        skillDesc.text = skillTreeNodeSo.description;
+        skillDesc.text = skillTreeNodeSo.GetDesc();
         if (CheckIfSkillCanBeUnlocked(PlayerResourcesManager.Instance.SkillPoints, skillTreeNodeSo))
         {
             unlockButtonDisabled.SetActive(false);
