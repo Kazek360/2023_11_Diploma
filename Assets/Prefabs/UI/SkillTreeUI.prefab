@@ -1035,6 +1035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4885666713348369343}
   - component: {fileID: 8003271666577785956}
+  - component: {fileID: 5367033380903491753}
   m_Layer: 5
   m_Name: SkillTree
   m_TagString: Untagged
@@ -1076,6 +1077,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AllowSwitchOff: 1
+--- !u!114 &5367033380903491753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3984537767245873911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bad02b0fbcefcc4e9cf50b7495ee767, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillTreeDisplay: {fileID: 0}
 --- !u!1 &3989523679531831127
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,6 +3053,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 40055714c0c932c448ddba815cfad29e, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3267,6 +3285,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 2084e0ef1696e5241a84ec6b0d6d004e, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3385,6 +3407,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 13215cd8539d9f34dad516427eed7603, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3617,6 +3643,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b52351c7b855eb4880c52750dc30803, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3731,10 +3761,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 2146505270692138340, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5097033865328101519, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: c5291787ce29717448bb2d4848cbe1be, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3963,6 +4001,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: bb2263adefeaefd4eaa3d01ee2422254, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4081,6 +4123,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f061fca5813b294eae8056d4c9de398, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4199,6 +4245,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 3e02c32ac931a9a49b3922270272808f, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4298,13 +4348,41 @@ PrefabInstance:
     m_TransformParent: {fileID: 9030687868256549743}
     m_Modifications:
     - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
-      propertyPath: m_IsOn
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Group
       value: 
       objectReference: {fileID: 8003271666577785956}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1054725648335656369}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: set_enabled
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Behaviour, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 914624643773291562, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1329889304573040861, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Name
       value: VIOLENCE_1_1
@@ -4317,6 +4395,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -2490597068292292604, guid: 4bc20f36f8b61a147bf47a41390733ff, type: 3}
+    - target: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+      propertyPath: skillTreeNodeInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 58cd05d5dd2689942b3ba37cdefa614d, type: 2}
     - target: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4402,6 +4484,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+--- !u!114 &1054725648335656369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7496748788916495330, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
+  m_PrefabInstance: {fileID: 7397987220340045395}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce4cdc7eef924da4dbec44c1ffd21adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1675085688041150874 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8184720167288696777, guid: cf502e1bee7319e4ca3ca07334fb4031, type: 3}
