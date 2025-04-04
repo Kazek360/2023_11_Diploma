@@ -1,3 +1,4 @@
+using System;
 using Skill;
 using Skill.Managers;
 using TMPro;
@@ -11,16 +12,23 @@ public class SkillTreeDisplayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI skillDesc;
     [SerializeField] private GameObject unlockButton;
     [SerializeField] private GameObject unlockButtonDisabled;
+
+    private SkillTreeNodeSO _selectedSkill;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _selectedSkill = null;
         skillPoints.text = "Punkty umiejętności: " + PlayerResourcesManager.Instance.SkillPoints;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        PlayerResourcesEvents.OnSkillPointsValueChanged += SkillButtonAvailability;
+    }
+
+    private void OnDisable()
+    {
+        PlayerResourcesEvents.OnSkillPointsValueChanged -= SkillButtonAvailability;
     }
 
     public void SetDisplayedSkill(SkillTreeNodeSO skillTreeNodeSo)
@@ -29,23 +37,15 @@ public class SkillTreeDisplayUI : MonoBehaviour
         {
             skillName.text = "";
             skillDesc.text = "";
-            unlockButtonDisabled.SetActive(true);
-            unlockButton.SetActive(false);
+            _selectedSkill = null;
+            SkillButtonAvailability(0);
             return;
         }
         //TODO: SKILL COST CHECK
+        _selectedSkill = skillTreeNodeSo;
         skillName.text = skillTreeNodeSo.displayName;
         skillDesc.text = skillTreeNodeSo.GetDesc();
-        if (CheckIfSkillCanBeUnlocked(PlayerResourcesManager.Instance.SkillPoints, skillTreeNodeSo))
-        {
-            unlockButtonDisabled.SetActive(false);
-            unlockButton.SetActive(true);
-        }
-        else
-        {
-            unlockButtonDisabled.SetActive(true);
-            unlockButton.SetActive(false);
-        }
+        SkillButtonAvailability(0);
     }
     
     private bool CheckIfSkillCanBeUnlocked(int currentSkillPoints, SkillTreeNodeSO skillTreeNodeInfo)
@@ -62,5 +62,28 @@ public class SkillTreeDisplayUI : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    /**
+     * Switches buttons on and off depending on whether they are supposed to be unlocked or not
+     *
+     * @param n - not important, inserted to fit with Oskar's event
+     */
+    public void SkillButtonAvailability(int n)
+    {
+        if (_selectedSkill is null)
+        {
+            return;
+        }
+        if (CheckIfSkillCanBeUnlocked(PlayerResourcesManager.Instance.SkillPoints, _selectedSkill))
+        {
+            unlockButtonDisabled.SetActive(false);
+            unlockButton.SetActive(true);
+        }
+        else
+        {
+            unlockButtonDisabled.SetActive(true);
+            unlockButton.SetActive(false);
+        }
     }
 }
