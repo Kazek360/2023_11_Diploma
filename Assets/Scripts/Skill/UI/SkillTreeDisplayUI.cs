@@ -20,7 +20,6 @@ public class SkillTreeDisplayUI : MonoBehaviour
 
     public void SetDisplayedSkill(SkillTreeNodeSO skillTreeNodeSo)
     {
-        Debug.Log("A3");
         if (skillTreeNodeSo is null)
         {
             skillName.text = "";

@@ -20,9 +20,13 @@ public class SkillTreeFacade : MonoBehaviour
 
     public void ToggleChosenNode()
     {
-        
-        Debug.Log("A2");
-        SkillTreeNodeSO chosenSkill = _toggleGroup.GetFirstActiveToggle().GetComponent<SkillTreeNodeUI>().skillTreeNodeInfo;
+        Toggle toggled = _toggleGroup.GetFirstActiveToggle();
+        if (toggled is null)
+        {
+            _skillTreeDisplay.SetDisplayedSkill(null);
+            return;
+        }
+        SkillTreeNodeSO chosenSkill = toggled.gameObject.GetComponent<SkillTreeNodeUI>().skillTreeNodeInfo;
         _skillTreeDisplay.SetDisplayedSkill(chosenSkill);
     }
 }

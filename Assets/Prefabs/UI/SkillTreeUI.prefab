@@ -1089,7 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad02b0fbcefcc4e9cf50b7495ee767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillTreeDisplay: {fileID: 0}
+  _skillTreeDisplay: {fileID: 518826114166675748}
 --- !u!1 &3989523679531831127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2343,6 +2343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 171678971467568977}
+  - component: {fileID: 518826114166675748}
   m_Layer: 5
   m_Name: SkillDisplay
   m_TagString: Untagged
@@ -2375,6 +2376,21 @@ RectTransform:
   m_AnchoredPosition: {x: 649.01, y: -96.11792}
   m_SizeDelta: {x: 621.98, y: 830.4433}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &518826114166675748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573926864778475137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98c5996e9ea3ec4a987213fc42dc74a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPoints: {fileID: 7412231706863436147}
+  skillName: {fileID: 7345558688980635356}
+  skillDesc: {fileID: 2350211424976285452}
 --- !u!1 &8810991024053451086
 GameObject:
   m_ObjectHideFlags: 0

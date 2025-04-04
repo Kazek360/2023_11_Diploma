@@ -45,7 +45,6 @@ public class SkillTreeNodeUI : MonoBehaviour
 
     private void ValueChanged(bool val)
     {
-        Debug.Log("A1");
         _parentScript.ToggleChosenNode();
     }
 }
