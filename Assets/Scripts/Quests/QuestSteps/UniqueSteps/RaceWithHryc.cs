@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RaceWithHryc : DialogueAreaQuestStep
 {
+    [SerializeField] private TutorialInfo sprintTutorial;
     [SerializeField] private TutorialInfo inventoryTutorial;
     
     private bool _raceFinished;
@@ -17,6 +18,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
         _raceFinished = false;
         _witFinished = false;
         _hrycFinished = false;
+        TutorialManager.Instance.TriggerTutorial(sprintTutorial);
         PathEvents.StartMovement();
     }
     
