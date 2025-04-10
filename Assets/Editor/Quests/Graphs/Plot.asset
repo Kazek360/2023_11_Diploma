@@ -16,7 +16,7 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -43, y: -785}
+    position: {x: -51, y: -785.00006}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: A1M1 - Zapomniany obiad
     position: {x: 1953, y: -785}
@@ -36,22 +36,6 @@ MonoBehaviour:
     name: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
     position: {x: 6278, y: -803}
   questNodes:
-  - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
-    fileName: prologue_1
-    displayName: "Jak prawie umar\u0142em"
-    category: 0
-    description: "Poszed\u0142em pobawi\u0107 si\u0119 w lesie wraz z Hrycem. Co
-      mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
-    experience: 1001
-    rewards:
-    - item: {fileID: 11400000, guid: b21a95f7a1cd3694da08742295798eeb, type: 2}
-      amount: 5
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedQuestNodes:
-    - be40241b-8e9e-4303-b41d-6369e6aea539
-    connectedQuestStepNodes:
-    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    position: {x: -18, y: -138}
   - id: be40241b-8e9e-4303-b41d-6369e6aea539
     fileName: prologue_2
     displayName: "\u017Byje si\u0119 tylko dwa razy"
@@ -152,6 +136,20 @@ MonoBehaviour:
     connectedQuestNodes: []
     connectedQuestStepNodes: []
     position: {x: 6303, y: -744}
+  - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
+    fileName: prologue_1
+    displayName: "Wielki wy\u015Bcig Hryca"
+    category: 0
+    description: "Poszed\u0142em pobawi\u0107 si\u0119 w lesie wraz z Hrycem. Co
+      mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
+    experience: 1001
+    rewards: []
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedQuestNodes:
+    - be40241b-8e9e-4303-b41d-6369e6aea539
+    connectedQuestStepNodes:
+    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    position: {x: -26, y: -108}
   questTransitionNodes: []
   questStepNodes:
   - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
@@ -193,17 +191,6 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 1468, y: -593}
-  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    fileName: prologue_1_1
-    description: "Przegra\u0142e\u015B zabaw\u0119 z Hrycem. Znajd\u017A go i z nim
-      porozmawiaj"
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes:
-    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    position: {x: 254, y: 7}
   - id: 97f53155-3df9-4142-9a16-61188555ff1e
     fileName: A1M1 - Step 1
     description: "Porozmawiaj z matk\u0105"
@@ -522,6 +509,16 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 770, y: -295}
+  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    fileName: prologue_1_1
+    description: Porozmawiaj z Hrycem
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    position: {x: 279, y: 8}
   - id: 481b873a-02b8-4881-9f8b-605f0494182b
     fileName: prologue_1_4
     description: Wit umiera lol
@@ -530,7 +527,7 @@ MonoBehaviour:
     prefab: {fileID: 259076332279978945, guid: 92d8f7fb459806647816594620505307, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 1057, y: 8}
+    position: {x: 1108, y: 8}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -549,15 +546,15 @@ MonoBehaviour:
       - prologue_3_2
       - prologue_3_3
       - prologue_3_4
-      - prologue_1_1
       - prologue_1_3
       - prologue_1_2
       - prologue_2_1
       - prologue_2_2
+      - prologue_1_1
       - prologue_1_4
-      - prologue_1
       - prologue_2
       - prologue_3
+      - prologue_1
     - Key: A1M1 - Zapomniany obiad
       Value:
       - A1M1 - Step 1

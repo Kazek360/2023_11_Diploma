@@ -1,4 +1,3 @@
-using System.Collections;
 using Dialogues;
 using Quests;
 using Tutorials;
@@ -7,7 +6,6 @@ using UnityEngine;
 public class RaceWithHryc : DialogueAreaQuestStep
 {
     [SerializeField] private TutorialInfo inventoryTutorial;
-    [SerializeField] private string delayFlag;
     
     private bool _raceFinished;
     private bool _witFinished;
@@ -19,15 +17,6 @@ public class RaceWithHryc : DialogueAreaQuestStep
         _raceFinished = false;
         _witFinished = false;
         _hrycFinished = false;
-        StartCoroutine(StartMovement());
-    }
-    
-    private IEnumerator StartMovement()
-    {
-        if (QuestManager.Instance.FlagManager.IsFlagTriggered(delayFlag))
-        {
-            yield return new WaitForSeconds(1f);
-        }
         PathEvents.StartMovement();
     }
     
@@ -48,7 +37,7 @@ public class RaceWithHryc : DialogueAreaQuestStep
             {
                 if (objectName.Equals("Player"))
                 {
-                    QuestManager.Instance.FlagManager.TriggerFlag("hryc_race_winner_player");
+                    QuestManager.Instance.FlagManager.TriggerFlag("hryc_race_win");
                 }
                 _raceFinished = true;
             }
@@ -64,15 +53,16 @@ public class RaceWithHryc : DialogueAreaQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward_knife")
-                && !QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_winner_player"))
+            if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward"))
             {
-                GameConfig.PlayerInventory.RemoveItem("knife", 1);
-            }
-            else if(QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward_slingshot")
-                    && QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_winner_player"))
-            {
-                GameConfig.PlayerInventory.AddItem("slingshot", 1);
+                if(QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_win"))
+                {
+                    GameConfig.PlayerInventory.AddItem("slingshot", 1);
+                }
+                else
+                {
+                    GameConfig.PlayerInventory.RemoveItem("knife", 1);
+                }
             }
             
             TutorialManager.Instance.TriggerTutorial(inventoryTutorial);

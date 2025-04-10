@@ -1,73 +1,46 @@
 INCLUDE ../../globals.ink
 
--> MainQuest1_1
+-> Prologue_1_1
 
-=== MainQuest1_1 ===
+=== Prologue_1_1 ===
 #speaker:Hryc #portrait:hryc_neutral
-Ha, ha! Myślałeś że ze mną wygrasz?
-
-#speaker:Wit #portrait:wit_angry
-Ej… nie miałem szans. 
-
-#speaker:Hryc #portrait:hryc_neutral
-Twoja strata, nie moja wina że akurat niosłeś batiuszce Aleksandrowi skrzynię.
-
-#speaker:Wit #portrait:wit_angry
-Ja przynajmniej coś robię, a nie lenię się cały dzień na sianie.
-
-#speaker:Hryc #portrait:hryc_neutral
-Wylegiwanie się jest bardzo męczące…
-
-#speaker:Wit #portrait:wit_angry
-Gdybym nie miał zajętych rąk to bym wygrał.
-
-#speaker:Hryc #portrait:hryc_neutral
-Skoro tak twierdzisz…
+No, nareszcie jesteś Witek! Już zacząłem się zastanawiać, czy nie stchórzyłeś!
 
 #speaker:Wit #portrait:wit_smirk
-To może ścigajmy się do wielkiego dębu przy jeziorze.
+Ja? Stchórzyć? W życiu!  
+
+#speaker:Wit #portrait:wit_smirk
+Pomagałem przenosić batiuszce Aleksandrowi skrzynię z zakrystii.
 
 #speaker:Hryc #portrait:hryc_neutral
-A co będę miał gdy już wygram?
+Nudyyy!
 
-* [Udowodnisz że jesteś ode mnie lepszy.]
+#speaker:Wit #portrait:wit_angry
+Ja przynajmniej coś robię, a nie lenię się cały dzień na pastwisku.
+
+#speaker:Hryc #portrait:hryc_neutral
+Ja się nie leniłem, tylko zbierałem energię na wyścig…
+
+#speaker:Wit #portrait:wit_angry
+Zobaczymy w takim razie, czy to “zbieranie energii” ci teraz pomoże.
+
+#speaker:Hryc #portrait:hryc_neutral
+Ciekawe czy w bieganiu się jesteś tak samo dobry, co w docinkach. O co się zakładamy?
+
+* [O przekonanie, zobaczymy kto jest lepszy!]
     #speaker:Hryc #portrait:hryc_neutral
-    Oczywiście że jestem. Przygotuj się na przegraną.
-* [Oddam ci mój scyzoryk.]
-    #speaker:Hryc #portrait:hryc_neutral
-    Długo się nim w takim razie nie nacieszysz
-    ~hryc_race_reward_knife = true
+    Oczywiście że to ja jestem lepszy! Przygotuj się na przegraną!
     
-* [A co gdy ja wygram?]
+* [Jak wygram, oddasz mi swoją procę.]
     #speaker:Hryc #portrait:hryc_neutral
-    Nie licz na to, ale oddam ci moją procę.
-    ~hryc_race_reward_slingshot = true
+    Zgoda. Ale jeśli ja wygram to zabieram twój scyzoryk!
+    ~hryc_race_reward = true
 - 
-#speaker:Hryc #portrait:hryc_neutral
-Gotowy?
 
-* [Złap mnie jeśli potrafisz]
-    -> HrycDelay
-* [(Czekaj)]
-    #speaker:Hryc #portrait:hryc_neutral
-    3..
--
-* [Złap mnie jeśli potrafisz]
-    -> HrycDelay
-* [(Czekaj)]
-    #speaker:Hryc #portrait:hryc_neutral
-    2..   
--
-* [Złap mnie jeśli potrafisz]
-    -> HrycDelay
-* [(Czekaj)]
-    #speaker:Wit #portrait:wit_angry
-    Ej!
--
--> END
-
-=== HrycDelay ===
 #speaker:Hryc #portrait:hryc_neutral
-Ej!
-~hryc_race_delay = true
+Ścigamy się do wielkiego dębu. Kto pierwszy dotknie konarów - ten zwycięża. Gotowy?
+
+#speaker:Hryc #portrait:hryc_neutral
+3… 2… 1… START!
+
 -> END
