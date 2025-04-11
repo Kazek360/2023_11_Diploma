@@ -17,6 +17,8 @@ public class ChapterIntroduction : UserInterface
     [SerializeField] private float textTransitionSpeed;
     [SerializeField] private float delayBetweenLines;
 
+    [Header("DEV")] [SerializeField] private bool skip;
+
     private TextMeshProUGUI _introductionText;
 
     private Story _currentStory;
@@ -55,23 +57,27 @@ public class ChapterIntroduction : UserInterface
     
     public override void OnEnter()
     {
-        base.OnEnter();
+        CanvasGroup.alpha = 1;
         InputManager.Instance.Controlls.Player.Disable();
         InputManager.Instance.Controlls.UI.Disable();
     }
     public override void OnExit()
     {
-        base.OnExit();
+        CanvasGroup.alpha = 0;
         InputManager.Instance.Controlls.Player.Enable();
         InputManager.Instance.Controlls.UI.Enable();
     }
 
     private void StartIntroduction(IntroductionInfo introduction)
     {
+        if (skip)
+        {
+            StartCoroutine(FadeOutUI());
+            return;
+        }
         _currentStory = new Story(introduction.introductionText.text);
 
         StartCoroutine(ContinueIntroduction());
-
     }
 
     private IEnumerator ContinueIntroduction()
@@ -89,6 +95,7 @@ public class ChapterIntroduction : UserInterface
                 yield return StartCoroutine(FadeInText());
                 yield return new WaitForSeconds(delayBetweenLines);
                 yield return StartCoroutine(FadeOutText());
+                yield return new WaitForSeconds(0.5f);
             }
         }
         yield return StartCoroutine(FadeOutUI());
