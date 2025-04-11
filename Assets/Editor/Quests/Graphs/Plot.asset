@@ -16,7 +16,7 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -50.999985, y: -785}
+    position: {x: -50.99997, y: -784.99994}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: A1M1 - Zapomniany obiad
     position: {x: 1953, y: -785}
@@ -148,7 +148,7 @@ MonoBehaviour:
     connectedQuestNodes:
     - be40241b-8e9e-4303-b41d-6369e6aea539
     connectedQuestStepNodes:
-    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    - b270203a-8c4b-4d05-9703-8731ccc0cb75
     position: {x: -26, y: -108}
   questTransitionNodes: []
   questStepNodes:
@@ -488,6 +488,16 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 770, y: -295}
+  - id: b270203a-8c4b-4d05-9703-8731ccc0cb75
+    fileName: prologue_1_0
+    description: Chapter Introduction
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 76b6b7d634b08d242b4f5b967faed9a2, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    position: {x: 293, y: 8}
   - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
     fileName: prologue_1_1
     description: Porozmawiaj z Hrycem
@@ -497,7 +507,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    position: {x: 279, y: 8}
+    position: {x: 531, y: 8}
   - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
     fileName: prologue_1_2
     description: "\u015Acigaj si\u0119 do wielkiego d\u0119bu"
@@ -507,7 +517,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - c6aeac92-f201-4a7d-b656-bc6388ac54e5
-    position: {x: 542, y: 8}
+    position: {x: 769, y: 8}
   - id: c6aeac92-f201-4a7d-b656-bc6388ac54e5
     fileName: prologue_1_3
     description: " Pod\u0105\u017Caj \u015Bcie\u017Ck\u0105 do wioski"
@@ -517,7 +527,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - a02b0fda-dc1e-46fc-bbc1-e2d880372c83
-    position: {x: 809, y: 8}
+    position: {x: 1006, y: 8}
   - id: a02b0fda-dc1e-46fc-bbc1-e2d880372c83
     fileName: prologue_1_4
     description: "Wejd\u017A na skarp\u0119"
@@ -527,7 +537,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 481b873a-02b8-4881-9f8b-605f0494182b
-    position: {x: 1074, y: 8}
+    position: {x: 1234, y: 8}
   - id: 481b873a-02b8-4881-9f8b-605f0494182b
     fileName: prologue_1_5
     description: Wit umiera lol
@@ -536,7 +546,7 @@ MonoBehaviour:
     prefab: {fileID: 259076332279978945, guid: 92d8f7fb459806647816594620505307, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 1333, y: 8}
+    position: {x: 1468, y: 8}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -557,6 +567,7 @@ MonoBehaviour:
       - prologue_3_4
       - prologue_2_1
       - prologue_2_2
+      - prologue_1_0
       - prologue_1_1
       - prologue_1_2
       - prologue_1_3
