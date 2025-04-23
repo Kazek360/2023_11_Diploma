@@ -1,6 +1,8 @@
+using System.Collections;
 using Dialogues;
 using Quests;
 using Tutorials;
+using UI;
 using UnityEngine;
 
 public class RaceWithHryc : DialogueAreaQuestStep
@@ -18,6 +20,14 @@ public class RaceWithHryc : DialogueAreaQuestStep
         _raceFinished = false;
         _witFinished = false;
         _hrycFinished = false;
+    }
+
+    private IEnumerator Start()
+    {
+        while (!UserInterfaceManager.isInitialized)
+        {
+            yield return null;
+        }
         TutorialManager.Instance.TriggerTutorial(sprintTutorial);
         PathEvents.StartMovement();
     }
