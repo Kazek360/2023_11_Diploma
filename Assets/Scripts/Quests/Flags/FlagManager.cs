@@ -98,6 +98,11 @@ namespace Quests.Flags
         {
             foreach (var pair in flags)
             {
+                if (!_flagDictionary.ContainsKey(pair.Key))
+                {
+                    continue;
+                }
+                
                 _flagDictionary[pair.Key].flagName = pair.Value.flagName;
                 _flagDictionary[pair.Key].triggered = pair.Value.triggered;
                 SetVariableState(pair.Value.flagName, new BoolValue(pair.Value.triggered));
