@@ -17,7 +17,7 @@ public class ChapterIntroductionStep: BaseQuestStep
 
     protected override void OnDestroy()
     {
-        base.OnEnable();
+        base.OnDestroy();
         ChapterIntroduction.OnIntroductionFinish -= FinishStep;
     }
     
