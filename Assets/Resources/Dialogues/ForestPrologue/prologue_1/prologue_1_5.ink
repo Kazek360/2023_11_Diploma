@@ -2,7 +2,7 @@ INCLUDE ../../globals.ink
 -> Prologue_1_5
 
 == Prologue_1_5 ==
-#speaker:Wit #portrait:wit_surprised
+#background:death_1 #speaker:Wit #portrait:wit_surprised 
 Gdzie… gdzie ja jestem?
 
 #speaker:Wit #portrait:wit_surprised
@@ -11,7 +11,7 @@ Gdzie… gdzie ja jestem?
 #speaker:Wit #portrait:wit_surprised
 Jest tu kto...?
 
-#speaker:Wit #portrait:wit_surprised
+#background:death_2 #speaker:Wit #portrait:wit_surprised
 ...
 
 *[(Idź w stronę światła)]
@@ -28,7 +28,7 @@ Halo!? Gdzie jesteś!? Nie widzę cię!
 Podążaj za moim głosem.
 
 *[(Podążaj za tajemniczym głosem)]
-    #speaker:Wit #portrait:wit_surprised    
+    #background:death_3 #speaker:Wit #portrait:wit_surprised    
     …Boję się. Tu jest tak ciemno!
 
     #speaker:Tajemniczy głos #portrait:none
