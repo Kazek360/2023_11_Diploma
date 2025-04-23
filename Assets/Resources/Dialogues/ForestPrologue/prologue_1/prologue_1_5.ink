@@ -1,54 +1,37 @@
 INCLUDE ../../globals.ink
--> MainQuest1_5
+-> Prologue_1_5
 
-== MainQuest1_5 ==
+== Prologue_1_5 ==
 #speaker:Wit #portrait:wit_surprised
 Gdzie… gdzie ja jestem?
 
 #speaker:Wit #portrait:wit_surprised
-Halo?
+...Halo?
 
 #speaker:Wit #portrait:wit_surprised
-Jest tu kto?
+Jest tu kto...?
 
 #speaker:Wit #portrait:wit_surprised
-Ktokolwiek?
+...
 
 *[(Idź w stronę światła)]
-    #speaker:Tajemniczy głos w oddali #portrait:none
-    Nie idź w stronę światła.
-*[(Czekaj)]
-    #speaker: #portrait:none
-    (Nic się nie dzieje)
-    **[(Idź w stronę światła)]
-        #speaker:Tajemniczy głos w oddali #portrait:none
-        Nie idź w stronę światła.
-    **[Pomocy!]
-        #speaker:Tajemniczy głos w oddali #portrait:none
-        Słyszę cię.
+    #speaker:Tajemniczy głos #portrait:none
+    Stój! Nie idź w tamtą stronę!
 *[Pomocy!]
-    #speaker:Tajemniczy głos w oddali #portrait:none
+    #speaker:Tajemniczy głos #portrait:none
     Słyszę cię.
 -
 #speaker:Wit #portrait:wit_surprised    
-Halo? Jest tu kto?
+Halo!? Gdzie jesteś!? Nie widzę cię!
 
 #speaker:Tajemniczy głos #portrait:none
-Jestem. Idź w moją stronę
+Podążaj za moim głosem.
 
-#speaker:Wit #portrait:wit_surprised
-Kim jesteś?
+*[(Podążaj za tajemniczym głosem)]
+    #speaker:Wit #portrait:wit_surprised    
+    …Boję się. Tu jest tak ciemno!
 
-#speaker:Tajemniczy głos #portrait:none
-To nie jest teraz ważne. Masz coraz mniej czasu.
-Idź za moim głosem
-
-
-*[(Idź w stronę światła)]
-    #speaker:Tajemniczy głos w oddali #portrait:none
-        Powiedziałem nie idź w stronę światła.
-*[(Idź za tajemniczym głosem)]
-    #speaker:Tajemniczy głos w oddali #portrait:none
-        Chodź do mnie.
+    #speaker:Tajemniczy głos #portrait:none
+    Wiem, ale zaraz wszystko będzie dobrze, obiecuję.
 -
 ->END

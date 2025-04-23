@@ -61,7 +61,7 @@ namespace Dialogues.Trigger
         /// <summary>
         /// Metoda rozpoczynająca obecny dialog i zmieniająca jego stan
         /// </summary>
-        protected void StartDialogue()
+        public void StartDialogue()
         {
             DialogueEvent.StartDialogue(currentDialogue.info);
             

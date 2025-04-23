@@ -77,6 +77,15 @@ namespace Dialogues
                 entity.ChangeCurrentDialogue();
             }
         }
+        
+        /// <summary>
+        /// Metoda pozwalająca uruchomić dialog o określonej nazwie triggera
+        /// </summary>
+        /// <param name="triggerName">nazwa triggera, dla DialogueEntity </param>
+        public void TriggerDialogue(string triggerName)
+        {
+            _dialogueEntityDictionary[triggerName].StartDialogue();
+        }
 
         /// <summary>
         /// Metoda inicjalizująca obiekt EntityDialogue
