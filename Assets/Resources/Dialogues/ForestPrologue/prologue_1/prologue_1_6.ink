@@ -1,6 +1,6 @@
--> MainQuest2_1
+-> Prologue_1_6
 
-== MainQuest2_1 ==
+== Prologue_1_6 ==
 #speaker:Wit #portrait:wit_surprised
-Halo jest tu ktoś?
+Halo? Jest tu kto?
 ->END

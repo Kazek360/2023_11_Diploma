@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class DeathDialogue : DialogueQuestStep
 {
-    private GameObject _shoreToTeleport;
+    private GameObject _shorePoint;
     private GameObject _playerToTeleport;
     
     protected override void OnEnable()
     {
         base.OnEnable();
-        _shoreToTeleport = GameObject.Find("ShorePoint");
+        _shorePoint = GameObject.Find("ShorePoint");
         _playerToTeleport = GameObject.Find("Player");
     }
 
@@ -22,7 +22,7 @@ public class DeathDialogue : DialogueQuestStep
     {
         if (dialoguesInfo.name == dialogue.name)
         {
-            _playerToTeleport.gameObject.transform.position = _shoreToTeleport.transform.position;
+            _playerToTeleport.gameObject.transform.position = _shorePoint.transform.position;
             FinishAndDelete();
         } 
     }
