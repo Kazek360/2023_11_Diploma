@@ -1,7 +1,7 @@
 using Dialogues;
 using UnityEngine;
 
-public class DeathDialogue : DialogueQuestStep
+public class DeathDialogue : DialogueStep
 {
     private GameObject _shorePoint;
     private GameObject _playerToTeleport;

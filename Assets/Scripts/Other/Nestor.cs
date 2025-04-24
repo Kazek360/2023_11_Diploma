@@ -15,6 +15,7 @@ namespace Other
         
         [SerializeField] private string id;
         [SerializeField] private float disappearSpeed;
+        [SerializeField] private bool notVisibleOnStart;
         private SpriteRenderer _spriteRenderer;
         
         private void Awake()
@@ -34,9 +35,12 @@ namespace Other
 
         private void Start()
         {
-            var color = _spriteRenderer.color;
-            color.a = 0;
-            _spriteRenderer.color = color;
+            if (notVisibleOnStart)
+            {
+                var color = _spriteRenderer.color;
+                color.a = 0;
+                _spriteRenderer.color = color;
+            }
         }
 
         private void checkID(string nestorID, bool isAppearing)

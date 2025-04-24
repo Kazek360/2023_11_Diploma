@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AreaEnter : BaseQuestStep
+public class EnterAreaStep : BaseQuestStep
 {
     [SerializeField] protected string areaToEnterName;
     protected GameObject area;

@@ -2,7 +2,7 @@ using Dialogues;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DialogueSceneChange : DialogueQuestStep
+public class DialogueSceneChange : DialogueStep
 {
     [SerializeField] private int sceneNumber;
     

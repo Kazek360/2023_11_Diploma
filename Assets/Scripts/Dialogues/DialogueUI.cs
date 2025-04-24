@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Ink.Runtime;
 using InputSystem;
+using Other;
 using Quests;
 using UI;
 using UI.Interfaces;
@@ -131,6 +132,12 @@ namespace Dialogues
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
+            
+            if (_currentDialogue.doesNestorAppear)
+            {
+                Nestor.ChangeNestorState(_currentDialogue.nestorID, false);
+            }
+            
             DialogueEvent.FinishDialogue(_currentDialogue);
             if (_currentDialogue.questToStart != null)
             {

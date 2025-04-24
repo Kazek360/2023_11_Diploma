@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Quests.QuestSteps.DialogueQuestStep
 {
-    public class DialoguesQuestStep : BaseQuestStep
+    public class DialoguesStep : BaseQuestStep
     {
         [SerializeField] protected List<DialogueInfo> dialogues;
         protected int currentDialogueIndex;

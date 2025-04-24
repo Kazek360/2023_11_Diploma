@@ -50,12 +50,12 @@ namespace Dialogues
         {
             switch (dialogue.info.dialogueType)
             {
-                case DialogueInfo.Type.Repeatable:
+                case DialogueInfo.Type.Repeatable or DialogueInfo.Type.Unrepeatable:
                     return true;
                 case DialogueInfo.Type.QuestStarter:
                     return QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state ==
                            QuestState.CanStart;
-                case DialogueInfo.Type.QuestProgression:
+                case DialogueInfo.Type.SideQuest or DialogueInfo.Type.MainQuest:
                     return false;
             }
             return false;

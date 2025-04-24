@@ -5,7 +5,7 @@ using Tutorials;
 using UI;
 using UnityEngine;
 
-public class RaceWithHryc : DialogueAreaQuestStep
+public class RaceWithHryc : AreaDialogueStep
 {
     [SerializeField] private TutorialInfo sprintTutorial;
     [SerializeField] private TutorialInfo inventoryTutorial;
@@ -78,7 +78,6 @@ public class RaceWithHryc : DialogueAreaQuestStep
             }
             
             TutorialManager.Instance.TriggerTutorial(inventoryTutorial);
-            Destroy(area);
             FinishAndDelete();
         } 
     }

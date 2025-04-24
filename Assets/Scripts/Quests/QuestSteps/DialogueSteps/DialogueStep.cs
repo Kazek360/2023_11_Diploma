@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using Dialogues;
+using Other;
 
-public class DialogueQuestStep : BaseQuestStep
+public class DialogueStep : BaseQuestStep
 {
     [SerializeField] protected DialogueInfo dialoguesInfo;
+    
     protected override void OnEnable()
     {
         base.OnEnable();

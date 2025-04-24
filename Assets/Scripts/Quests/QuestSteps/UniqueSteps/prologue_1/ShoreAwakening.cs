@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
 {
-    public class ShoreAwakening : global::DialogueQuestStep
+    public class ShoreAwakening : global::DialogueStep
     {
         [SerializeField] protected string areaToEnterName;
 
@@ -14,7 +14,6 @@ namespace Quests.QuestSteps.UniqueSteps
         {
             base.OnEnable();
             AreaEvent.OnAreaEnter += DisappearNestor;
-            DialogueEvent.OnDialogueFinished += FinishStep;
             _area = GameObject.Find(areaToEnterName);
         }
 

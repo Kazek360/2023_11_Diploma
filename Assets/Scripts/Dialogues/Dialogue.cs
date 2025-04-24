@@ -25,8 +25,10 @@ namespace Dialogues
 
             _defaultPriority = info.dialogueType switch
             {
-                DialogueInfo.Type.QuestProgression => 3,
-                DialogueInfo.Type.QuestStarter => 2,
+                DialogueInfo.Type.MainQuest => 5, 
+                DialogueInfo.Type.SideQuest => 4,
+                DialogueInfo.Type.QuestStarter => 3,
+                DialogueInfo.Type.Unrepeatable => 2,
                 DialogueInfo.Type.Repeatable => 1,
                 _ => 1
             };

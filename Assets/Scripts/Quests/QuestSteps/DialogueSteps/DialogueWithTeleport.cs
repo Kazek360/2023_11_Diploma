@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Dialogues;
 
-public class DialogueWithTeleport : DialogueQuestStep
+public class DialogueWithTeleport : DialogueStep
 {
     [SerializeField] private List<string> objectToTeleportNames;
     private List<GameObject> objectsToTeleport = new List<GameObject>();

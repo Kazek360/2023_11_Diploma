@@ -30,7 +30,7 @@ namespace Quests
             ChooseFirstStep();
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
             _currentStep.InitializeQuestStep(this, _currentStepInfo);
-            if (_currentStepInfo.repeatAmount > 1)
+            if (_currentStepInfo.repeatAmount > 0)
             {
                 currentStepProgress = 0;
                 AddDescriptionWithProgress();
@@ -46,7 +46,7 @@ namespace Quests
             ChooseNextStep();
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
             _currentStep.InitializeQuestStep(this, _currentStepInfo);
-            if (_currentStepInfo.repeatAmount > 1)
+            if (_currentStepInfo.repeatAmount > 0)
             {
                 currentStepProgress = progress;
                 AddDescriptionWithProgress();
@@ -100,7 +100,7 @@ namespace Quests
             {
                 return;
             }
-            if (_currentStepInfo.repeatAmount > 1)
+            if (_currentStepInfo.repeatAmount > 0)
             {
                 stepsDescriptions.Add($"{_currentStepInfo.description} " +
                                       $"({_currentStepInfo.repeatAmount}/{_currentStepInfo.repeatAmount})");

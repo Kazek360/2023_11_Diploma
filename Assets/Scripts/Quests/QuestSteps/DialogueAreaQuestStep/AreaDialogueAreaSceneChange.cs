@@ -2,7 +2,7 @@ using UnityEngine;
 using Dialogues;
 using Location;
 
-public class DialogueAreaSceneChange : DialogueAreaQuestStep
+public class AreaDialogueAreaSceneChange : AreaDialogueStep
 {
     [SerializeField] private string sceneName;
     
