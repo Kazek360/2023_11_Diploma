@@ -29,6 +29,10 @@ namespace Dialogues.Trigger
         public override void ChangeCurrentDialogue()
         {
              base.ChangeCurrentDialogue();
+             if (questMarkerSprite == null)
+             {
+                 return;
+             }
              if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
              {
                  questMarkerSprite.SetActive(true);

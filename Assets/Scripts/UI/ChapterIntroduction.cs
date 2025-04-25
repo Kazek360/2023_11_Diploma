@@ -99,8 +99,15 @@ public class ChapterIntroduction : UserInterface
             }
         }
         yield return StartCoroutine(FadeOutUI());
+        EndIntroduction();
     }
 
+    private void EndIntroduction()
+    {
+        InvokeOnIntroductionFinish();
+        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
+    }
+    
     private IEnumerator FadeInText()
     {
         while (textCanvasGroup.alpha < 1)
@@ -126,6 +133,5 @@ public class ChapterIntroduction : UserInterface
             CanvasGroup.alpha -= textTransitionSpeed * Time.deltaTime;
             yield return null;
         }
-        InvokeOnIntroductionFinish();
     }
 }

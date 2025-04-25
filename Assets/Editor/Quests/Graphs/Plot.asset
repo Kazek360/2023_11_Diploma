@@ -16,10 +16,10 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -310.99994, y: -810.99994}
+    position: {x: -310.99997, y: -811.00006}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: Chapter 1
-    position: {x: 1921, y: -802.99994}
+    position: {x: 1921, y: -803}
   - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
     name: A1S1 - Ale jaja!
     position: {x: 1724, y: 500}
@@ -569,8 +569,18 @@ MonoBehaviour:
     repeatAmount: 0
     prefab: {fileID: 3790966382433847377, guid: 33627fb81216170449ec2167d41633b8, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes: []
+    connectedNodes:
+    - d294dac7-8739-4697-9264-0a9ea2e8a860
     position: {x: 684, y: -48}
+  - id: d294dac7-8739-4697-9264-0a9ea2e8a860
+    fileName: prologue_3_5
+    description: "Wr\xF3\u0107 do swojego pokoju"
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 6803078109182570621, guid: 8b1631fcec9c73441a38ae5f8b036800, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes: []
+    position: {x: 911, y: -48}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -640,6 +650,7 @@ MonoBehaviour:
       - prologue_3_2
       - prologue_3_3
       - prologue_3_4
+      - prologue_3_5
       - prologue
     - Key: Chapter 1
       Value:
