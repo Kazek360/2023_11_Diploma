@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Quests.QuestSteps;
 using Quests.ScriptableObjects;
 using UnityEngine;
 using Object = UnityEngine.Object;

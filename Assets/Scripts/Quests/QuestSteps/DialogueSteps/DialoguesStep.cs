@@ -1,10 +1,9 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Dialogues;
 using UnityEngine;
 
-namespace Quests.QuestSteps.DialogueQuestStep
+namespace Quests.QuestSteps.DialogueSteps
 {
     public class DialoguesStep : BaseQuestStep
     {
