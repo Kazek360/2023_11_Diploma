@@ -1,76 +1,46 @@
 INCLUDE ../../globals.ink
 
-{ hryc_race_reward:
-        ->RaceWithReward
-    - else:
-        ->RaceWithoutReward
-}
+-> Prologue_1_1
 
-== RaceWithoutReward ==
-{ hryc_race_win: ->WitWinsSat | ->HrycWinsSat}
-
-== RaceWithReward ==
-{ hryc_race_win: ->WitWinsReward | ->HrycWinsReward}
-
-== WitWinsSat ==
-#speaker:Wit #portrait:wit_smirk
-Ha! I kto tu jest szybszy?
-
+=== Prologue_1_1 ===
 #speaker:Hryc #portrait:hryc_neutral
-Tym razem ci się udało…
-
-#speaker:Hryc #portrait:hryc_neutral
-…ale to tylko dlatego że nie byłem dostatecznie przygotowany.
+No, nareszcie jesteś Witek! Już zacząłem się zastanawiać, czy nie stchórzyłeś!
 
 #speaker:Wit #portrait:wit_smirk
-Po prostu przyznaj, że jestem od ciebie lepszy.
+Ja? Stchórzyć? W życiu!  
 
-#speaker:Hryc #portrait:hryc_neutral
-Wolałbym czyścić oborę.
-
--> END
-
-== WitWinsReward ==
 #speaker:Wit #portrait:wit_smirk
-Chyba twoja proca ma nowego właściciela. Nie martw się, dobrze się nią zaopiekuję.
+Pomagałem przenosić batiuszce Aleksandrowi skrzynię z zakrystii.
 
 #speaker:Hryc #portrait:hryc_neutral
-Jak ją połamiesz to... to...
-
-#speaker:Wit #portrait:wit_fun
-To co?
-
-#speaker:Hryc #portrait:hryc_neutral
-To jajco. Masz jej pilnować.
-
--> END
-
-== HrycWinsSat ==
-#speaker:Hryc #portrait:hryc_neutral
-Wygrałem! Mówiłem ci, że nikt mnie nie prześcignie!
-
-*[Dobra, dobra. To dlatego że wcześniej się nadźwigałem.]
-    
-    #speaker:Wit #portrait:wit_smirk
-    Gdybym był wypoczęty, to bym cię pokonał z palcem w nosie.
-
-    #speaker:Hryc #portrait:hryc_neutral
-    Widzisz? Jednak dobra drzemka to klucz do zwycięstwa.
-
-*[*Milcz*]
-    #speaker:Hryc #portrait:hryc_neutral
-    Co, zatkało kakao? Widzisz, jednak dobra drzemka to klucz do zwycięstwa.
--
--> END
-
-== HrycWinsReward ==
-#speaker:Hryc #portrait:hryc_neutral
-Wygrałem! Oddawaj scyzoryk!
+Nudyyy!
 
 #speaker:Wit #portrait:wit_angry
-Pofarciło ci się i tyle. Gdybym był wypoczęty, to bym cię pokonał z palcem w nosie.
+Ja przynajmniej coś robię, a nie lenię się cały dzień na pastwisku.
 
 #speaker:Hryc #portrait:hryc_neutral
-Widzisz? Jednak dobra drzemka to klucz do zwycięstwa.
+Ja się nie leniłem, tylko zbierałem energię na wyścig…
+
+#speaker:Wit #portrait:wit_angry
+Zobaczymy w takim razie, czy to “zbieranie energii” ci teraz pomoże.
+
+#speaker:Hryc #portrait:hryc_neutral
+Ciekawe czy w bieganiu się jesteś tak samo dobry, co w docinkach. O co się zakładamy?
+
+* [O przekonanie, zobaczymy kto jest lepszy!]
+    #speaker:Hryc #portrait:hryc_neutral
+    Oczywiście że to ja jestem lepszy! Przygotuj się na przegraną!
+    
+* [Jak wygram, oddasz mi swoją procę.]
+    #speaker:Hryc #portrait:hryc_neutral
+    Zgoda. Ale jeśli ja wygram to zabieram twój scyzoryk!
+    ~hryc_race_reward = true
+- 
+
+#speaker:Hryc #portrait:hryc_neutral
+Ścigamy się do wielkiego dębu. Kto pierwszy dotknie konarów - ten zwycięża. Gotowy?
+
+#speaker:Hryc #portrait:hryc_neutral
+3… 2… 1… START!
 
 -> END

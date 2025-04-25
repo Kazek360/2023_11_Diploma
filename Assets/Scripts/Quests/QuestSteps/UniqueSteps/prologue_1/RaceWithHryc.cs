@@ -24,7 +24,7 @@ namespace Quests.QuestSteps.UniqueSteps
             _hrycFinished = false;
         }
 
-        private IEnumerator Start()
+        private new IEnumerator Start()
         {
             while (!UserInterfaceManager.isInitialized)
             {
@@ -68,7 +68,7 @@ namespace Quests.QuestSteps.UniqueSteps
 
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward"))
                 {

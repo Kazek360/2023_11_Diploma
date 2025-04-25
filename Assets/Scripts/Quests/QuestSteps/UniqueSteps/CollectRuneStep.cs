@@ -30,7 +30,7 @@ namespace Quests.QuestSteps.UniqueSteps
 
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 FinishAndDelete();
             } 

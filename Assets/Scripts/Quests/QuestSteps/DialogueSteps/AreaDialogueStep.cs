@@ -22,13 +22,13 @@ namespace Quests.QuestSteps.DialogueSteps
         {
             if (areaName.Equals(areaToEnterName))
             {
-                DialogueManager.Instance.TriggerDialogue(dialoguesInfo.triggerName);
+                DialogueManager.Instance.TriggerDialogue(dialogueInfo.triggerName);
             }
         }
     
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 FinishAndDelete();
             } 

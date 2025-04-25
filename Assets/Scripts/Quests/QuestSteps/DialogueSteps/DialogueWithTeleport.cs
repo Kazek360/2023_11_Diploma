@@ -24,7 +24,7 @@ namespace Quests.QuestSteps.DialogueSteps
     
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 for (var i = 0; i < objectToTeleportNames.Count; i++)
                 {

@@ -16,39 +16,26 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -57.000008, y: -1247.0001}
+    position: {x: -310.99994, y: -810.99994}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
-    name: A1M1 - Zapomniany obiad
-    position: {x: 1953.0001, y: -785.0001}
+    name: Chapter 1
+    position: {x: 1921, y: -802.99994}
   - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
     name: A1S1 - Ale jaja!
-    position: {x: 1724.0001, y: 499.99994}
+    position: {x: 1724, y: 500}
   - id: 0b7c4997-bb77-4737-9c31-1eb34415116f
     name: A1S2 - Zaginiona chusta
-    position: {x: 3182.0005, y: 497}
+    position: {x: 3182, y: 497}
   - id: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
     name: "A1S4 - Pierwsza zagadka Stanis\u0142awa"
-    position: {x: 4241.001, y: 501.99997}
+    position: {x: 4241, y: 502}
   - id: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
     name: "A1M2 - K\u0142opoty w m\u0142ynie"
-    position: {x: 2861.0005, y: -791.00006}
+    position: {x: 2861, y: -791}
   - id: f0b5d102-b305-4ec6-baee-8943891f2e79
     name: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
-    position: {x: 6278.0005, y: -803.00006}
+    position: {x: 6278, y: -803}
   questNodes:
-  - id: 33239c93-5981-49e2-af00-4a2e1242110a
-    fileName: A1M1
-    displayName: Zapomniany obiad
-    category: 0
-    description: "Trzeba zanie\u015B\u0107 ojcu obiad"
-    experience: 400
-    rewards: []
-    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
-    connectedQuestNodes:
-    - 768aea72-b424-4ec4-a203-df493aa79491
-    connectedQuestStepNodes:
-    - 97f53155-3df9-4142-9a16-61188555ff1e
-    position: {x: 1978, y: -726}
   - id: 768aea72-b424-4ec4-a203-df493aa79491
     fileName: A1M2
     displayName: "K\u0142opoty w m\u0142ynie"
@@ -109,6 +96,18 @@ MonoBehaviour:
     connectedQuestNodes: []
     connectedQuestStepNodes: []
     position: {x: 6303, y: -744}
+  - id: 33239c93-5981-49e2-af00-4a2e1242110a
+    fileName: chapter1_1
+    displayName: "M\u0142yn"
+    category: 0
+    description: "Jaki\u015B opis lol"
+    experience: 400
+    rewards: []
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedQuestNodes: []
+    connectedQuestStepNodes:
+    - 97f53155-3df9-4142-9a16-61188555ff1e
+    position: {x: 1946, y: -744}
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue
     displayName: "Wielki wy\u015Bcig Hryca"
@@ -118,44 +117,13 @@ MonoBehaviour:
     experience: 1001
     rewards: []
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedQuestNodes: []
-    connectedQuestStepNodes:
-    - b270203a-8c4b-4d05-9703-8731ccc0cb75
-    position: {x: -32, y: -752}
-  - id: 65983f5f-7ecb-400b-b7e5-db805008bb3a
-    fileName: prologue_3
-    displayName: "Wsz\u0119dzie dobrze, ale..."
-    category: 0
-    description: "Obudzi\u0142em si\u0119 w domu po tygodniu"
-    experience: 1001
-    rewards: []
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedQuestNodes:
     - 33239c93-5981-49e2-af00-4a2e1242110a
     connectedQuestStepNodes:
-    - 41edfb87-b79a-4866-9c1b-3037aa05f3d9
-    position: {x: 911, y: -1188}
+    - b270203a-8c4b-4d05-9703-8731ccc0cb75
+    position: {x: -286, y: -752}
   questTransitionNodes: []
   questStepNodes:
-  - id: 97f53155-3df9-4142-9a16-61188555ff1e
-    fileName: A1M1 - Step 1
-    description: "Porozmawiaj z matk\u0105"
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 0}
-    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
-    connectedNodes:
-    - ac47317d-d184-4c84-b855-e7088db31b6e
-    position: {x: 2303, y: -598}
-  - id: ac47317d-d184-4c84-b855-e7088db31b6e
-    fileName: A1M1 - Step 2
-    description: "Zanie\u015B ojcu obiad"
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 0}
-    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
-    connectedNodes: []
-    position: {x: 2570, y: -598}
   - id: 5ae4b6bf-1b10-4a44-98f9-34ed1effa23d
     fileName: A1M2 - Step 1
     description: Porozmawiaj z ojcem
@@ -415,18 +383,8 @@ MonoBehaviour:
     connectedNodes:
     - d5c997fc-29f1-4429-8238-040d57601c33
     position: {x: 2597, y: 1086}
-  - id: b270203a-8c4b-4d05-9703-8731ccc0cb75
-    fileName: prologue_1_0
-    description: Chapter Introduction
-    isHidden: 1
-    repeatAmount: 0
-    prefab: {fileID: 7677879442404341218, guid: 76b6b7d634b08d242b4f5b967faed9a2, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes:
-    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    position: {x: 229, y: -674}
   - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    fileName: prologue_1_1
+    fileName: prologue_1_2
     description: Porozmawiaj z Hrycem
     isHidden: 0
     repeatAmount: 0
@@ -436,7 +394,7 @@ MonoBehaviour:
     - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
     position: {x: 456, y: -674}
   - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    fileName: prologue_1_2
+    fileName: prologue_1_3
     description: "\u015Acigaj si\u0119 do wielkiego d\u0119bu"
     isHidden: 0
     repeatAmount: 0
@@ -445,27 +403,8 @@ MonoBehaviour:
     connectedNodes:
     - c6aeac92-f201-4a7d-b656-bc6388ac54e5
     position: {x: 679, y: -674}
-  - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
-    fileName: prologue_3_1
-    description: pokonaj wilki
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 7912081645214201283, guid: 12bed1be43c5258449a8db43b4b131e8, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes:
-    - 47bffa49-a738-4e30-91f2-6935224ff4fa
-    position: {x: 1234, y: -1030}
-  - id: 66d9d239-2051-4144-9ba7-b6261d951a49
-    fileName: prologue_3_4
-    description: XD
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 3790966382433847377, guid: 33627fb81216170449ec2167d41633b8, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes: []
-    position: {x: 1432, y: -1004}
   - id: c6aeac92-f201-4a7d-b656-bc6388ac54e5
-    fileName: prologue_1_3
+    fileName: prologue_1_4
     description: " Pod\u0105\u017Caj \u015Bcie\u017Ck\u0105 do wioski"
     isHidden: 0
     repeatAmount: 0
@@ -475,7 +414,7 @@ MonoBehaviour:
     - a02b0fda-dc1e-46fc-bbc1-e2d880372c83
     position: {x: 911, y: -674}
   - id: a02b0fda-dc1e-46fc-bbc1-e2d880372c83
-    fileName: prologue_1_4
+    fileName: prologue_1_5
     description: "Wejd\u017A na skarp\u0119"
     isHidden: 0
     repeatAmount: 0
@@ -485,7 +424,7 @@ MonoBehaviour:
     - 481b873a-02b8-4881-9f8b-605f0494182b
     position: {x: 1135, y: -674}
   - id: 481b873a-02b8-4881-9f8b-605f0494182b
-    fileName: prologue_1_5
+    fileName: prologue_1_6
     description: Wit umiera lol
     isHidden: 1
     repeatAmount: 0
@@ -494,8 +433,27 @@ MonoBehaviour:
     connectedNodes:
     - dba1bad0-0a05-42c6-a4ea-ec57d17abf25
     position: {x: 1369, y: -674}
+  - id: ac47317d-d184-4c84-b855-e7088db31b6e
+    fileName: chapter1_1_1
+    description: TO BE CONTINUED
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: d15ade05b4606e043b7ffe6c531ec642, type: 3}
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedNodes: []
+    position: {x: 2448, y: -665}
+  - id: 97f53155-3df9-4142-9a16-61188555ff1e
+    fileName: chapter1_1_0
+    description: "co\u015B si\u0119 ko\u0144czy co\u015B zaczyna"
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: f2adf2dd227187a4a9574258ab95a34b, type: 3}
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedNodes:
+    - ac47317d-d184-4c84-b855-e7088db31b6e
+    position: {x: 2228, y: -665}
   - id: dba1bad0-0a05-42c6-a4ea-ec57d17abf25
-    fileName: prologue_1_6
+    fileName: prologue_1_7
     description: "Rozejrzyj si\u0119"
     isHidden: 0
     repeatAmount: 0
@@ -504,26 +462,26 @@ MonoBehaviour:
     connectedNodes:
     - 8e388794-d88a-4937-b2e0-512c5c28482d
     position: {x: 1596, y: -674}
-  - id: 085b9d11-c734-4de7-81ad-1e63ab09c1d8
-    fileName: prologue_3_3
-    description: "Niemi\u0142o"
-    isHidden: 0
+  - id: 6b5a11f6-7cef-4f21-98ae-975ff9ec18fb
+    fileName: prologue_1_1
+    description: pierwszy tutorial
+    isHidden: 1
     repeatAmount: 0
-    prefab: {fileID: 6803078109182570621, guid: c72baa6f89a930947bc53defc92647d3, type: 3}
+    prefab: {fileID: 7677879442404341218, guid: 6019eee20e0662c4db1d2381aae06e43, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
-    - 66d9d239-2051-4144-9ba7-b6261d951a49
-    position: {x: 1630, y: -1143}
-  - id: 47bffa49-a738-4e30-91f2-6935224ff4fa
-    fileName: prologue_3_2
-    description: "B\u0119dzie"
-    isHidden: 0
+    - 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    position: {x: 229, y: -674}
+  - id: b270203a-8c4b-4d05-9703-8731ccc0cb75
+    fileName: prologue_1_0
+    description: Chapter Introduction
+    isHidden: 1
     repeatAmount: 0
-    prefab: {fileID: 8178385393421544207, guid: fb079c2bf91c45e4e9a2bdf7414db9c4, type: 3}
+    prefab: {fileID: 7677879442404341218, guid: 76b6b7d634b08d242b4f5b967faed9a2, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
-    - 085b9d11-c734-4de7-81ad-1e63ab09c1d8
-    position: {x: 1531, y: -1143}
+    - 6b5a11f6-7cef-4f21-98ae-975ff9ec18fb
+    position: {x: 6, y: -674}
   - id: 8e388794-d88a-4937-b2e0-512c5c28482d
     fileName: prologue_2_1
     description: "Podnie\u015B \u015Bmiecide\u0142ko"
@@ -533,7 +491,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 1e9e762e-0126-475b-9aec-44d6a9fe2002
-    position: {x: 229, y: -358}
+    position: {x: 6, y: -358}
   - id: 1e9e762e-0126-475b-9aec-44d6a9fe2002
     fileName: prologue_2_2
     description: "Znajd\u017A wyj\u015Bcie z lasu"
@@ -543,7 +501,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 9f125d79-469b-480f-9b3f-754e1bbffcdb
-    position: {x: 456, y: -358}
+    position: {x: 229, y: -358}
   - id: 9f125d79-469b-480f-9b3f-754e1bbffcdb
     fileName: prologue_2_3
     description: "Id\u017A do wilk\xF3w XD"
@@ -553,7 +511,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 72797578-2f4a-4b10-aba5-60abb45d6c73
-    position: {x: 684, y: -358}
+    position: {x: 456, y: -358}
   - id: 72797578-2f4a-4b10-aba5-60abb45d6c73
     fileName: prologue_2_4
     description: "Staw czo\u0142a wilkom"
@@ -563,7 +521,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 40e25a67-76ff-4479-b37d-4417150b821f
-    position: {x: 911, y: -358}
+    position: {x: 684, y: -358}
   - id: 40e25a67-76ff-4479-b37d-4417150b821f
     fileName: prologue_2_5
     description: "Tepnij si\u0119 do domu :P"
@@ -571,12 +529,52 @@ MonoBehaviour:
     repeatAmount: 0
     prefab: {fileID: 3329530440797315691, guid: a7e4687493095034db6c21d120a16b3b, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 41edfb87-b79a-4866-9c1b-3037aa05f3d9
+    position: {x: 911, y: -358}
+  - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
+    fileName: prologue_3_1
+    description: ARISE
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 7912081645214201283, guid: 12bed1be43c5258449a8db43b4b131e8, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 47bffa49-a738-4e30-91f2-6935224ff4fa
+    position: {x: 6, y: -48}
+  - id: 47bffa49-a738-4e30-91f2-6935224ff4fa
+    fileName: prologue_3_2
+    description: "Porozmawiaj z mam\u0105"
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 8178385393421544207, guid: fb079c2bf91c45e4e9a2bdf7414db9c4, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 085b9d11-c734-4de7-81ad-1e63ab09c1d8
+    position: {x: 229, y: -48}
+  - id: 085b9d11-c734-4de7-81ad-1e63ab09c1d8
+    fileName: prologue_3_3
+    description: Teleport behind you
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 6803078109182570621, guid: c72baa6f89a930947bc53defc92647d3, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 66d9d239-2051-4144-9ba7-b6261d951a49
+    position: {x: 456, y: -48}
+  - id: 66d9d239-2051-4144-9ba7-b6261d951a49
+    fileName: prologue_3_4
+    description: part 2
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 3790966382433847377, guid: 33627fb81216170449ec2167d41633b8, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 1135, y: -358}
+    position: {x: 684, y: -48}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
-  - A1M1 - Zapomniany obiad
+  - Chapter 1
   - A1S1 - Ale jaja!
   - A1S2 - Zaginiona chusta
   - "A1S4 - Pierwsza zagadka Stanis\u0142awa"
@@ -585,11 +583,6 @@ MonoBehaviour:
   oldUngroupedNodeNames: []
   oldGroupedNodeNames:
     list:
-    - Key: A1M1 - Zapomniany obiad
-      Value:
-      - A1M1 - Step 1
-      - A1M1 - Step 2
-      - A1M1
     - Key: "A1M2 - K\u0142opoty w m\u0142ynie"
       Value:
       - A1M2 - Step 1
@@ -630,24 +623,29 @@ MonoBehaviour:
       - A1S4
     - Key: Prologue
       Value:
-      - prologue_1_0
-      - prologue_1_1
       - prologue_1_2
-      - prologue_3_1
-      - prologue_3_4
       - prologue_1_3
       - prologue_1_4
       - prologue_1_5
       - prologue_1_6
-      - prologue_3_3
-      - prologue_3_2
+      - prologue_1_7
+      - prologue_1_1
+      - prologue_1_0
       - prologue_2_1
       - prologue_2_2
       - prologue_2_3
       - prologue_2_4
       - prologue_2_5
+      - prologue_3_1
+      - prologue_3_2
+      - prologue_3_3
+      - prologue_3_4
       - prologue
-      - prologue_3
+    - Key: Chapter 1
+      Value:
+      - chapter1_1_1
+      - chapter1_1_0
+      - chapter1_1
     - Key: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
       Value:
       - A1M3

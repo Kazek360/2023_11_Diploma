@@ -6,7 +6,7 @@ namespace Quests.QuestSteps.DialogueSteps
 {
     public class DialogueStep : BaseQuestStep
     {
-        [SerializeField] protected DialogueInfo dialoguesInfo;
+        [SerializeField] protected DialogueInfo dialogueInfo;
     
         protected override void OnEnable()
         {
@@ -14,13 +14,13 @@ namespace Quests.QuestSteps.DialogueSteps
             DialogueEvent.OnDialogueFinished += FinishStep;
         }
 
-        private IEnumerator Start()
+        protected virtual IEnumerator Start()
         {
             while (!DialogueManager.isInitialized)
             {
                 yield return null;
             }
-            DialogueEvent.UnlockDialogue(dialoguesInfo.triggerName, dialoguesInfo.name);
+            DialogueEvent.UnlockDialogue(dialogueInfo.triggerName, dialogueInfo.name);
         }
 
         protected override void OnDestroy()
@@ -31,7 +31,7 @@ namespace Quests.QuestSteps.DialogueSteps
 
         protected virtual void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 FinishAndDelete();
             } 

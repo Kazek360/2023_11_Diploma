@@ -1,4 +1,5 @@
-﻿using Dialogues;
+﻿using System.Collections;
+using Dialogues;
 using Other;
 using Quests.QuestSteps.DialogueSteps;
 using UnityEngine;
@@ -24,8 +25,9 @@ namespace Quests.QuestSteps.UniqueSteps
             AreaEvent.OnAreaEnter -= DisappearNestor;
         }
 
-        private void Start()
+        protected override IEnumerator Start()
         {
+            yield return base.Start();
             Nestor.ChangeNestorState("shore", true);
         }
         
@@ -41,7 +43,7 @@ namespace Quests.QuestSteps.UniqueSteps
 
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 FinishAndDelete();
             } 

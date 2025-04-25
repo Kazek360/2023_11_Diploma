@@ -133,7 +133,7 @@ namespace Dialogues
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             
-            if (_currentDialogue.doesNestorAppear)
+            if (_currentDialogue.doesNestorDisappear)
             {
                 Nestor.ChangeNestorState(_currentDialogue.nestorID, false);
             }

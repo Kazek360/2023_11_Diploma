@@ -19,8 +19,7 @@ namespace Quests.QuestSteps.AreaSteps
             base.OnDestroy();
             AreaEvent.OnAreaEnter -= FinishStep;
         }
-
-
+        
         protected virtual void FinishStep(string areaName, string objectName)
         {
             if (areaName.Equals(areaToEnterName))

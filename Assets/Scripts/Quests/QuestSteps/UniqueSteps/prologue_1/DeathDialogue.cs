@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
 {
-    public class DeathDialogue : DialogueStep
+    public class DeathDialogue : DialogueOnStartStep
     {
         private GameObject _shorePoint;
         private GameObject _playerToTeleport;
@@ -15,15 +15,10 @@ namespace Quests.QuestSteps.UniqueSteps
             _shorePoint = GameObject.Find("ShorePoint");
             _playerToTeleport = GameObject.Find("Player");
         }
-
-        private void Start()
-        {
-            DialogueManager.Instance.TriggerDialogue("DeathPrologue");
-        }
     
         protected override void FinishStep(DialogueInfo dialogue)
         {
-            if (dialoguesInfo.name == dialogue.name)
+            if (dialogueInfo.name == dialogue.name)
             {
                 _playerToTeleport.gameObject.transform.position = _shorePoint.transform.position;
                 FinishAndDelete();

@@ -27,6 +27,7 @@ namespace Dialogues
         
         [Header("Nestor")] 
         [SerializeField] public bool doesNestorAppear;
+        [SerializeField] public bool doesNestorDisappear;
         [SerializeField] public string nestorID;
     
         [Header("Dialogues Text")]
