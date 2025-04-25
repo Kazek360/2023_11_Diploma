@@ -16,22 +16,22 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -51.00006, y: -785.00006}
+    position: {x: -50.999992, y: -785}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: A1M1 - Zapomniany obiad
-    position: {x: 1953, y: -785}
+    position: {x: 1952.9999, y: -785}
   - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
     name: A1S1 - Ale jaja!
-    position: {x: 1724, y: 500}
+    position: {x: 1724, y: 500.00006}
   - id: 0b7c4997-bb77-4737-9c31-1eb34415116f
     name: A1S2 - Zaginiona chusta
-    position: {x: 3182, y: 497}
+    position: {x: 3181.9998, y: 497.00015}
   - id: fd315a4f-d0af-4f9f-80f7-31e0ad8de567
     name: "A1S4 - Pierwsza zagadka Stanis\u0142awa"
-    position: {x: 4241, y: 502}
+    position: {x: 4241, y: 502.00012}
   - id: 2840418a-7eb9-4cb0-bd73-1d4fbeab059e
     name: "A1M2 - K\u0142opoty w m\u0142ynie"
-    position: {x: 2861, y: -791}
+    position: {x: 2860.9998, y: -791}
   - id: f0b5d102-b305-4ec6-baee-8943891f2e79
     name: "A1M3 - Rycerze z orlimi skrzyd\u0142ami"
     position: {x: 6278, y: -803}
@@ -574,8 +574,18 @@ MonoBehaviour:
     repeatAmount: 0
     prefab: {fileID: 3329530440797315691, guid: cf30162cf4ce99b44bf3c802644145e3, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 40e25a67-76ff-4479-b37d-4417150b821f
+    position: {x: 1234, y: -295}
+  - id: 40e25a67-76ff-4479-b37d-4417150b821f
+    fileName: prologue_2_5
+    description: "Tepnij si\u0119 do domu :P"
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 3329530440797315691, guid: a7e4687493095034db6c21d120a16b3b, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 1250, y: -295}
+    position: {x: 1468, y: -295}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -605,6 +615,7 @@ MonoBehaviour:
       - prologue_1_0
       - prologue_2_3
       - prologue_2_4
+      - prologue_2_5
       - prologue_2
       - prologue_3
       - prologue_1
