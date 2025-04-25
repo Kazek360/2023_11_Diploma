@@ -1,7 +1,7 @@
 using Cutscenes;
 using UnityEngine;
 
-public class AreaCutsceneStep : BaseQuestStep
+public class EnterAreaWithCutsceneStep : BaseQuestStep
 {
     [SerializeField] protected string areaToEnterName;
     private GameObject _area;
