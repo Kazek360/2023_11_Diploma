@@ -1,4 +1,5 @@
 ﻿using Location;
+using Other;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ namespace UI.Interfaces
     {
         public override UserInterfaceState State => UserInterfaceState.GameStart;
         
+        [SerializeField] private FadeInOut fadeInOut;
         [SerializeField] private Button continueButton;
         [SerializeField] private string startScene;
         
@@ -25,7 +27,7 @@ namespace UI.Interfaces
             GameConfig.abilityLibrary.Load();
             PlayerStats.GetInstance().Load();
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.NewGame;
-            SceneLoader.InvokeOnSceneChanged(startScene);
+            fadeInOut.StartFadeInOut(() => SceneLoader.InvokeOnSceneChanged(startScene));
         }
         
         public void OnContinueClicked()

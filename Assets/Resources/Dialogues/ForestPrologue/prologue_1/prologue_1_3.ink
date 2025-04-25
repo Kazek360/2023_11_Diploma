@@ -1,114 +1,76 @@
 INCLUDE ../../globals.ink
 
-{ hryc_race_reward_knife or hryc_race_reward_slingshot:
-    { hryc_race_reward_knife:
-        ->KnifeWin
-    }
-    { hryc_race_reward_slingshot:
-        ->SlingWin
-    }
+{ hryc_race_reward:
+        ->RaceWithReward
     - else:
-        ->SatWin
+        ->RaceWithoutReward
 }
 
-== SatWin ==
-{ hryc_race_winner_player: ->WitWinsSat | ->HrycWinsSat}
+== RaceWithoutReward ==
+{ hryc_race_win: ->WitWinsSat | ->HrycWinsSat}
 
-== KnifeWin ==
-{ hryc_race_winner_player: ->WitWinsKnife | ->HrycWinsKnife}
-
-== SlingWin ==
-{ hryc_race_winner_player: ->WitWinsSling | ->HrycWinsSling}
+== RaceWithReward ==
+{ hryc_race_win: ->WitWinsReward | ->HrycWinsReward}
 
 == WitWinsSat ==
 #speaker:Wit #portrait:wit_smirk
-Ha. I kto tu jest lepszy?
+Ha! I kto tu jest szybszy?
 
 #speaker:Hryc #portrait:hryc_neutral
 Tym razem ci się udało…
 
 #speaker:Hryc #portrait:hryc_neutral
-…ale to tylko dlatego że nie byłem przygotowany.
+…ale to tylko dlatego że nie byłem dostatecznie przygotowany.
 
 #speaker:Wit #portrait:wit_smirk
-Po prostu przyznaj że jestem lepszy.
+Po prostu przyznaj, że jestem od ciebie lepszy.
 
 #speaker:Hryc #portrait:hryc_neutral
 Wolałbym czyścić oborę.
 
-#speaker:Hryc #portrait:hryc_neutral
-Następnym razem mi się uda.
 -> END
 
-== WitWinsKnife ==
+== WitWinsReward ==
 #speaker:Wit #portrait:wit_smirk
-Wygląda na to że nożyk dalej zostanie w mojej kieszeni
+Chyba twoja proca ma nowego właściciela. Nie martw się, dobrze się nią zaopiekuję.
 
 #speaker:Hryc #portrait:hryc_neutral
-Za którymś razem mi się uda i go w końcu odzyskam.
+Jak ją połamiesz to... to...
 
 #speaker:Wit #portrait:wit_fun
-Chyba śnisz…
+To co?
 
 #speaker:Hryc #portrait:hryc_neutral
-Jeszcze zobaczymy
--> END
+To jajco. Masz jej pilnować.
 
-== WitWinsSling ==
-#speaker:Wit #portrait:wit_smirk
-Wygrałem! Oddawaj proce.
-
-#speaker:Hryc #portrait:hryc_neutral
-Tym razem miałeś szczęście.
-
-#speaker:Hryc #portrait:hryc_neutral
-Następnym razem mi się uda.
 -> END
 
 == HrycWinsSat ==
 #speaker:Hryc #portrait:hryc_neutral
-Widzisz? I kto teraz jest lepszy?
+Wygrałem! Mówiłem ci, że nikt mnie nie prześcignie!
 
-*[Przyznaj, że Hryc jest lepszy]
-    #speaker:Wit #portrait:wit_surprised
-    Dobra, wygrałeś.
+*[Dobra, dobra. To dlatego że wcześniej się nadźwigałem.]
     
     #speaker:Wit #portrait:wit_smirk
-    Następnym razem mi się uda
+    Gdybym był wypoczęty, to bym cię pokonał z palcem w nosie.
 
     #speaker:Hryc #portrait:hryc_neutral
-    Widzisz? To nie było takie trudne.
+    Widzisz? Jednak dobra drzemka to klucz do zwycięstwa.
 
+*[*Milcz*]
     #speaker:Hryc #portrait:hryc_neutral
-    Jestem zwyczajnie lepszy od ciebie.
-
-*[Milcz]
-    #speaker:Hryc #portrait:hryc_neutral
-    Nic nie mówisz, bo wiesz że przegrałeś.
+    Co, zatkało kakao? Widzisz, jednak dobra drzemka to klucz do zwycięstwa.
 -
 -> END
 
-== HrycWinsKnife ==
+== HrycWinsReward ==
 #speaker:Hryc #portrait:hryc_neutral
-(Wyciąga rękę. Na twarzy ma drwiący uśmieszek)
+Wygrałem! Oddawaj scyzoryk!
 
 #speaker:Wit #portrait:wit_angry
-Masz. I tak zamierzałem ci go jutro oddać.
--> END
-
-== HrycWinsSling ==
-#speaker:Hryc #portrait:hryc_neutral
-Chyba twoja proca zostanie u mnie. Nie martw się, dobrze się nią zaopiekuję.
-
-#speaker:Wit #portrait:wit_angry
-Jak ją połamiesz to, to...
+Pofarciło ci się i tyle. Gdybym był wypoczęty, to bym cię pokonał z palcem w nosie.
 
 #speaker:Hryc #portrait:hryc_neutral
-To co?
+Widzisz? Jednak dobra drzemka to klucz do zwycięstwa.
 
-#speaker:Wit #portrait:wit_angry
-To jajco. Masz jej pilnować.
-
-#speaker:Hryc #portrait:hryc_neutral
-A myślisz, że co ja robię.
 -> END

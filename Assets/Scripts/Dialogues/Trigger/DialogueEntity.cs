@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Other;
 using UnityEngine;
 
 namespace Dialogues.Trigger
@@ -61,8 +62,13 @@ namespace Dialogues.Trigger
         /// <summary>
         /// Metoda rozpoczynająca obecny dialog i zmieniająca jego stan
         /// </summary>
-        protected void StartDialogue()
+        public void StartDialogue()
         {
+            if (currentDialogue.info.doesNestorAppear)
+            {
+                Nestor.ChangeNestorState(currentDialogue.info.nestorID, true);
+            }
+            
             DialogueEvent.StartDialogue(currentDialogue.info);
             
             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)

@@ -39,6 +39,11 @@ namespace Quests.UI
             }
             else
             {
+                if (QuestManager.Instance.TrackedQuest.stepsDescriptions.Count == 0)
+                {
+                    CanvasGroup.alpha = 0;
+                    return;
+                }
                 title.text = $"{QuestManager.Instance.TrackedQuest.info.displayName}";
                 description.text = $"{QuestManager.Instance.TrackedQuest.stepsDescriptions.Last()}";
                 LayoutRebuilder.ForceRebuildLayoutImmediate(textContainerTransform);
