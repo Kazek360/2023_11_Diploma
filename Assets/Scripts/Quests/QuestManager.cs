@@ -11,6 +11,9 @@ namespace Quests
 {
     public class QuestManager : Singleton<QuestManager>, INewGameInitializable, IFromFileLoadable, IBetweenScenesLoadable
     {
+        [Header("First Quest")]
+        [SerializeField] private string questName;
+        
         [Header("Load Globals JSON")] 
         [SerializeField] private TextAsset loadGlobals;
         public TextAsset LoadGlobals => loadGlobals;
@@ -183,7 +186,7 @@ namespace Quests
         {
             QuestEvents.DeleteQuestSteps();
             _quests = CreateQuestDictionary();
-            QuestEvents.StartQuest("prologue_1");
+            QuestEvents.StartQuest(questName);
         }
         
         public void LoadDataFromSaveFile(GameData gameData)
