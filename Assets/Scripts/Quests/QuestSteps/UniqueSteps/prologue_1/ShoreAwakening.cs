@@ -1,10 +1,11 @@
 ﻿using Dialogues;
 using Other;
+using Quests.QuestSteps.DialogueSteps;
 using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
 {
-    public class ShoreAwakening : global::DialogueStep
+    public class ShoreAwakening : DialogueStep
     {
         [SerializeField] protected string areaToEnterName;
 

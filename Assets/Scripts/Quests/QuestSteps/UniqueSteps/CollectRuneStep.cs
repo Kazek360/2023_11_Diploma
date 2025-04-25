@@ -1,10 +1,11 @@
 ﻿using Collectibles;
 using Dialogues;
+using Quests.QuestSteps.DialogueSteps;
 using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
 {
-    public class CollectRuneStep : global::DialogueStep
+    public class CollectRuneStep : DialogueStep
     {
         [SerializeField] protected string itemID;
         
