@@ -55807,7 +55807,8 @@ GameObject:
   m_Component:
   - component: {fileID: 414104966}
   - component: {fileID: 414104968}
-  - component: {fileID: 414104967}
+  - component: {fileID: 414104970}
+  - component: {fileID: 414104969}
   m_Layer: 0
   m_Name: NearCliffArea
   m_TagString: Untagged
@@ -55830,19 +55831,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2530344810131849722}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &414104967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414104965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerName: CliffPrologue
 --- !u!58 &414104968
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -55879,6 +55867,31 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 4
+--- !u!114 &414104969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414104965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: CliffPrologue
+--- !u!114 &414104970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414104965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &414313666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -475477,7 +475490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7561388967644380897, guid: 08c99630ad7901c42a928137428bed38, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 199.99796
+      value: 199.99948
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -476346,7 +476359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7635191442320534848, guid: ae46f0da6b0acef49adf498c06f96313, type: 3}
       propertyPath: skip
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7635191442320534848, guid: ae46f0da6b0acef49adf498c06f96313, type: 3}
       propertyPath: delayBetweenLines
