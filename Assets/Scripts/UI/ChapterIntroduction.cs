@@ -72,7 +72,7 @@ public class ChapterIntroduction : UserInterface
     {
         if (skip)
         {
-            StartCoroutine(FadeOutUI());
+            EndIntroduction();
             return;
         }
         _currentStory = new Story(introduction.introductionText.text);
