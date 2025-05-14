@@ -22,6 +22,10 @@ namespace Quests.QuestSteps.SceneSteps
         
         private void FinishStep(Scene scene, LoadSceneMode loadSceneMode)
         {
+            if (SceneInfo.Instance == null)
+            {
+                return;
+            }
             if (sceneName.Equals(SceneInfo.Instance.currentScene))
             {
                 FinishAndDelete();

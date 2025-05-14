@@ -26,25 +26,8 @@ namespace Quests
             _currentStepIndex = 0;
         }
     
-        public void InstantiateFirstStep(Transform parentTransform)
+        private void InstantiateStep(Transform parentTransform, int progress = 0)
         {
-            ChooseFirstStep();
-            _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(this, _currentStepInfo);
-            if (_currentStepInfo.repeatAmount > 0)
-            {
-                currentStepProgress = 0;
-                AddDescriptionWithProgress();
-            }
-            else
-            {
-                AddDescription();
-            }
-        }
-        
-        public void InstantiateNextStep(Transform parentTransform, int progress = 0)
-        {
-            ChooseNextStep();
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
             _currentStep.InitializeQuestStep(this, _currentStepInfo);
             if (_currentStepInfo.repeatAmount > 0)
@@ -56,6 +39,18 @@ namespace Quests
             {
                 AddDescription();
             }
+        }
+
+        public void InstantiateFirstStep(Transform parentTransform)
+        {
+            ChooseFirstStep();
+            InstantiateStep(parentTransform);
+        }
+        
+        public void InstantiateNextStep(Transform parentTransform)
+        {
+            ChooseNextStep();
+            InstantiateStep(parentTransform);
             _currentStepIndex++;
         }
         
@@ -68,7 +63,8 @@ namespace Quests
             else
             {
                 PassThroughCompletedSteps();
-                InstantiateNextStep(parentTransform, currentStepProgress);
+                ChooseNextStep();
+                InstantiateStep(parentTransform, currentStepProgress);
             }
         }
         
