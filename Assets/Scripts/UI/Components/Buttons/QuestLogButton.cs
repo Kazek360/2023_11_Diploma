@@ -1,13 +1,16 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class QuestLogButton : MonoBehaviour, ISelectHandler
 {
-    public Button button;
+    [NonSerialized] public Button button;
     private TextMeshProUGUI _buttonText;
+    private UnityAction _onSelectAction;
 
     public void Initialize(string displayName, UnityAction selectAction)
     {
@@ -16,8 +19,7 @@ public class QuestLogButton : MonoBehaviour, ISelectHandler
         _buttonText.text = displayName;
         _onSelectAction = selectAction;
     }
-
-    private UnityAction _onSelectAction;
+    
     public void OnSelect(BaseEventData eventData)
     {
         _onSelectAction();
