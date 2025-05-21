@@ -12,9 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506732143af4c4e498e206445ff99735, type: 3}
   m_Name: NESTOR_1_1
   m_EditorClassIdentifier: 
-  displayName: n 1 1
-  description: 
+  displayName: Wzmocnienie!
+  description: "To \u017Ce Nestor jest zjaw\u0105 nie oznacza, \u017Ce nie m\xF3g\u0142by
+    si\u0119 mocniej przy\u0142o\u017Cy\u0107."
   requiredNodes: []
-  skillPointsCost: 0
-  appliedModifiers: []
+  skillPointsCost: 1
+  appliedModifiers:
+  - _statType: 5
+    _modifier: 5
+  - _statType: 6
+    _modifier: 1
+  - _statType: 7
+    _modifier: 1
+  - _statType: 8
+    _modifier: 1
+  - _statType: 9
+    _modifier: 1
   unlockedAbilities: []
