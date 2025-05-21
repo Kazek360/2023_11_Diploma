@@ -604,6 +604,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tagToSearch: Collectible
+--- !u!1 &281388331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 281388332}
+  - component: {fileID: 281388333}
+  m_Layer: 0
+  m_Name: MotherWakeUpDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &281388332
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281388331}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0406494, y: 3.7453613, z: 0.20318297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 807607274}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &281388333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281388331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: act_1_wake_up
 --- !u!1001 &451592476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1026,6 +1071,38 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28e347b61ed2735409f5c43eab94b179, type: 3}
+--- !u!1 &807607273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807607274}
+  m_Layer: 0
+  m_Name: Act_1_1_Items
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &807607274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807607273}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1445.6478, y: 513.98413, z: -0.20318297}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 281388332}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &811733426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,7 +2030,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7561388967644380897, guid: 08c99630ad7901c42a928137428bed38, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 199.99936
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7814015690696340296, guid: 08c99630ad7901c42a928137428bed38, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
@@ -6237,6 +6314,7 @@ SceneRoots:
   - {fileID: 1259369546}
   - {fileID: 852330797}
   - {fileID: 2086934715}
+  - {fileID: 807607274}
   - {fileID: 123452309}
   - {fileID: 1670642748}
   - {fileID: 924001819}

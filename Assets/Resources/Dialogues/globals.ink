@@ -1,3 +1,7 @@
-//Race with Hryc flags
+//First race with Hryc flags
 VAR hryc_race_reward = false
 VAR hryc_race_win = false
+
+//Dad flags
+VAR dad_dinner_eaten = false
+VAR mill_thief_truth = false
