@@ -71,6 +71,11 @@ namespace Tutorials
             var loadedTutorials = gameData.tutorials;
             foreach (var pair in loadedTutorials)
             {
+                if (!tutorials.ContainsKey(pair.Key))
+                {
+                    continue;
+                }
+                
                 tutorials[pair.Key].hasTriggered = loadedTutorials[pair.Key].hasTriggered;
             }
         }

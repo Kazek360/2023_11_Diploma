@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using Combat;
+using Location;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,10 +22,10 @@ public class EntityManager : MonoBehaviour
     private List<UnitCombat> _combatUnits;
 
     private int _enemiesToDefeat;
-    [FormerlySerializedAs("sceneToOpenAfterVictory")] [SerializeField] private int SceneToOpenAfterVictory;
     [SerializeField] [TextArea] private String entitiesString;
     
-    [SerializeField] private int SceneToOpenAfterLoss;
+    [SerializeField] private string sceneToOpenAfterVictory;
+    [SerializeField] private string sceneToOpenAfterLoss;
     private int _enemiesDefeated;
 
     private int _currentEntity;
@@ -177,14 +178,13 @@ public class EntityManager : MonoBehaviour
 
     public void OnCombatWin()
     {
-        SceneManager.LoadScene(SceneToOpenAfterVictory);
+        SceneLoader.InvokeOnSceneChanged(sceneToOpenAfterVictory);
     }
     
     public void OnCombatLoss()
     {
-        SceneManager.LoadScene(SceneToOpenAfterLoss);
+        SceneLoader.InvokeOnSceneChanged(sceneToOpenAfterLoss);
     }
-    
     
     /**
     * End combat and pass entities to function displaying results

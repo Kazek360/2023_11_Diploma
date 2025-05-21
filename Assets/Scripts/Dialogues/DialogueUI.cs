@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Ink.Runtime;
 using InputSystem;
+using Other;
 using Quests;
 using UI;
 using UI.Interfaces;
@@ -20,6 +21,7 @@ namespace Dialogues
         
         [Header("Components")] 
         [SerializeField] private Animator portraitAnimator;
+        [SerializeField] private Animator backgroundAnimator;
         [SerializeField] private TextMeshProUGUI speakerName;
         [SerializeField] private TextMeshProUGUI dialogueText;
         
@@ -36,7 +38,7 @@ namespace Dialogues
         
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
-        
+        private const string BACKGROUND_TAG = "background";
         
         protected override void OnEnable()
         {
@@ -88,6 +90,7 @@ namespace Dialogues
             
             speakerName.text = "???";
             portraitAnimator.Play("none");
+            backgroundAnimator.Play("none");
             ContinueDialogue();
         }
 
@@ -129,6 +132,12 @@ namespace Dialogues
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
+            
+            if (_currentDialogue.doesNestorDisappear)
+            {
+                Nestor.ChangeNestorState(_currentDialogue.nestorID, false);
+            }
+            
             DialogueEvent.FinishDialogue(_currentDialogue);
             if (_currentDialogue.questToStart != null)
             {
@@ -136,6 +145,7 @@ namespace Dialogues
             }
             dialogueText.text = "";
             portraitAnimator.Play("none");
+            backgroundAnimator.Play("none");
         }
         
         private IEnumerator DisplayLine(string line)
@@ -230,6 +240,9 @@ namespace Dialogues
                         break;
                     case PORTRAIT_TAG:
                         portraitAnimator.Play(tagValue);
+                        break;
+                    case BACKGROUND_TAG:
+                        backgroundAnimator.Play(tagValue);
                         break;
                 }
             }

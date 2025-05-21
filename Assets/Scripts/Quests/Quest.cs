@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Quests.QuestSteps;
 using Quests.ScriptableObjects;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -25,28 +26,11 @@ namespace Quests
             _currentStepIndex = 0;
         }
     
-        public void InstantiateFirstStep(Transform parentTransform)
+        private void InstantiateStep(Transform parentTransform, int progress = 0)
         {
-            ChooseFirstStep();
             _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
             _currentStep.InitializeQuestStep(this, _currentStepInfo);
-            if (_currentStepInfo.repeatAmount > 1)
-            {
-                currentStepProgress = 0;
-                AddDescriptionWithProgress();
-            }
-            else
-            {
-                AddDescription();
-            }
-        }
-        
-        public void InstantiateNextStep(Transform parentTransform, int progress = 0)
-        {
-            ChooseNextStep();
-            _currentStep = Object.Instantiate(_currentStepInfo.prefab, parentTransform).GetComponent<BaseQuestStep>();
-            _currentStep.InitializeQuestStep(this, _currentStepInfo);
-            if (_currentStepInfo.repeatAmount > 1)
+            if (_currentStepInfo.repeatAmount > 0)
             {
                 currentStepProgress = progress;
                 AddDescriptionWithProgress();
@@ -55,6 +39,18 @@ namespace Quests
             {
                 AddDescription();
             }
+        }
+
+        public void InstantiateFirstStep(Transform parentTransform)
+        {
+            ChooseFirstStep();
+            InstantiateStep(parentTransform);
+        }
+        
+        public void InstantiateNextStep(Transform parentTransform)
+        {
+            ChooseNextStep();
+            InstantiateStep(parentTransform);
             _currentStepIndex++;
         }
         
@@ -67,7 +63,8 @@ namespace Quests
             else
             {
                 PassThroughCompletedSteps();
-                InstantiateNextStep(parentTransform, currentStepProgress);
+                ChooseNextStep();
+                InstantiateStep(parentTransform, currentStepProgress);
             }
         }
         
@@ -100,7 +97,7 @@ namespace Quests
             {
                 return;
             }
-            if (_currentStepInfo.repeatAmount > 1)
+            if (_currentStepInfo.repeatAmount > 0)
             {
                 stepsDescriptions.Add($"{_currentStepInfo.description} " +
                                       $"({_currentStepInfo.repeatAmount}/{_currentStepInfo.repeatAmount})");

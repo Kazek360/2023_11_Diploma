@@ -10,7 +10,10 @@ namespace Quests.UI
     {
         [Header("Components")] 
         [SerializeField] private TextMeshProUGUI popupText;
-
+        
+        [Header("Fade in/out")] 
+        [SerializeField] private int speed;
+        
         private CanvasGroup _canvasGroup;
         private Queue<string> _popupQueue;
         private bool _popupDisplayed;
@@ -74,10 +77,10 @@ namespace Quests.UI
                 yield return null;
             }
             popupText.text = _popupQueue.Dequeue();
-            _canvasGroup.alpha = 1;
+            yield return FadeIn();
             _popupDisplayed = true;
             yield return new WaitForSeconds(5f);
-            _canvasGroup.alpha = 0;
+            yield return FadeOut();
             if (_popupQueue.Count > 0)
             {
                 StartCoroutine(ShowPopup());
@@ -85,6 +88,24 @@ namespace Quests.UI
             else
             {
                 _popupDisplayed = false;
+            }
+        }
+        
+        private IEnumerator FadeIn()
+        {
+            while (_canvasGroup.alpha < 1)
+            {
+                _canvasGroup.alpha += speed * Time.deltaTime;
+                yield return null;
+            }
+        }
+        
+        private IEnumerator FadeOut()
+        {
+            while (_canvasGroup.alpha > 0)
+            {
+                _canvasGroup.alpha -= speed * Time.deltaTime;
+                yield return null;
             }
         }
     }

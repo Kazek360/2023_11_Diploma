@@ -50,12 +50,12 @@ namespace Dialogues
         {
             switch (dialogue.info.dialogueType)
             {
-                case DialogueInfo.Type.Repeatable:
+                case DialogueInfo.Type.Repeatable or DialogueInfo.Type.Unrepeatable:
                     return true;
                 case DialogueInfo.Type.QuestStarter:
                     return QuestManager.Instance.GetQuestById(dialogue.info.questToStart.name).state ==
                            QuestState.CanStart;
-                case DialogueInfo.Type.QuestProgression:
+                case DialogueInfo.Type.SideQuest or DialogueInfo.Type.MainQuest:
                     return false;
             }
             return false;
@@ -76,6 +76,15 @@ namespace Dialogues
                 dialogue.state = Dialogue.State.CanTrigger;
                 entity.ChangeCurrentDialogue();
             }
+        }
+        
+        /// <summary>
+        /// Metoda pozwalająca uruchomić dialog o określonej nazwie triggera
+        /// </summary>
+        /// <param name="triggerName">nazwa triggera, dla DialogueEntity </param>
+        public void TriggerDialogue(string triggerName)
+        {
+            _dialogueEntityDictionary[triggerName].StartDialogue();
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
+using Other;
 using UI;
-using UI.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,10 +17,12 @@ namespace Location
             OnSceneChanged?.Invoke(sceneName);
         }
 
+        private FadeInOut _fadeInOut;
         private Slider _progressSlider;
         
         private void Awake()
         {
+            _fadeInOut = GetComponent<FadeInOut>();
             _progressSlider = GetComponentInChildren<Slider>();
             _progressSlider.value = 0;
             _progressSlider.interactable = false;
@@ -45,7 +47,7 @@ namespace Location
         IEnumerator LoadSceneAsync(string sceneName)
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
-
+            
             while (!loadOperation.isDone)
             {
                 var progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);

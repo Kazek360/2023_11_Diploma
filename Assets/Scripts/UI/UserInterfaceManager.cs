@@ -103,5 +103,5 @@ namespace UI
         }
     }
     public enum UserInterfaceState { MainMenu, PauseMenu, LoadGame, SaveGame, Settings, Exploration, Quests, Dialogue, Cutscene, 
-        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map, Tutorial, Credits, GameStart }
+        SkillTree, Abilities, Inventory, Combat, LoadingScreen, Map, Tutorial, Credits, GameStart, ChapterIntroduction }
 }
