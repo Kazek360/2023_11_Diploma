@@ -12,12 +12,15 @@ namespace UI.SaveLoad
     {
         private GameData _profileData;
         private Button _saveSlotButton;
-        private TextMeshProUGUI _saveSlotText;
+        [SerializeField] private TextMeshProUGUI noSaveText;
+        [SerializeField] private TextMeshProUGUI levelText;
+        [SerializeField] private TextMeshProUGUI locationText;
+        [SerializeField] private TextMeshProUGUI dateText;
+        [SerializeField] private TextMeshProUGUI gameTimeText;
     
         private void Awake()
         {
             _saveSlotButton = GetComponent<Button>();
-            _saveSlotText = GetComponentInChildren<TextMeshProUGUI>();
         }
         
         public void SetData(string profile, GameData gameData)
@@ -26,20 +29,33 @@ namespace UI.SaveLoad
             
             if (gameData is null)
             {
-                _saveSlotText.text = "Brak Zapisu";
+                noSaveText.alpha = 255;
+                noSaveText.text = "Brak Zapisu";
+                levelText.alpha = 0;
+                locationText.alpha = 0;
+                dateText.alpha = 0;
+                gameTimeText.alpha = 0;
                 _saveSlotButton.interactable = false;
             }
             else
             {
                 _saveSlotButton.interactable = true;
+                levelText.alpha = 255;
+                levelText.text = $"Poziom: {gameData.resources.level}";
+                locationText.alpha = 255;
+                locationText.text = gameData.scene.displayedName;
+                dateText.alpha = 255;
+                dateText.text = gameData.save.saveDate;
+                gameTimeText.alpha = 255;
+                gameTimeText.text = $"Czas Gry: {gameData.save.gameTime}";
+                
                 if (profile.Equals("autosave"))
                 {
-                    _saveSlotText.fontSize = 30;
-                    _saveSlotText.text = $"(automatyczny zapis)\n{gameData.scene.displayedName} - {gameData.save.date}"; 
+                    noSaveText.text = "Automatyczny Zapis";
                 }
                 else
                 {
-                    _saveSlotText.text = $"{gameData.scene.displayedName} - {gameData.save.date}"; 
+                    noSaveText.alpha = 0;
                 }
                 _profileData = gameData;
                 _saveSlotButton.onClick.AddListener(Load);
