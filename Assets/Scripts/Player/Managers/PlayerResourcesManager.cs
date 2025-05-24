@@ -48,34 +48,24 @@ public class PlayerResourcesManager : Singleton<PlayerResourcesManager>, ISavabl
     public void LoadData(GameData gameData)
     {
         PlayerStats.GetInstance();
-        SkillPoints = gameData.resources["SkillPoints"];
-        PlayerStats.GetInstance().Level = gameData.resources["Level"];
-        PlayerStats.GetInstance().CurrentXp = gameData.resources["ExperiencePoints"];
-        PlayerStats.GetInstance().WitHp = gameData.resources["WitHP"];
-        PlayerStats.GetInstance().NestorHp = gameData.resources["NestorHP"];
+        PlayerStats.GetInstance().Level = gameData.resources.level;
+        PlayerStats.GetInstance().CurrentXp = gameData.resources.currentExp;
+        SkillPoints = gameData.resources.skillPoints;
+        PlayerStats.GetInstance().WitHp = gameData.resources.witHp;
+        PlayerStats.GetInstance().NestorHp = gameData.resources.nestorHp;
     }
 
     public void SaveData(GameData gameData)
     {
-        if (!gameData.resources.TryAdd("SkillPoints", SkillPoints))
+        if (gameData == null)
         {
-            gameData.resources["SkillPoints"] = SkillPoints;
+            return;
         }
-        if (!gameData.resources.TryAdd("WitHP", PlayerStats.GetInstance().WitHp))
-        {
-            gameData.resources["WitHP"] = PlayerStats.GetInstance().WitHp;
-        }
-        if (!gameData.resources.TryAdd("NestorHP", PlayerStats.GetInstance().NestorHp))
-        {
-            gameData.resources["NestorHP"] = PlayerStats.GetInstance().NestorHp;
-        }
-        if (!gameData.resources.TryAdd("Level", PlayerStats.GetInstance().Level))
-        {
-            gameData.resources["SkillPoints"] = PlayerStats.GetInstance().Level;
-        }
-        if (!gameData.resources.TryAdd("ExperiencePoints", PlayerStats.GetInstance().CurrentXp))
-        {
-            gameData.resources["SkillPoints"] = PlayerStats.GetInstance().CurrentXp;
-        }
+
+        gameData.resources.level = PlayerStats.GetInstance().Level;
+        gameData.resources.currentExp = PlayerStats.GetInstance().CurrentXp;
+        gameData.resources.skillPoints = SkillPoints;
+        gameData.resources.witHp = PlayerStats.GetInstance().WitHp;
+        gameData.resources.nestorHp = PlayerStats.GetInstance().NestorHp;
     }
 }
