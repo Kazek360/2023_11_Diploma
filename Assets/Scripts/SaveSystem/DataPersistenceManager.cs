@@ -91,6 +91,7 @@ namespace SaveSystem
             {
                 case LoadMode.NewGame:
                     _currentGameData = new GameData();
+                    _currentGameData.save.gameBeginningDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
                     SaveSystemEvents.InvokeOnNewGame();
                     break;
                 case LoadMode.FromSaveFile:
@@ -108,6 +109,7 @@ namespace SaveSystem
                     if (_currentGameData == null)
                     {
                         _currentGameData = new GameData();
+                        _currentGameData.save.gameBeginningDate = DateTime.Now.ToString("dd.MM.yy HH:mm");
                         SaveSystemEvents.InvokeOnNewGame();
                     }
                     break;
@@ -125,8 +127,15 @@ namespace SaveSystem
             {
                 return;
             }
+
+            var beginDate = DateTime.Parse(_currentGameData.save.gameBeginningDate);
+            var saveDate = DateTime.Now;
+            
+            var difference = saveDate - beginDate;
+            _currentGameData.save.gameTime = $"{difference.Hours}:{difference.Minutes}";
+            
             _currentGameData.save.lastUpdated = DateTime.Now.ToBinary();
-            _currentGameData.save.date = DateTime.Now.ToString("dd.MM.yy HH:mm");
+            _currentGameData.save.saveDate = saveDate.ToString("dd.MM.yy HH:mm");
             SaveSystemEvents.InvokeOnSave(_currentGameData);
         }
         
