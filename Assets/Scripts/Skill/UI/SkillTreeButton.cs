@@ -87,7 +87,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     private void ActivateNodeUsingSkillPoint()
     {
         ActivateNode();
-        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name);
+        SkillTreeEvents.ActivateNode(skillTreeNodeInfo.name, skillTreeNodeInfo.skillPointsCost);
     }
     
     public string GetTooltipHeader()
@@ -98,7 +98,7 @@ public class SkillTreeButton : MonoBehaviour, ITooltippable
     public string GetTooltipDesc()
     {
         var str = new StringBuilder();
-        str.Append(skillTreeNodeInfo.description);
+        str.Append(skillTreeNodeInfo.GetDesc());
         if (skillTreeNodeInfo.appliedModifiers.Count > 0)
         {
             str.Append("\nEfekty:");
