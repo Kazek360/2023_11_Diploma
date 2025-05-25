@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Combat;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -24,6 +25,8 @@ public class CombatEnvironmentManager : MonoBehaviour
     private Grid<GridObject> _grid;
     private GridObject _currentGridObject;
 
+    private CombatSystem _combatSystem;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -44,7 +47,7 @@ public class CombatEnvironmentManager : MonoBehaviour
         
         if (_currentGridObject != null && _currentGridObject.IsHighlighted)
         {
-            _currentGridObject.Select();
+            _currentGridObject.Select(_combatSystem.GetCurrentIsMaterial());
         }
     }
 
@@ -93,7 +96,7 @@ public class CombatEnvironmentManager : MonoBehaviour
     {
         if ((highlightCenter || currentIter != 0) && !gridObject.GetOccupied(_currentIsMaterial))
         {
-            gridObject.Highlight();
+            gridObject.Highlight(_currentIsMaterial);
         }
 
 
@@ -123,7 +126,7 @@ public class CombatEnvironmentManager : MonoBehaviour
     {
         if ((highlightCenter || currentIter != 0))
         {
-            gridObject.TargetingHighlight();
+            gridObject.TargetingHighlight(_combatSystem.GetCurrentIsMaterial());
         }
 
 
@@ -377,6 +380,35 @@ public class CombatEnvironmentManager : MonoBehaviour
             }
         }
     }
+
+    public void SetCombatSystem(CombatSystem combatSystem)
+    {
+        _combatSystem = combatSystem;
+    }
+
+    private bool GetCurrentIsMaterial()
+    {
+        if (_combatSystem is null)
+        {
+            return true;
+        }
+
+        return _combatSystem.GetCurrentIsMaterial();
+    }
+
+    public void SetHexVariant(bool isMaterial)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (_grid.GetGridObject(x, y) is not null)
+                {
+                    _grid.GetGridObject(x, y).SetMaterial(isMaterial);
+                }
+            }
+        }
+    }
 }
 
 public class GridObject
@@ -401,13 +433,27 @@ public class GridObject
         IsOccupiedMaterial = false;
     }
 
+    public void SetMaterial(bool isMaterial)
+    {
+        Hex.Find("Default").gameObject.SetActive(isMaterial);
+        Hex.Find("Default_nawia").gameObject.SetActive(!isMaterial);
+    }
+
     /**
      * Highlight the hex and make it active for movement
      */
-    public void Highlight()
+    public void Highlight(bool isMaterial)
     {
         IsHighlighted = true;
-        Hex.Find("Highlighted").gameObject.SetActive(true);
+        if (isMaterial)
+        {
+            Hex.Find("Highlighted").gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("HIGHLIGHTING_NAWIA");
+            Hex.Find("Highlighted_nawia").gameObject.SetActive(true);
+        }
     }
 
     /**
@@ -417,14 +463,22 @@ public class GridObject
     {
         IsHighlighted = false;
         Hex.Find("Highlighted").gameObject.SetActive(false);
+        Hex.Find("Highlighted_nawia").gameObject.SetActive(false);
     }
 
     /**
      * Only highlight the hex
      */
-    public void TargetingHighlight()
+    public void TargetingHighlight(bool isMaterial)
     {
-        Hex.Find("Range").gameObject.SetActive(true);
+        if (isMaterial)
+        {
+            Hex.Find("Range").gameObject.SetActive(true);
+        }
+        else
+        {
+            Hex.Find("Range_nawia").gameObject.SetActive(true);
+        }
     }
 
     /**
@@ -433,16 +487,25 @@ public class GridObject
     public void HideTargetingHighlight()
     {
         Hex.Find("Range").gameObject.SetActive(false);
+        Hex.Find("Range_nawia").gameObject.SetActive(false);
     }
 
-    public void Select()
+    public void Select(bool isMaterial)
     {
-        Hex.Find("Selected").gameObject.SetActive(true);
+        if (isMaterial)
+        {
+            Hex.Find("Selected").gameObject.SetActive(true);
+        }
+        else
+        {
+            Hex.Find("Selected_nawia").gameObject.SetActive(true);
+        }
     }
 
     public void HideSelect()
     {
         Hex.Find("Selected").gameObject.SetActive(false);
+        Hex.Find("Selected_nawia").gameObject.SetActive(false);
     }
 
     /**

@@ -47,9 +47,12 @@ public class CombatUI : UserInterface
 
     private List<IHittable> _possibleTargets;
     private IHittable _currentTarget;
+
+    private static bool _isTargeting;
     
     private void Start()
     {
+        _isTargeting = false;
         _possibleTargets = new List<IHittable>();
         _entityManager = EntityManager.GetComponent<EntityManager>();
         _combatSystem = EntityManager.GetComponent<CombatSystem>();
@@ -137,6 +140,7 @@ public class CombatUI : UserInterface
     */
     public void ShowTargets(AbilityScriptableObjectReworked ability)
     {
+        _isTargeting = true;
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
@@ -192,6 +196,7 @@ public class CombatUI : UserInterface
     */
     private void HideTargets()
     {
+        _isTargeting = false;
         foreach (var target in _possibleTargets)
         {
             target.TargetClickAreaDeselected();
@@ -341,18 +346,28 @@ public class CombatUI : UserInterface
     */
     public void ToggleMaterial()
     {
+        bool tmp = _isTargeting;
         HideTargets();
-        _abilitiesToggleGroup.SetAllTogglesOff();
+        //_abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem.ShowStage(true);
+        if (tmp)
+        {
+            ShowTargets(GetCurrentlySelectedAbility());
+        }
     }
     /**
     * Reset UI and switch to immaterial layer
     */
     public void ToggleImmaterial()
     {
+        bool tmp = _isTargeting;
         HideTargets();
-        _abilitiesToggleGroup.SetAllTogglesOff();
+        //_abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem.ShowStage(false);
+        if (tmp)
+        {
+            ShowTargets(GetCurrentlySelectedAbility());
+        }
     }
 
     /**
@@ -398,4 +413,6 @@ public class CombatUI : UserInterface
     {
         _turnQueue.DisableEntity(n);
     }
+
+    public static bool IsTargeting => _isTargeting;
 }

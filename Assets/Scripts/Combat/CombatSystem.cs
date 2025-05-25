@@ -25,6 +25,7 @@ namespace Combat
         
         private void Awake()
         {
+            combatEnvironmentManager.SetCombatSystem(this);
             _currentIsPlayer = false;
             _entityManager = GetComponent<EntityManager>();
         }
@@ -36,7 +37,7 @@ namespace Combat
             
             if (_currentGridObject != null && _currentGridObject.IsHighlighted)
             {
-                if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling)
+                if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling && !CombatUI.IsTargeting)
                 {
                     MoveToSelected();
                 }
@@ -227,6 +228,7 @@ namespace Combat
             _entityManager.ShowEntities(isMaterial);
             var pos = currentUnit.GetGridLocation();
             var currPos = combatEnvironmentManager.GetGridObject((int)pos.x, (int)pos.y);
+            combatEnvironmentManager.SetHexVariant(isMaterial);
             if (_currentIsPlayer)
             {
                 if (isMaterial)
