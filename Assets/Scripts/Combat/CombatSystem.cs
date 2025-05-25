@@ -16,6 +16,7 @@ namespace Combat
         [SerializeField] private CombatEnvironmentManager combatEnvironmentManager;
 
         private EntityManager _entityManager;
+        private CombatUI _combatUI;
         private GridObject _currentGridObject;
         private int _startingMovement, _startingActions;
         private int _movementLeft, _actionsLeft;
@@ -318,6 +319,23 @@ namespace Combat
         public CombatEnvironmentManager GetCombatEnvironmentManager()
         {
             return combatEnvironmentManager;
+        }
+
+        public IHittable GetEntityOnGridObject(GridObject gridObject, bool isPlayer, bool isMaterial)
+        {
+            IHittable res = null;
+
+            foreach (var entity in _entityManager.GetEntities(isPlayer, isMaterial))
+            {
+                if (
+                    (int)entity.GetUnitCombatScript().GetGridLocation().x == gridObject.X &&
+                    (int)entity.GetUnitCombatScript().GetGridLocation().y == gridObject.Y
+                    )
+                {
+                    res = entity;
+                }
+            }
+            return res;
         }
     }
 }

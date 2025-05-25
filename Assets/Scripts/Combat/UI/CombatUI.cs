@@ -47,7 +47,7 @@ public class CombatUI : UserInterface
     private PlayerScript _currentEntity;
 
     private List<IHittable> _possibleTargets;
-    private IHittable _currentTarget;
+    private GridObject _currentTarget;
 
     private static bool _isTargeting;
     private static int _isTargetingAreaRadius;
@@ -250,11 +250,53 @@ public class CombatUI : UserInterface
     public void OnCastAbility()
     {
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
+        
         if (toggled is not null && GetCurrentlySelectedTarget() is not null)
         {
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
-            _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
             
+            AbilityScriptableObjectReworked ability = GetCurrentlySelectedAbility();
+            if (ability.TargetsGround())
+            {
+                List<GridObject> validTargets = new List<GridObject>();
+                validTargets.Add(GetCurrentlySelectedTarget());
+                validTargets.AddRange(_combatSystem.GetCombatEnvironmentManager().GetNeighborsInRadius(GetCurrentlySelectedTarget(), ability.AreaRadius, false));
+                _currentEntity.CastAbility(selected, validTargets);
+            }
+            
+            if (ability.TargetsUnits())
+            {
+                List<IHittable> validTargets = new List<IHittable>();
+                List<GridObject> toCheck = _combatSystem.GetCombatEnvironmentManager()
+                    .GetNeighborsInRadius(GetCurrentlySelectedTarget(), ability.AreaRadius, true);
+                foreach (var gridObject in toCheck)
+                {
+                    if (ability.TargetsImmaterialAllies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, true, false) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, true, false));
+                    }
+
+                    if (ability.TargetsImmaterialEnemies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, false, false) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, false, false));
+                    }
+
+                    if (ability.TargetsMaterialAllies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, true, true) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, true, true));
+                    }
+
+                    if (ability.TargetsMaterialEnemies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, false, true) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, false, true));
+                    }
+                }
+                _currentEntity.CastAbility(selected, validTargets);
+            }
         }
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
@@ -298,7 +340,7 @@ public class CombatUI : UserInterface
     }
 
     
-    private IHittable GetCurrentlySelectedTarget()
+    private GridObject GetCurrentlySelectedTarget()
     {
         return _currentTarget;
     }
@@ -343,12 +385,8 @@ public class CombatUI : UserInterface
         CharacterName.text = charName;
     }
 
-    public void SetTarget(IHittable target)
+    public void SetTarget(GridObject target)
     {
-        if (_currentTarget is not null)
-        {
-            _currentTarget.TargetClickAreaDeselected();
-        }
         _currentTarget = target;
         OnCastAbility();
     }

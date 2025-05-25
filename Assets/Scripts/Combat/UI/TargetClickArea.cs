@@ -23,7 +23,7 @@ public class TargetClickArea : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        _combatUI.SetTarget(_parent);
+        // _combatUI.SetTarget(_parent);
         //Indicator.color = Color.green;
     }
 

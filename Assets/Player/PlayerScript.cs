@@ -86,11 +86,17 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
      * <param name="i">Position of ability in the ability list</param>
      * <param name="target">Intended target entity</param>
      */
-    public void CastAbility(int i, IHittable target)
+    public void CastAbility(int i, List<IHittable> targets)
     {
         var ability = abilities[i];
         _cooldowns[i] = ability.Cooldown;
-        ability.CastAbility(target, this);
+        ability.CastAbility(targets, this);
+    }
+    public void CastAbility(int i, List<GridObject> targets)
+    {
+        var ability = abilities[i];
+        _cooldowns[i] = ability.Cooldown;
+        ability.CastAbility(targets, this);
     }
     
     

@@ -222,8 +222,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         if (possibleTargets.Count > 0)
         {
             int chosenTarget = Random.Range(0, possibleTargets.Count);
+            List<IHittable> targetsList = new List<IHittable>();
+            targetsList.Add(possibleTargets[chosenTarget]);
             _cooldowns[i] = ability.Cooldown;
-            ability.CastAbility(possibleTargets[chosenTarget], this);
+            ability.CastAbility(targetsList, this);
         }
     }
     

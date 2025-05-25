@@ -64,6 +64,11 @@ public class CombatEnvironmentManager : MonoBehaviour
                     );
             }
         }
+
+        if (Input.GetMouseButtonDown(0) && CombatUI.IsTargeting && _currentGridObject is { IsSelected: true })
+        {
+            _combatSystem.GetCombatUI().SetTarget(_currentGridObject);
+        }
     }
 
     private void OnEnable()
@@ -118,6 +123,42 @@ public class CombatEnvironmentManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    /**
+     * Returns every hex in a radius
+     * <param name='gridObject'> center of the hex circle</param>
+     * <param name='radius'> - radius of the contained area</param>
+     * <param name='containCenter'> should the center be contained</param>
+     * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
+     * <param name='currentList'> the neighbors we have found up to now</param>
+     */
+    public List<GridObject> GetNeighborsInRadius(GridObject gridObject, int radius, bool containCenter, int currentIter = 0, List<GridObject> currentList = null)
+    {
+        if (currentList is null)
+        {
+            currentList = new List<GridObject>();
+        }
+        if ((containCenter || currentIter != 0) && !currentList.Contains(gridObject))
+        {
+            currentList.Add(gridObject);
+        }
+
+
+        if (currentIter == radius)
+        {
+            return currentList;
+        }
+
+        foreach (GridObject neighbor in _grid.GetGridObjectNeighbours(gridObject.X, gridObject.Y))
+        {
+            if (neighbor != null)
+            {
+                currentList = GetNeighborsInRadius(neighbor, radius, containCenter, currentIter + 1, currentList);
+            }
+        }
+
+        return currentList;
     }
 
     /**
@@ -478,6 +519,7 @@ public class GridObject
     public Transform Hex;
     public bool IsHighlighted;
     public bool IsInRange;
+    public bool IsSelected;
     public int X;
     public int Y;
     public bool IsOccupiedMaterial;
@@ -495,6 +537,7 @@ public class GridObject
         XYZCoordinates.z = 0 - XYZCoordinates.x - XYZCoordinates.y;
         IsOccupiedMaterial = false;
         IsInRange = false;
+        IsSelected = false;
     }
 
     public void SetMaterial(bool isMaterial)
@@ -558,6 +601,7 @@ public class GridObject
 
     public void Select(bool isMaterial)
     {
+        IsSelected = true;
         if (isMaterial)
         {
             Hex.Find("Selected").gameObject.SetActive(true);
@@ -570,6 +614,7 @@ public class GridObject
 
     public void HideSelect()
     {
+        IsSelected = false;
         Hex.Find("Selected").gameObject.SetActive(false);
         Hex.Find("Selected_nawia").gameObject.SetActive(false);
     }

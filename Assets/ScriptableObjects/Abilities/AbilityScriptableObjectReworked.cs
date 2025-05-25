@@ -29,7 +29,9 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         EnemyMaterial,
         AllyMaterial,
         EnemyImmaterial,
-        AllyImmaterial
+        AllyImmaterial,
+        GroundMaterial,
+        GroundImmaterial
     }
     
     
@@ -83,49 +85,55 @@ public class AbilityScriptableObjectReworked : ScriptableObject
      *
      * Needs to extend from AbilityScriptableObject equivalent in order to work
      */
-    public virtual void CastAbility(IHittable target, IHittable caster)
+    public virtual void CastAbility(List<IHittable> targets, IHittable caster)
     {
-        Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
+        foreach (var target in targets)
+        {
+            Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " +
+                      target.GetEntityName());
 
-        foreach (var effect in effects)
-        {
-            effect.ApplyEffect(caster, target);
-        }
+            foreach (var effect in effects)
+            {
+                effect.ApplyEffect(caster, target);
+            }
 
-        foreach (var effectOverTime in effectsOverTime)
-        {
-            effectOverTime.ApplyEffect(caster, target);
-        }
-        
-        foreach (var visualEffect in visualEffects)
-        {
-            AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
-        }
-        //TODO: Play anim here
-    }
-    public virtual void CastAbility(IHittable target, IHittable caster, bool playVisualEffects)
-    {
-        Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
-        foreach (var effect in effects)
-        {
-            effect.ApplyEffect(caster, target);
-        }
+            foreach (var effectOverTime in effectsOverTime)
+            {
+                effectOverTime.ApplyEffect(caster, target);
+            }
 
-        foreach (var effectOverTime in effectsOverTime)
-        {
-            effectOverTime.ApplyEffect(caster, target);
-        }
-        
-        if (playVisualEffects)
-        {
             foreach (var visualEffect in visualEffects)
             {
-                AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
+                AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType,
+                    visualEffect.EffectObject);
             }
+            //TODO: Play anim here
         }
-        //TODO: Play anim here
     }
 
+    public virtual void CastAbility(List<GridObject> targets, IHittable caster)
+    {
+        foreach (var target in targets)
+        {
+            Debug.Log("GROUND HIT");
+            // foreach (var effect in effects)
+            // {
+            //     effect.ApplyEffect(caster, target);
+            // }
+            //
+            // foreach (var effectOverTime in effectsOverTime)
+            // {
+            //     effectOverTime.ApplyEffect(caster, target);
+            // }
+            //
+            // foreach (var visualEffect in visualEffects)
+            // {
+            //     AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType,
+            //         visualEffect.EffectObject);
+            // }
+            //TODO: Play anim here
+        }
+    }
     /**
      * Returns how likely AI is to use this ability
      * If need arises, additional modifications may be done in inheriting classes
@@ -158,4 +166,29 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         stringBuilder.Append("\nODNOWIENIE: " + (cooldown));
         return stringBuilder.ToString();
     }
+
+    public bool TargetsUnits()
+    {
+        return (
+            viableTargets.Contains(TargetTypes.AllyImmaterial) ||
+            viableTargets.Contains(TargetTypes.AllyMaterial) ||
+            viableTargets.Contains(TargetTypes.EnemyMaterial) ||
+            viableTargets.Contains(TargetTypes.EnemyImmaterial)
+            );
+    }
+
+    public bool TargetsGround()
+    {
+        return (
+            viableTargets.Contains(TargetTypes.GroundMaterial) ||
+            viableTargets.Contains(TargetTypes.GroundImmaterial)
+        );
+    }
+    
+    public bool TargetsMaterialAllies => viableTargets.Contains(TargetTypes.AllyMaterial); 
+    public bool TargetsMaterialEnemies => viableTargets.Contains(TargetTypes.EnemyMaterial); 
+    public bool TargetsImmaterialAllies => viableTargets.Contains(TargetTypes.AllyImmaterial); 
+    public bool TargetsImmaterialEnemies => viableTargets.Contains(TargetTypes.EnemyImmaterial); 
+    public bool TargetsMaterialGround => viableTargets.Contains(TargetTypes.GroundMaterial); 
+    public bool TargetsImmaterialGround => viableTargets.Contains(TargetTypes.GroundImmaterial); 
 }
