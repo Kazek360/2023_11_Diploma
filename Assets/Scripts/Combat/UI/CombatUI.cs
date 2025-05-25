@@ -144,6 +144,7 @@ public class CombatUI : UserInterface
     public void ShowTargets(AbilityScriptableObjectReworked ability)
     {
         _isTargeting = true;
+        _isTargetingAreaRadius = ability.AreaRadius;
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
@@ -208,6 +209,7 @@ public class CombatUI : UserInterface
     private void HideTargets()
     {
         _isTargeting = false;
+        _isTargetingAreaRadius = 0;
         foreach (var target in _possibleTargets)
         {
             target.TargetClickAreaDeselected();
@@ -387,8 +389,45 @@ public class CombatUI : UserInterface
 
     public void SetTarget(GridObject target)
     {
-        _currentTarget = target;
-        OnCastAbility();
+        AbilityScriptableObjectReworked ability = GetCurrentlySelectedAbility();
+        if (ability.TargetsUnits())
+        {
+            if (ability.TargetsImmaterialAllies &&
+                _combatSystem.GetEntityOnGridObject(target, true, false) is not null)
+            {
+                _currentTarget = target;
+                OnCastAbility();
+                return;
+            }
+            if (ability.TargetsImmaterialEnemies &&
+                _combatSystem.GetEntityOnGridObject(target, false, false) is not null)
+            {
+                _currentTarget = target;
+                OnCastAbility();
+                return;
+            }
+
+            if (ability.TargetsMaterialAllies &&
+                _combatSystem.GetEntityOnGridObject(target, true, true) is not null)
+            {
+                _currentTarget = target;
+                OnCastAbility();
+                return;
+            }
+
+            if (ability.TargetsMaterialEnemies &&
+                _combatSystem.GetEntityOnGridObject(target, false, true) is not null)
+            {
+                _currentTarget = target;
+                OnCastAbility();
+                return;
+            }
+        }
+        else
+        {
+            _currentTarget = target;
+            OnCastAbility();
+        }
     }
 
     /**
