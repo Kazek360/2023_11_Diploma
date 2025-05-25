@@ -168,9 +168,9 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     public String TooltipDesc()
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.Append(abilityDescription);
         stringBuilder.Append("\nZASIĘG: " + range);
-        stringBuilder.Append("\nODNOWIENIE: " + (cooldown));
+        stringBuilder.Append("\nODNOWIENIE: " + (cooldown) + "\n");
+        stringBuilder.Append(abilityDescription);
         return stringBuilder.ToString();
     }
 

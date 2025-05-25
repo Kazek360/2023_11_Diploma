@@ -173,8 +173,8 @@ namespace Combat
                 return;
             }
             combatEnvironmentManager.ClearGrid();
-            //combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
-            StartCoroutine(AfterClickCooldown());
+            combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
+            //StartCoroutine(AfterClickCooldown());
         }
         
         /**
@@ -182,7 +182,7 @@ namespace Combat
      */
         private IEnumerator AfterClickCooldown()
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.03f);
             combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
         }
 

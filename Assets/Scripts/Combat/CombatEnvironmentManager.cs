@@ -65,7 +65,7 @@ public class CombatEnvironmentManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && CombatUI.IsTargeting && _currentGridObject is { IsSelected: true })
+        if (Input.GetMouseButtonDown(0) && CombatUI.IsTargeting)
         {
             _combatSystem.GetCombatUI().SetTarget(_currentGridObject);
         }
@@ -238,7 +238,7 @@ public class CombatEnvironmentManager : MonoBehaviour
      */
     public void TargetingHighlightNeighborsInRadiusArea(GridObject gridObject, int radius, bool highlightCenter, int currentIter = 0)
     {
-        if ((highlightCenter || currentIter != 0))
+        if ((highlightCenter || currentIter != 0) && gridObject.IsInRange)
         {
             gridObject.Select(_combatSystem.GetCurrentIsMaterial());
         }
