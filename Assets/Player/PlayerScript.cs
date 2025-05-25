@@ -219,6 +219,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public virtual int GetStrength()
     {
         int str = PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        if (_combatModifiers is null)
+        {
+            return str;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
@@ -233,6 +237,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public virtual int GetAgility()
     {
         int agi = PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        if (_combatModifiers is null)
+        {
+            return agi;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
@@ -247,6 +255,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public virtual int GetLuck()
     {
         int lck = PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        if (_combatModifiers is null)
+        {
+            return lck;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.LUCK)
@@ -261,6 +273,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public virtual int GetImagination()
     {
         int img = PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        if (_combatModifiers is null)
+        {
+            return img;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)

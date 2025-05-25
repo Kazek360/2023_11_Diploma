@@ -318,6 +318,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public int GetStrength()
     {
         int str = Stats.Strength;
+        if (_combatModifiers is null)
+        {
+            return str;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
@@ -332,6 +336,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public int GetAgility()
     {
         int agi = Stats.Agility;
+        if (_combatModifiers is null)
+        {
+            return agi;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
@@ -346,6 +354,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public int GetLuck()
     {
         int lck = Stats.Luck;
+        if (_combatModifiers is null)
+        {
+            return lck;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.LUCK)
@@ -360,6 +372,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public int GetImagination()
     {
         int img = Stats.Imagination;
+        if (_combatModifiers is null)
+        {
+            return img;
+        }
         foreach (var modifier in _combatModifiers)
         {
             if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
