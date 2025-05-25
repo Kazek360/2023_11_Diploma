@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     protected IHittable _partner;
 
     [SerializeField] private string entityName;
+    [SerializeField][TextArea] private string entityDescription;
     
     [SerializeField] private List<AbilityScriptableObjectReworked> abilities;
     private List<int> _cooldowns;
@@ -426,7 +427,8 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
+        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth() + "\n");
+        str.Append(entityDescription);
         return str.ToString();
     }
 

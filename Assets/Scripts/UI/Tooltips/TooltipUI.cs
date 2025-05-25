@@ -1,8 +1,9 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TooltipUI : MonoBehaviour
+public class TooltipUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private TextMeshProUGUI Header;
     [SerializeField] private TextMeshProUGUI Desc;
@@ -12,7 +13,9 @@ public class TooltipUI : MonoBehaviour
 
 
     private float _visibilityChangeRate = 0.05f;
-    private float _visibilityChangeTime = 0.4f;
+    private float _visibilityChangeTime = 0.5f;
+
+    private bool _mouseIsInside;
     
     public void Setup(string header,  string desc)
     {
@@ -69,7 +72,32 @@ public class TooltipUI : MonoBehaviour
 
     public void Delete()
     {
-        StopCoroutine(_visibilityCoroutine);
-        Destroy(gameObject);
+        // if (!_mouseIsInside)
+        // {
+        //     StopCoroutine(_visibilityCoroutine);
+        //     Destroy(gameObject);
+        // }
+        StartCoroutine(StartDeleting());
+    }
+    
+    private IEnumerator StartDeleting()
+    {
+        yield return StartCoroutine(WaitForRealSeconds(0.3f));
+        if (!_mouseIsInside)
+        {
+            StopCoroutine(_visibilityCoroutine);
+            Destroy(gameObject);
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _mouseIsInside = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _mouseIsInside = false;
+        Delete();
     }
 }
