@@ -19,6 +19,7 @@ public class CombatEnvironmentManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject background_nawia;
 
     [SerializeField] [TextArea] private String arenaString;
     
@@ -60,9 +61,12 @@ public class CombatEnvironmentManager : MonoBehaviour
     {
         Camera.main.gameObject.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -10);
         Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3.5f;
+        
         background.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -5);
-        //background.transform.localScale *= cellSize / 1f;
         background.transform.localScale *= 2.755f / cellSize;
+        
+        background_nawia.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -5);
+        background_nawia.transform.localScale *= 2.755f / cellSize;
     }
 
 
@@ -397,8 +401,10 @@ public class CombatEnvironmentManager : MonoBehaviour
         return _combatSystem.GetCurrentIsMaterial();
     }
 
-    public void SetHexVariant(bool isMaterial)
+    public void SetLayerVariant(bool isMaterial)
     {
+        background.gameObject.SetActive(isMaterial);
+        background_nawia.gameObject.SetActive(!isMaterial);
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)

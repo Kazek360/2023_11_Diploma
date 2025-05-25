@@ -228,7 +228,7 @@ namespace Combat
             _entityManager.ShowEntities(isMaterial);
             var pos = currentUnit.GetGridLocation();
             var currPos = combatEnvironmentManager.GetGridObject((int)pos.x, (int)pos.y);
-            combatEnvironmentManager.SetHexVariant(isMaterial);
+            combatEnvironmentManager.SetLayerVariant(isMaterial);
             if (_currentIsPlayer)
             {
                 if (isMaterial)
