@@ -317,22 +317,58 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     
     public int GetStrength()
     {
-        return Stats.Strength;
+        int str = Stats.Strength;
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
+            {
+                str = modifier.ModifyVar(str);
+            }
+        }
+
+        return str;
     }
 
     public int GetAgility()
     {
-        return Stats.Agility;
+        int agi = Stats.Agility;
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
+            {
+                agi = modifier.ModifyVar(agi);
+            }
+        }
+
+        return agi;
     }
 
     public int GetLuck()
     {
-        return Stats.Luck;
+        int lck = Stats.Luck;
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.LUCK)
+            {
+                lck = modifier.ModifyVar(lck);
+            }
+        }
+
+        return lck;
     }
 
     public int GetImagination()
     {
-        return Stats.Imagination;
+        int img = Stats.Imagination;
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
+            {
+                img = modifier.ModifyVar(img);
+            }
+        }
+
+        return img;
     }
     
     public string GetEntityName()

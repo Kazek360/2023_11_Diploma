@@ -218,22 +218,58 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     public virtual int GetStrength()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        int str = PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
+            {
+                str = modifier.ModifyVar(str);
+            }
+        }
+
+        return str;
     }
 
     public virtual int GetAgility()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        int agi = PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
+            {
+                agi = modifier.ModifyVar(agi);
+            }
+        }
+
+        return agi;
     }
 
     public virtual int GetLuck()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        int lck = PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.LUCK)
+            {
+                lck = modifier.ModifyVar(lck);
+            }
+        }
+
+        return lck;
     }
 
     public virtual int GetImagination()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        int img = PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
+            {
+                img = modifier.ModifyVar(img);
+            }
+        }
+
+        return img;
     }
 
     public string GetEntityName()
