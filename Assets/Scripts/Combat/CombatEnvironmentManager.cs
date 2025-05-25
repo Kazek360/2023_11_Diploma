@@ -59,9 +59,10 @@ public class CombatEnvironmentManager : MonoBehaviour
     private void RescaleCamera()
     {
         Camera.main.gameObject.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -10);
-        Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3;
-        background.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 2, -5);
-        background.transform.localScale *= cellSize / 1.25f;
+        Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3.5f;
+        background.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -5);
+        //background.transform.localScale *= cellSize / 1f;
+        background.transform.localScale *= 2.755f / cellSize;
     }
 
 
