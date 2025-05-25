@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,9 +50,16 @@ namespace Combat
          *
          * <param name="range">Range of the ability</param>
          */
-        public void UnityTargetingHighlight(int range)
+        public void UnityTargetingHighlight(AbilityScriptableObjectReworked ability, HashSet<(int, int)> targetPositions)
         {
-            combatEnvironmentManager.TargetingHighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), range, true);
+            combatEnvironmentManager.TargetingHighlightNeighborsInRadius(
+                combatEnvironmentManager.GetGridObject(
+                    (int)currentUnit.GetGridLocation().x, 
+                    (int)currentUnit.GetGridLocation().y
+                    ), 
+                ability.Range, 
+                true,
+                targetPositions);
         }
 
 

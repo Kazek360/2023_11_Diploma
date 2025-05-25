@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Combat;
 using InputSystem;
 using TMPro;
@@ -49,10 +50,12 @@ public class CombatUI : UserInterface
     private IHittable _currentTarget;
 
     private static bool _isTargeting;
+    private static int _isTargetingAreaRadius;
     
     private void Start()
     {
         _isTargeting = false;
+        _isTargetingAreaRadius = 0;
         _possibleTargets = new List<IHittable>();
         _entityManager = EntityManager.GetComponent<EntityManager>();
         _combatSystem = EntityManager.GetComponent<CombatSystem>();
@@ -165,11 +168,19 @@ public class CombatUI : UserInterface
             }
         }
         _possibleTargets = new List<IHittable>();
+        //List<Tuple<int, int>> targetPositions = new List<Tuple<int, int>>();
+        HashSet<(int, int)> targetPositions = new HashSet<(int, int)>();
         foreach (var target in candidateTargets)
         {
             if (_combatSystem.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
             {
                 _possibleTargets.Add(target);
+                targetPositions.Add(
+                        (
+                            (int)target.GetUnitCombatScript().GetGridLocation().x, 
+                            (int)target.GetUnitCombatScript().GetGridLocation().y
+                            )
+                    );
             }
         }
 
@@ -182,10 +193,10 @@ public class CombatUI : UserInterface
         
         if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)))
         {
-            _combatSystem.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability, targetPositions);
         } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)))
         {
-            _combatSystem.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability, targetPositions);
         }
         
         //TODO hide
@@ -415,4 +426,6 @@ public class CombatUI : UserInterface
     }
 
     public static bool IsTargeting => _isTargeting;
+
+    public static int IsTargetingAreaRadius => _isTargetingAreaRadius;
 }
