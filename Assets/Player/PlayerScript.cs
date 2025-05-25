@@ -347,7 +347,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     
     protected virtual void UpdateHpText()
     {
-        hpText.text = "" + PlayerStats.GetInstance().GetWitHp();
+        hpText.text = "" + PlayerStats.GetInstance().GetWitHp() + "/" + GetMaxHealth();
     }
 
     public virtual bool IsMaterial()
