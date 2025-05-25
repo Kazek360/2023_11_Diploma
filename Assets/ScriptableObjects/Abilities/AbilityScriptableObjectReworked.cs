@@ -60,6 +60,8 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     private List<EffectOverTimeContainer> effectsOverTime;
     [Tooltip("What visual effects does the ability invoke")] [SerializeField] 
     private List<VisualEffectContainer> visualEffects;
+    [Tooltip("What timed modifiers does the ability apply")] [SerializeField] 
+    private List<TimedCombatModifierContainer> combatModifiers;
 
 
     public string AbilityName => abilityName;
@@ -106,6 +108,11 @@ public class AbilityScriptableObjectReworked : ScriptableObject
             {
                 AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType,
                     visualEffect.EffectObject);
+            }
+
+            foreach (var modifier in combatModifiers)
+            {
+                modifier.ApplyEffect(caster, target);
             }
             //TODO: Play anim here
         }

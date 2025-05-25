@@ -34,6 +34,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     protected bool _partnerIsKilled;
     private bool _isVisible;
     private List<EffectOverTime> _effectsOverTime;
+    private List<TimedCombatModifier> _combatModifiers;
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +58,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         _effectsOverTime = new List<EffectOverTime>();
+        _combatModifiers = new List<TimedCombatModifier>();
         // if (IsMaterial() && partner is not null && partner )
         // {
         //     _partner = partner.GetComponent<IHittable>();
@@ -111,12 +113,23 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             effect.ProcessTurn(this);
         }
-
         for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
         {
             if (_effectsOverTime[i].DurationLeft == 0)
             {
                 _effectsOverTime.RemoveAt(i);
+            }
+        }
+        
+        foreach (TimedCombatModifier modifier in _combatModifiers)
+        {
+            modifier.ProcessTurn();
+        }
+        for (int i = _combatModifiers.Count - 1; i >= 0; i--)
+        {
+            if (_combatModifiers[i].DurationLeft == 0)
+            {
+                _combatModifiers.RemoveAt(i);
             }
         }
 
@@ -368,6 +381,17 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
     {
         _effectsOverTime.Add(effectOverTime);
+    }
+    
+
+    public void ApplyTimedCombatModifier(TimedCombatModifier combatModifier)
+    {
+        _combatModifiers.Add(combatModifier);
+    }
+
+    public List<TimedCombatModifier> GetCombatModifiers()
+    {
+        return _combatModifiers;
     }
 
     public void OnAbilityCast(int i)

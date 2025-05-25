@@ -99,6 +99,18 @@ public class EffectContainer
             fullValue += modifier.GetModifierValue(caster);
         }
 
+        if (effectedStat == EffectedVariable.HEALTH)
+        {
+            foreach (var modifier in caster.GetCombatModifiers())
+            {
+                if (modifier.ModifiedVar == ModifiedVariable.DAMAGE_DONE && fullValue < 0)
+                {
+                    fullValue = modifier.ModifyVar(fullValue);
+                }
+                
+            }
+        }
+
         IHittable intendedTarget = target;
         if (effectCaster)
         {
@@ -163,4 +175,69 @@ public class EffectOverTime
     }
 
     public int DurationLeft => _durationLeft;
+}
+
+public enum ModifiedVariable{AGILITY, HEALTH, IMAGINATION, LUCK, STRENGTH, DAMAGE_DONE}
+
+[Serializable]
+public class TimedCombatModifierContainer
+{
+    [Header("SOME VALUES WORK IN REVERSE WHEN ADDED")]
+    [Tooltip("Determines whether the modifier use multiplier or value")] [SerializeField] 
+    private bool isMultiplier;
+    [Tooltip("Value added to desired variable")] [SerializeField] 
+    private int value;
+    [Tooltip("Value by which desired variable is multiplied")] [SerializeField] 
+    private float multiplier;
+    [SerializeField] private int duration;
+    [SerializeField] private bool effectCaster;
+    [SerializeField] private ModifiedVariable modifiedVariable;
+    
+    public void ApplyEffect(IHittable caster, IHittable target)
+    {
+        IHittable intendedTarget = target;
+        if (effectCaster)
+        {
+            intendedTarget = caster;
+        }
+        intendedTarget.ApplyTimedCombatModifier(new TimedCombatModifier(isMultiplier, duration, value, multiplier, modifiedVariable));
+    }
+}
+
+public class TimedCombatModifier
+{
+    private bool _isMultiplier;
+    private int _durationLeft;
+    private int _value;
+    private float _multiplier;
+    private ModifiedVariable _modifiedVariable;
+
+    public TimedCombatModifier(bool isMultiplier, int durationLeft, int value, float multiplier, ModifiedVariable modifiedVariable)
+    {
+        _isMultiplier = isMultiplier;
+        _multiplier = multiplier;
+        _durationLeft = durationLeft;
+        _value = value;
+        _modifiedVariable = modifiedVariable;
+    }
+
+    public void ProcessTurn()
+    {
+        _durationLeft -= 1;
+    }
+
+    public int ModifyVar(int baseVar)
+    {
+        if (_isMultiplier)
+        {
+            return (int)(baseVar * _multiplier);
+        }
+        return baseVar + _value;
+    }
+
+    public int DurationLeft => _durationLeft;
+    public bool IsMultiplier => _isMultiplier;
+    public int Value => _value;
+    public float Multiplier => _multiplier;
+    public ModifiedVariable ModifiedVar => _modifiedVariable;
 }

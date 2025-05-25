@@ -39,6 +39,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private bool _partnerIsKilled;
     private bool _isVisible;
     private List<EffectOverTime> _effectsOverTime;
+    private List<TimedCombatModifier> _combatModifiers;
     
     // Start is called before the first frame update
     private void Start()
@@ -60,6 +61,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
         _effectsOverTime = new List<EffectOverTime>();
+        _combatModifiers = new List<TimedCombatModifier>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
@@ -110,6 +112,18 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         foreach (EffectOverTime effect in _effectsOverTime)
         {
             effect.ProcessTurn(this);
+        }
+        
+        foreach (TimedCombatModifier modifier in _combatModifiers)
+        {
+            modifier.ProcessTurn();
+        }
+        for (int i = _combatModifiers.Count - 1; i >= 0; i--)
+        {
+            if (_combatModifiers[i].DurationLeft == 0)
+            {
+                _combatModifiers.RemoveAt(i);
+            }
         }
 
         for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
@@ -467,6 +481,17 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         Debug.Log("TIMED EFFECT APPLIED");
         _effectsOverTime.Add(effectOverTime);
+    }
+    
+
+    public void ApplyTimedCombatModifier(TimedCombatModifier combatModifier)
+    {
+        _combatModifiers.Add(combatModifier);
+    }
+
+    public List<TimedCombatModifier> GetCombatModifiers()
+    {
+        return _combatModifiers;
     }
 
     public void OnAbilityCast(int i)
