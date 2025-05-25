@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Combat;
 using UnityEngine;
 
 /**
@@ -45,6 +46,8 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     [SerializeField] private int cooldown; //how long will it take for this ability to be available again(in turns)
     [Tooltip("Measured in hex tiles")] [SerializeField] 
     private int range;
+    [Tooltip("Radius in which effects are applied. Default is 0")] [SerializeField] 
+    private int areaRadius = 0;
     [SerializeField] private int numberOfTargets;
     [Tooltip("What this ability can target")] [SerializeField] 
     private List<TargetTypes> viableTargets;
@@ -68,6 +71,8 @@ public class AbilityScriptableObjectReworked : ScriptableObject
     public int Cooldown => cooldown;
 
     public int Range => range;
+
+    public int AreaRadius => areaRadius;
 
     public int NumberOfTargets => numberOfTargets;
 
@@ -95,6 +100,28 @@ public class AbilityScriptableObjectReworked : ScriptableObject
         foreach (var visualEffect in visualEffects)
         {
             AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
+        }
+        //TODO: Play anim here
+    }
+    public virtual void CastAbility(IHittable target, IHittable caster, bool playVisualEffects)
+    {
+        Debug.Log("[COMBAT]: " + caster.GetEntityName() + " USED " + this.abilityName + " ON " + target.GetEntityName());
+        foreach (var effect in effects)
+        {
+            effect.ApplyEffect(caster, target);
+        }
+
+        foreach (var effectOverTime in effectsOverTime)
+        {
+            effectOverTime.ApplyEffect(caster, target);
+        }
+        
+        if (playVisualEffects)
+        {
+            foreach (var visualEffect in visualEffects)
+            {
+                AbilityVisualEffects.ApplyEffect(caster, target, visualEffect.DurationOrSpeed, visualEffect.EffectType, visualEffect.EffectObject);
+            }
         }
         //TODO: Play anim here
     }

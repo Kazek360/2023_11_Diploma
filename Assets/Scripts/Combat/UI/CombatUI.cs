@@ -254,6 +254,7 @@ public class CombatUI : UserInterface
         {
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
             _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
+            
         }
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
