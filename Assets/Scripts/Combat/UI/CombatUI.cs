@@ -187,7 +187,7 @@ public class CombatUI : UserInterface
 
         foreach (var target in _possibleTargets)
         {
-            target.ActivateTargetClickArea();
+            //target.ActivateTargetClickArea();
         }
         
         _combatSystem.ClearGrid();
