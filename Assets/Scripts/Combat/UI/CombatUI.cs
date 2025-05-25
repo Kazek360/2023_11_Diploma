@@ -22,6 +22,7 @@ public class CombatUI : UserInterface
     [SerializeField] private GameObject UpperScreen;
     [SerializeField] private GameObject LowerScreen;
     [FormerlySerializedAs("abilitiesScrollContent")] [SerializeField] private GameObject AbilitiesScrollContent;
+    [SerializeField] private GameObject DoubleContainerPrefab;
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
     [SerializeField] private GameObject ItemsScrollContent;
     [SerializeField] private GameObject ItemCardPrefab;
@@ -96,17 +97,34 @@ public class CombatUI : UserInterface
     */
     public void ShowAbilities()
     {
-        for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
+        for (int i = 0; i < _currentEntity.GetAbilities().Count; i += 2)
         {
-            var container = Instantiate(AbilityCardPrefab, AbilitiesScrollContent.transform);
-            AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
-            abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
-            abilityCard.SetController(this);
-            container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            if (_combatSystem.ActionsLeft <= 0)
+            GameObject cardPair = Instantiate(DoubleContainerPrefab, AbilitiesScrollContent.transform);
+            if (i < _currentEntity.GetAbilities().Count)
             {
-                container.GetComponent<Toggle>().interactable = false;
+                var container = Instantiate(AbilityCardPrefab, cardPair.transform);
+                AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
+                abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
+                abilityCard.SetController(this);
+                container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
+                if (_combatSystem.ActionsLeft <= 0)
+                {
+                    container.GetComponent<Toggle>().interactable = false;
+                }
             }
+            if (i + 1 < _currentEntity.GetAbilities().Count)
+            {
+                var container = Instantiate(AbilityCardPrefab, cardPair.transform);
+                AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
+                abilityCard.SetAbility(_currentEntity.GetAbilities()[i + 1], _currentEntity.GetCooldowns()[i + 1], i + 1);
+                abilityCard.SetController(this);
+                container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
+                if (_combatSystem.ActionsLeft <= 0)
+                {
+                    container.GetComponent<Toggle>().interactable = false;
+                }
+            }
+            
         }
     }
 
@@ -115,13 +133,25 @@ public class CombatUI : UserInterface
     */
     public void ShowItems()
     {
-        //TODO: SHOW ITEM CARDS
         if (_currentEntity.IsMaterial())
         {
             var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+
+            // var items = new HashSet<string>();
+            // items.Add("beer");
+            // items.Add("stone");
+            // items.Add("rune");
+            int currentCapacity = 2;
+            GameObject cardPair = Instantiate(DoubleContainerPrefab, ItemsScrollContent.transform);
             foreach (var itemId in items)
             {
-                var itemCard = Instantiate(ItemCardPrefab, ItemsScrollContent.transform);
+                if (currentCapacity == 0)
+                {
+                    currentCapacity = 2;
+                    cardPair = Instantiate(DoubleContainerPrefab, ItemsScrollContent.transform);
+                }
+                
+                var itemCard = Instantiate(ItemCardPrefab, cardPair.transform);
                 ItemCard itemCardScript = itemCard.GetComponent<ItemCard>();
                 itemCardScript.SetItem(ItemLibrary.Instance.GetItem(itemId));
                 itemCardScript.SetController(this);
@@ -133,6 +163,8 @@ public class CombatUI : UserInterface
                 {
                     itemCard.GetComponent<Button>().interactable = false;
                 }
+
+                currentCapacity--;
             }
         }
     }
