@@ -4,10 +4,10 @@ namespace Skill.Events
 {
     public static class SkillTreeEvents
     {
-        public static event Action<string> OnNodeActivation;
-        public static void ActivateNode(string id)
+        public static event Action<string, int> OnNodeActivation;
+        public static void ActivateNode(string id, int skillPoints)
         {
-            OnNodeActivation?.Invoke(id);
+            OnNodeActivation?.Invoke(id, skillPoints);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Combat;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -18,11 +19,14 @@ public class CombatEnvironmentManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
 
     [SerializeField] private GameObject background;
+    [SerializeField] private GameObject background_nawia;
 
     [SerializeField] [TextArea] private String arenaString;
     
     private Grid<GridObject> _grid;
     private GridObject _currentGridObject;
+
+    private CombatSystem _combatSystem;
 
     // Start is called before the first frame update
     private void Awake()
@@ -32,7 +36,7 @@ public class CombatEnvironmentManager : MonoBehaviour
     
     private void Update()
     {
-        if (_currentGridObject is not null)
+        if (_currentGridObject is not null && !CombatUI.IsTargeting)
         {
             _currentGridObject.HideSelect();
         }
@@ -42,9 +46,28 @@ public class CombatEnvironmentManager : MonoBehaviour
             
         _currentGridObject = _grid.GetGridObject(mousePosition);
         
-        if (_currentGridObject != null && _currentGridObject.IsHighlighted)
+        if (_currentGridObject != null && _currentGridObject.IsHighlighted && !CombatUI.IsTargeting)
         {
-            _currentGridObject.Select();
+            _currentGridObject.Select(_combatSystem.GetCurrentIsMaterial());
+        }
+
+        if (CombatUI.IsTargeting && CombatUI.IsTargetingAreaRadius > 0)
+        {
+            DeselectGrid();
+            if (_currentGridObject is not null && _currentGridObject.IsInRange)
+            {
+                _currentGridObject.HideSelect();
+                TargetingHighlightNeighborsInRadiusArea(
+                    _currentGridObject, 
+                    CombatUI.IsTargetingAreaRadius, 
+                    true
+                    );
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0) && CombatUI.IsTargeting)
+        {
+            _combatSystem.GetCombatUI().SetTarget(_currentGridObject);
         }
     }
 
@@ -56,14 +79,18 @@ public class CombatEnvironmentManager : MonoBehaviour
     private void RescaleCamera()
     {
         Camera.main.gameObject.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -10);
-        Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3;
-        background.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 2, -5);
-        background.transform.localScale *= cellSize / 1.25f;
+        Camera.main.GetComponent<Camera>().orthographicSize = cellSize * 3.5f;
+        
+        background.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -5);
+        background.transform.localScale *= 2.755f / cellSize;
+        
+        background_nawia.transform.position = new Vector3(width * cellSize / 2, height * cellSize / 8, -5);
+        background_nawia.transform.localScale *= 2.755f / cellSize;
     }
 
 
     /**
-     * Unselects every hex in grid
+     * Removes all additions from every hex in grid
      */
     public void ClearGrid()
     {
@@ -80,6 +107,59 @@ public class CombatEnvironmentManager : MonoBehaviour
             }
         }
     }
+    
+    /**
+     * Unselects every hex in grid
+     */
+    public void DeselectGrid()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (_grid.GetGridObject(i, j) != null)
+                {
+                    _grid.GetGridObject(i, j).HideSelect();
+                }
+            }
+        }
+    }
+    
+    /**
+     * Returns every hex in a radius
+     * <param name='gridObject'> center of the hex circle</param>
+     * <param name='radius'> - radius of the contained area</param>
+     * <param name='containCenter'> should the center be contained</param>
+     * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
+     * <param name='currentList'> the neighbors we have found up to now</param>
+     */
+    public List<GridObject> GetNeighborsInRadius(GridObject gridObject, int radius, bool containCenter, int currentIter = 0, List<GridObject> currentList = null)
+    {
+        if (currentList is null)
+        {
+            currentList = new List<GridObject>();
+        }
+        if ((containCenter || currentIter != 0) && !currentList.Contains(gridObject))
+        {
+            currentList.Add(gridObject);
+        }
+
+
+        if (currentIter == radius)
+        {
+            return currentList;
+        }
+
+        foreach (GridObject neighbor in _grid.GetGridObjectNeighbours(gridObject.X, gridObject.Y))
+        {
+            if (neighbor != null)
+            {
+                currentList = GetNeighborsInRadius(neighbor, radius, containCenter, currentIter + 1, currentList);
+            }
+        }
+
+        return currentList;
+    }
 
     /**
      * Highlights every hex in a radius and makes it active
@@ -93,7 +173,7 @@ public class CombatEnvironmentManager : MonoBehaviour
     {
         if ((highlightCenter || currentIter != 0) && !gridObject.GetOccupied(_currentIsMaterial))
         {
-            gridObject.Highlight();
+            gridObject.Highlight(_currentIsMaterial);
         }
 
 
@@ -119,11 +199,19 @@ public class CombatEnvironmentManager : MonoBehaviour
      * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
      */
     public void TargetingHighlightNeighborsInRadius(GridObject gridObject, int radius, bool highlightCenter,
-        int currentIter = 0)
+        HashSet<(int, int)> targetPositions, int currentIter = 0)
     {
         if ((highlightCenter || currentIter != 0))
         {
-            gridObject.TargetingHighlight();
+            if (targetPositions.Contains((gridObject.X, gridObject.Y)))
+            {
+                gridObject.TargetingHighlight(_combatSystem.GetCurrentIsMaterial());
+                gridObject.Select(_combatSystem.GetCurrentIsMaterial());
+            }
+            else
+            {
+                gridObject.TargetingHighlight(_combatSystem.GetCurrentIsMaterial());
+            }
         }
 
 
@@ -136,22 +224,38 @@ public class CombatEnvironmentManager : MonoBehaviour
         {
             if (neighbor != null)
             {
-                TargetingHighlightNeighborsInRadius(neighbor, radius, highlightCenter, currentIter + 1);
+                TargetingHighlightNeighborsInRadius(neighbor, radius, highlightCenter, targetPositions, currentIter + 1);
             }
         }
     }
 
     /**
-     * Highlights every hex in the range of an ability
-     *
-     * <param name="currentUnit">Unit for which range is calculated</param>
-     * <param name="range">Range of the ability</param>
+     * Highlights every hex in a radius
+     * <param name='gridObject'> center of the hex circle</param>
+     * <param name='radius'> - radius of the highlighted area</param>
+     * <param name='highlightCenter'> should the center be highlighted</param>
+     * <param name='currentIter'> which iteration of the algorithm is it (0 by default)</param>
      */
-    public void UnityTargetingHighlight(UnitCombat currentUnit, int range)
+    public void TargetingHighlightNeighborsInRadiusArea(GridObject gridObject, int radius, bool highlightCenter, int currentIter = 0)
     {
-        TargetingHighlightNeighborsInRadius(
-            _grid.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), range,
-            true);
+        if ((highlightCenter || currentIter != 0) && gridObject.IsInRange)
+        {
+            gridObject.Select(_combatSystem.GetCurrentIsMaterial());
+        }
+
+
+        if (currentIter == radius)
+        {
+            return;
+        }
+
+        foreach (GridObject neighbor in _grid.GetGridObjectNeighbours(gridObject.X, gridObject.Y))
+        {
+            if (neighbor != null)
+            {
+                TargetingHighlightNeighborsInRadiusArea(neighbor, radius, highlightCenter, currentIter + 1);
+            }
+        }
     }
 
     /**
@@ -377,12 +481,45 @@ public class CombatEnvironmentManager : MonoBehaviour
             }
         }
     }
+
+    public void SetCombatSystem(CombatSystem combatSystem)
+    {
+        _combatSystem = combatSystem;
+    }
+
+    private bool GetCurrentIsMaterial()
+    {
+        if (_combatSystem is null)
+        {
+            return true;
+        }
+
+        return _combatSystem.GetCurrentIsMaterial();
+    }
+
+    public void SetLayerVariant(bool isMaterial)
+    {
+        background.gameObject.SetActive(isMaterial);
+        background_nawia.gameObject.SetActive(!isMaterial);
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (_grid.GetGridObject(x, y) is not null)
+                {
+                    _grid.GetGridObject(x, y).SetMaterial(isMaterial);
+                }
+            }
+        }
+    }
 }
 
 public class GridObject
 {
     public Transform Hex;
     public bool IsHighlighted;
+    public bool IsInRange;
+    public bool IsSelected;
     public int X;
     public int Y;
     public bool IsOccupiedMaterial;
@@ -399,15 +536,31 @@ public class GridObject
         XYZCoordinates.x = X - (int)(Y / 2);
         XYZCoordinates.z = 0 - XYZCoordinates.x - XYZCoordinates.y;
         IsOccupiedMaterial = false;
+        IsInRange = false;
+        IsSelected = false;
+    }
+
+    public void SetMaterial(bool isMaterial)
+    {
+        Hex.Find("Default").gameObject.SetActive(isMaterial);
+        Hex.Find("Default_nawia").gameObject.SetActive(!isMaterial);
     }
 
     /**
      * Highlight the hex and make it active for movement
      */
-    public void Highlight()
+    public void Highlight(bool isMaterial)
     {
         IsHighlighted = true;
-        Hex.Find("Highlighted").gameObject.SetActive(true);
+        if (isMaterial)
+        {
+            Hex.Find("Highlighted").gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("HIGHLIGHTING_NAWIA");
+            Hex.Find("Highlighted_nawia").gameObject.SetActive(true);
+        }
     }
 
     /**
@@ -417,14 +570,23 @@ public class GridObject
     {
         IsHighlighted = false;
         Hex.Find("Highlighted").gameObject.SetActive(false);
+        Hex.Find("Highlighted_nawia").gameObject.SetActive(false);
     }
 
     /**
      * Only highlight the hex
      */
-    public void TargetingHighlight()
+    public void TargetingHighlight(bool isMaterial)
     {
-        Hex.Find("Range").gameObject.SetActive(true);
+        IsInRange = true;
+        if (isMaterial)
+        {
+            Hex.Find("Range").gameObject.SetActive(true);
+        }
+        else
+        {
+            Hex.Find("Range_nawia").gameObject.SetActive(true);
+        }
     }
 
     /**
@@ -432,17 +594,29 @@ public class GridObject
      */
     public void HideTargetingHighlight()
     {
+        IsInRange = false;
         Hex.Find("Range").gameObject.SetActive(false);
+        Hex.Find("Range_nawia").gameObject.SetActive(false);
     }
 
-    public void Select()
+    public void Select(bool isMaterial)
     {
-        Hex.Find("Selected").gameObject.SetActive(true);
+        IsSelected = true;
+        if (isMaterial)
+        {
+            Hex.Find("Selected").gameObject.SetActive(true);
+        }
+        else
+        {
+            Hex.Find("Selected_nawia").gameObject.SetActive(true);
+        }
     }
 
     public void HideSelect()
     {
+        IsSelected = false;
         Hex.Find("Selected").gameObject.SetActive(false);
+        Hex.Find("Selected_nawia").gameObject.SetActive(false);
     }
 
     /**

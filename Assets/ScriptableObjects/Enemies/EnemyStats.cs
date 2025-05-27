@@ -23,6 +23,9 @@ public class EnemyStats : ScriptableObject
 
 
     public string EnemyName => enemyName;
+
+    public string Description => description;
+
     public int MaxHealthPoints => maxHealthPoints;
     public int MaxPsychePoints => maxPsychePoints;
     public int Agility => agility;

@@ -104,6 +104,8 @@ public interface IHittable
     public bool IsDead();
 
     public void ApplyOverTimeEffect(EffectOverTime effectOverTime);
+    public void ApplyTimedCombatModifier(TimedCombatModifier timedModifier);
+    public List<TimedCombatModifier> GetCombatModifiers();
 
     public void OnAbilityCast(int i);
 

@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     protected IHittable _partner;
 
     [SerializeField] private string entityName;
+    [SerializeField][TextArea] private string entityDescription;
     
     [SerializeField] private List<AbilityScriptableObjectReworked> abilities;
     private List<int> _cooldowns;
@@ -34,6 +35,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     protected bool _partnerIsKilled;
     private bool _isVisible;
     private List<EffectOverTime> _effectsOverTime;
+    private List<TimedCombatModifier> _combatModifiers;
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         abilities = UnlockedAbilities.GetInstance().GetAbilities(playerType);
         _cooldowns = new List<int>();
         _effectsOverTime = new List<EffectOverTime>();
+        _combatModifiers = new List<TimedCombatModifier>();
         // if (IsMaterial() && partner is not null && partner )
         // {
         //     _partner = partner.GetComponent<IHittable>();
@@ -86,11 +89,17 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
      * <param name="i">Position of ability in the ability list</param>
      * <param name="target">Intended target entity</param>
      */
-    public void CastAbility(int i, IHittable target)
+    public void CastAbility(int i, List<IHittable> targets)
     {
         var ability = abilities[i];
         _cooldowns[i] = ability.Cooldown;
-        ability.CastAbility(target, this);
+        ability.CastAbility(targets, this);
+    }
+    public void CastAbility(int i, List<GridObject> targets)
+    {
+        var ability = abilities[i];
+        _cooldowns[i] = ability.Cooldown;
+        ability.CastAbility(targets, this);
     }
     
     
@@ -105,12 +114,23 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             effect.ProcessTurn(this);
         }
-
         for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
         {
             if (_effectsOverTime[i].DurationLeft == 0)
             {
                 _effectsOverTime.RemoveAt(i);
+            }
+        }
+        
+        foreach (TimedCombatModifier modifier in _combatModifiers)
+        {
+            modifier.ProcessTurn();
+        }
+        for (int i = _combatModifiers.Count - 1; i >= 0; i--)
+        {
+            if (_combatModifiers[i].DurationLeft == 0)
+            {
+                _combatModifiers.RemoveAt(i);
             }
         }
 
@@ -199,22 +219,74 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
 
     public virtual int GetStrength()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        int str = PlayerStats.GetInstance().GetStat(StatType.WitStrength);
+        if (_combatModifiers is null)
+        {
+            return str;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
+            {
+                str = modifier.ModifyVar(str);
+            }
+        }
+
+        return str;
     }
 
     public virtual int GetAgility()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        int agi = PlayerStats.GetInstance().GetStat(StatType.WitAgility);
+        if (_combatModifiers is null)
+        {
+            return agi;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
+            {
+                agi = modifier.ModifyVar(agi);
+            }
+        }
+
+        return agi;
     }
 
     public virtual int GetLuck()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        int lck = PlayerStats.GetInstance().GetStat(StatType.WitLuck);
+        if (_combatModifiers is null)
+        {
+            return lck;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.LUCK)
+            {
+                lck = modifier.ModifyVar(lck);
+            }
+        }
+
+        return lck;
     }
 
     public virtual int GetImagination()
     {
-        return PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        int img = PlayerStats.GetInstance().GetStat(StatType.WitImagination);
+        if (_combatModifiers is null)
+        {
+            return img;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
+            {
+                img = modifier.ModifyVar(img);
+            }
+        }
+
+        return img;
     }
 
     public string GetEntityName()
@@ -276,7 +348,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     
     protected virtual void UpdateHpText()
     {
-        hpText.text = "" + PlayerStats.GetInstance().GetWitHp();
+        hpText.text = "" + PlayerStats.GetInstance().GetWitHp() + "/" + GetMaxHealth();
     }
 
     public virtual bool IsMaterial()
@@ -355,13 +427,25 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth());
+        str.Append("Życie: " + GetCurrentHealth() + "/" + GetMaxHealth() + "\n");
+        str.Append(entityDescription);
         return str.ToString();
     }
 
     public void ApplyOverTimeEffect(EffectOverTime effectOverTime)
     {
         _effectsOverTime.Add(effectOverTime);
+    }
+    
+
+    public void ApplyTimedCombatModifier(TimedCombatModifier combatModifier)
+    {
+        _combatModifiers.Add(combatModifier);
+    }
+
+    public List<TimedCombatModifier> GetCombatModifiers()
+    {
+        return _combatModifiers;
     }
 
     public void OnAbilityCast(int i)
