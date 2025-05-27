@@ -31,7 +31,7 @@ namespace SaveSystem.Data
             };
             inventory = new InventoryData
             {
-                items = new Tuple<string, int>[7, 5],
+                items = new Tuple<string, int>[6, 9],
                 equipment = new string[5]
             };
             trackedQuest = "";
