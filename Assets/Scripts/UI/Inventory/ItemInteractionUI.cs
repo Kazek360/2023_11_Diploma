@@ -1,14 +1,17 @@
 using TMPro;
 using UI.Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 public class ItemInteractionUI : MonoBehaviour
 {
     [SerializeField] private Image ItemImage;
     [SerializeField] private TextMeshProUGUI ItemName;
     [SerializeField] private TextMeshProUGUI ItemDesc;
-    [SerializeField] private Button UseButton, DropButton, MoveButton;
+    [SerializeField] private Button UseButton, DropButton, MoveButton, EquipButton, UnequipButton;
+    
     
     private ItemSlot _slot;
     private InventoryUI _inventoryUI;
@@ -35,16 +38,20 @@ public class ItemInteractionUI : MonoBehaviour
         ItemDesc.text = item.ItemDesc();
         if (slot is InventorySlot)
         {
+            UseButton.interactable = true;
+            DropButton.interactable = true;
             DropButton.gameObject.SetActive(true);
             //MoveButton.gameObject.SetActive(true);
         
             if (item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
             {
-                UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZAŁÓŻ";
+                UseButton.gameObject.SetActive(false);
+                EquipButton.gameObject.SetActive(true);
             }
             else if (item.itemType == ItemScriptableObject.ItemType.CONSUMABLE)
             {
-                UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "UŻYJ";
+                EquipButton.gameObject.SetActive(false);
+                UseButton.gameObject.SetActive(true);
             }
             else
             {
@@ -53,11 +60,18 @@ public class ItemInteractionUI : MonoBehaviour
         }
         else
         {
+            UseButton.gameObject.SetActive(false);
+            DropButton.gameObject.SetActive(false);
+            EquipButton.gameObject.SetActive(false);
+            UnequipButton.gameObject.SetActive(true);
+            
             ItemImage.sprite = item.ItemSprite();
             ItemName.text = item.itemName;
             ItemDesc.text = item.ItemDesc();
+            
+            
         
-            UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZDEJMIJ";
+            //UseButton.GetComponentInChildren<TextMeshProUGUI>().text = "ZDEJMIJ";
         }
         
     }
@@ -68,9 +82,14 @@ public class ItemInteractionUI : MonoBehaviour
         ItemName.gameObject.SetActive(false);
         ItemDesc.gameObject.SetActive(false);
         
-        UseButton.gameObject.SetActive(false);
-        DropButton.gameObject.SetActive(false);
+        UseButton.gameObject.SetActive(true);
+        DropButton.gameObject.SetActive(true);
+        UseButton.interactable = false;
+        DropButton.interactable = false;
+        
         MoveButton.gameObject.SetActive(false);
+        EquipButton.gameObject.SetActive(false);
+        UnequipButton.gameObject.SetActive(false);
     }
 
     public void UseItem()

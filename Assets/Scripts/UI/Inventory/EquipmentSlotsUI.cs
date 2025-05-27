@@ -45,7 +45,7 @@ public class EquipmentSlotsUI : MonoBehaviour
         {
             slot.UpdateSlot();
         }
-        levelText.text = $"Poziom: {PlayerStats.GetInstance().Level}";
+        levelText.text = $"{PlayerStats.GetInstance().Level}";
         experienceText.text = $"Punkty doświadczenia: {PlayerStats.GetInstance().CurrentXp}/1000";
         experienceProgressBar.fillAmount = ((float)PlayerStats.GetInstance().CurrentXp) / 1000;
     }
