@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051c029d333734945b99ff97897061af, type: 3}
+  m_Name: VIOLENCE_SKILL_2_2
+  m_EditorClassIdentifier: 
+  abilityName: Wzmocnienie
+  abilityDescription: "Czasem jedynym rozwi\u0105zaniem problemu z kt\xF3rym nie
+    mo\u017Cesz sobie poradzi\u0107 jest po prostu pr\xF3bowanie mocniej.\n\nAtaki
+    w tej turze b\u0119d\u0105 zadawa\u0142y 33% wi\u0119cej obra\u017Ce\u0144."
+  sprite: {fileID: 0}
+  animType: 4
+  cooldown: 6
+  range: 0
+  areaRadius: 0
+  numberOfTargets: 1
+  viableTargets: 01000000
+  baseAiUseWeight: 0
+  effects: []
+  effectsOverTime: []
+  visualEffects: []
+  combatModifiers:
+  - isMultiplier: 1
+    value: 0
+    multiplier: 1.34
+    duration: 1
+    effectCaster: 0
+    modifiedVariable: 5

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Combat;
 using InputSystem;
 using TMPro;
@@ -21,6 +22,7 @@ public class CombatUI : UserInterface
     [SerializeField] private GameObject UpperScreen;
     [SerializeField] private GameObject LowerScreen;
     [FormerlySerializedAs("abilitiesScrollContent")] [SerializeField] private GameObject AbilitiesScrollContent;
+    [SerializeField] private GameObject DoubleContainerPrefab;
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
     [SerializeField] private GameObject ItemsScrollContent;
     [SerializeField] private GameObject ItemCardPrefab;
@@ -46,10 +48,15 @@ public class CombatUI : UserInterface
     private PlayerScript _currentEntity;
 
     private List<IHittable> _possibleTargets;
-    private IHittable _currentTarget;
+    private GridObject _currentTarget;
+
+    private static bool _isTargeting;
+    private static int _isTargetingAreaRadius;
     
     private void Start()
     {
+        _isTargeting = false;
+        _isTargetingAreaRadius = 0;
         _possibleTargets = new List<IHittable>();
         _entityManager = EntityManager.GetComponent<EntityManager>();
         _combatSystem = EntityManager.GetComponent<CombatSystem>();
@@ -90,17 +97,34 @@ public class CombatUI : UserInterface
     */
     public void ShowAbilities()
     {
-        for (int i = 0; i < _currentEntity.GetAbilities().Count; i++)
+        for (int i = 0; i < _currentEntity.GetAbilities().Count; i += 2)
         {
-            var container = Instantiate(AbilityCardPrefab, AbilitiesScrollContent.transform);
-            AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
-            abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
-            abilityCard.SetController(this);
-            container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
-            if (_combatSystem.ActionsLeft <= 0)
+            GameObject cardPair = Instantiate(DoubleContainerPrefab, AbilitiesScrollContent.transform);
+            if (i < _currentEntity.GetAbilities().Count)
             {
-                container.GetComponent<Toggle>().interactable = false;
+                var container = Instantiate(AbilityCardPrefab, cardPair.transform);
+                AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
+                abilityCard.SetAbility(_currentEntity.GetAbilities()[i], _currentEntity.GetCooldowns()[i], i);
+                abilityCard.SetController(this);
+                container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
+                if (_combatSystem.ActionsLeft <= 0)
+                {
+                    container.GetComponent<Toggle>().interactable = false;
+                }
             }
+            if (i + 1 < _currentEntity.GetAbilities().Count)
+            {
+                var container = Instantiate(AbilityCardPrefab, cardPair.transform);
+                AbilityCard abilityCard = container.gameObject.GetComponent<AbilityCard>();
+                abilityCard.SetAbility(_currentEntity.GetAbilities()[i + 1], _currentEntity.GetCooldowns()[i + 1], i + 1);
+                abilityCard.SetController(this);
+                container.GetComponent<Toggle>().group = _abilitiesToggleGroup;
+                if (_combatSystem.ActionsLeft <= 0)
+                {
+                    container.GetComponent<Toggle>().interactable = false;
+                }
+            }
+            
         }
     }
 
@@ -109,13 +133,25 @@ public class CombatUI : UserInterface
     */
     public void ShowItems()
     {
-        //TODO: SHOW ITEM CARDS
         if (_currentEntity.IsMaterial())
         {
-            var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+            //var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+
+            var items = new HashSet<string>();
+            items.Add("beer");
+            items.Add("stone");
+            items.Add("rune");
+            int currentCapacity = 2;
+            GameObject cardPair = Instantiate(DoubleContainerPrefab, ItemsScrollContent.transform);
             foreach (var itemId in items)
             {
-                var itemCard = Instantiate(ItemCardPrefab, ItemsScrollContent.transform);
+                if (currentCapacity == 0)
+                {
+                    currentCapacity = 2;
+                    cardPair = Instantiate(DoubleContainerPrefab, ItemsScrollContent.transform);
+                }
+                
+                var itemCard = Instantiate(ItemCardPrefab, cardPair.transform);
                 ItemCard itemCardScript = itemCard.GetComponent<ItemCard>();
                 itemCardScript.SetItem(ItemLibrary.Instance.GetItem(itemId));
                 itemCardScript.SetController(this);
@@ -127,6 +163,8 @@ public class CombatUI : UserInterface
                 {
                     itemCard.GetComponent<Button>().interactable = false;
                 }
+
+                currentCapacity--;
             }
         }
     }
@@ -137,6 +175,8 @@ public class CombatUI : UserInterface
     */
     public void ShowTargets(AbilityScriptableObjectReworked ability)
     {
+        _isTargeting = true;
+        _isTargetingAreaRadius = ability.AreaRadius;
         List<IHittable> candidateTargets = new List<IHittable>();
         foreach (var targetType in ability.ViableTargets)
         {
@@ -161,27 +201,35 @@ public class CombatUI : UserInterface
             }
         }
         _possibleTargets = new List<IHittable>();
+        //List<Tuple<int, int>> targetPositions = new List<Tuple<int, int>>();
+        HashSet<(int, int)> targetPositions = new HashSet<(int, int)>();
         foreach (var target in candidateTargets)
         {
             if (_combatSystem.GetDistance(target.GetUnitCombatScript()) <= ability.Range)
             {
                 _possibleTargets.Add(target);
+                targetPositions.Add(
+                        (
+                            (int)target.GetUnitCombatScript().GetGridLocation().x, 
+                            (int)target.GetUnitCombatScript().GetGridLocation().y
+                            )
+                    );
             }
         }
 
         foreach (var target in _possibleTargets)
         {
-            target.ActivateTargetClickArea();
+            //target.ActivateTargetClickArea();
         }
         
         _combatSystem.ClearGrid();
         
         if (ImmaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyImmaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyImmaterial)))
         {
-            _combatSystem.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability, targetPositions);
         } else if (MaterialToggle.isOn && (ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.AllyMaterial) || ability.ViableTargets.Contains(AbilityScriptableObjectReworked.TargetTypes.EnemyMaterial)))
         {
-            _combatSystem.UnityTargetingHighlight(ability.Range);
+            _combatSystem.UnityTargetingHighlight(ability, targetPositions);
         }
         
         //TODO hide
@@ -192,6 +240,8 @@ public class CombatUI : UserInterface
     */
     private void HideTargets()
     {
+        _isTargeting = false;
+        _isTargetingAreaRadius = 0;
         foreach (var target in _possibleTargets)
         {
             target.TargetClickAreaDeselected();
@@ -233,20 +283,77 @@ public class CombatUI : UserInterface
     */
     public void OnCastAbility()
     {
+        bool abilityWasCast = false;
         var toggled = _abilitiesToggleGroup.GetFirstActiveToggle();
+        
         if (toggled is not null && GetCurrentlySelectedTarget() is not null)
         {
             int selected = toggled.gameObject.GetComponent<AbilityCard>().AbilityOrderInEntityList;
-            _currentEntity.CastAbility(selected, GetCurrentlySelectedTarget());
+            
+            AbilityScriptableObjectReworked ability = GetCurrentlySelectedAbility();
+            if (ability.TargetsGround())
+            {
+                abilityWasCast = true;
+                List<GridObject> validTargets = new List<GridObject>();
+                validTargets.Add(GetCurrentlySelectedTarget());
+                validTargets.AddRange(_combatSystem.GetCombatEnvironmentManager().GetNeighborsInRadius(GetCurrentlySelectedTarget(), ability.AreaRadius, false));
+                _currentEntity.CastAbility(selected, validTargets);
+            }
+            
+            if (ability.TargetsUnits())
+            {
+                List<IHittable> validTargets = new List<IHittable>();
+                List<GridObject> toCheck = _combatSystem.GetCombatEnvironmentManager()
+                    .GetNeighborsInRadius(GetCurrentlySelectedTarget(), ability.AreaRadius, true);
+                foreach (var gridObject in toCheck)
+                {
+                    if (!gridObject.IsInRange)
+                    {
+                        continue;
+                    }
+                    if (ability.TargetsImmaterialAllies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, true, false) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, true, false));
+                    }
+
+                    if (ability.TargetsImmaterialEnemies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, false, false) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, false, false));
+                    }
+
+                    if (ability.TargetsMaterialAllies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, true, true) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, true, true));
+                    }
+
+                    if (ability.TargetsMaterialEnemies &&
+                        _combatSystem.GetEntityOnGridObject(gridObject, false, true) is not null)
+                    {
+                        validTargets.Add(_combatSystem.GetEntityOnGridObject(gridObject, false, true));
+                    }
+                }
+
+                if (validTargets.Count > 0)
+                {
+                    abilityWasCast = true;
+                    _currentEntity.CastAbility(selected, validTargets);
+                }
+            }
         }
         HideTargets();
         _abilitiesToggleGroup.SetAllTogglesOff();
-        DisableCombatUI();
-        _combatSystem.ActionsLeft--;
-        ShowCombatUI(_currentEntity);
-        _combatSystem.UpdateUICounters();
-        ShowAbilities();
-        ShowItems();
+        if (abilityWasCast)
+        {
+            DisableCombatUI();
+            _combatSystem.ActionsLeft--;
+            ShowCombatUI(_currentEntity);
+            _combatSystem.UpdateUICounters();
+            ShowAbilities();
+            ShowItems();
+        }
         
         SetActionCounter(_combatSystem.ActionsLeft, _combatSystem.StartingActions);
     }
@@ -281,7 +388,7 @@ public class CombatUI : UserInterface
     }
 
     
-    private IHittable GetCurrentlySelectedTarget()
+    private GridObject GetCurrentlySelectedTarget()
     {
         return _currentTarget;
     }
@@ -326,14 +433,49 @@ public class CombatUI : UserInterface
         CharacterName.text = charName;
     }
 
-    public void SetTarget(IHittable target)
+    public void SetTarget(GridObject target)
     {
-        if (_currentTarget is not null)
+        AbilityScriptableObjectReworked ability = GetCurrentlySelectedAbility();
+        if (ability.TargetsUnits())
         {
-            _currentTarget.TargetClickAreaDeselected();
+            // if (ability.TargetsImmaterialAllies &&
+            //     _combatSystem.GetEntityOnGridObject(target, true, false) is not null)
+            // {
+            //     _currentTarget = target;
+            //     OnCastAbility();
+            //     return;
+            // }
+            // if (ability.TargetsImmaterialEnemies &&
+            //     _combatSystem.GetEntityOnGridObject(target, false, false) is not null)
+            // {
+            //     _currentTarget = target;
+            //     OnCastAbility();
+            //     return;
+            // }
+            //
+            // if (ability.TargetsMaterialAllies &&
+            //     _combatSystem.GetEntityOnGridObject(target, true, true) is not null)
+            // {
+            //     _currentTarget = target;
+            //     OnCastAbility();
+            //     return;
+            // }
+            //
+            // if (ability.TargetsMaterialEnemies &&
+            //     _combatSystem.GetEntityOnGridObject(target, false, true) is not null)
+            // {
+            //     _currentTarget = target;
+            //     OnCastAbility();
+            //     return;
+            // }
+            _currentTarget = target;
+            OnCastAbility();
         }
-        _currentTarget = target;
-        OnCastAbility();
+        else
+        {
+            _currentTarget = target;
+            OnCastAbility();
+        }
     }
 
     /**
@@ -341,18 +483,28 @@ public class CombatUI : UserInterface
     */
     public void ToggleMaterial()
     {
+        bool tmp = _isTargeting;
         HideTargets();
-        _abilitiesToggleGroup.SetAllTogglesOff();
+        //_abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem.ShowStage(true);
+        if (tmp)
+        {
+            ShowTargets(GetCurrentlySelectedAbility());
+        }
     }
     /**
     * Reset UI and switch to immaterial layer
     */
     public void ToggleImmaterial()
     {
+        bool tmp = _isTargeting;
         HideTargets();
-        _abilitiesToggleGroup.SetAllTogglesOff();
+        //_abilitiesToggleGroup.SetAllTogglesOff();
         _combatSystem.ShowStage(false);
+        if (tmp)
+        {
+            ShowTargets(GetCurrentlySelectedAbility());
+        }
     }
 
     /**
@@ -398,4 +550,8 @@ public class CombatUI : UserInterface
     {
         _turnQueue.DisableEntity(n);
     }
+
+    public static bool IsTargeting => _isTargeting;
+
+    public static int IsTargetingAreaRadius => _isTargetingAreaRadius;
 }

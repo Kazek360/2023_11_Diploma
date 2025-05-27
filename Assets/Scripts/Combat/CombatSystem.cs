@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace Combat
         [SerializeField] private CombatEnvironmentManager combatEnvironmentManager;
 
         private EntityManager _entityManager;
+        private CombatUI _combatUI;
         private GridObject _currentGridObject;
         private int _startingMovement, _startingActions;
         private int _movementLeft, _actionsLeft;
@@ -25,6 +27,7 @@ namespace Combat
         
         private void Awake()
         {
+            combatEnvironmentManager.SetCombatSystem(this);
             _currentIsPlayer = false;
             _entityManager = GetComponent<EntityManager>();
         }
@@ -36,7 +39,7 @@ namespace Combat
             
             if (_currentGridObject != null && _currentGridObject.IsHighlighted)
             {
-                if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling)
+                if(Input.GetMouseButtonDown(0) && currentUnit.currentState == UnitCombat.State.Idling && !CombatUI.IsTargeting)
                 {
                     MoveToSelected();
                 }
@@ -48,9 +51,16 @@ namespace Combat
          *
          * <param name="range">Range of the ability</param>
          */
-        public void UnityTargetingHighlight(int range)
+        public void UnityTargetingHighlight(AbilityScriptableObjectReworked ability, HashSet<(int, int)> targetPositions)
         {
-            combatEnvironmentManager.TargetingHighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), range, true);
+            combatEnvironmentManager.TargetingHighlightNeighborsInRadius(
+                combatEnvironmentManager.GetGridObject(
+                    (int)currentUnit.GetGridLocation().x, 
+                    (int)currentUnit.GetGridLocation().y
+                    ), 
+                ability.Range, 
+                true,
+                targetPositions);
         }
 
 
@@ -163,8 +173,8 @@ namespace Combat
                 return;
             }
             combatEnvironmentManager.ClearGrid();
-            //combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
-            StartCoroutine(AfterClickCooldown());
+            combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
+            //StartCoroutine(AfterClickCooldown());
         }
         
         /**
@@ -172,7 +182,7 @@ namespace Combat
      */
         private IEnumerator AfterClickCooldown()
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.03f);
             combatEnvironmentManager.HighlightNeighborsInRadius(combatEnvironmentManager.GetGridObject((int)currentUnit.GetGridLocation().x, (int)currentUnit.GetGridLocation().y), 1, false, _currentIsMaterial);
         }
 
@@ -227,6 +237,7 @@ namespace Combat
             _entityManager.ShowEntities(isMaterial);
             var pos = currentUnit.GetGridLocation();
             var currPos = combatEnvironmentManager.GetGridObject((int)pos.x, (int)pos.y);
+            combatEnvironmentManager.SetLayerVariant(isMaterial);
             if (_currentIsPlayer)
             {
                 if (isMaterial)
@@ -308,6 +319,23 @@ namespace Combat
         public CombatEnvironmentManager GetCombatEnvironmentManager()
         {
             return combatEnvironmentManager;
+        }
+
+        public IHittable GetEntityOnGridObject(GridObject gridObject, bool isPlayer, bool isMaterial)
+        {
+            IHittable res = null;
+
+            foreach (var entity in _entityManager.GetEntities(isPlayer, isMaterial))
+            {
+                if (
+                    (int)entity.GetUnitCombatScript().GetGridLocation().x == gridObject.X &&
+                    (int)entity.GetUnitCombatScript().GetGridLocation().y == gridObject.Y
+                    )
+                {
+                    res = entity;
+                }
+            }
+            return res;
         }
     }
 }

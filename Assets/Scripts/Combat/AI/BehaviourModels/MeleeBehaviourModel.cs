@@ -174,8 +174,10 @@ public class MeleeBehaviourModel : EnemyBehaviourModel
         if (possibleTargets.Count > 0)
         {
             int chosenTarget = Random.Range(0, possibleTargets.Count);
+            List<IHittable> targetsList = new List<IHittable>();
+            targetsList.Add(possibleTargets[chosenTarget]);
             _entity.OnAbilityCast(i);
-            ability.CastAbility(possibleTargets[chosenTarget], _entity);
+            ability.CastAbility(targetsList, _entity);
         }
     }
     

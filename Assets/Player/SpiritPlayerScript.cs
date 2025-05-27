@@ -55,7 +55,7 @@ public class SpiritPlayerScript : PlayerScript, IHittable
     
     protected override void UpdateHpText()
     {
-        hpText.text = "" + PlayerStats.GetInstance().GetNestorHp();
+        hpText.text = "" + PlayerStats.GetInstance().GetNestorHp() + "/" + GetMaxHealth();
     }
 
     public override int GetMaxHealth()

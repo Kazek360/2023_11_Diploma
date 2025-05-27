@@ -39,6 +39,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     private bool _partnerIsKilled;
     private bool _isVisible;
     private List<EffectOverTime> _effectsOverTime;
+    private List<TimedCombatModifier> _combatModifiers;
     
     // Start is called before the first frame update
     private void Start()
@@ -60,6 +61,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         _abilities = Stats.Abilities;
         _cooldowns = new List<int>();
         _effectsOverTime = new List<EffectOverTime>();
+        _combatModifiers = new List<TimedCombatModifier>();
         _currentTarget = gameObject.GetComponentInParent<EntityManager>().GetMaterialPlayers()[0];
         for (int i = 0; i < _abilities.Count; i++)
         {
@@ -110,6 +112,18 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         foreach (EffectOverTime effect in _effectsOverTime)
         {
             effect.ProcessTurn(this);
+        }
+        
+        foreach (TimedCombatModifier modifier in _combatModifiers)
+        {
+            modifier.ProcessTurn();
+        }
+        for (int i = _combatModifiers.Count - 1; i >= 0; i--)
+        {
+            if (_combatModifiers[i].DurationLeft == 0)
+            {
+                _combatModifiers.RemoveAt(i);
+            }
         }
 
         for (int i = _effectsOverTime.Count - 1; i >= 0; i--)
@@ -222,8 +236,10 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
         if (possibleTargets.Count > 0)
         {
             int chosenTarget = Random.Range(0, possibleTargets.Count);
+            List<IHittable> targetsList = new List<IHittable>();
+            targetsList.Add(possibleTargets[chosenTarget]);
             _cooldowns[i] = ability.Cooldown;
-            ability.CastAbility(possibleTargets[chosenTarget], this);
+            ability.CastAbility(targetsList, this);
         }
     }
     
@@ -301,22 +317,74 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     
     public int GetStrength()
     {
-        return Stats.Strength;
+        int str = Stats.Strength;
+        if (_combatModifiers is null)
+        {
+            return str;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
+            {
+                str = modifier.ModifyVar(str);
+            }
+        }
+
+        return str;
     }
 
     public int GetAgility()
     {
-        return Stats.Agility;
+        int agi = Stats.Agility;
+        if (_combatModifiers is null)
+        {
+            return agi;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
+            {
+                agi = modifier.ModifyVar(agi);
+            }
+        }
+
+        return agi;
     }
 
     public int GetLuck()
     {
-        return Stats.Luck;
+        int lck = Stats.Luck;
+        if (_combatModifiers is null)
+        {
+            return lck;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.LUCK)
+            {
+                lck = modifier.ModifyVar(lck);
+            }
+        }
+
+        return lck;
     }
 
     public int GetImagination()
     {
-        return Stats.Imagination;
+        int img = Stats.Imagination;
+        if (_combatModifiers is null)
+        {
+            return img;
+        }
+        foreach (var modifier in _combatModifiers)
+        {
+            if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
+            {
+                img = modifier.ModifyVar(img);
+            }
+        }
+
+        return img;
     }
     
     public string GetEntityName()
@@ -457,7 +525,8 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     public string GetTooltipDesc()
     {
         StringBuilder str = new StringBuilder();
-        str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints);
+        str.Append("Życie: " + _currentHealth + "/" + Stats.MaxHealthPoints + "\n");
+        str.Append(Stats.Description);
         return str.ToString();
     }
     
@@ -465,6 +534,17 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         Debug.Log("TIMED EFFECT APPLIED");
         _effectsOverTime.Add(effectOverTime);
+    }
+    
+
+    public void ApplyTimedCombatModifier(TimedCombatModifier combatModifier)
+    {
+        _combatModifiers.Add(combatModifier);
+    }
+
+    public List<TimedCombatModifier> GetCombatModifiers()
+    {
+        return _combatModifiers;
     }
 
     public void OnAbilityCast(int i)

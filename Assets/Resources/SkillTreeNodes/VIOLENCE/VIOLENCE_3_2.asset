@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Kamienioznawca
   description: "Rzucanie kamieniami jest niebywale \u0142atwe, a same kamienie -
-    niebywale \u0142atwe do znalezienia.\n\nTODO: MAKE ABILITY"
+    niebywale \u0142atwe do znalezienia. Czemu by nie rzuca\u0107 nimi w kilku przeciwnik\xF3w
+    naraz?"
   requiredNodes:
   - {fileID: 11400000, guid: c5291787ce29717448bb2d4848cbe1be, type: 2}
   skillPointsCost: 3
   appliedModifiers: []
-  unlockedAbilities: []
+  unlockedAbilities:
+  - recipient: 0
+    _abilityScriptableObject: {fileID: 11400000, guid: 76911be94ac3b9d41ba3315799a98446, type: 2}
