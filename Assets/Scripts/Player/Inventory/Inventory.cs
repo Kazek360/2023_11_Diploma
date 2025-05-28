@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
         SaveSystemEvents.OnSave += SaveData;
         
         GameConfig.PlayerInventory = this;
-        _inventorySlots = new InventorySlot[7,5];
+        _inventorySlots = new InventorySlot[6,9];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
             new EquipmentSlot(EquipmentSlotType.hand),

@@ -1,10 +1,16 @@
 using System.Collections.Generic;
+using TMPro;
 using UI.Interfaces;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EquipmentSlotsUI : MonoBehaviour
 {
     [SerializeField] private InventoryUI InventoryUI;
+        
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private TextMeshProUGUI experienceText;
+    [SerializeField] private Image experienceProgressBar;
     
     private List<EquipmentSlotUI> _slots;
     
@@ -39,6 +45,9 @@ public class EquipmentSlotsUI : MonoBehaviour
         {
             slot.UpdateSlot();
         }
+        levelText.text = $"{PlayerStats.GetInstance().Level}";
+        experienceText.text = $"Punkty doświadczenia: {PlayerStats.GetInstance().CurrentXp}/1000";
+        experienceProgressBar.fillAmount = ((float)PlayerStats.GetInstance().CurrentXp) / 1000;
     }
     
     public List<EquipmentSlotUI> GetSlots()

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class PlayerStatsUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI experienceText;
+    //[SerializeField] private TextMeshProUGUI levelText;
+    //[SerializeField] private TextMeshProUGUI experienceText;
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI strengthText;
     [SerializeField] private TextMeshProUGUI agilityText;
@@ -13,8 +13,8 @@ public class PlayerStatsUI : MonoBehaviour
     
     public void UpdateDisplay()
     {
-        levelText.text = $"Poziom: {PlayerStats.GetInstance().Level}";
-        experienceText.text = $"XP: {PlayerStats.GetInstance().CurrentXp}/1000";
+        //levelText.text = $"Poziom: {PlayerStats.GetInstance().Level}";
+        //experienceText.text = $"XP: {PlayerStats.GetInstance().CurrentXp}/1000";
         healthText.text = $"Życie: {PlayerStats.GetInstance().WitHp}/{PlayerStats.GetInstance().GetStat(StatType.WitHealth)}";
         strengthText.text = $"Siła: {PlayerStats.GetInstance().GetStat(StatType.WitStrength)}";
         agilityText.text = $"Zręczność: {PlayerStats.GetInstance().GetStat(StatType.WitAgility)}";

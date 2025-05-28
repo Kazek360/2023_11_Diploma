@@ -1,4 +1,5 @@
 using InputSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,7 @@ namespace UI.Interfaces
             Time.timeScale = 0;
             InputManager.Instance.Controlls.Player.Disable();
             UpdateDisplay();
+            ClearToggle();
         }
         public override void OnExit()
         {
@@ -36,13 +38,19 @@ namespace UI.Interfaces
         
         public void UpdateDisplay()
         {
+            //ClearToggle();
+            InventorySlots.UpdateUI();
+            EquipmentSlots.UpdateUI();
+            ItemInteraction.UpdateDisplay();
+            PlayerStatisticks.UpdateDisplay();
+        }
+
+        public void ClearToggle()
+        {
             if (_toggleGroup is not null)
             {
                 _toggleGroup.SetAllTogglesOff();
             }
-            InventorySlots.UpdateUI();
-            EquipmentSlots.UpdateUI();
-            PlayerStatisticks.UpdateDisplay();
         }
     
         public void SelectedSlotChanged(ItemSlot slot)
@@ -53,6 +61,11 @@ namespace UI.Interfaces
         public void SlotDeselected()
         {
             ItemInteraction.ClearInteraction();
+        }
+        
+        public void ExitButton()
+        {
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }
     }
 }

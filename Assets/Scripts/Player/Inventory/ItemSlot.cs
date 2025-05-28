@@ -111,6 +111,8 @@ public class InventorySlot : ItemSlot
 public class EquipmentSlot : ItemSlot
 {
     private EquipmentSlotType _slotType;
+    private int _imaginationInvested = 0;
+    private float _modifierVal = 0f;
     public EquipmentSlot(EquipmentSlotType slotType)
     {
         _slotType = slotType;
@@ -125,6 +127,7 @@ public class EquipmentSlot : ItemSlot
         if (_item.itemType == ItemScriptableObject.ItemType.EQUIPMENT)
         {
             _item.Unequip();
+            _modifierVal = 0;
         }
         _item = null;
     }
@@ -144,8 +147,40 @@ public class EquipmentSlot : ItemSlot
         return true;
     }
 
+    public void ApplyFavorite(float modifierVal)
+    {
+        _modifierVal = modifierVal;
+        if (modifierVal > 0 && _item is not null)
+        {
+            _item.ApplyFavorite(modifierVal);
+        }
+    }
+    
+    
+
     public void ChangeImagination(int currImagination)
     {
+        _imaginationInvested = currImagination;
         _item.ChangeImagination(currImagination);
+        if (_modifierVal > 0f && _item is not null)
+        {
+            ApplyFavorite(_modifierVal);
+        }
     }
+
+    public void Reset()
+    {
+        _item.Unequip();
+        _item.Equip();
+        ChangeImagination(_imaginationInvested);
+    }
+
+    public int ImaginationInvested => _imaginationInvested;
+
+    public void SetImagination(int currImagination)
+    {
+        _imaginationInvested = currImagination;
+    }
+
+    public float ModifierVal => _modifierVal;
 }

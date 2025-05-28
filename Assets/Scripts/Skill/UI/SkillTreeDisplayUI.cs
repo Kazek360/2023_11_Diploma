@@ -92,6 +92,10 @@ public class SkillTreeDisplayUI : MonoBehaviour
 
     public void UnlockSkill()
     {
+        if (_nodeUI is null)
+        {
+            return;
+        }
         _nodeUI.ActivateNodeUsingSkillPoints();
     }
 }

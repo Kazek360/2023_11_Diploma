@@ -100,6 +100,14 @@ public class PlayerStats
         {
             _witHp += modifier.Modifier;
         }
+        if (modifier.StatType == StatType.WitImagination)
+        {
+            _freeImagination += modifier.Modifier;
+        }
+        if (modifier.StatType == StatType.NestorHealth)
+        {
+            _nestorHp += modifier.Modifier;
+        }
     }
 
     public int WitHp
@@ -165,7 +173,7 @@ public class PlayerStats
         _baseStats.Add(new BaseStat(StatType.WitAgility, 3));
         _baseStats.Add(new BaseStat(StatType.WitStrength, 3));
         _baseStats.Add(new BaseStat(StatType.WitLuck, 3));
-        _baseStats.Add(new BaseStat(StatType.WitImagination, 2));
+        _baseStats.Add(new BaseStat(StatType.WitImagination, 0));
         _baseStats.Add(new BaseStat(StatType.WitHealth, 8));
         _baseStats.Add(new BaseStat(StatType.NestorAgility, 2));
         _baseStats.Add(new BaseStat(StatType.NestorStrength, 4));

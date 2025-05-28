@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Skill;
+using Skill.Managers;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemScriptableObject", menuName = "ScriptableObjects/Items/Item")]
@@ -68,12 +70,33 @@ public class ItemScriptableObject : ScriptableObject
         }
         foreach (var modifier in modifiers)
         {
-            PlayerStats.GetInstance().AddItemModifier(modifier);
+            if (SkillTreeManager.GetNodeByName("IMAGINATION_5_1").state == SkillTreeNode.State.Activated)
+            {
+                var multModifier = new ItemStatModifier(modifier.StatType, (int)(modifier.Modifier * 1.3f), modifier.ItemID);
+                PlayerStats.GetInstance().AddItemModifier(multModifier);
+            }
+            else
+            {
+                PlayerStats.GetInstance().AddItemModifier(modifier);
+            }
         }
 
         foreach (ItemActionContainer container in equip)
         {
             container.Trigger();
+        }
+    }
+
+    public void ApplyFavorite(float modifierVal)
+    {
+        if (itemType != ItemType.EQUIPMENT)
+        {
+            return;
+        }
+        foreach (var modifier in modifiers)
+        {
+            var multModifier = new ItemStatModifier(modifier.StatType, (int)(modifier.Modifier * modifierVal), modifier.ItemID);
+            PlayerStats.GetInstance().AddItemModifier(multModifier);
         }
     }
 
