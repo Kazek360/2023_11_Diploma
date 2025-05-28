@@ -1,3 +1,5 @@
+using Skill;
+using Skill.Managers;
 using TMPro;
 using UI.Interfaces;
 using UnityEngine;
@@ -68,18 +70,22 @@ public class ItemInteractionUI : MonoBehaviour
         }
         else
         {
-            AddImaginationButton.gameObject.SetActive(true);
-            LowerImaginationButton.gameObject.SetActive(true);
-            LowerImaginationButton.interactable = true;
-            ImaginationLevelDisplay.gameObject.SetActive(true);
-            AddImaginationButton.interactable = true;
-            _imaginationInvested = ((EquipmentSlot)_slot).ImaginationInvested;
-            ImaginationLevelDisplay.text = $"{_imaginationInvested}";
+            if (IsImaginationEnabled())
+            {
+                AddImaginationButton.gameObject.SetActive(true);
+                LowerImaginationButton.gameObject.SetActive(true);
+                LowerImaginationButton.interactable = true;
+                ImaginationLevelDisplay.gameObject.SetActive(true);
+                AddImaginationButton.interactable = true;
+                _imaginationInvested = ((EquipmentSlot)_slot).ImaginationInvested;
+                ImaginationLevelDisplay.text = $"{_imaginationInvested}";
+            }
+            
             if (_imaginationInvested == 0)
             {
                 LowerImaginationButton.interactable = false;
             }
-            if (PlayerStats.GetInstance().FreeImagination == 0)
+            if (PlayerStats.GetInstance().FreeImagination == 0 || _imaginationInvested >= MaxImaginationInvestment())
             {
                 AddImaginationButton.interactable = false;
             }
@@ -147,11 +153,15 @@ public class ItemInteractionUI : MonoBehaviour
         _imaginationInvested++;
         ImaginationLevelDisplay.text = $"{_imaginationInvested}";
         PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination - 1;
-        if (PlayerStats.GetInstance().FreeImagination == 0)
+        if (PlayerStats.GetInstance().FreeImagination == 0 || _imaginationInvested >= MaxImaginationInvestment())
         {
             AddImaginationButton.interactable = false;
         }
-        LowerImaginationButton.interactable = true;
+        if (_imaginationInvested > 0)
+        {
+            LowerImaginationButton.interactable = true;
+        }
+        
         GameConfig.PlayerInventory.GetEquipmentSlot(((EquipmentSlot)_slot).SlotType).ChangeImagination(_imaginationInvested);
         //EquipmentSlots.ForceUiUpdate();
         
@@ -163,14 +173,40 @@ public class ItemInteractionUI : MonoBehaviour
         _imaginationInvested--;
         ImaginationLevelDisplay.text = $"{_imaginationInvested}";
         PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + 1;
-        if (_imaginationInvested == 0)
+        if (_imaginationInvested <= 0)
         {
             LowerImaginationButton.interactable = false;
         }
-        AddImaginationButton.interactable = true;
+        if (PlayerStats.GetInstance().FreeImagination > 0 && _imaginationInvested < MaxImaginationInvestment())
+        {
+            AddImaginationButton.interactable = true;
+        }
+        
         GameConfig.PlayerInventory.GetEquipmentSlot(((EquipmentSlot)_slot).SlotType).ChangeImagination(_imaginationInvested);
         //EquipmentSlots.ForceUiUpdate();
         
         _inventoryUI.UpdateDisplay();
-    } 
+    }
+
+    private int MaxImaginationInvestment()
+    {
+        if (SkillTreeManager.GetNodeByName("IMAGINATION_3_3").state == SkillTreeNode.State.Activated)
+        {
+            return 3;
+        }
+        if (SkillTreeManager.GetNodeByName("IMAGINATION_2_3").state == SkillTreeNode.State.Activated)
+        {
+            return 2;
+        }
+        if (SkillTreeManager.GetNodeByName("IMAGINATION_1_1").state == SkillTreeNode.State.Activated)
+        {
+            return 1;
+        }
+        return 0;
+    }
+
+    private bool IsImaginationEnabled()
+    {
+        return SkillTreeManager.GetNodeByName("IMAGINATION_1_1").state == SkillTreeNode.State.Activated;
+    }
 }

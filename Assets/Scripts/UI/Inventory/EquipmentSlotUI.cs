@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Skill;
+using Skill.Managers;
 using TMPro;
 using UI.Interfaces;
 using UnityEngine;
@@ -71,6 +73,14 @@ public class EquipmentSlotUI : MonoBehaviour
             //AddImaginationButton.gameObject.SetActive(PlayerStats.GetInstance().FreeImagination != 0);
         }
         ImaginationInvested.text = $"{_imaginationInvested}";
+        if (IsImaginationEnabled() && item is not null)
+        {
+            ImaginationInvested.gameObject.SetActive(true);
+        }
+        else
+        {
+            ImaginationInvested.gameObject.SetActive(false);
+        }
     }
 
     public void SlotSelected()
@@ -107,6 +117,11 @@ public class EquipmentSlotUI : MonoBehaviour
         AddImaginationButton.gameObject.SetActive(true);
         GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ChangeImagination(_imaginationInvested);
         EquipmentSlots.ForceUiUpdate();
+    }
+    
+    private bool IsImaginationEnabled()
+    {
+        return SkillTreeManager.GetNodeByName("IMAGINATION_1_1").state == SkillTreeNode.State.Activated;
     }
 
     public int ImaginationInvested1 => _imaginationInvested;
