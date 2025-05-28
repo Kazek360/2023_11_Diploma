@@ -111,6 +111,7 @@ public class InventorySlot : ItemSlot
 public class EquipmentSlot : ItemSlot
 {
     private EquipmentSlotType _slotType;
+    private int _imaginationInvested = 0;
     public EquipmentSlot(EquipmentSlotType slotType)
     {
         _slotType = slotType;
@@ -146,6 +147,14 @@ public class EquipmentSlot : ItemSlot
 
     public void ChangeImagination(int currImagination)
     {
+        _imaginationInvested = currImagination;
         _item.ChangeImagination(currImagination);
+    }
+
+    public int ImaginationInvested => _imaginationInvested;
+
+    public void SetImagination(int currImagination)
+    {
+        _imaginationInvested = currImagination;
     }
 }

@@ -45,6 +45,7 @@ public class EquipmentSlotUI : MonoBehaviour
         {
             PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
             _imaginationInvested = 0;
+            GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).SetImagination(_imaginationInvested);
             
             ItemImage.enabled = false;
             Toggle.interactable = false;
@@ -55,6 +56,7 @@ public class EquipmentSlotUI : MonoBehaviour
         }
         else
         {
+            _imaginationInvested = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ImaginationInvested;
             ItemImage.enabled = true;
             ItemImage.sprite = item.ItemSprite(_imaginationInvested);
             Toggle.interactable = true;
@@ -62,10 +64,11 @@ public class EquipmentSlotUI : MonoBehaviour
             {
                 PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
                 _imaginationInvested = 0;
+                GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).SetImagination(_imaginationInvested);
                 _lastItemId = item.name;
             }
-            LowerImaginationButton.gameObject.SetActive(_imaginationInvested != 0);
-            AddImaginationButton.gameObject.SetActive(PlayerStats.GetInstance().FreeImagination != 0);
+            //LowerImaginationButton.gameObject.SetActive(_imaginationInvested != 0);
+            //AddImaginationButton.gameObject.SetActive(PlayerStats.GetInstance().FreeImagination != 0);
         }
         ImaginationInvested.text = $"{_imaginationInvested}";
     }
@@ -104,5 +107,7 @@ public class EquipmentSlotUI : MonoBehaviour
         AddImaginationButton.gameObject.SetActive(true);
         GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ChangeImagination(_imaginationInvested);
         EquipmentSlots.ForceUiUpdate();
-    } 
+    }
+
+    public int ImaginationInvested1 => _imaginationInvested;
 }

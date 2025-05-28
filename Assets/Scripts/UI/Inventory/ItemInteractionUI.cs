@@ -10,11 +10,15 @@ public class ItemInteractionUI : MonoBehaviour
     [SerializeField] private Image ItemImage;
     [SerializeField] private TextMeshProUGUI ItemName;
     [SerializeField] private TextMeshProUGUI ItemDesc;
+    [SerializeField] private TextMeshProUGUI ImaginationLevelDisplay;
     [SerializeField] private Button UseButton, DropButton, MoveButton, EquipButton, UnequipButton;
+    [SerializeField] private Button AddImaginationButton, LowerImaginationButton;
     
     
     private ItemSlot _slot;
     private InventoryUI _inventoryUI;
+    
+    private int _imaginationInvested = 0;
 
     public void Awake()
     {
@@ -38,6 +42,10 @@ public class ItemInteractionUI : MonoBehaviour
         ItemDesc.text = item.ItemDesc();
         if (slot is InventorySlot)
         {
+            AddImaginationButton.gameObject.SetActive(false);
+            LowerImaginationButton.gameObject.SetActive(false);
+            ImaginationLevelDisplay.gameObject.SetActive(false);
+            
             UseButton.interactable = true;
             DropButton.interactable = true;
             DropButton.gameObject.SetActive(true);
@@ -60,6 +68,22 @@ public class ItemInteractionUI : MonoBehaviour
         }
         else
         {
+            AddImaginationButton.gameObject.SetActive(true);
+            LowerImaginationButton.gameObject.SetActive(true);
+            LowerImaginationButton.interactable = true;
+            ImaginationLevelDisplay.gameObject.SetActive(true);
+            AddImaginationButton.interactable = true;
+            _imaginationInvested = ((EquipmentSlot)_slot).ImaginationInvested;
+            ImaginationLevelDisplay.text = $"{_imaginationInvested}";
+            if (_imaginationInvested == 0)
+            {
+                LowerImaginationButton.interactable = false;
+            }
+            if (PlayerStats.GetInstance().FreeImagination == 0)
+            {
+                AddImaginationButton.interactable = false;
+            }
+            
             UseButton.gameObject.SetActive(false);
             DropButton.gameObject.SetActive(false);
             EquipButton.gameObject.SetActive(false);
@@ -78,6 +102,9 @@ public class ItemInteractionUI : MonoBehaviour
 
     public void ClearInteraction()
     {
+        AddImaginationButton.gameObject.SetActive(false);
+        LowerImaginationButton.gameObject.SetActive(false);
+        ImaginationLevelDisplay.gameObject.SetActive(false);
         ItemImage.gameObject.SetActive(false);
         ItemName.gameObject.SetActive(false);
         ItemDesc.gameObject.SetActive(false);
@@ -97,6 +124,7 @@ public class ItemInteractionUI : MonoBehaviour
         _slot.Use();
         ClearInteraction();
         _inventoryUI.UpdateDisplay();
+        _inventoryUI.ClearToggle();
     }
 
     public void DropItem()
@@ -104,11 +132,45 @@ public class ItemInteractionUI : MonoBehaviour
         ((InventorySlot)_slot).RemoveItem();
         ClearInteraction();
         _inventoryUI.UpdateDisplay();
+        _inventoryUI.ClearToggle();
     }
 
     public void MoveItem()
     {
         //TODO: Implement item movement
         _inventoryUI.UpdateDisplay();
+        _inventoryUI.ClearToggle();
     }
+    
+    public void AddImagination()
+    {
+        _imaginationInvested++;
+        ImaginationLevelDisplay.text = $"{_imaginationInvested}";
+        PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination - 1;
+        if (PlayerStats.GetInstance().FreeImagination == 0)
+        {
+            AddImaginationButton.interactable = false;
+        }
+        LowerImaginationButton.interactable = true;
+        GameConfig.PlayerInventory.GetEquipmentSlot(((EquipmentSlot)_slot).SlotType).ChangeImagination(_imaginationInvested);
+        //EquipmentSlots.ForceUiUpdate();
+        
+        _inventoryUI.UpdateDisplay();
+    } 
+    
+    public void LowerImagination()
+    {
+        _imaginationInvested--;
+        ImaginationLevelDisplay.text = $"{_imaginationInvested}";
+        PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + 1;
+        if (_imaginationInvested == 0)
+        {
+            LowerImaginationButton.interactable = false;
+        }
+        AddImaginationButton.interactable = true;
+        GameConfig.PlayerInventory.GetEquipmentSlot(((EquipmentSlot)_slot).SlotType).ChangeImagination(_imaginationInvested);
+        //EquipmentSlots.ForceUiUpdate();
+        
+        _inventoryUI.UpdateDisplay();
+    } 
 }

@@ -100,6 +100,14 @@ public class PlayerStats
         {
             _witHp += modifier.Modifier;
         }
+        if (modifier.StatType == StatType.WitImagination)
+        {
+            _freeImagination += modifier.Modifier;
+        }
+        if (modifier.StatType == StatType.NestorHealth)
+        {
+            _nestorHp += modifier.Modifier;
+        }
     }
 
     public int WitHp

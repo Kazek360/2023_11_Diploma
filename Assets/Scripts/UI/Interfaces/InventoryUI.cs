@@ -27,6 +27,7 @@ namespace UI.Interfaces
             Time.timeScale = 0;
             InputManager.Instance.Controlls.Player.Disable();
             UpdateDisplay();
+            ClearToggle();
         }
         public override void OnExit()
         {
@@ -37,13 +38,18 @@ namespace UI.Interfaces
         
         public void UpdateDisplay()
         {
+            //ClearToggle();
+            InventorySlots.UpdateUI();
+            EquipmentSlots.UpdateUI();
+            PlayerStatisticks.UpdateDisplay();
+        }
+
+        public void ClearToggle()
+        {
             if (_toggleGroup is not null)
             {
                 _toggleGroup.SetAllTogglesOff();
             }
-            InventorySlots.UpdateUI();
-            EquipmentSlots.UpdateUI();
-            PlayerStatisticks.UpdateDisplay();
         }
     
         public void SelectedSlotChanged(ItemSlot slot)
