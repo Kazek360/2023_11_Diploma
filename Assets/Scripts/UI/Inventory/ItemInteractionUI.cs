@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using Skill;
 using Skill.Managers;
 using TMPro;
@@ -25,6 +27,18 @@ public class ItemInteractionUI : MonoBehaviour
     public void Awake()
     {
         _inventoryUI = GetComponentInParent<InventoryUI>();
+    }
+
+    public void UpdateDisplay()
+    {
+        if (_slot is not null)
+        {
+            SetSlot(_slot);
+        }
+        else
+        {
+            ClearInteraction();
+        }
     }
 
 
@@ -97,7 +111,20 @@ public class ItemInteractionUI : MonoBehaviour
             
             ItemImage.sprite = item.ItemSprite();
             ItemName.text = item.itemName;
-            ItemDesc.text = item.ItemDesc();
+
+            StringBuilder descFinal = new StringBuilder();
+            if (((EquipmentSlot)_slot).ModifierVal > 0)
+            {
+                descFinal.Append($"FAWORYTYZM: PODSTAWOWE STATYSTYKI PODNIESIONE O {(int)(((EquipmentSlot)_slot).ModifierVal * 100)}%\n\n");
+            }
+
+            if (SkillTreeManager.GetNodeByName("IMAGINATION_5_1").state == SkillTreeNode.State.Activated)
+            {
+                descFinal.Append($"PAMIĄTKI: PODSTAWOWE STATYSTYKI PODNIESIONE O 30%\n\n");
+            }
+            descFinal.Append(item.ItemDesc());
+            
+            ItemDesc.text = descFinal.ToString();
             
             
         
@@ -108,6 +135,7 @@ public class ItemInteractionUI : MonoBehaviour
 
     public void ClearInteraction()
     {
+        _slot = null;
         AddImaginationButton.gameObject.SetActive(false);
         LowerImaginationButton.gameObject.SetActive(false);
         ImaginationLevelDisplay.gameObject.SetActive(false);

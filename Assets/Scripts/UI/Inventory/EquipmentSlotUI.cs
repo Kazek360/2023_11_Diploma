@@ -17,9 +17,11 @@ public class EquipmentSlotUI : MonoBehaviour
     [SerializeField] private Button AddImaginationButton;
     [SerializeField] private Button LowerImaginationButton;
     [SerializeField] private TextMeshProUGUI ImaginationInvested;
+    [SerializeField] private Toggle FavoriteToggle;
 
     private int _imaginationInvested = 0;
     private string _lastItemId = "";
+    private bool _isFavourite = false;
 
     public void EquipItem(Item item)
     {
@@ -39,6 +41,10 @@ public class EquipmentSlotUI : MonoBehaviour
     
     public void UpdateSlot()
     {
+        
+        FavoriteToggle.gameObject.SetActive(false);
+        
+        
         EquipmentSlot actualSlot = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType);
         LowerImaginationButton.gameObject.SetActive(false);
         ItemScriptableObject item = actualSlot.Item;
@@ -47,6 +53,7 @@ public class EquipmentSlotUI : MonoBehaviour
         {
             PlayerStats.GetInstance().FreeImagination = PlayerStats.GetInstance().FreeImagination + _imaginationInvested;
             _imaginationInvested = 0;
+            _isFavourite = false;
             GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).SetImagination(_imaginationInvested);
             
             ItemImage.enabled = false;
@@ -58,6 +65,11 @@ public class EquipmentSlotUI : MonoBehaviour
         }
         else
         {
+            if (SkillTreeManager.GetNodeByName("IMAGINATION_2_2").state == SkillTreeNode.State.Activated)
+            {
+                FavoriteToggle.gameObject.SetActive(true);
+            }
+            
             _imaginationInvested = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType).ImaginationInvested;
             ItemImage.enabled = true;
             ItemImage.sprite = item.ItemSprite(_imaginationInvested);
@@ -81,6 +93,7 @@ public class EquipmentSlotUI : MonoBehaviour
         {
             ImaginationInvested.gameObject.SetActive(false);
         }
+        FavoriteToggle.isOn = _isFavourite;
     }
 
     public void SlotSelected()
@@ -125,4 +138,37 @@ public class EquipmentSlotUI : MonoBehaviour
     }
 
     public int ImaginationInvested1 => _imaginationInvested;
+
+    public void OnFavorite()
+    {
+        _isFavourite = FavoriteToggle.isOn;
+        var slot = GameConfig.PlayerInventory.GetEquipmentSlot(SlotType);
+        if (FavoriteToggle.isOn)
+        {
+            if (SkillTreeManager.GetNodeByName("IMAGINATION_4_2").state == SkillTreeNode.State.Activated) //60
+            {
+                slot.ApplyFavorite(1f);
+            }
+            else if (SkillTreeManager.GetNodeByName("IMAGINATION_3_2").state == SkillTreeNode.State.Activated) //40
+            {
+                slot.ApplyFavorite(0.66f);
+            }
+            else if (SkillTreeManager.GetNodeByName("IMAGINATION_2_2").state == SkillTreeNode.State.Activated) //20
+            {
+                slot.ApplyFavorite(0.33f);
+            }
+        }
+        else if (slot.Item is null)
+        {
+            //DO NOTHING
+        }
+        else if (_lastItemId.Equals(slot.Item.name) || _lastItemId.Equals(""))
+        {
+            slot.ApplyFavorite(0);
+            slot.Reset();
+        }
+        EquipmentSlots.ForceUiUpdate();
+    }
+
+    public bool IsFavourite => _isFavourite;
 }

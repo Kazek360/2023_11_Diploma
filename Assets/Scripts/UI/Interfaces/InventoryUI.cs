@@ -41,6 +41,7 @@ namespace UI.Interfaces
             //ClearToggle();
             InventorySlots.UpdateUI();
             EquipmentSlots.UpdateUI();
+            ItemInteraction.UpdateDisplay();
             PlayerStatisticks.UpdateDisplay();
         }
 

@@ -77,6 +77,19 @@ public class ItemScriptableObject : ScriptableObject
         }
     }
 
+    public void ApplyFavorite(float modifierVal)
+    {
+        if (itemType != ItemType.EQUIPMENT)
+        {
+            return;
+        }
+        foreach (var modifier in modifiers)
+        {
+            var multModifier = new ItemStatModifier(modifier.StatType, (int)(modifier.Modifier * modifierVal), modifier.ItemID);
+            PlayerStats.GetInstance().AddItemModifier(multModifier);
+        }
+    }
+
     public void Unequip()
     {
         if (itemType != ItemType.EQUIPMENT)
