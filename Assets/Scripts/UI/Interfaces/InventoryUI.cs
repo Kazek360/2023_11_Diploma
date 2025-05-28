@@ -55,5 +55,10 @@ namespace UI.Interfaces
         {
             ItemInteraction.ClearInteraction();
         }
+        
+        public void ExitButton()
+        {
+            UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
+        }
     }
 }
