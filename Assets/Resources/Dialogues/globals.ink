@@ -1,6 +1,7 @@
 //External functions
 EXTERNAL addItem(id, amount)
 EXTERNAL removeItem(id, amount)
+EXTERNAL changeNestorState(id, isAppearing)
 
 //First race with Hryc flags
 VAR hryc_race_reward = false

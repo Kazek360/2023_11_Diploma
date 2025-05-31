@@ -15,14 +15,14 @@ namespace Quests.QuestSteps.UniqueSteps
         protected override void OnEnable()
         {
             base.OnEnable();
-            AreaEvent.OnAreaEnter += DisappearNestor;
+            AreaEvent.OnAreaEnter += StartDialogue;
             _area = GameObject.Find(areaToEnterName);
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            AreaEvent.OnAreaEnter -= DisappearNestor;
+            AreaEvent.OnAreaEnter -= StartDialogue;
         }
 
         protected override IEnumerator Start()
@@ -31,12 +31,11 @@ namespace Quests.QuestSteps.UniqueSteps
             Nestor.ChangeNestorState("shore", true);
         }
         
-        private void DisappearNestor(string areaName, string objectName)
+        private void StartDialogue(string areaName, string objectName)
         {
             if (areaName.Equals(areaToEnterName))
             {
                 Destroy(_area);
-                Nestor.ChangeNestorState("shore", false);
                 DialogueManager.Instance.TriggerDialogue("ShorePrologue");
             }
         }

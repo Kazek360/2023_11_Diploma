@@ -64,11 +64,6 @@ namespace Dialogues.Trigger
         /// </summary>
         public void StartDialogue()
         {
-            if (currentDialogue.info.doesNestorAppear)
-            {
-                Nestor.ChangeNestorState(currentDialogue.info.nestorID, true);
-            }
-            
             DialogueEvent.StartDialogue(currentDialogue.info);
             
             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)

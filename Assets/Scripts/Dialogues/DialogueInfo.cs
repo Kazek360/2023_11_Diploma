@@ -24,11 +24,6 @@ namespace Dialogues
         
         [Header("Quest")]
         [SerializeField] public QuestInfo questToStart;
-        
-        [Header("Nestor")] 
-        [SerializeField] public bool doesNestorAppear;
-        [SerializeField] public bool doesNestorDisappear;
-        [SerializeField] public string nestorID;
     
         [Header("Dialogues Text")]
         [SerializeField] public TextAsset dialogueText;

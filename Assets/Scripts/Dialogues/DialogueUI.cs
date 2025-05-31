@@ -137,11 +137,6 @@ namespace Dialogues
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             
-            if (_currentDialogue.doesNestorDisappear)
-            {
-                Nestor.ChangeNestorState(_currentDialogue.nestorID, false);
-            }
-            
             DialogueEvent.FinishDialogue(_currentDialogue);
             if (_currentDialogue.questToStart != null)
             {

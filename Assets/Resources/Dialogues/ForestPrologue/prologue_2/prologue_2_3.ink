@@ -1,6 +1,10 @@
+INCLUDE ../../globals.ink
+
 -> Prologue_2_3
 
 === Prologue_2_3 ===
+~changeNestorState("wolves_prologue", true)
+
 #speaker:Nestor #portrait:nestor_neutral
 A niech to, wilki….
 
