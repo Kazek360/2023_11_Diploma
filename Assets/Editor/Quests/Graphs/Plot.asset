@@ -202,16 +202,6 @@ MonoBehaviour:
     connectedNodes:
     - d5c997fc-29f1-4429-8238-040d57601c33
     position: {x: 2597, y: 1086}
-  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
-    fileName: prologue_1_2
-    description: Porozmawiaj z Hrycem
-    isHidden: 0
-    repeatAmount: 0
-    prefab: {fileID: 7677879442404341218, guid: 0c7d36056c7f6da448e571f3a7c7a7e5, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes:
-    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
-    position: {x: 456, y: -674}
   - id: 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
     fileName: prologue_1_3
     description: "\u015Acigaj si\u0119 do wielkiego d\u0119bu"
@@ -540,6 +530,16 @@ MonoBehaviour:
     connectedNodes:
     - 9d73b7f7-17da-4d4f-a292-69a1f8ca68b3
     position: {x: 2253, y: 3}
+  - id: 491fcba7-fa0e-480f-9c8a-5712b46343e6
+    fileName: prologue_1_2
+    description: Porozmawiaj z Hrycem
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 6019eee20e0662c4db1d2381aae06e43, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    position: {x: 456, y: -674}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -572,7 +572,6 @@ MonoBehaviour:
       - A1S4
     - Key: Prologue
       Value:
-      - prologue_1_2
       - prologue_1_3
       - prologue_1_4
       - prologue_1_5
@@ -590,6 +589,7 @@ MonoBehaviour:
       - prologue_2_1
       - prologue_1_7
       - prologue_1_6
+      - prologue_1_2
       - prologue
     - Key: Main_Quest_1
       Value:
