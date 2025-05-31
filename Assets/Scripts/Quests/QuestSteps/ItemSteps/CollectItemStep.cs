@@ -1,9 +1,9 @@
 ﻿using Collectibles;
 using UnityEngine;
 
-namespace Quests.QuestSteps.OtherSteps
+namespace Quests.QuestSteps.ItemSteps
 {
-    public class CollectQuestStep : BaseQuestStep
+    public class CollectItemStep : BaseQuestStep
     {
         [SerializeField] protected string itemID;
         

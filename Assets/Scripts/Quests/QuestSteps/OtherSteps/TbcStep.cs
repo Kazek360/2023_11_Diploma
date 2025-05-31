@@ -2,7 +2,7 @@
 
 namespace Quests.QuestSteps.OtherSteps
 {
-    public class DummyStep : BaseQuestStep
+    public class TbcStep : BaseQuestStep
     {
         private void Start()
         {
