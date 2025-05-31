@@ -43,6 +43,8 @@ Jesteś mały, przeciśniesz się za mechanizm i sprawdzisz co tam się dzieje?
 #speaker:Wit #portrait:wit_surprised
 Zrobię co w mojej mocy, tatku.
 
+~removeItem("father_dinner", 1)
+
 ->END
 
 == Dad_Happy ==
@@ -71,5 +73,5 @@ Zrobię co w mojej mocy, tatku.
      Dobrze tatku.
 
 - 
-
+~removeItem("father_dinner", 1)
 ->END

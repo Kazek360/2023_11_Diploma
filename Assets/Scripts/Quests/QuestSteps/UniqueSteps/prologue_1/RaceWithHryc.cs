@@ -70,18 +70,6 @@ namespace Quests.QuestSteps.UniqueSteps
         {
             if (dialogueInfo.name == dialogue.name)
             {
-                if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_reward"))
-                {
-                    if (QuestManager.Instance.FlagManager.IsFlagTriggered("hryc_race_win"))
-                    {
-                        GameConfig.PlayerInventory.AddItem("slingshot", 1);
-                    }
-                    else
-                    {
-                        GameConfig.PlayerInventory.RemoveItem("knife", 1);
-                    }
-                }
-
                 TutorialManager.Instance.TriggerTutorial(inventoryTutorial);
                 FinishAndDelete();
             }

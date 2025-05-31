@@ -1,3 +1,7 @@
+//External functions
+EXTERNAL addItem(id, amount)
+EXTERNAL removeItem(id, amount)
+
 //First race with Hryc flags
 VAR hryc_race_reward = false
 VAR hryc_race_win = false
