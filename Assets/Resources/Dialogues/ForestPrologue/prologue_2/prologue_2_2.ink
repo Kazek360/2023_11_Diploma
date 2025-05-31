@@ -1,6 +1,11 @@
+INCLUDE ../../globals.ink
+
 -> Prologue_2_2
 
 === Prologue_2_2 ===
+
+~changeNestorState("forest_prologue", true)
+
 #speaker:Wit #portrait:wit_surprised
 Eee… dzień dobry?
 
@@ -90,4 +95,6 @@ Słuchaj Witek, miałeś dużo szczęścia
 
 #speaker:Wit #portrait:wit_surprised
 Skąd wiesz jak się nazywam? Zaraz! Czy ty mnie śledzisz?
+
+~changeNestorState("forest_prologue", true)
 ->END

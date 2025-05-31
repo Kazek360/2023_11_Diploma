@@ -12,12 +12,15 @@ namespace UI.SaveLoad
     {
         private string _profileName;
         private Button _saveSlotButton;
-        private TextMeshProUGUI _saveSlotText;
+        [SerializeField] private TextMeshProUGUI noSaveText;
+        [SerializeField] private TextMeshProUGUI levelText;
+        [SerializeField] private TextMeshProUGUI locationText;
+        [SerializeField] private TextMeshProUGUI dateText;
+        [SerializeField] private TextMeshProUGUI gameTimeText;
     
         private void Awake()
         {
             _saveSlotButton = GetComponent<Button>();
-            _saveSlotText = GetComponentInChildren<TextMeshProUGUI>();
         }
         
         public void SetData(string profile, GameData gameData)
@@ -26,11 +29,23 @@ namespace UI.SaveLoad
             
             if (gameData is null)
             {
-                _saveSlotText.text = "Brak Zapisu";
+                noSaveText.alpha = 255;
+                levelText.alpha = 0;
+                locationText.alpha = 0;
+                dateText.alpha = 0;
+                gameTimeText.alpha = 0;
             }
             else
             {
-                _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - {gameData.save.date}"; 
+                noSaveText.alpha = 0;
+                levelText.alpha = 255;
+                levelText.text = $"Poziom: {gameData.resources.level}";
+                locationText.alpha = 255;
+                locationText.text = gameData.scene.displayedName;
+                dateText.alpha = 255;
+                dateText.text = gameData.save.saveDate;
+                gameTimeText.alpha = 255;
+                gameTimeText.text = $"Czas Gry: {gameData.save.gameTime}";
             }
 
             _profileName = profile;
@@ -40,8 +55,10 @@ namespace UI.SaveLoad
         private void Save()
         { 
             DataPersistenceManager.Instance.SaveGame(_profileName);
-            _saveSlotText.text = $"{SceneInfo.Instance.displayedSceneName} - " +
-                                 $"{DataPersistenceManager.Instance.CurrentGameData.save.date}"; 
+            levelText.text = $"Poziom: {PlayerStats.GetInstance().Level}";
+            locationText.text = SceneInfo.Instance.displayedSceneName;
+            dateText.text = DataPersistenceManager.Instance.CurrentGameData.save.saveDate;
+            gameTimeText.text = $"Czas Gry: {DataPersistenceManager.Instance.CurrentGameData.save.gameTime}";
         }
     }
 }

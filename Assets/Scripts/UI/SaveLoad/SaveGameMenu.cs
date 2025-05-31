@@ -1,4 +1,5 @@
-﻿using SaveSystem;
+﻿using InputSystem;
+using SaveSystem;
 using UI.Interfaces;
 
 namespace UI.SaveLoad
@@ -25,6 +26,13 @@ namespace UI.SaveLoad
                 _saveSlots[i].SetData(profile, profileData);
             }
             base.OnEnter();
+            InputManager.Instance.Controlls.Player.Disable();
+        }
+        
+        public override void OnExit()
+        {
+            base.OnExit();
+            InputManager.Instance.Controlls.Player.Enable();
         }
     }
 }

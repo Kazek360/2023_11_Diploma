@@ -1,3 +1,4 @@
+using InputSystem;
 using SaveSystem;
 using UI.SaveLoad;
 
@@ -28,6 +29,13 @@ namespace UI.Interfaces
                 _loadSlots[i].SetData(profile, profileData);
             }
             base.OnEnter();
+            InputManager.Instance.Controlls.Player.Disable();
+        }
+        
+        public override void OnExit()
+        {
+            base.OnExit();
+            InputManager.Instance.Controlls.Player.Enable();
         }
     }
 }
