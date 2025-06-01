@@ -135,12 +135,8 @@ public class CombatUI : UserInterface
     {
         if (_currentEntity.IsMaterial())
         {
-            //var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
-
-            var items = new HashSet<string>();
-            items.Add("beer");
-            items.Add("stone");
-            items.Add("rune");
+            var items = GameConfig.PlayerInventory.GetItems(ItemScriptableObject.ItemType.CONSUMABLE);
+            
             int currentCapacity = 2;
             GameObject cardPair = Instantiate(DoubleContainerPrefab, ItemsScrollContent.transform);
             foreach (var itemId in items)
