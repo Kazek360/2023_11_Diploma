@@ -196,7 +196,7 @@ public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
     
     public void LoadData(GameData gameData)
     {
-        _inventorySlots = new InventorySlot[7,5];
+        _inventorySlots = new InventorySlot[6,9];
         _equipmentSlots = new[] { 
             new EquipmentSlot(EquipmentSlotType.feet),
             new EquipmentSlot(EquipmentSlotType.hand),
@@ -245,6 +245,7 @@ public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
                 }
                 else
                 {
+                    Debug.Log($"{i} {j}");
                     gameData.inventory.items[i, j] = null;
                 }
             }
