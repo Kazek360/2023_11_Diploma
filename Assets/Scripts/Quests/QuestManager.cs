@@ -16,6 +16,8 @@ namespace Quests
         
         [Header("Load Globals JSON")] 
         [SerializeField] private TextAsset loadGlobals;
+        
+        [SerializeField] private bool debugNoInit;
         public TextAsset LoadGlobals => loadGlobals;
 
         private Dictionary<string, Quest> _quests;
@@ -184,9 +186,12 @@ namespace Quests
         
         public void InitializeOnNewGame()
         {
-            QuestEvents.DeleteQuestSteps();
-            _quests = CreateQuestDictionary();
-            QuestEvents.StartQuest(questName);
+            if (!debugNoInit)
+            {
+                QuestEvents.DeleteQuestSteps();
+                _quests = CreateQuestDictionary();
+                QuestEvents.StartQuest(questName);
+            }
         }
         
         public void LoadDataFromSaveFile(GameData gameData)
