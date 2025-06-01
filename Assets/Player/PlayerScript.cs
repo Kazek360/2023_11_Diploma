@@ -228,7 +228,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (modifier.ModifiedVar == ModifiedVariable.STRENGTH)
             {
-                str = modifier.ModifyVar(str);
+                str += modifier.ModifyVar(str);
             }
         }
 
@@ -246,7 +246,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (modifier.ModifiedVar == ModifiedVariable.AGILITY)
             {
-                agi = modifier.ModifyVar(agi);
+                agi += modifier.ModifyVar(agi);
             }
         }
 
@@ -264,7 +264,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (modifier.ModifiedVar == ModifiedVariable.LUCK)
             {
-                lck = modifier.ModifyVar(lck);
+                lck += modifier.ModifyVar(lck);
             }
         }
 
@@ -282,7 +282,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         {
             if (modifier.ModifiedVar == ModifiedVariable.IMAGINATION)
             {
-                img = modifier.ModifyVar(img);
+                img += modifier.ModifyVar(img);
             }
         }
 
