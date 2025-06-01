@@ -19,7 +19,7 @@ public class TooltipObject : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && _mouseIsOver)
+        if (Input.GetMouseButtonDown(2) && _mouseIsOver)
         {
             if (_triggered)
             {

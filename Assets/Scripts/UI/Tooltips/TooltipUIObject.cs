@@ -18,7 +18,7 @@ public class TooltipUIObject : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && _mouseIsOver)
+        if (Input.GetMouseButtonDown(2) && _mouseIsOver)
         {
             if (_triggered)
             {
