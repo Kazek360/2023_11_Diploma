@@ -43,6 +43,7 @@ To co?
 #speaker:Hryc #portrait:hryc_neutral
 To jajco. Masz jej pilnować.
 
+~addItem("slingshot", 1)
 -> END
 
 == HrycWinsSat ==
@@ -73,4 +74,5 @@ Pofarciło ci się i tyle. Gdybym był wypoczęty, to bym cię pokonał z palcem
 #speaker:Hryc #portrait:hryc_neutral
 Widzisz? Jednak dobra drzemka to klucz do zwycięstwa.
 
+~removeItem("knife", 1)
 -> END

@@ -2,7 +2,9 @@
 {
     public class SaveData
     {
+        public string gameBeginningDate;
         public long lastUpdated;
-        public string date;
+        public string saveDate;
+        public string gameTime;
     }
 }

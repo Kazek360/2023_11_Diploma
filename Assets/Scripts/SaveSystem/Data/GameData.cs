@@ -12,9 +12,9 @@ namespace SaveSystem.Data
         public SaveData save;
         public SceneData scene;
         public CharacterPositionData charactersPosition;
+        public ResourcesData resources;
         public Dictionary<string, Dictionary<string, bool>> collectiblesState;
         public Dictionary<string, bool> skillTreeNodesState;
-        public Dictionary<string, int> resources;
         public InventoryData inventory;
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
@@ -29,6 +29,7 @@ namespace SaveSystem.Data
             {
                 npcPositions = new Dictionary<string, List<CharacterPositionData.Position>>()
             };
+            resources = new ResourcesData();
             inventory = new InventoryData
             {
                 items = new Tuple<string, int>[6, 9],
@@ -36,7 +37,6 @@ namespace SaveSystem.Data
             };
             trackedQuest = "";
             collectiblesState = new Dictionary<string, Dictionary<string, bool>>();
-            resources = new Dictionary<string, int>();
             skillTreeNodesState = new Dictionary<string, bool>();
             tutorials = new Dictionary<string, Tutorial>();
         }

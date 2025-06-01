@@ -35,6 +35,8 @@ namespace Dialogues
         
         private bool _canContinueToNextLine;
         private bool _submitButtonPressedThisLine;
+
+        private InkExternalFunctions _inkExternalFunctions;
         
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
@@ -71,6 +73,7 @@ namespace Dialogues
         
         private void Start()
         {
+            _inkExternalFunctions = new InkExternalFunctions();
             _choicesText = new List<TextMeshProUGUI>();
             _canContinueToNextLine = false;
             _submitButtonPressedThisLine = false;
@@ -87,7 +90,7 @@ namespace Dialogues
             _currentStory = new Story(_currentDialogue.dialogueText.text);
             _canContinueToNextLine = true;
             QuestManager.Instance.FlagManager.StartListening(_currentStory);
-            
+            _inkExternalFunctions.Bind(_currentStory);
             speakerName.text = "???";
             portraitAnimator.Play("none");
             backgroundAnimator.Play("none");
@@ -130,13 +133,9 @@ namespace Dialogues
         
         private void EndDialogue()
         {
+            _inkExternalFunctions.Unbind(_currentStory);
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
-            
-            if (_currentDialogue.doesNestorDisappear)
-            {
-                Nestor.ChangeNestorState(_currentDialogue.nestorID, false);
-            }
             
             DialogueEvent.FinishDialogue(_currentDialogue);
             if (_currentDialogue.questToStart != null)

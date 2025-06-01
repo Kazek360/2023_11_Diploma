@@ -25,12 +25,12 @@ namespace Other
         
         private void OnEnable()
         {
-            OnNestorStateChange += checkID;
+            OnNestorStateChange += CheckID;
         }
 
         private void OnDisable()
         {
-            OnNestorStateChange -= checkID;
+            OnNestorStateChange -= CheckID;
         }
 
         private void Start()
@@ -43,7 +43,7 @@ namespace Other
             }
         }
 
-        private void checkID(string nestorID, bool isAppearing)
+        private void CheckID(string nestorID, bool isAppearing)
         {
             if (nestorID.Equals(id))
             {

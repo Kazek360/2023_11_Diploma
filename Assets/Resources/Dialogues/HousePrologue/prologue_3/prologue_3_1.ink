@@ -1,6 +1,10 @@
+INCLUDE ../../globals.ink
+
 -> Prologue_3_1
 
 == Prologue_3_1 ==
+~changeNestorState("bed_prologue", true)
+
 #speaker:Nestor #portrait:nestor_neutral
 Widzę że się w końcu obudziłeś.
 
