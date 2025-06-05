@@ -6,19 +6,10 @@
             "id": "d0145c70-4b5a-410a-95b4-c30bfeedf87a",
             "actions": [
                 {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "a65436b3-cc85-492b-b641-158c0bd6bd4b",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "ac3f61ad-975a-4d9c-9495-5e1c7f384c36",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,16 +27,7 @@
                     "name": "Center Camera",
                     "type": "Button",
                     "id": "db3cb28f-681a-4514-a826-1c3cb3d08677",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Mouse Movement",
-                    "type": "Button",
-                    "id": "361d610a-1285-4e7b-aabb-fa8c7b27a9ff",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -54,7 +36,7 @@
                     "name": "Camera Dragging",
                     "type": "Button",
                     "id": "34ee03d6-8b3d-4c65-aa93-71fe0eac7c4d",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -70,61 +52,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "2D Vector",
-                    "id": "5cfd4298-ca04-4a5b-b136-2bdb23d05afe",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "c17512ba-b924-437d-a05d-cdaa8b35063f",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "07375942-9c0d-4030-a051-890a08c15ec1",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "20da5b4d-3995-41e5-b59e-dbeba7ccddce",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "409ababf-c85d-4206-974f-3eccda7b22ec",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "c3ef52fa-ae12-49fc-a4cd-860795cfeee7",
@@ -155,17 +82,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Center Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4fa4dd27-af1f-4a99-ad64-7cf8a87f1dd2",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Mouse Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -245,7 +161,7 @@
                     "name": "Skip",
                     "type": "Button",
                     "id": "aedd7ef5-ff28-4488-b7a3-1c272b6d2b28",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -306,7 +222,7 @@
                     "name": "Map Dragging",
                     "type": "Button",
                     "id": "47a758eb-2482-4e8d-9fc8-27d6a17da2c1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -398,7 +314,7 @@
                     "name": "Toggle Quest Log",
                     "type": "Button",
                     "id": "1cbcf00b-920e-4e34-a0a3-9e1ef2bd9f99",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -513,6 +429,106 @@
                     "processors": "",
                     "groups": "",
                     "action": "Toggle Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "KeyboardMovement",
+            "id": "3036006d-1b6b-4e77-a93a-86015c625ecc",
+            "actions": [
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "4ee3f1fc-f30b-42e0-bc80-edb3f589d40f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "7325e2a0-29ac-46f2-80c0-d5a69b751fe1",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "07731141-7e83-48cc-93af-17fd82e8829f",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "7e05730f-8032-4cad-91ca-300a32cfcd1b",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "4af9549f-cf5b-4e8e-94be-98c8e52e606a",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "5860df9f-d5de-4ff2-94cd-b57a71829f68",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "MouseMovement",
+            "id": "d7f1685e-fa16-4dd1-93bc-f20f11de7f68",
+            "actions": [
+                {
+                    "name": "Mouse Movement",
+                    "type": "Button",
+                    "id": "829b205e-3694-4d92-843f-4da82cc4f168",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "41058a79-c781-498e-9a82-81bf7844d9b9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Mouse Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

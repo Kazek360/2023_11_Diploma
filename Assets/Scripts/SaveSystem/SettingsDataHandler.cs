@@ -1,18 +1,33 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
+using InputSystem;
+using Shared;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SettingsDataHandler : MonoBehaviour
+public class SettingsDataHandler : Singleton<SettingsDataHandler>
 {
     public Slider masterVolumeSlider;
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
     public SoundMixerManager soundMixerManager;
 
+    private bool _mouseMovement;
+    public bool MouseMovement
+    {
+        get => _mouseMovement;
+        set
+        {
+            _mouseMovement = value;
+            InputEvents.InvokeOnInputChanged(value);
+        }
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        MouseMovement = false;
+    }
+    
     private void Start()
     {
         LoadSettings();
@@ -23,6 +38,7 @@ public class SettingsDataHandler : MonoBehaviour
         settingsData.masterVolume = masterVolumeSlider.value;
         settingsData.musicVolume = musicVolumeSlider.value;
         settingsData.sfxVolume = sfxVolumeSlider.value;
+        settingsData.mouseMovement = MouseMovement;
 
         string json = JsonUtility.ToJson(settingsData, true);
         File.WriteAllText(Application.dataPath + "/settings.json", json);
@@ -36,6 +52,7 @@ public class SettingsDataHandler : MonoBehaviour
         masterVolumeSlider.value = settingsData.masterVolume;
         musicVolumeSlider.value = settingsData.musicVolume;
         sfxVolumeSlider.value = settingsData.sfxVolume;
+        MouseMovement = settingsData.mouseMovement;
         
         soundMixerManager.SetMasterVolume(settingsData.masterVolume);
         soundMixerManager.SetMusicVolume(settingsData.musicVolume);
