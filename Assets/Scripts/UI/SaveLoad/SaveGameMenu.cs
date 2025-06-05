@@ -26,13 +26,13 @@ namespace UI.SaveLoad
                 _saveSlots[i].SetData(profile, profileData);
             }
             base.OnEnter();
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
         }
         
         public override void OnExit()
         {
             base.OnExit();
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
         }
     }
 }

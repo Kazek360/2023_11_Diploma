@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Cutscenes;
 using Dialogues;
@@ -17,7 +16,8 @@ namespace InputSystem
         private PlayerControlls _controlls;
         public PlayerControlls Controlls => _controlls;
 
-
+        private bool _mouseMovement;
+        
         private void OnEnable()
         {
             InputEvents.OnInputChanged += ChangeInputType;
@@ -67,10 +67,12 @@ namespace InputSystem
             if (settingsData.mouseMovement)
             {
                 _controlls.MouseMovement.Enable();
+                _mouseMovement = true;
             }
             else
             {
                 _controlls.KeyboardMovement.Enable();
+                _mouseMovement = false;
             }
         }
         
@@ -80,12 +82,34 @@ namespace InputSystem
             {
                 _controlls.KeyboardMovement.Disable();
                 _controlls.MouseMovement.Enable();
+                _mouseMovement = true;
             }
             else
             {
                 _controlls.MouseMovement.Disable();
                 _controlls.KeyboardMovement.Enable();
+                _mouseMovement = false;
             }
+        }
+
+        public void EnableInputs()
+        {
+            _controlls.Player.Enable();
+            if (_mouseMovement)
+            {
+                _controlls.MouseMovement.Enable();
+            }
+            else
+            {
+                _controlls.KeyboardMovement.Enable();
+            }
+        }
+        
+        public void DisableInputs()
+        {
+            _controlls.Player.Disable();
+            _controlls.KeyboardMovement.Disable();
+            _controlls.MouseMovement.Disable();
         }
         
         public void OnMovement(InputAction.CallbackContext context)

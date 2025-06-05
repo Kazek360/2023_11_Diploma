@@ -26,13 +26,13 @@ namespace UI.Interfaces
         {
             base.OnEnter();
             Time.timeScale = 0;
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
         }
         public override void OnExit()
         {
             base.OnExit();
             Time.timeScale = 1;
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
             skillTreeFacade.Deselect();
         }
     

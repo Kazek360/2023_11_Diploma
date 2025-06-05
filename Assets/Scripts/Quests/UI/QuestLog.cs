@@ -48,7 +48,7 @@ namespace Quests.UI
         {
             base.OnEnter();
             Time.timeScale = 0;
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
             if (_defaultSelectedButton is not null)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -59,7 +59,7 @@ namespace Quests.UI
         {
             base.OnExit();
             Time.timeScale = 1;
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
         }
         
         private void AddToQuestLogOnLoad(Quest quest)

@@ -58,13 +58,13 @@ public class ChapterIntroduction : UserInterface
     public override void OnEnter()
     {
         CanvasGroup.alpha = 1;
-        InputManager.Instance.Controlls.Player.Disable();
+        InputManager.Instance.DisableInputs();
         InputManager.Instance.Controlls.UI.Disable();
     }
     public override void OnExit()
     {
         CanvasGroup.alpha = 0;
-        InputManager.Instance.Controlls.Player.Enable();
+        InputManager.Instance.EnableInputs();
         InputManager.Instance.Controlls.UI.Enable();
     }
 

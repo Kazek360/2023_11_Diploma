@@ -11,7 +11,7 @@ namespace UI.Interfaces
         {
             base.OnEnter();
             Time.timeScale = 0;
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
             InputManager.Instance.Controlls.UI.Disable();
             InputManager.Instance.Controlls.Story.Enable();   
         }
@@ -20,7 +20,7 @@ namespace UI.Interfaces
         {
             base.OnExit();
             Time.timeScale = 1;
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
             InputManager.Instance.Controlls.UI.Enable();
             InputManager.Instance.Controlls.Story.Disable();   
         }

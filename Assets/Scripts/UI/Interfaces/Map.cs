@@ -10,14 +10,14 @@ namespace UI.Interfaces
         {
             MapCameraController.InvokeOnMapModeEnter();
             base.OnEnter();
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
             InputManager.Instance.Controlls.Map.Enable();
         }
         
         public override void OnExit()
         {
             base.OnExit();
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
             InputManager.Instance.Controlls.Map.Disable();
         }
     }
