@@ -245,7 +245,6 @@ public class Inventory : MonoBehaviour, INewGameInitializable, ISavable
                 }
                 else
                 {
-                    Debug.Log($"{i} {j}");
                     gameData.inventory.items[i, j] = null;
                 }
             }
