@@ -48,9 +48,9 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 64b8378705cb2d641b79f1be0dd807fb, type: 2}
-  m_Tag: 
+  m_Tag: Escape
   m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_MirrorParameter: isLooking
   m_CycleOffsetParameter: 
   m_TimeParameter: 
 --- !u!1102 &-7003485271805024670
@@ -141,7 +141,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isLooking
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1240985882486683820}
   m_Solo: 0
@@ -175,7 +178,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
