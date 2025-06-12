@@ -32,6 +32,19 @@ public class sarnaAnmation : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, _player.position);
 
+        // Sprawdzenie, czy animacja ucieczki się zakończyła
+        if (_isEscapePlaying)
+        {
+            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
+            if (state.IsTag("Escape") && state.normalizedTime >= 0.95f)
+            {
+
+                _isEscapePlaying = false;
+                gameObject.SetActive(false);
+                Destroy(gameObject, 0.5f);
+            }
+        }
+
         // Reakcja na ucieczkę
         if (distance <= runRadius && !_hasRun)
         {
@@ -40,18 +53,6 @@ public class sarnaAnmation : MonoBehaviour
             _isEscapePlaying = true; // zaczęto animację ucieczki
         }
 
-        // Sprawdzenie, czy animacja ucieczki się zakończyła
-        if (_isEscapePlaying)
-        {
-            AnimatorStateInfo state = _animator.GetCurrentAnimatorStateInfo(0);
-            if (state.IsTag("Escape") && state.normalizedTime == 1f)
-            {
-                
-                _isEscapePlaying = false;
-                // gameObject.SetActive(false);
-                Destroy(gameObject, 0.5f);
-            }
-        }
 
         // Reakcja na alert
         if (distance <= alertRadius)
