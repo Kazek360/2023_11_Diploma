@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5814561841074690635}
   m_Layer: 0
   m_Name: MapCamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,12 +123,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!114 &5814561841074690635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,5 +142,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragSpeed: 1.5
+  zoomSpeed: 0
   minPosition: {x: -100, y: -1000}
   maxPosition: {x: 1000, y: 1000}
+  minZoom: 0
+  maxZoom: 0
