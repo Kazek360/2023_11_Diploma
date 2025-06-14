@@ -1,5 +1,5 @@
 using UnityEngine;
-using Dialogues;
+using StorySystems.Dialogues;
 
 namespace Quests.QuestSteps.DialogueSteps
 {

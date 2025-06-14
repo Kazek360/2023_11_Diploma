@@ -1,6 +1,6 @@
 using System.Collections;
-using Dialogues;
 using Quests.QuestSteps.DialogueSteps;
+using StorySystems.Dialogues;
 using Tutorials;
 using UI;
 using UnityEngine;

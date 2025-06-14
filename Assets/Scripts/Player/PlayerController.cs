@@ -1,7 +1,7 @@
 using System.Collections;
 using Cutscenes;
-using Dialogues;
 using InputSystem;
+using StorySystems.Dialogues;
 using UnityEngine;
 
 namespace Player

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Dialogues;
+using StorySystems.Dialogues;
 
 namespace Quests.QuestSteps.DialogueSteps
 {

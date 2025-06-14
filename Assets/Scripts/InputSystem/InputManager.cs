@@ -1,8 +1,8 @@
 using System.IO;
 using Cutscenes;
-using Dialogues;
 using Interactions;
 using Shared;
+using StorySystems.Dialogues;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
