@@ -1,7 +1,9 @@
+using System.Collections;
 using Cutscenes;
 using Dialogues;
 using InputSystem;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -18,6 +20,8 @@ namespace Player
         private bool _isPlayerSprinting;
         private bool _isMouseMoving;
 
+        private Coroutine _moveRoutine;
+        
         private static readonly int X = Animator.StringToHash("X");
         private static readonly int Y = Animator.StringToHash("Y");
         private static readonly int IsWalking = Animator.StringToHash("isWalking");
@@ -28,7 +32,7 @@ namespace Player
             InputEvents.OnSprintInput += ChangeSprintState;
             InputEvents.OnMovementInput += MovePlayer;
             InputEvents.OnMovementStop += StopPlayerMovement;
-            InputEvents.OnMouseMovement += HandleMouseMovement;
+            InputEvents.OnMouseMovement += OnMouseClick;
             
             DialogueEvent.OnDialogueStarted += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
@@ -41,7 +45,7 @@ namespace Player
             InputEvents.OnSprintInput -= ChangeSprintState;
             InputEvents.OnMovementInput -= MovePlayer;
             InputEvents.OnMovementStop -= StopPlayerMovement;
-            InputEvents.OnMouseMovement -= HandleMouseMovement;
+            InputEvents.OnMouseMovement -= OnMouseClick;
             
             DialogueEvent.OnDialogueStarted -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
@@ -59,43 +63,90 @@ namespace Player
             _canMove = true;
         }
         
-        private void Update()
-        {
-            MovePlayerWithMouse();
-            FixPlayerZPosition();
-        }
+        // private void Update()
+        // {
+        //     FixPlayerZPosition();
+        // }
 
         private void MovePlayer(Vector2 movementVector)
         {
             if (_canMove)
             {
+                if (_moveRoutine != null) StopCoroutine(_moveRoutine);
                 var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
                 _isMouseMoving = false;
                 _rigidbody.linearVelocity = movementVector * currentSpeed;
                 SetAnimationParameters(movementVector);
             }
         }
-
-        private void MovePlayerWithMouse()
+        
+        private void OnMouseClick()
         {
-            if (_canMove)
+            var clickPosition = Camera.main.ScreenToWorldPoint(
+                new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
+            
+            if (_moveRoutine != null) StopCoroutine(_moveRoutine);
+            _moveRoutine = StartCoroutine(MoveToTarget(clickPosition));
+            
+            _isMouseMoving = true;
+        }
+        
+        private IEnumerator MoveToTarget(Vector2 target)
+        {
+            while ((_rigidbody.position - target).sqrMagnitude > 0.01f)
             {
                 var currentSpeed = _isPlayerSprinting ? runSpeed : walkSpeed;
-
-                if (_isMouseMoving)
-                {
-                    Vector2 direction = (_targetPosition - (Vector2)transform.position).normalized;
-                    _rigidbody.linearVelocity = direction * currentSpeed;
-
-                    SetAnimationParameters(direction);
-
-                    if ((_targetPosition - (Vector2)transform.position).sqrMagnitude < 0.01f)
-                    {
-                        _isMouseMoving = false;
-                        StopPlayerMovement();
-                    }
-                }
+                
+                var dir = (target - _rigidbody.position).normalized;
+                _rigidbody.linearVelocity = dir * currentSpeed;
+                SetAnimationParameters(dir);
+                yield return null;
             }
+
+            _rigidbody.linearVelocity = Vector2.zero;
+            SetAnimationParameters(Vector2.zero);
+        }
+        
+        
+        private void ChangeSprintState(bool isPlayerSprinting, Vector2 movementVector)
+        {
+            _isPlayerSprinting = isPlayerSprinting;
+            if (!_isMouseMoving)
+            {
+                MovePlayer(movementVector);
+            }
+        }
+        
+        private void StopPlayerMovement()
+        {
+            _rigidbody.linearVelocity = Vector2.zero;
+            _animator.SetBool("isWalking", false);
+            _animator.SetBool("isRunning", false);
+            
+            // zatrzymaj animacje przed czasem
+            _animator.Play("Idle");
+        }
+
+        private void EnableMovement(DialogueInfo dialogue)
+        {
+            _canMove = true;
+        }
+        
+        private void EnableMovement()
+        {
+            _canMove = true;
+        }
+        
+        private void StopMovement(DialogueInfo dialogue)
+        {
+            _canMove = false;
+            StopPlayerMovement();
+        }
+
+        private void StopMovement(CutsceneSO cutscene)
+        {
+            _canMove = false;
+            StopPlayerMovement();
         }
         
         private void SetAnimationParameters(Vector2 direction)
@@ -123,62 +174,12 @@ namespace Player
             }
         }
         
-        private void HandleMouseMovement()
-        {
-            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            _targetPosition = new Vector2(mousePosition.x, mousePosition.y);
-            _isMouseMoving = true;
-        }
-        
-        private void ChangeSprintState(bool isPlayerSprinting, Vector2 movementVector)
-        {
-            _isPlayerSprinting = isPlayerSprinting;
-            if (!_isMouseMoving)
-            {
-                MovePlayer(movementVector);
-            }
-        }
-        
-        private void StopPlayerMovement()
-        {
-            _rigidbody.linearVelocity = Vector2.zero;
-            _animator.SetBool("isWalking", false);
-            _animator.SetBool("isRunning", false);
-            
-            // zatrzymaj animacje przed czasem
-            _animator.Play("Idle");
-            
-            
-        }
-
-        private void EnableMovement(DialogueInfo dialogue)
-        {
-            _canMove = true;
-        }
-        
-        private void EnableMovement()
-        {
-            _canMove = true;
-        }
-        
-        private void StopMovement(DialogueInfo dialogue)
-        {
-            _canMove = false;
-            StopPlayerMovement();
-        }
-
-        private void StopMovement(CutsceneSO cutscene)
-        {
-            _canMove = false;
-            StopPlayerMovement();
-        }
-        
-        private void FixPlayerZPosition()
-        {
-            Vector3 position = transform.position;
-            position.z = 0;
-            transform.position = position;
-        }
+        // private void FixPlayerZPosition()
+        // {
+        //     Vector3 position = transform.position;
+        //     position.z = 0;
+        //     transform.position = position;
+        // }
 
         private void OnCollisionExit2D(Collision2D other)
         {

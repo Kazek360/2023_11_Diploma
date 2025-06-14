@@ -25,6 +25,7 @@ public class CombatUI : UserInterface
     [SerializeField] private GameObject DoubleContainerPrefab;
     [FormerlySerializedAs("abilityCardPrefab")] [SerializeField] private GameObject AbilityCardPrefab;
     [SerializeField] private GameObject ItemsScrollContent;
+    [SerializeField] private GameObject ItemsDisabledOverlay;
     [SerializeField] private GameObject ItemCardPrefab;
     [FormerlySerializedAs("entityManager")] [SerializeField] private GameObject EntityManager;
     [FormerlySerializedAs("movementCounter")] [SerializeField] private GameObject MovementCounter;
@@ -82,6 +83,7 @@ public class CombatUI : UserInterface
     {
         AbilitiesScrollContent.SetActive(true);
         ItemsScrollContent.SetActive(true);
+        ItemsDisabledOverlay.SetActive(!entity.IsMaterial());
         MovementCounter.SetActive(true);
         ActionCounter.SetActive(true);
         HealthCounter.gameObject.SetActive(true);

@@ -1,3 +1,4 @@
+using System.IO;
 using Cutscenes;
 using Dialogues;
 using Interactions;
@@ -10,17 +11,27 @@ namespace InputSystem
 {
     public class InputManager : Singleton<InputManager>, 
         PlayerControlls.IPlayerActions, PlayerControlls.IStoryActions, PlayerControlls.IUIActions, 
-        PlayerControlls.IMapActions
+        PlayerControlls.IMapActions, PlayerControlls.IKeyboardMovementActions, PlayerControlls.IMouseMovementActions
     {
         private PlayerControlls _controlls;
         public PlayerControlls Controlls => _controlls;
+
+        private bool _mouseMovement;
         
+        private void OnEnable()
+        {
+            InputEvents.OnInputChanged += ChangeInputType;
+        }
+
+
         private void OnDisable()
         {
             _controlls.Player.RemoveCallbacks(this);
             _controlls.Story.RemoveCallbacks(this);
             _controlls.Map.RemoveCallbacks(this);
             _controlls.UI.RemoveCallbacks(this);
+            _controlls.KeyboardMovement.RemoveCallbacks(this);
+            _controlls.MouseMovement.RemoveCallbacks(this);
         }
         
         protected override void Awake()
@@ -36,18 +47,76 @@ namespace InputSystem
             _controlls.Story.SetCallbacks(this);
             _controlls.UI.SetCallbacks(this);
             _controlls.Map.SetCallbacks(this);
-            
+            _controlls.KeyboardMovement.SetCallbacks(this);
+            _controlls.MouseMovement.SetCallbacks(this);
+        }
+
+        private void Start()
+        {
             _controlls.Player.Enable();
             _controlls.UI.Enable();
 
+            SetInputType();
+            
             Time.timeScale = 1;
         }
 
+        private void SetInputType()
+        {
+            var settingsData = JsonUtility.FromJson<SettingsData>(File.ReadAllText(Application.dataPath + "/settings.json"));
+            if (settingsData.mouseMovement)
+            {
+                _controlls.MouseMovement.Enable();
+                _mouseMovement = true;
+            }
+            else
+            {
+                _controlls.KeyboardMovement.Enable();
+                _mouseMovement = false;
+            }
+        }
+        
+        private void ChangeInputType(bool mouseMovement)
+        {
+            if (mouseMovement)
+            {
+                _controlls.KeyboardMovement.Disable();
+                _controlls.MouseMovement.Enable();
+                _mouseMovement = true;
+            }
+            else
+            {
+                _controlls.MouseMovement.Disable();
+                _controlls.KeyboardMovement.Enable();
+                _mouseMovement = false;
+            }
+        }
+
+        public void EnableInputs()
+        {
+            _controlls.Player.Enable();
+            if (_mouseMovement)
+            {
+                _controlls.MouseMovement.Enable();
+            }
+            else
+            {
+                _controlls.KeyboardMovement.Enable();
+            }
+        }
+        
+        public void DisableInputs()
+        {
+            _controlls.Player.Disable();
+            _controlls.KeyboardMovement.Disable();
+            _controlls.MouseMovement.Disable();
+        }
+        
         public void OnMovement(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
-                InputEvents.InputMovement(_controlls.Player.Movement.ReadValue<Vector2>());
+                InputEvents.InputMovement(_controlls.KeyboardMovement.Movement.ReadValue<Vector2>());
                 CameraController.InvokeOnCameraFollow();
             }
             if (context.canceled)
@@ -60,11 +129,11 @@ namespace InputSystem
         {
             if (context.performed)
             {
-                InputEvents.InputSprint(true, _controlls.Player.Movement.ReadValue<Vector2>());
+                InputEvents.InputSprint(true, _controlls.KeyboardMovement.Movement.ReadValue<Vector2>());
             }
             if (context.canceled)
             {
-                InputEvents.InputSprint(false, _controlls.Player.Movement.ReadValue<Vector2>());
+                InputEvents.InputSprint(false, _controlls.KeyboardMovement.Movement.ReadValue<Vector2>());
             }
         }
 

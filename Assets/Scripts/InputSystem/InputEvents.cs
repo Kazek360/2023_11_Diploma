@@ -26,5 +26,11 @@ namespace InputSystem
         {
             OnMouseMovement?.Invoke();
         }
+        
+        public static event Action<bool> OnInputChanged;
+        public static void InvokeOnInputChanged(bool value)
+        {
+            OnInputChanged?.Invoke(value);
+        }
     }
 }

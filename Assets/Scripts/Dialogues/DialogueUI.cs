@@ -58,7 +58,7 @@ namespace Dialogues
         public override void OnEnter()
         {
             base.OnEnter();
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
             InputManager.Instance.Controlls.UI.Disable();
             InputManager.Instance.Controlls.Story.Enable();   
         }
@@ -66,7 +66,7 @@ namespace Dialogues
         public override void OnExit()
         {
             base.OnExit();
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
             InputManager.Instance.Controlls.UI.Enable();
             InputManager.Instance.Controlls.Story.Disable();   
         }

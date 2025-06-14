@@ -48,7 +48,7 @@ namespace Quests.UI
         {
             base.OnEnter();
             Time.timeScale = 0;
-            InputManager.Instance.Controlls.Player.Disable();
+            InputManager.Instance.DisableInputs();
             if (_defaultSelectedButton is not null)
             {
                 EventSystem.current.SetSelectedGameObject(null);
@@ -59,7 +59,7 @@ namespace Quests.UI
         {
             base.OnExit();
             Time.timeScale = 1;
-            InputManager.Instance.Controlls.Player.Enable();
+            InputManager.Instance.EnableInputs();
         }
         
         private void AddToQuestLogOnLoad(Quest quest)
@@ -92,13 +92,13 @@ namespace Quests.UI
             
             displayNameText.text = quest.info.displayName;
             descriptionText.text = quest.info.description;
-            currentStepText.text = quest.stepsDescriptions.Last();
+            currentStepText.text = $"   • {quest.stepsDescriptions.Last()}";
             if (quest.stepsDescriptions.Count > 1)
             {
-                stepsText.text =  $"{quest.stepsDescriptions[0]}";
+                stepsText.text =  $"        • {quest.stepsDescriptions[0]}";
                 for (int i = 1; i < quest.stepsDescriptions.Count - 1; i++)
                 {
-                    stepsText.text = $"{quest.stepsDescriptions[i]}\n{stepsText.text}";
+                    stepsText.text = $"        • {quest.stepsDescriptions[i]}\n{stepsText.text}";
                 }
             }
             else

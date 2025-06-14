@@ -8,6 +8,6 @@ public class WorkProgressToMenu : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadSceneAsync("Scenes/UI/Menu/MainMenu");
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 }

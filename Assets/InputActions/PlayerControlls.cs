@@ -92,19 +92,10 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             ""id"": ""d0145c70-4b5a-410a-95b4-c30bfeedf87a"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""a65436b3-cc85-492b-b641-158c0bd6bd4b"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""ac3f61ad-975a-4d9c-9495-5e1c7f384c36"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -122,16 +113,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Center Camera"",
                     ""type"": ""Button"",
                     ""id"": ""db3cb28f-681a-4514-a826-1c3cb3d08677"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Mouse Movement"",
-                    ""type"": ""Button"",
-                    ""id"": ""361d610a-1285-4e7b-aabb-fa8c7b27a9ff"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -140,7 +122,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Camera Dragging"",
                     ""type"": ""Button"",
                     ""id"": ""34ee03d6-8b3d-4c65-aa93-71fe0eac7c4d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -156,61 +138,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""5cfd4298-ca04-4a5b-b136-2bdb23d05afe"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""c17512ba-b924-437d-a05d-cdaa8b35063f"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""07375942-9c0d-4030-a051-890a08c15ec1"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""20da5b4d-3995-41e5-b59e-dbeba7ccddce"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""409ababf-c85d-4206-974f-3eccda7b22ec"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""c3ef52fa-ae12-49fc-a4cd-860795cfeee7"",
@@ -241,17 +168,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Center Camera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fa4dd27-af1f-4a99-ad64-7cf8a87f1dd2"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Mouse Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -331,7 +247,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Skip"",
                     ""type"": ""Button"",
                     ""id"": ""aedd7ef5-ff28-4488-b7a3-1c272b6d2b28"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -392,7 +308,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Map Dragging"",
                     ""type"": ""Button"",
                     ""id"": ""47a758eb-2482-4e8d-9fc8-27d6a17da2c1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -484,7 +400,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""name"": ""Toggle Quest Log"",
                     ""type"": ""Button"",
                     ""id"": ""1cbcf00b-920e-4e34-a0a3-9e1ef2bd9f99"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -603,17 +519,115 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""KeyboardMovement"",
+            ""id"": ""3036006d-1b6b-4e77-a93a-86015c625ecc"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""4ee3f1fc-f30b-42e0-bc80-edb3f589d40f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""7325e2a0-29ac-46f2-80c0-d5a69b751fe1"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""07731141-7e83-48cc-93af-17fd82e8829f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""7e05730f-8032-4cad-91ca-300a32cfcd1b"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4af9549f-cf5b-4e8e-94be-98c8e52e606a"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5860df9f-d5de-4ff2-94cd-b57a71829f68"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
+        },
+        {
+            ""name"": ""MouseMovement"",
+            ""id"": ""d7f1685e-fa16-4dd1-93bc-f20f11de7f68"",
+            ""actions"": [
+                {
+                    ""name"": ""Mouse Movement"",
+                    ""type"": ""Button"",
+                    ""id"": ""829b205e-3694-4d92-843f-4da82cc4f168"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""41058a79-c781-498e-9a82-81bf7844d9b9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mouse Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_CenterCamera = m_Player.FindAction("Center Camera", throwIfNotFound: true);
-        m_Player_MouseMovement = m_Player.FindAction("Mouse Movement", throwIfNotFound: true);
         m_Player_CameraDragging = m_Player.FindAction("Camera Dragging", throwIfNotFound: true);
         m_Player_CameraZooming = m_Player.FindAction("Camera Zooming", throwIfNotFound: true);
         // Story
@@ -631,6 +645,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_UI_ToggleInventory = m_UI.FindAction("Toggle Inventory", throwIfNotFound: true);
         m_UI_ToggleMap = m_UI.FindAction("Toggle Map", throwIfNotFound: true);
         m_UI_ToggleEscape = m_UI.FindAction("Toggle Escape", throwIfNotFound: true);
+        // KeyboardMovement
+        m_KeyboardMovement = asset.FindActionMap("KeyboardMovement", throwIfNotFound: true);
+        m_KeyboardMovement_Movement = m_KeyboardMovement.FindAction("Movement", throwIfNotFound: true);
+        // MouseMovement
+        m_MouseMovement = asset.FindActionMap("MouseMovement", throwIfNotFound: true);
+        m_MouseMovement_MouseMovement = m_MouseMovement.FindAction("Mouse Movement", throwIfNotFound: true);
     }
 
     ~@PlayerControlls()
@@ -639,6 +659,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Story.enabled, "This will cause a leak and performance issues, PlayerControlls.Story.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Map.enabled, "This will cause a leak and performance issues, PlayerControlls.Map.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerControlls.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_KeyboardMovement.enabled, "This will cause a leak and performance issues, PlayerControlls.KeyboardMovement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_MouseMovement.enabled, "This will cause a leak and performance issues, PlayerControlls.MouseMovement.Disable() has not been called.");
     }
 
     /// <summary>
@@ -714,11 +736,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_CenterCamera;
-    private readonly InputAction m_Player_MouseMovement;
     private readonly InputAction m_Player_CameraDragging;
     private readonly InputAction m_Player_CameraZooming;
     /// <summary>
@@ -733,10 +753,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/Movement".
-        /// </summary>
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        /// <summary>
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
@@ -748,10 +764,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/CenterCamera".
         /// </summary>
         public InputAction @CenterCamera => m_Wrapper.m_Player_CenterCamera;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/MouseMovement".
-        /// </summary>
-        public InputAction @MouseMovement => m_Wrapper.m_Player_MouseMovement;
         /// <summary>
         /// Provides access to the underlying input action "Player/CameraDragging".
         /// </summary>
@@ -786,9 +798,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
@@ -798,9 +807,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CenterCamera.started += instance.OnCenterCamera;
             @CenterCamera.performed += instance.OnCenterCamera;
             @CenterCamera.canceled += instance.OnCenterCamera;
-            @MouseMovement.started += instance.OnMouseMovement;
-            @MouseMovement.performed += instance.OnMouseMovement;
-            @MouseMovement.canceled += instance.OnMouseMovement;
             @CameraDragging.started += instance.OnCameraDragging;
             @CameraDragging.performed += instance.OnCameraDragging;
             @CameraDragging.canceled += instance.OnCameraDragging;
@@ -818,9 +824,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
@@ -830,9 +833,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @CenterCamera.started -= instance.OnCenterCamera;
             @CenterCamera.performed -= instance.OnCenterCamera;
             @CenterCamera.canceled -= instance.OnCenterCamera;
-            @MouseMovement.started -= instance.OnMouseMovement;
-            @MouseMovement.performed -= instance.OnMouseMovement;
-            @MouseMovement.canceled -= instance.OnMouseMovement;
             @CameraDragging.started -= instance.OnCameraDragging;
             @CameraDragging.performed -= instance.OnCameraDragging;
             @CameraDragging.canceled -= instance.OnCameraDragging;
@@ -1226,6 +1226,198 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // KeyboardMovement
+    private readonly InputActionMap m_KeyboardMovement;
+    private List<IKeyboardMovementActions> m_KeyboardMovementActionsCallbackInterfaces = new List<IKeyboardMovementActions>();
+    private readonly InputAction m_KeyboardMovement_Movement;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "KeyboardMovement".
+    /// </summary>
+    public struct KeyboardMovementActions
+    {
+        private @PlayerControlls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public KeyboardMovementActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "KeyboardMovement/Movement".
+        /// </summary>
+        public InputAction @Movement => m_Wrapper.m_KeyboardMovement_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_KeyboardMovement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="KeyboardMovementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(KeyboardMovementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="KeyboardMovementActions" />
+        public void AddCallbacks(IKeyboardMovementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_KeyboardMovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_KeyboardMovementActionsCallbackInterfaces.Add(instance);
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="KeyboardMovementActions" />
+        private void UnregisterCallbacks(IKeyboardMovementActions instance)
+        {
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="KeyboardMovementActions.UnregisterCallbacks(IKeyboardMovementActions)" />.
+        /// </summary>
+        /// <seealso cref="KeyboardMovementActions.UnregisterCallbacks(IKeyboardMovementActions)" />
+        public void RemoveCallbacks(IKeyboardMovementActions instance)
+        {
+            if (m_Wrapper.m_KeyboardMovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="KeyboardMovementActions.AddCallbacks(IKeyboardMovementActions)" />
+        /// <seealso cref="KeyboardMovementActions.RemoveCallbacks(IKeyboardMovementActions)" />
+        /// <seealso cref="KeyboardMovementActions.UnregisterCallbacks(IKeyboardMovementActions)" />
+        public void SetCallbacks(IKeyboardMovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_KeyboardMovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_KeyboardMovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="KeyboardMovementActions" /> instance referencing this action map.
+    /// </summary>
+    public KeyboardMovementActions @KeyboardMovement => new KeyboardMovementActions(this);
+
+    // MouseMovement
+    private readonly InputActionMap m_MouseMovement;
+    private List<IMouseMovementActions> m_MouseMovementActionsCallbackInterfaces = new List<IMouseMovementActions>();
+    private readonly InputAction m_MouseMovement_MouseMovement;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "MouseMovement".
+    /// </summary>
+    public struct MouseMovementActions
+    {
+        private @PlayerControlls m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MouseMovementActions(@PlayerControlls wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "MouseMovement/MouseMovement".
+        /// </summary>
+        public InputAction @MouseMovement => m_Wrapper.m_MouseMovement_MouseMovement;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_MouseMovement; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MouseMovementActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MouseMovementActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MouseMovementActions" />
+        public void AddCallbacks(IMouseMovementActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MouseMovementActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MouseMovementActionsCallbackInterfaces.Add(instance);
+            @MouseMovement.started += instance.OnMouseMovement;
+            @MouseMovement.performed += instance.OnMouseMovement;
+            @MouseMovement.canceled += instance.OnMouseMovement;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MouseMovementActions" />
+        private void UnregisterCallbacks(IMouseMovementActions instance)
+        {
+            @MouseMovement.started -= instance.OnMouseMovement;
+            @MouseMovement.performed -= instance.OnMouseMovement;
+            @MouseMovement.canceled -= instance.OnMouseMovement;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MouseMovementActions.UnregisterCallbacks(IMouseMovementActions)" />.
+        /// </summary>
+        /// <seealso cref="MouseMovementActions.UnregisterCallbacks(IMouseMovementActions)" />
+        public void RemoveCallbacks(IMouseMovementActions instance)
+        {
+            if (m_Wrapper.m_MouseMovementActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MouseMovementActions.AddCallbacks(IMouseMovementActions)" />
+        /// <seealso cref="MouseMovementActions.RemoveCallbacks(IMouseMovementActions)" />
+        /// <seealso cref="MouseMovementActions.UnregisterCallbacks(IMouseMovementActions)" />
+        public void SetCallbacks(IMouseMovementActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MouseMovementActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MouseMovementActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MouseMovementActions" /> instance referencing this action map.
+    /// </summary>
+    public MouseMovementActions @MouseMovement => new MouseMovementActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -1233,13 +1425,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />
     public interface IPlayerActions
     {
-        /// <summary>
-        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMovement(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1261,13 +1446,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCenterCamera(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Mouse Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMouseMovement(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Camera Dragging" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1369,5 +1547,35 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleEscape(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "KeyboardMovement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="KeyboardMovementActions.AddCallbacks(IKeyboardMovementActions)" />
+    /// <seealso cref="KeyboardMovementActions.RemoveCallbacks(IKeyboardMovementActions)" />
+    public interface IKeyboardMovementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMovement(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MouseMovement" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MouseMovementActions.AddCallbacks(IMouseMovementActions)" />
+    /// <seealso cref="MouseMovementActions.RemoveCallbacks(IMouseMovementActions)" />
+    public interface IMouseMovementActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Mouse Movement" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseMovement(InputAction.CallbackContext context);
     }
 }

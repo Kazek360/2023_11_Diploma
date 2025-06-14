@@ -29,23 +29,15 @@ namespace UI.SaveLoad
             
             if (gameData is null)
             {
-                noSaveText.alpha = 255;
-                levelText.alpha = 0;
-                locationText.alpha = 0;
-                dateText.alpha = 0;
-                gameTimeText.alpha = 0;
+                HideData();
             }
             else
             {
-                noSaveText.alpha = 0;
-                levelText.alpha = 255;
                 levelText.text = $"Poziom: {gameData.resources.level}";
-                locationText.alpha = 255;
                 locationText.text = gameData.scene.displayedName;
-                dateText.alpha = 255;
                 dateText.text = gameData.save.saveDate;
-                gameTimeText.alpha = 255;
                 gameTimeText.text = $"Czas Gry: {gameData.save.gameTime}";
+                ShowData();
             }
 
             _profileName = profile;
@@ -59,6 +51,25 @@ namespace UI.SaveLoad
             locationText.text = SceneInfo.Instance.displayedSceneName;
             dateText.text = DataPersistenceManager.Instance.CurrentGameData.save.saveDate;
             gameTimeText.text = $"Czas Gry: {DataPersistenceManager.Instance.CurrentGameData.save.gameTime}";
+            ShowData();
+        }
+
+        private void HideData()
+        {
+            noSaveText.alpha = 255;
+            levelText.alpha = 0;
+            locationText.alpha = 0;
+            dateText.alpha = 0;
+            gameTimeText.alpha = 0;
+        }
+        
+        private void ShowData()
+        {
+            noSaveText.alpha = 0;
+            levelText.alpha = 255;
+            locationText.alpha = 255;
+            dateText.alpha = 255;
+            gameTimeText.alpha = 255;
         }
     }
 }
