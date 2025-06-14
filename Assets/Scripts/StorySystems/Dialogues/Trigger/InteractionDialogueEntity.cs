@@ -1,7 +1,7 @@
 ﻿using Interactions;
 using UnityEngine;
 
-namespace Dialogues.Trigger
+namespace StorySystems.Dialogues.Trigger
 {
     //This class triggers dialogue by interaction
     public class InteractionDialogueEntity : DialogueEntity, IInteractable

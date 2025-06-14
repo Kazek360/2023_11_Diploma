@@ -4,12 +4,11 @@ using TMPro;
 using UnityEngine;
 using Ink.Runtime;
 using InputSystem;
-using Other;
 using Quests;
 using UI;
 using UI.Interfaces;
 
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     //Class managing the currently triggered dialogue.
     public class DialogueUI : UserInterface

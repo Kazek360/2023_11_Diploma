@@ -1,11 +1,11 @@
 using System.Collections.Generic;
-using Dialogues.Trigger;
 using Quests;
 using Shared;
+using StorySystems.Dialogues.Trigger;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     /// <summary>
     /// class Storing information about all dialogues in game

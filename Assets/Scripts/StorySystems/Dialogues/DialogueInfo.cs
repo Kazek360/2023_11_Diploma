@@ -1,7 +1,7 @@
 using Quests.ScriptableObjects;
 using UnityEngine;
 
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     //Scriptable object storing information about dialogue.
     [CreateAssetMenu(fileName = "Dialogues", menuName = "ScriptableObjects/Dialogues/Dialogues")]
