@@ -9,10 +9,10 @@ namespace Cutscenes
         {
             OnCutsceneStarted?.Invoke(cutscene);
         }
-        public static event Action OnCutsceneFinished;
-        public static void FinishCutscene()
+        public static event Action<CutsceneSO> OnCutsceneFinished;
+        public static void FinishCutscene(CutsceneSO cutscene)
         {
-            OnCutsceneFinished?.Invoke();
+            OnCutsceneFinished?.Invoke(cutscene);
         }
         
         public static event Action OnCutsceneSkipped;
@@ -21,5 +21,4 @@ namespace Cutscenes
             OnCutsceneSkipped?.Invoke();
         }
     }
- 
 }
