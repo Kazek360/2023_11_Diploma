@@ -57,7 +57,6 @@ public class MapCameraController : MonoBehaviour
     private void Awake()
     {
         _camera = GetComponent<Camera>();
-        // _originalPosition = _camera.transform.position;
         _originalZoom = _camera.orthographicSize;
     }
 
