@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Other;
 using UnityEngine;
 
-namespace Dialogues.Trigger
+namespace StorySystems.Dialogues.Trigger
 {
     /// <summary>
     /// Klasa przechowująca informacje o dialogach dla określonej postaci
@@ -16,7 +15,7 @@ namespace Dialogues.Trigger
         [NonSerialized] public List<Dialogue> dialogues;
         [NonSerialized] public Dialogue currentDialogue;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             dialogues = new List<Dialogue>();
         }

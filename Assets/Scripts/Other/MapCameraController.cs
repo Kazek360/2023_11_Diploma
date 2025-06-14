@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Location;
 using UnityEngine;
 
 public class MapCameraController : MonoBehaviour
@@ -42,27 +43,27 @@ public class MapCameraController : MonoBehaviour
     {
         OnMapDragging += DragMap;
         OnMapDraggingStop += StopDragging;
-        OnMapModeEnter += SetCameraOriginalValues;
+        OnMapModeEnter += SetCameraValues;
         OnMapZooming += ZoomMap;
     }
     private void OnDisable()
     {
         OnMapDragging -= DragMap;
         OnMapDraggingStop -= StopDragging;
-        OnMapModeEnter -= SetCameraOriginalValues;
+        OnMapModeEnter -= SetCameraValues;
         OnMapZooming -= ZoomMap;
     }
 
     private void Awake()
     {
         _camera = GetComponent<Camera>();
-        _originalPosition = _camera.transform.position;
         _originalZoom = _camera.orthographicSize;
     }
 
-    private void SetCameraOriginalValues()
+    private void SetCameraValues()
     {
-        _camera.transform.position = _originalPosition;
+        var playerPosition = PlayerPosition.instance.playerTransform.position;
+        _camera.transform.position = new Vector3(playerPosition.x, playerPosition.y, -700);
         _camera.orthographicSize = _originalZoom;
     }
     

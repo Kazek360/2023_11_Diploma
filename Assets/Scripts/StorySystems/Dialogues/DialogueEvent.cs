@@ -1,7 +1,7 @@
 using System;
-using Dialogues.Trigger;
+using StorySystems.Dialogues.Trigger;
 
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     public static class DialogueEvent
     {

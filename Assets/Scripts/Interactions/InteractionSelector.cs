@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Dialogues;
+using StorySystems.Dialogues;
 using UnityEngine;
 
 namespace Interactions
@@ -89,7 +89,7 @@ namespace Interactions
                 }
                 else
                 {
-                    ChangeClosestInteraction(_availableInteractions[0]);
+                    ShowClosestInteraction();
                 }
             }
             else if (_closestInteraction != null)
@@ -101,8 +101,17 @@ namespace Interactions
 
         private void ChangeClosestInteraction(IInteractable newClosestInteraction)
         {
+            if (newClosestInteraction == _closestInteraction)
+            {
+                return;
+            }
             _closestInteraction.HideIndicator();
             _closestInteraction = newClosestInteraction;
+            _closestInteraction.ShowIndicator();
+        }
+
+        private void ShowClosestInteraction()
+        {
             _closestInteraction.ShowIndicator();
         }
 

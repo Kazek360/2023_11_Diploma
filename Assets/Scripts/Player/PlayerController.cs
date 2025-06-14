@@ -1,9 +1,8 @@
 using System.Collections;
 using Cutscenes;
-using Dialogues;
 using InputSystem;
+using StorySystems.Dialogues;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -62,11 +61,6 @@ namespace Player
             
             _canMove = true;
         }
-        
-        // private void Update()
-        // {
-        //     FixPlayerZPosition();
-        // }
 
         private void MovePlayer(Vector2 movementVector)
         {
@@ -132,7 +126,7 @@ namespace Player
             _canMove = true;
         }
         
-        private void EnableMovement()
+        private void EnableMovement(CutsceneSO cutscene)
         {
             _canMove = true;
         }
@@ -173,13 +167,6 @@ namespace Player
                 }
             }
         }
-        
-        // private void FixPlayerZPosition()
-        // {
-        //     Vector3 position = transform.position;
-        //     position.z = 0;
-        //     transform.position = position;
-        // }
 
         private void OnCollisionExit2D(Collision2D other)
         {

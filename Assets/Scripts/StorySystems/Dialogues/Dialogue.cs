@@ -1,5 +1,4 @@
-
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     //Class storing NPC dialogue info and state of dialogue.
     public class Dialogue

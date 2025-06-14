@@ -7,6 +7,7 @@ namespace Cutscenes
     public class CutscenePlayer : MonoBehaviour
     {
         private VideoPlayer _videoPlayer;
+        private CutsceneSO _currentCutscene;
 
         private void Awake()
         {
@@ -30,6 +31,7 @@ namespace Cutscenes
         private void PrepareVideo(CutsceneSO cutsceneInfo)
         {
             _videoPlayer.targetTexture.Release();
+            _currentCutscene = cutsceneInfo;
             _videoPlayer.clip = cutsceneInfo.clip;
             _videoPlayer.Prepare();
             _videoPlayer.prepareCompleted += StartCutscene;
@@ -54,7 +56,7 @@ namespace Cutscenes
         private void FinishCutscene(VideoPlayer player)
         {
             _videoPlayer.clip = null;
-            CutsceneEvents.FinishCutscene();
+            CutsceneEvents.FinishCutscene(_currentCutscene);
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }
         
@@ -62,7 +64,7 @@ namespace Cutscenes
         {
             _videoPlayer.Stop();
             _videoPlayer.clip = null;
-            CutsceneEvents.FinishCutscene();
+            CutsceneEvents.FinishCutscene(_currentCutscene);
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
         }
     }

@@ -1,7 +1,7 @@
 ﻿using Ink.Runtime;
 using Other;
 
-namespace Dialogues
+namespace StorySystems.Dialogues
 {
     public class InkExternalFunctions
     {

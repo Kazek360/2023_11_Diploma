@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Dialogues;
+using StorySystems.Dialogues;
 using UnityEngine;
 
 namespace Quests.QuestSteps.DialogueSteps

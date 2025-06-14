@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Dialogues.Trigger
+namespace StorySystems.Dialogues.Trigger
 {
     //This class triggers dialogue by entering area
     public class AreaDialogueEntity : DialogueEntity
