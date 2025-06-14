@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Other
 {
-    public class Nestor : MonoBehaviour
+    public class Nestor : FadeInOutObject
     {
         public static event Action<string, bool> OnNestorStateChange;
 
@@ -14,14 +13,6 @@ namespace Other
         }
         
         [SerializeField] private string id;
-        [SerializeField] private float disappearSpeed;
-        [SerializeField] private bool notVisibleOnStart;
-        private SpriteRenderer _spriteRenderer;
-        
-        private void Awake()
-        {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
         
         private void OnEnable()
         {
@@ -33,50 +24,18 @@ namespace Other
             OnNestorStateChange -= CheckID;
         }
 
-        private void Start()
-        {
-            if (notVisibleOnStart)
-            {
-                var color = _spriteRenderer.color;
-                color.a = 0;
-                _spriteRenderer.color = color;
-            }
-        }
-
         private void CheckID(string nestorID, bool isAppearing)
         {
             if (nestorID.Equals(id))
             {
                 if (isAppearing)
                 {
-                    StartCoroutine(AppearNestor());
+                    StartCoroutine(FadeIn());
                 }
                 else
                 {
-                    StartCoroutine(DisappearNestor());
+                    StartCoroutine(FadeOut());
                 }
-            }
-        }
-
-        private IEnumerator AppearNestor()
-        {
-            while (_spriteRenderer.color.a < 1)
-            {
-                var color = _spriteRenderer.color;
-                color.a += disappearSpeed * Time.deltaTime;
-                _spriteRenderer.color = color;
-                yield return null;
-            }
-        }
-        
-        private IEnumerator DisappearNestor()
-        {
-            while (_spriteRenderer.color.a > 0)
-            {
-                var color = _spriteRenderer.color;
-                color.a -= disappearSpeed * Time.deltaTime;
-                _spriteRenderer.color = color;
-                yield return null;
             }
         }
     }

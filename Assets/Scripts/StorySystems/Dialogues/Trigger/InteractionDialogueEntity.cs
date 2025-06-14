@@ -1,4 +1,5 @@
 ﻿using Interactions;
+using Other;
 using UnityEngine;
 
 namespace StorySystems.Dialogues.Trigger
@@ -7,10 +8,17 @@ namespace StorySystems.Dialogues.Trigger
     public class InteractionDialogueEntity : DialogueEntity, IInteractable
     {
         [Header("Interaction")]
-        [SerializeField] private GameObject interactionKeySprite;
         [SerializeField] private GameObject questMarkerSprite;
         
+        private FadeInOutObject _interactionKey;
         private bool _disabled;
+        
+        
+        protected override void Awake()
+        {
+            base.Awake();
+            _interactionKey = GetComponentInChildren<FadeInOutObject>();
+        }
         
         protected override void OnEnable()
         {
@@ -60,13 +68,15 @@ namespace StorySystems.Dialogues.Trigger
         {
             if (!_disabled)
             {
-                interactionKeySprite.SetActive(true);  
+                StopAllCoroutines();
+                StartCoroutine(_interactionKey.FadeIn());
             }
         }
 
         public void HideIndicator()
         {
-            interactionKeySprite.SetActive(false);
+            StopAllCoroutines();
+            StartCoroutine(_interactionKey.FadeOut());
         }
         
         private void OnTriggerEnter2D(Collider2D other)

@@ -15,7 +15,7 @@ namespace StorySystems.Dialogues.Trigger
         [NonSerialized] public List<Dialogue> dialogues;
         [NonSerialized] public Dialogue currentDialogue;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             dialogues = new List<Dialogue>();
         }
