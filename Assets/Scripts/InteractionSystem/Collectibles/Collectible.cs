@@ -1,7 +1,6 @@
-using Interactions;
 using UnityEngine;
 
-namespace Collectibles
+namespace InteractionSystem.Collectibles
 {
     /**
      * Controller for an item that can be picked up by a player

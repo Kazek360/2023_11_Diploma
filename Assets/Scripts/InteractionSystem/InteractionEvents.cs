@@ -1,6 +1,6 @@
 using System;
 
-namespace Interactions
+namespace InteractionSystem
 {
     public static class InteractionEvents
     {

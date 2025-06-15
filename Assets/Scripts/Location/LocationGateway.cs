@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Interactions;
+using InteractionSystem;
 using UnityEngine;
 
 namespace Location

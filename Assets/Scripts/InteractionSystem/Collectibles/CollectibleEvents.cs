@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Collectibles
+namespace InteractionSystem.Collectibles
 {
     public static class CollectibleEvents
     {

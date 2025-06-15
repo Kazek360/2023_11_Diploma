@@ -1,6 +1,6 @@
 using System.IO;
 using Cutscenes;
-using Interactions;
+using InteractionSystem;
 using Shared;
 using StorySystems.Dialogues;
 using UI;

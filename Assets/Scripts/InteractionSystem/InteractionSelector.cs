@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using StorySystems.Dialogues;
 using UnityEngine;
 
-namespace Interactions
+namespace InteractionSystem
 {
     public class InteractionSelector : MonoBehaviour
     {

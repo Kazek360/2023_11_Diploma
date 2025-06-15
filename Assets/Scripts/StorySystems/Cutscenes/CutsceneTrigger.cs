@@ -1,5 +1,5 @@
 using Cutscenes;
-using Interactions;
+using InteractionSystem;
 using UnityEngine;
 
 namespace StorySystems.Cutscenes

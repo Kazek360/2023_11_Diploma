@@ -1,7 +1,7 @@
 ﻿using Other;
 using UnityEngine;
 
-namespace Interactions
+namespace InteractionSystem
 {
     public class InteractionObject : MonoBehaviour, IInteractable
     {

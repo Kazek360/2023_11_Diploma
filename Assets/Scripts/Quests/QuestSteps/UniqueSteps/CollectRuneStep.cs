@@ -1,4 +1,4 @@
-﻿using Collectibles;
+﻿using InteractionSystem.Collectibles;
 using Quests.QuestSteps.DialogueSteps;
 using StorySystems.Dialogues;
 using UnityEngine;

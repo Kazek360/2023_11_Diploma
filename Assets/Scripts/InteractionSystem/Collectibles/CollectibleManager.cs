@@ -5,7 +5,7 @@ using SaveSystem.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Collectibles
+namespace InteractionSystem.Collectibles
 {
     public class CollectibleManager : MonoBehaviour, ISavable
     {
