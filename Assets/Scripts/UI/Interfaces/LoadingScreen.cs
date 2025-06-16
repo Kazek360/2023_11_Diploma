@@ -1,5 +1,4 @@
 using InputSystem;
-
 namespace UI.Interfaces
 {
     public class LoadingScreen : UserInterface

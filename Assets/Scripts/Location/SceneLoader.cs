@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Other;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Location
 {
@@ -15,17 +13,6 @@ namespace Location
         public static void InvokeOnSceneChanged(string sceneName)
         {
             OnSceneChanged?.Invoke(sceneName);
-        }
-
-        private FadeInOut _fadeInOut;
-        private Slider _progressSlider;
-        
-        private void Awake()
-        {
-            _fadeInOut = GetComponent<FadeInOut>();
-            _progressSlider = GetComponentInChildren<Slider>();
-            _progressSlider.value = 0;
-            _progressSlider.interactable = false;
         }
 
         private void OnEnable()
@@ -43,17 +30,22 @@ namespace Location
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.LoadingScreen);
             StartCoroutine(LoadSceneAsync(sceneName));
         }
-
-        IEnumerator LoadSceneAsync(string sceneName)
+        
+        private IEnumerator LoadSceneAsync(string sceneName)
         {
-            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName);
+            var asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            asyncLoad.allowSceneActivation = false;
             
-            while (!loadOperation.isDone)
+            while (asyncLoad.progress < 0.9f)
             {
-                var progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
-                _progressSlider.value = progressValue;
                 yield return null;
             }
+            
+            yield return null;
+            
+            yield return new WaitForSeconds(2f);
+
+            asyncLoad.allowSceneActivation = true;
         }
     }
 }
