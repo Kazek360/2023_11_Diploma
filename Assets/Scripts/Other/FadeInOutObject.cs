@@ -27,7 +27,7 @@ namespace Other
         
         public IEnumerator FadeIn()
         {
-            while (_spriteRenderer.color.a < 255)
+            while (_spriteRenderer.color.a < 1)
             {
                 var color = _spriteRenderer.color;
                 color.a += transitionSpeed * Time.deltaTime;
