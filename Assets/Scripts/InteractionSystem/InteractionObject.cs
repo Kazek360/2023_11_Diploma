@@ -24,13 +24,13 @@ namespace InteractionSystem
 
         public void ShowIndicator()
         {
-            StopCoroutine(_interactionKey.FadeOut());
+            StopAllCoroutines();
             StartCoroutine(_interactionKey.FadeIn());
         }
 
         public void HideIndicator()
         {
-            StopCoroutine(_interactionKey.FadeIn());
+            StopAllCoroutines();
             StartCoroutine(_interactionKey.FadeOut());
         }
         

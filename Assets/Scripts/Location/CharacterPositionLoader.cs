@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using InteractionSystem.Location;
 using SaveSystem;
 using SaveSystem.Data;
 using SaveSystem.Interfaces;
