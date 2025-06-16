@@ -26,6 +26,7 @@ namespace Other
 
         private void CheckID(string nestorID, bool isAppearing)
         {
+            StopAllCoroutines();
             if (nestorID.Equals(id))
             {
                 if (isAppearing)

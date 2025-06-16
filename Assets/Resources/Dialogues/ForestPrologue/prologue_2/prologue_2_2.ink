@@ -96,5 +96,5 @@ Słuchaj Witek, miałeś dużo szczęścia
 #speaker:Wit #portrait:wit_surprised
 Skąd wiesz jak się nazywam? Zaraz! Czy ty mnie śledzisz?
 
-~changeNestorState("forest_prologue", true)
+~changeNestorState("forest_prologue", false)
 ->END
