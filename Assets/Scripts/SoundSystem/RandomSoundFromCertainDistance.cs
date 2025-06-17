@@ -17,11 +17,9 @@ public class RandomSoundFromCertainDistance : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, _player.position);
 
-        while (distance <= soundDistance)
+        if (distance <= soundDistance)
         {
             SoundFxManager.Instance.PlayRandomSoundFxClip(audioClip, transform, 1f);
         }
     }
-
-
 }
