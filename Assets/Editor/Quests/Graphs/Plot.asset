@@ -16,7 +16,7 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -310.99997, y: -811}
+    position: {x: -311, y: -811}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: Main_Quest_1
     position: {x: 1467, y: -805}
@@ -491,15 +491,6 @@ MonoBehaviour:
     connectedNodes:
     - 085b9d11-c734-4de7-81ad-1e63ab09c1d8
     position: {x: 684, y: -48}
-  - id: 2254ddc1-80e3-44aa-b709-20237ed7096e
-    fileName: prologue_2_6
-    description: DOM LOL
-    isHidden: 1
-    repeatAmount: 0
-    prefab: {fileID: 3329530440797315691, guid: 19a2b311c230ce04f9f65dc77b97f723, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes: []
-    position: {x: 229, y: -48}
   - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
     fileName: prologue_3_1
     description: ARISE
@@ -518,7 +509,7 @@ MonoBehaviour:
     prefab: {fileID: 3329530440797315691, guid: a7e4687493095034db6c21d120a16b3b, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
-    - 41edfb87-b79a-4866-9c1b-3037aa05f3d9
+    - 2254ddc1-80e3-44aa-b709-20237ed7096e
     position: {x: 6, y: -48}
   - id: 085b9d11-c734-4de7-81ad-1e63ab09c1d8
     fileName: prologue_3_3
@@ -549,6 +540,16 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
     position: {x: 6, y: 249}
+  - id: 2254ddc1-80e3-44aa-b709-20237ed7096e
+    fileName: prologue_2_6
+    description: DOM LOL
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 3329530440797315691, guid: 19a2b311c230ce04f9f65dc77b97f723, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 41edfb87-b79a-4866-9c1b-3037aa05f3d9
+    position: {x: 229, y: -48}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -594,12 +595,12 @@ MonoBehaviour:
       - prologue_1_6
       - prologue_1_2
       - prologue_3_2
-      - prologue_2_6
       - prologue_3_1
       - prologue_2_5
       - prologue_3_3
       - prologue_3_4
       - prologue_3_5
+      - prologue_2_6
       - prologue
     - Key: Main_Quest_1
       Value:
