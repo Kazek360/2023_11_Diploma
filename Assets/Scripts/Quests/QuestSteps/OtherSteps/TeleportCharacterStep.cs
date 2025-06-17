@@ -21,6 +21,7 @@ namespace Quests.QuestSteps.OtherSteps
         private void Start()
         {
             _objectToTeleport.transform.position = _placeToTeleport.transform.position;
+            Debug.Log($"Teleported {_objectToTeleport.name} to {_placeToTeleport.name}");
             FinishAndDelete();
         }
     }
