@@ -1,5 +1,5 @@
 using System.Collections;
-using Cutscenes;
+using StorySystems.Cutscenes;
 using InputSystem;
 using StorySystems.Dialogues;
 using UnityEngine;
@@ -126,7 +126,7 @@ namespace Player
             _canMove = true;
         }
         
-        private void EnableMovement(CutsceneSO cutscene)
+        private void EnableMovement(Cutscene cutscene)
         {
             _canMove = true;
         }
@@ -137,7 +137,7 @@ namespace Player
             StopPlayerMovement();
         }
 
-        private void StopMovement(CutsceneSO cutscene)
+        private void StopMovement(Cutscene cutscene)
         {
             _canMove = false;
             StopPlayerMovement();

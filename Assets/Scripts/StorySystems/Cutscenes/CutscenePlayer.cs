@@ -2,12 +2,12 @@ using UI;
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace Cutscenes
+namespace StorySystems.Cutscenes
 {
     public class CutscenePlayer : MonoBehaviour
     {
         private VideoPlayer _videoPlayer;
-        private CutsceneSO _currentCutscene;
+        private Cutscene _currentCutscene;
 
         private void Awake()
         {
@@ -28,7 +28,7 @@ namespace Cutscenes
             CutsceneEvents.OnCutsceneSkipped -= SkipCutscene;
         }
         
-        private void PrepareVideo(CutsceneSO cutsceneInfo)
+        private void PrepareVideo(Cutscene cutsceneInfo)
         {
             _videoPlayer.targetTexture.Release();
             _currentCutscene = cutsceneInfo;
@@ -69,4 +69,3 @@ namespace Cutscenes
         }
     }
 }
-

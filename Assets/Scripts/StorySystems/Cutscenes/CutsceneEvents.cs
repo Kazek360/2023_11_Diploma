@@ -1,16 +1,16 @@
 using System;
 
-namespace Cutscenes
+namespace StorySystems.Cutscenes
 {
     public static class CutsceneEvents
     {
-        public static event Action<CutsceneSO> OnCutsceneStarted;
-        public static void StartCutscene(CutsceneSO cutscene)
+        public static event Action<Cutscene> OnCutsceneStarted;
+        public static void StartCutscene(Cutscene cutscene)
         {
             OnCutsceneStarted?.Invoke(cutscene);
         }
-        public static event Action<CutsceneSO> OnCutsceneFinished;
-        public static void FinishCutscene(CutsceneSO cutscene)
+        public static event Action<Cutscene> OnCutsceneFinished;
+        public static void FinishCutscene(Cutscene cutscene)
         {
             OnCutsceneFinished?.Invoke(cutscene);
         }
@@ -19,6 +19,17 @@ namespace Cutscenes
         public static void SkipCutscene()
         {
             OnCutsceneSkipped?.Invoke();
+        }
+        
+        public static event Action OnDialogueClipStarted;
+        public static void InvokeOnDialogueClipStarted()
+        {
+            OnDialogueClipStarted?.Invoke();
+        }
+        public static event Action OnDialogueClipFinished;
+        public static void InvokeOnDialogueClipFinished()
+        {
+            OnDialogueClipFinished?.Invoke();
         }
     }
 }

@@ -1,4 +1,3 @@
-using Cutscenes;
 using InteractionSystem;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace StorySystems.Cutscenes
 {
     public class CutsceneTrigger : InteractionObject
     {
-        [SerializeField] private CutsceneSO cutscene;
+        [SerializeField] private Cutscene cutscene;
     
         public override void TriggerInteraction()
         {
