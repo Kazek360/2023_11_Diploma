@@ -24513,11 +24513,11 @@ EdgeCollider2D:
   - {x: -1.2983398, y: 1.7238159}
   - {x: -1.4082031, y: 0.52386475}
   - {x: -0.08154297, y: -0.17596436}
-  - {x: 0.04699707, y: 0.9507446}
-  - {x: 2.4489746, y: 2.1264648}
-  - {x: 4.327759, y: 2.9821777}
-  - {x: 4.9974365, y: 2.517212}
-  - {x: 5.22059, y: 3.0194104}
+  - {x: 0.34350586, y: 0.060791016}
+  - {x: 2.947998, y: 1.3902588}
+  - {x: 4.923584, y: 2.3707275}
+  - {x: 5.234131, y: 2.496582}
+  - {x: 5.241098, y: 2.782716}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -68464,7 +68464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!50 &1245773151
 Rigidbody2D:
   serializedVersion: 5
@@ -68556,7 +68556,7 @@ Transform:
   m_GameObject: {fileID: 1245773150}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1328.68, y: 693.14, z: 0}
+  m_LocalPosition: {x: -1328.33, y: 692.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85328,7 +85328,7 @@ Transform:
   m_GameObject: {fileID: 1486073558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1317.5, y: 694.82, z: 0}
+  m_LocalPosition: {x: -1317.04, y: 693.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -85374,13 +85374,16 @@ EdgeCollider2D:
   - {x: 5.0926604, y: 3.0751352}
   - {x: 5.4370117, y: 3.7582397}
   - {x: 4.0377197, y: 4.4589844}
+  - {x: 2.2473145, y: 3.5412598}
   - {x: -1.2983398, y: 1.7238159}
   - {x: -1.4082031, y: 0.52386475}
   - {x: -0.08154297, y: -0.17596436}
-  - {x: 0.04699707, y: 0.9507446}
-  - {x: 2.4489746, y: 2.1264648}
-  - {x: 4.327759, y: 2.9821777}
-  - {x: 4.9974365, y: 2.517212}
+  - {x: 0.35913086, y: -0.19818115}
+  - {x: 0.5623779, y: 0.013244629}
+  - {x: 2.1661377, y: 0.48669434}
+  - {x: 3.857666, y: 1.4068604}
+  - {x: 5.139282, y: 2.2410889}
+  - {x: 5.380249, y: 2.4215088}
   - {x: 5.22059, y: 3.0194104}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
@@ -90466,6 +90469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563810419}
   - component: {fileID: 1563810418}
+  - component: {fileID: 1563810420}
   m_Layer: 0
   m_Name: "przyrz\u0105d do robienia mas\u0142a_0"
   m_TagString: Untagged
@@ -90543,6 +90547,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1563810420
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563810417}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.19901854, y: -1.4234009}
+  - {x: -0.67626953, y: -1.8345337}
+  - {x: -0.16235352, y: -2.0961304}
+  - {x: 0.54382324, y: -1.9361572}
+  - {x: 0.60998535, y: -1.5657349}
+  - {x: 0.5467529, y: -1.3443604}
+  - {x: 0.34118652, y: -1.3284912}
+  - {x: 0.040815413, y: -1.3601074}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &1563905356
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -328274,6 +328327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1850152522}
   - component: {fileID: 1850152521}
+  - component: {fileID: 1850152523}
   m_Layer: 0
   m_Name: Wiadro_0
   m_TagString: Untagged
@@ -328351,6 +328405,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1850152523
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850152520}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.33559597, y: 0.7657747}
+  - {x: -0.6291504, y: 0.4494629}
+  - {x: -0.85058594, y: 0.27545166}
+  - {x: -0.86291504, y: -0.041503906}
+  - {x: -0.14074707, y: -0.1515503}
+  - {x: 0.5892334, y: 0.22961426}
+  - {x: 0.40776885, y: 0.7340975}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &1852506603
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -332262,11 +332364,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1330.32
+      value: -1313.3
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 686.1
+      value: 693.22
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.z
