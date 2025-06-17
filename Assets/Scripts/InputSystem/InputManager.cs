@@ -1,5 +1,5 @@
 using System.IO;
-using Cutscenes;
+using StorySystems.Cutscenes;
 using InteractionSystem;
 using Shared;
 using StorySystems.Dialogues;

@@ -18,7 +18,7 @@ namespace Quests.QuestSteps.ItemSteps
             CollectibleEvents.OnCollectiblePickup -= IncreaseProgress;
         }
         
-        private void IncreaseProgress(string id)
+        protected virtual void IncreaseProgress(string id)
         {
             if (itemID == id)
             {

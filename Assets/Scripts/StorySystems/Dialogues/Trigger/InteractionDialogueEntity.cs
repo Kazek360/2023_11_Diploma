@@ -11,8 +11,10 @@ namespace StorySystems.Dialogues.Trigger
         [SerializeField] private GameObject questMarkerSprite;
         
         private FadeInOutObject _interactionKey;
-        private bool _disabled;
+
+        [SerializeField] private bool disabledOnStart;
         
+        private bool _disabled;
         
         protected override void Awake()
         {
@@ -33,7 +35,15 @@ namespace StorySystems.Dialogues.Trigger
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
         }
-        
+
+        private void Start()
+        {
+            if (disabledOnStart)
+            {
+                DisableTrigger();
+            }
+        }
+
         public override void ChangeCurrentDialogue()
         {
              base.ChangeCurrentDialogue();
@@ -95,11 +105,11 @@ namespace StorySystems.Dialogues.Trigger
             }
         }
         
-        private void DisableTrigger()
+        public void DisableTrigger()
         {
             _disabled = true;
         }
-        private void EnableTrigger()
+        public void EnableTrigger()
         {
             _disabled = false;
         }

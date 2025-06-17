@@ -4653,8 +4653,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 1618255344, guid: bbc5e6315d765764b812e87aa91f0269, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -5553,8 +5553,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: -2094435328, guid: d2a3282e8976d1441a6cef446194c8b2, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7333,6 +7333,7 @@ GameObject:
   - component: {fileID: 3256258174146900755}
   - component: {fileID: 3238861041535903264}
   - component: {fileID: 6937185929725937559}
+  - component: {fileID: 4534403078769204864}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -7398,7 +7399,31 @@ MonoBehaviour:
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4534403078769204864}
+        m_TargetAssemblyTypeName: FixedScrollbar, Assembly-CSharp
+        m_MethodName: SetFixedSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4534403078769204864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5615702116285549376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f58e16d18733b5498df7016eab4f303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5654774133674756850
 GameObject:
   m_ObjectHideFlags: 0
