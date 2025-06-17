@@ -2,6 +2,8 @@
 EXTERNAL addItem(id, amount)
 EXTERNAL removeItem(id, amount)
 EXTERNAL changeNestorState(id, isAppearing)
+EXTERNAL startClip()
+EXTERNAL stopClip()
 
 //First race with Hryc flags
 VAR hryc_race_reward = false

@@ -2,6 +2,9 @@ INCLUDE ../../globals.ink
 -> Prologue_1_5
 
 == Prologue_1_5 ==
+
+~startClip()
+
 #background:death_1 #speaker:Wit #portrait:wit_surprised 
 Gdzie… gdzie ja jestem?
 
@@ -34,4 +37,7 @@ Podążaj za moim głosem.
     #speaker:Tajemniczy głos #portrait:none
     Wiem, ale zaraz wszystko będzie dobrze, obiecuję.
 -
+
+~stopClip()
+
 ->END

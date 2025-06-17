@@ -1,5 +1,6 @@
 ﻿using Ink.Runtime;
 using Other;
+using StorySystems.Cutscenes;
 
 namespace StorySystems.Dialogues
 {
@@ -13,6 +14,10 @@ namespace StorySystems.Dialogues
                 (string id, int amount) => GameConfig.PlayerInventory.RemoveItem(id, amount));
             story.BindExternalFunction("changeNestorState", 
                 (string id, bool isAppearing) => Nestor.ChangeNestorState(id, isAppearing));
+            story.BindExternalFunction("startClip", 
+                () => CutsceneEvents.InvokeOnDialogueClipStarted());
+            story.BindExternalFunction("stopClip", 
+                () => CutsceneEvents.InvokeOnDialogueClipFinished());
         }
         
         public void Unbind(Story story)
@@ -20,6 +25,8 @@ namespace StorySystems.Dialogues
             story.UnbindExternalFunction("addItem");
             story.UnbindExternalFunction("removeItem");
             story.UnbindExternalFunction("changeNestorState");
+            story.UnbindExternalFunction("startClip");
+            story.UnbindExternalFunction("stopClip");
         }
     }
 }

@@ -1,16 +1,28 @@
-﻿using UnityEngine;
+﻿using InteractionSystem.Collectibles;
+using UnityEngine;
 
 namespace Quests.QuestSteps.ItemSteps
 {
     public class CollectImportantItemStep : CollectItemStep
     {
-        [SerializeField] protected GameObject itemPrefab;
-        [SerializeField] protected string spotToInstantiateName;
-        private GameObject _spotToInstantiate;
+        private GameObject _objectToEnable;
         private void Start()
         {
-            _spotToInstantiate = GameObject.Find(spotToInstantiateName);
-            Instantiate(itemPrefab, _spotToInstantiate.transform);
+            _objectToEnable = GameObject.Find(itemID);
+            var spriteRenderer = _objectToEnable.GetComponent<SpriteRenderer>();
+            var color = spriteRenderer.color;
+            color.a = 1;
+            spriteRenderer.color = color;
+            var collectible = _objectToEnable.GetComponent<Collectible>();
+            collectible.EnableInteraction();
+        }
+        
+        protected override void IncreaseProgress(string id)
+        {
+            if (itemID == id)
+            {
+                FinishAndDelete();
+            } 
         }
     }
 }

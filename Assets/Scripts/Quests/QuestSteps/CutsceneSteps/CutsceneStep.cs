@@ -1,11 +1,11 @@
-using Cutscenes;
+using StorySystems.Cutscenes;
 using UnityEngine;
 
 namespace Quests.QuestSteps.CutsceneSteps
 {
     public class CutsceneStep : BaseQuestStep
     {
-        [SerializeField] private CutsceneSO cutscene;
+        [SerializeField] private Cutscene cutscene;
     
         protected override void OnEnable()
         {
@@ -19,9 +19,9 @@ namespace Quests.QuestSteps.CutsceneSteps
             CutsceneEvents.OnCutsceneFinished -= FinishStep;
         }
     
-        private void FinishStep(CutsceneSO cutsceneSo)
+        private void FinishStep(Cutscene cutscene)
         {
-            if (cutscene.name.Equals(cutsceneSo.name))
+            if (this.cutscene.name.Equals(cutscene.name))
             {
                 FinishAndDelete();
             }
