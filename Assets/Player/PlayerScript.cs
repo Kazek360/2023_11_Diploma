@@ -48,6 +48,10 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
         UnlockedAbilities.GetInstance();
         if (UnlockedAbilities.GetInstance().NumOfUnlockedAbilities(playerType) == 0)
         {
+            GameConfig.PlayerInventory.AddItem("beer", 2);
+        }
+        if (UnlockedAbilities.GetInstance().NumOfUnlockedAbilities(playerType) == 0)
+        {
             for (int i = 0; i < abilities.Count; i++)
             {
                 UnlockableAbility tmp = new UnlockableAbility();
