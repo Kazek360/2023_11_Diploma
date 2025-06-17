@@ -9,7 +9,9 @@ using UnityEngine.UI;
  */
 public class CombatSummaryScript : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI ResultText;
+    //[SerializeField] private TextMeshProUGUI ResultText;
+    [SerializeField] private GameObject WinText;
+    [SerializeField] private GameObject LossText;
     [SerializeField] private GameObject PlayerScrollContent;
     [SerializeField] private GameObject EnemyScrollContent;
     [SerializeField] private GameObject EntityContainerPrefab;
@@ -26,15 +28,19 @@ public class CombatSummaryScript : MonoBehaviour
     {
         if (IsVictory)
         {
+            WinText.SetActive(true);
+            LossText.SetActive(false);
             ProceedWin.SetActive(true);
             ProceedLoss.SetActive(false);
-            ResultText.text = "ZWYCIĘSTWO";
+            //ResultText.text = "ZWYCIĘSTWO";
         }
         else
         {
+            WinText.SetActive(false);
+            LossText.SetActive(true);
             ProceedWin.SetActive(false);
             ProceedLoss.SetActive(true);
-            ResultText.text = "PORAŻKA";
+            //ResultText.text = "PORAŻKA";
         }
 
         foreach (IHittable player in players)
