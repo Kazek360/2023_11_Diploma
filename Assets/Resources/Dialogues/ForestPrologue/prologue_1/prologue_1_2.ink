@@ -7,7 +7,7 @@ INCLUDE ../../globals.ink
 No, nareszcie jesteś Witek! Już zacząłem się zastanawiać, czy nie stchórzyłeś!
 
 #speaker:Wit #portrait:wit_smirk
-Ja? Stchórzyć? W życiu!  
+Ja? Stchórzyć? W życiu!
 
 #speaker:Wit #portrait:wit_smirk
 Pomagałem przenosić batiuszce Aleksandrowi skrzynię z zakrystii.

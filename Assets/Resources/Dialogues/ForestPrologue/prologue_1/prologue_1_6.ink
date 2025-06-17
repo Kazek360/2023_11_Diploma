@@ -5,7 +5,7 @@ INCLUDE ../../globals.ink
 
 ~startClip()
 
-#background:death_1 #speaker:Wit #portrait:wit_surprised 
+#speaker:Wit #portrait:wit_surprised 
 Gdzie… gdzie ja jestem?
 
 #speaker:Wit #portrait:wit_surprised
@@ -13,9 +13,6 @@ Gdzie… gdzie ja jestem?
 
 #speaker:Wit #portrait:wit_surprised
 Jest tu kto...?
-
-#background:death_2 #speaker:Wit #portrait:wit_surprised
-...
 
 *[(Idź w stronę światła)]
     #speaker:Tajemniczy głos #portrait:none
@@ -31,7 +28,7 @@ Halo!? Gdzie jesteś!? Nie widzę cię!
 Podążaj za moim głosem.
 
 *[(Podążaj za tajemniczym głosem)]
-    #background:death_3 #speaker:Wit #portrait:wit_surprised    
+    #background:death_3 #speaker:Wit #portrait:wit_bad 
     …Boję się. Tu jest tak ciemno!
 
     #speaker:Tajemniczy głos #portrait:none

@@ -1,7 +1,22 @@
--> Q1_8
+-> Q1_9
 
-== Q1_8 ==
-#speaker:Wit #portrait:wit_surprised
-Ten, kto zostawił ślady, musiał przecisnąć się przez tą szparę. Wygląda na to, że wyszedł przez nią na zewnątrz.
+== Q1_9 ==
+#speaker:Tata Wita #portrait:father_neutral
+I jak? Znalazłeś coś?
+
+#speaker:Wit #portrait:wit_thinking
+Jedna zębatka jest zerwana. Zobaczyłem ślady w mące, które prowadziły na zewnątrz młyna.
+
+#speaker:Tata Wita #portrait:father_neutral
+Ślady? Jakie ślady?
+
+#speaker:Wit #portrait:wit_thinking
+Ktoś wszedł w kopczyk mąki i zostawił małe ślady prowadzące na zewnątrz.
+
+#speaker:Tata Wita #portrait:father_angry
+Jeśli to Hryc znowu pcha łapy tam gdzie nie trzeba…
+
+#speaker:Wit #portrait:wit_thinking
+Nie jestem pewien, czy to Hryc, tatku. Idę na zewnątrz, sprawdzić dokąd prowadzą te ślady.
 
 ->END
