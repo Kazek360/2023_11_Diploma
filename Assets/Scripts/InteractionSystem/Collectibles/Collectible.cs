@@ -38,6 +38,15 @@ namespace InteractionSystem.Collectibles
             }
         }
         
+        public override void ShowIndicator()
+        {
+            if (!_disabled)
+            {
+                StopAllCoroutines();
+                StartCoroutine(_interactionKey.FadeIn()); 
+            }
+        }
+        
         public string GetTooltipHeader()
         {
             return _itemInfo.itemName;

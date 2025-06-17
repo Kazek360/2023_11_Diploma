@@ -1,10 +1,6 @@
 INCLUDE ../../../globals.ink
 
-{ dad_dinner_eaten:
-        ->Dad_Angry
-    - else:
-        ->Dad_Happy
-}
+{ dad_dinner_eaten: ->Dad_Angry | ->Dad_Happy}
 
 == Dad_Angry ==
 

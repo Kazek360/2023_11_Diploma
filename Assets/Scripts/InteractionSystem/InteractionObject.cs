@@ -5,7 +5,7 @@ namespace InteractionSystem
 {
     public class InteractionObject : MonoBehaviour, IInteractable
     {
-        private FadeInOutObject _interactionKey;
+        protected FadeInOutObject _interactionKey;
         
         private void Awake()
         {
@@ -22,7 +22,7 @@ namespace InteractionSystem
             return transform.position;
         }
 
-        public void ShowIndicator()
+        public virtual void ShowIndicator()
         {
             StopAllCoroutines();
             StartCoroutine(_interactionKey.FadeIn());

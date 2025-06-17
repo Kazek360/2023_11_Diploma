@@ -105,6 +105,7 @@ namespace Quests.Flags
                 
                 _flagDictionary[pair.Key].flagName = pair.Value.flagName;
                 _flagDictionary[pair.Key].triggered = pair.Value.triggered;
+                Debug.Log($"{_flagDictionary[pair.Key].flagName}:{_flagDictionary[pair.Key].triggered}");
                 SetVariableState(pair.Value.flagName, new BoolValue(pair.Value.triggered));
             }
         }

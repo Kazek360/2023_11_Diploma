@@ -105,7 +105,7 @@ namespace StorySystems.Dialogues.Trigger
             }
         }
         
-        private void DisableTrigger()
+        public void DisableTrigger()
         {
             _disabled = true;
         }
