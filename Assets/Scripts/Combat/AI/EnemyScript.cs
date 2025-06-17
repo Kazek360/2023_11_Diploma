@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     [FormerlySerializedAs("material")] [SerializeField] private bool Material;
     [SerializeField] private SpriteRenderer healthBarSprite;
     [SerializeField] private TooltipObject tooltipArea;
+    [SerializeField] private bool NeedsPartnerToLive;
     protected IHittable _partner;
     
     private List<AbilityScriptableObjectReworked> _abilities;
@@ -308,6 +309,11 @@ public class EnemyScript : MonoBehaviour, IHittable, ITooltippable
     {
         _partnerIsKilled = true;
         _partner = null;
+        if (NeedsPartnerToLive)
+        {
+            _currentHealth = 0;
+            OnHealthDepleted();
+        }
     }
 
     public void OnPsycheDepleted()

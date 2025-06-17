@@ -63,10 +63,11 @@ MonoBehaviour:
   - {fileID: 8893886096949609619, guid: 311e896d1269e15428c0502e15efb213, type: 3}
   - {fileID: 3908626592184313377, guid: 43a3e55752308ed44a60ca68d712bbca, type: 3}
   - {fileID: 3908626592184313377, guid: edb4db0a3df4ac546850c9fcfb6c2721, type: 3}
-  EnemiesToDefeat: 2
-  SceneToOpenAfterVictory: 4
+  - {fileID: 3908626592184313377, guid: ff2791bcbc32496419fe3e107a59ebef, type: 3}
+  - {fileID: 3908626592184313377, guid: bcd715a6b6760b54db630206264a5bbe, type: 3}
   entitiesString: 
-  SceneToOpenAfterLoss: 4
+  sceneToOpenAfterVictory: 
+  sceneToOpenAfterLoss: 
 --- !u!114 &8440659529418416235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +159,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &2488479072673498624
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -172,6 +173,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -279,7 +281,7 @@ MonoBehaviour:
   GridY: 0
 --- !u!95 &1315059923468822602
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -293,6 +295,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -470,7 +473,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &2672424089909449500
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -484,6 +487,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -577,7 +581,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &8013798645382251836
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -591,6 +595,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -625,11 +630,11 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6872222869629429299, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
-      propertyPath: abilities.Array.data[4]
+      propertyPath: 'abilities.Array.data[4]'
       value: 
       objectReference: {fileID: 11400000, guid: 5107e3125f50c3440afcbb247efb6015, type: 2}
     - target: {fileID: 6872222869629429299, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
-      propertyPath: abilities.Array.data[5]
+      propertyPath: 'abilities.Array.data[5]'
       value: 
       objectReference: {fileID: 11400000, guid: 2735da23c7f5ad447842b94b5aabdee9, type: 2}
     - target: {fileID: 7904647406454164839, guid: 3392de87b7e02cc4294503f6e4d8b200, type: 3}
