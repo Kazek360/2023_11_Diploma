@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051c029d333734945b99ff97897061af, type: 3}
   m_Name: UpdatedPocketKnife
   m_EditorClassIdentifier: 
-  abilityName: Scyzoryk
+  abilityName: "Ci\u0119cie"
   abilityDescription: "Bieganie z no\u017Cami nie jest zalecane\n\nZADASZ 4+SI\u0141/2
     OBRA\u017BE\u0143 WROGOWI NA PLANSZY FIZYCZNEJ\nPRZECIWNIK TRACI 1HP CO TUR\u0118
     PRZEZ 3 TURY"
@@ -20,6 +20,7 @@ MonoBehaviour:
   animType: 2
   cooldown: 1
   range: 1
+  areaRadius: 0
   numberOfTargets: 1
   viableTargets: 00000000
   baseAiUseWeight: 5
@@ -39,3 +40,4 @@ MonoBehaviour:
   - durationOrSpeed: 3
     effectType: 1
     effectObject: {fileID: 6199346755348275914, guid: d5cbafca21743eb43aa3898a84eb6f3d, type: 3}
+  combatModifiers: []

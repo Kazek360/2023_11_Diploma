@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 051c029d333734945b99ff97897061af, type: 3}
+  m_Name: StickSlap
+  m_EditorClassIdentifier: 
+  abilityName: Atak Kijem
+  abilityDescription: "Pot\u0119\u017Cna i staro\u017Cytna bro\u0144\n\nZADASZ 2+SI\u0141/3
+    OBRA\u017BE\u0143 WROGOWI NA PLANSZY FIZYCZNEJ\nPRZECIWNIK TRACI 1HP CO TUR\u0118
+    PRZEZ 3 TURY"
+  sprite: {fileID: 21300000, guid: 827965b6dbd2c724ea788fa2acd75ae4, type: 3}
+  animType: 2
+  cooldown: 1
+  range: 1
+  areaRadius: 0
+  numberOfTargets: 1
+  viableTargets: 00000000
+  baseAiUseWeight: 5
+  effects:
+  - amount: -2
+    effectedStat: 0
+    effectCaster: 0
+    effectModifiers:
+    - scaling: -0.33
+      modifyingStat: 4
+  effectsOverTime: []
+  visualEffects:
+  - durationOrSpeed: 3
+    effectType: 1
+    effectObject: {fileID: 6199346755348275914, guid: d5cbafca21743eb43aa3898a84eb6f3d, type: 3}
+  combatModifiers: []
