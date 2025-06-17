@@ -55335,6 +55335,7 @@ GameObject:
   - component: {fileID: 361577791}
   - component: {fileID: 361577794}
   - component: {fileID: 361577793}
+  - component: {fileID: 361577795}
   - component: {fileID: 361577792}
   m_Layer: 7
   m_Name: Brzegi rzeki (3)
@@ -80514,6 +80515,21 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &361577795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361577790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fd1b872e49a58499708cd036896350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip:
+  - {fileID: 8300000, guid: 6dfed995abecc4648bffd2e932b6800d, type: 3}
+  soundDistance: 30
 --- !u!1001 &361612916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98884,108 +98900,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 960724368044995908, guid: a3a3f454b92342b4aaf90fa5047b68a7, type: 3}
   m_PrefabInstance: {fileID: 507740205}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &507940138 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 492983014218317831, guid: 5139c76d8ec46d34386f3baa24796f40, type: 3}
-  m_PrefabInstance: {fileID: 992684093154705904}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &507940139
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 507940138}
-  m_Enabled: 0
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0094d1086555ae3428b9359e2add85af, type: 3}
-  m_Resource: {fileID: 8300000, guid: 0094d1086555ae3428b9359e2add85af, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 0
-  MinDistance: 5.12
-  MaxDistance: 38.7
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &508689847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -511059,10 +510973,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gasiorek
       objectReference: {fileID: 0}
-    - target: {fileID: 853922319638568023, guid: 5139c76d8ec46d34386f3baa24796f40, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4247186277517556357, guid: 5139c76d8ec46d34386f3baa24796f40, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.709
@@ -511106,10 +511016,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 492983014218317831, guid: 5139c76d8ec46d34386f3baa24796f40, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 507940139}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5139c76d8ec46d34386f3baa24796f40, type: 3}
 --- !u!4 &1068143324682578623
 Transform:
