@@ -128,7 +128,8 @@ namespace SaveSystem
                 return;
             }
 
-            var beginDate = DateTime.Parse(_currentGameData.save.gameBeginningDate);
+            //var beginDate = DateTime.Parse(_currentGameData.save.gameBeginningDate);
+            var beginDate = DateTime.ParseExact(_currentGameData.save.gameBeginningDate, "dd.MM.yy HH:mm", null);
             var saveDate = DateTime.Now;
             
             var difference = saveDate - beginDate;
