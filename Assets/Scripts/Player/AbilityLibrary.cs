@@ -28,6 +28,10 @@ public class AbilityLibrary : MonoBehaviour
 
     public void Load()
     {
+        UnlockableAbility ab0 = new UnlockableAbility();
+        ab0.Recipient = UnlockableAbility.PlayerType.WIT;
+        ab0.AbilitySO = _abilityScriptableObjects[5];
+        UnlockedAbilities.GetInstance().UnlockAbility(ab0);
         UnlockableAbility ab1 = new UnlockableAbility();
         ab1.Recipient = UnlockableAbility.PlayerType.WIT;
         ab1.AbilitySO = _abilityScriptableObjects[7];
