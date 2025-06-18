@@ -29,6 +29,7 @@ public class ItemScriptableObject : ScriptableObject
     
     [Header("Consumable")]
     [SerializeField] private List<ItemEffectContainer> use;
+    [SerializeField] private List<ItemActionContainer> onUse;
     [SerializeField] public bool destroyOnUse;
     
     public Sprite ItemSprite()
@@ -135,6 +136,10 @@ public class ItemScriptableObject : ScriptableObject
         foreach (ItemEffectContainer container in use)
         {
             container.ApplyEffect();
+        }
+        foreach (ItemActionContainer container in onUse)
+        {
+            container.Trigger();
         }
     }
 }

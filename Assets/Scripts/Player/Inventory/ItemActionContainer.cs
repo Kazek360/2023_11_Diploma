@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StorySystems.Dialogues;
 using UnityEngine;
 
 [Serializable]
@@ -8,12 +9,12 @@ public class ItemActionContainer
 {
     public enum ActionType
     {
-        ADD_ABILITY, REMOVE_ABILITY, TRIGGER_TAG
+        ADD_ABILITY, REMOVE_ABILITY, TRIGGER_TAG, FIRE_DIALOGUE
     }
 
     [SerializeField] private ActionType actionType;
     [Tooltip("ID of added ability")][SerializeField] private int idOfEffect;
-    [Tooltip("Value of triggered TAG")][SerializeField] private int valueOfEffect;
+    [Tooltip("Value of triggered TAG")][SerializeField] private String valueOfEffect;
 
     public void Trigger()
     {
@@ -37,6 +38,12 @@ public class ItemActionContainer
             }
             case ActionType.TRIGGER_TAG:
             {
+                break;
+            }
+            case ActionType.FIRE_DIALOGUE:
+            {
+                Debug.Log("DIALOG ODPALONY: " + valueOfEffect);
+                DialogueManager.Instance.TriggerDialogue(valueOfEffect);
                 break;
             }
             default:
