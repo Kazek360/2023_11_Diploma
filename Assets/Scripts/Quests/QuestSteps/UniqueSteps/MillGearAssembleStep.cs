@@ -7,19 +7,20 @@ namespace Quests.QuestSteps.UniqueSteps
     public class MillGearAssembleStep : InteractionStep
     {
         private GameObject _objectToEnable;
+        private MillGear _millGear;
         
         private void Start()
         {
             _objectToEnable = GameObject.Find(objectToInteractName);
-            var interaction  = _objectToEnable.GetComponent<MillGear>();
-            interaction.EnableInteraction();
+            _millGear  = _objectToEnable.GetComponent<MillGear>();
+            _millGear.EnableInteraction();
         }
         
         protected override void FinishStep(string interactionName)
         {
             if (objectToInteractName == interactionName)
             {
-                MillGear.InvokeOnGearFixed();
+                _millGear.FixGear();
                 FinishAndDelete();
             } 
         }

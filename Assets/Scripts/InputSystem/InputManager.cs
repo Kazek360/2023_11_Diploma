@@ -22,8 +22,7 @@ namespace InputSystem
         {
             InputEvents.OnInputChanged += ChangeInputType;
         }
-
-
+        
         private void OnDisable()
         {
             _controlls.Player.RemoveCallbacks(this);
