@@ -1,7 +1,7 @@
 ﻿using InteractionSystem.Collectibles;
 using UnityEngine;
 
-namespace Quests.QuestSteps.ItemSteps
+namespace Quests.QuestSteps.InteractionSteps
 {
     public class CollectItemStep : BaseQuestStep
     {
