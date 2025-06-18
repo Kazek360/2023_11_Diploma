@@ -1,8 +1,15 @@
 INCLUDE ../../../globals.ink
 
-{ dad_dinner_eaten: ->Dad_Angry | ->Dad_Happy}
+-> FatherStart
 
-== Dad_Angry ==
+== FatherStart ==
+
+#speaker:Wit #portrait:wit_happy
+Cześć tatku
+
+{ dad_dinner_eaten: ->DadAngry | ->DadHappy}
+
+== DadAngry ==
 
 #speaker:Tata Wita #portrait:father_neutral
 ...Czy ta babka ziemniaczana jest nadgryziona?
@@ -41,9 +48,9 @@ Zrobię co w mojej mocy, tatku.
 
 ~removeItem("father_dinner", 1)
 
-->END
+-> END
 
-== Dad_Happy ==
+== DadHappy ==
 * [Potrzebujesz pomocy?]
 
     #speaker:Tata Wita #portrait:father_sigma
@@ -70,4 +77,4 @@ Zrobię co w mojej mocy, tatku.
 
 - 
 ~removeItem("father_dinner", 1)
-->END
+-> END

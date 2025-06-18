@@ -12,22 +12,25 @@ namespace StorySystems.Cutscenes
         [SerializeField] private VideoClip firstClip;
         [SerializeField] private VideoClip loopClip;
         [SerializeField] private RawImage displayImage;
-
+        [SerializeField] private CanvasGroup canvasGroup;
+        
+        
         private void OnEnable()
         {
             CutsceneEvents.OnDialogueClipStarted += StartClips;
-            CutsceneEvents.OnCutsceneSkipped += StopClips;
+            CutsceneEvents.OnDialogueClipFinished += StopClips;
         }
 
         private void OnDisable()
         {
             CutsceneEvents.OnDialogueClipStarted -= StartClips;
-            CutsceneEvents.OnCutsceneSkipped -= StopClips;
+            CutsceneEvents.OnDialogueClipFinished -= StopClips;
         }
 
         private void StartClips()
         {
             // Setup both players
+            canvasGroup.alpha = 1;
             firstPlayer.clip = firstClip;
             loopPlayer.clip = loopClip;
             firstPlayer.isLooping = false;
@@ -63,6 +66,7 @@ namespace StorySystems.Cutscenes
 
         private void StopClips()
         {
+            canvasGroup.alpha = 0;
             firstPlayer.Stop();
             firstPlayer.clip = null;
             loopPlayer.Stop();

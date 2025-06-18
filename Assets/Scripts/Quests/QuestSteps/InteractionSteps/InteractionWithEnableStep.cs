@@ -1,4 +1,4 @@
-﻿using InteractionSystem;
+﻿using InteractionSystem.Unique;
 using UnityEngine;
 
 namespace Quests.QuestSteps.InteractionSteps
@@ -10,8 +10,8 @@ namespace Quests.QuestSteps.InteractionSteps
         private void Start()
         {
             _objectToEnable = GameObject.Find(objectToInteractName);
-            var trigger  = _objectToEnable.GetComponent<InteractionObject>();
-            trigger.EnableInteraction();
+            var interaction  = _objectToEnable.GetComponent<MillGear>();
+            interaction.EnableInteraction();
         }
     }
 }

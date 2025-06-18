@@ -1,3 +1,5 @@
+INCLUDE ../../../globals.ink
+
 -> Q1_3
 
 == Q1_3 ==
@@ -15,4 +17,6 @@ Na stole leżą dla ciebie chleb ze smalcem i ciepłe mleko. Czy będziesz na si
 
 #speaker:Wit #portrait:wit_smirk
 Mam mnóstwo siły mamo! Z wielką chęcią podejmę się tej misji!
+
+~dad_dinner_eaten=false
 ->END

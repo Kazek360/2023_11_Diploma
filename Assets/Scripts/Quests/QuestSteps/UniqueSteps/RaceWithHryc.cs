@@ -24,12 +24,9 @@ namespace Quests.QuestSteps.UniqueSteps
             _hrycFinished = false;
         }
 
-        private new IEnumerator Start()
+        protected override IEnumerator Start()
         {
-            while (!UserInterfaceManager.isInitialized)
-            {
-                yield return null;
-            }
+            yield return base.Start();
 
             TutorialManager.Instance.TriggerTutorial(sprintTutorial);
             PathEvents.StartMovement();
@@ -46,7 +43,6 @@ namespace Quests.QuestSteps.UniqueSteps
                 else if (objectName.Equals("Hryc"))
                 {
                     _hrycFinished = true;
-
                 }
 
                 if (!_raceFinished)

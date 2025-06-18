@@ -9,6 +9,7 @@ public class FixedScrollbar : MonoBehaviour
     private void Awake()
     {
         _scrollSlider = GetComponentInChildren<Scrollbar>();
+        _scrollSlider.size = 0;
     }
 
     public void SetFixedSize()
