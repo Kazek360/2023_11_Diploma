@@ -61,57 +61,47 @@ namespace InteractionSystem
 
         private void CalculateClosestInteraction()
         {
-            if (_availableInteractions.Count > 0)
+            if (_availableInteractions.Count == 0)
             {
-                if (_closestInteraction is null)
+                if (_closestInteraction == null)
                 {
-                    _closestInteraction = _availableInteractions[0];
+                    return;
                 }
-
-                if (_availableInteractions.Count > 1)
-                {
-                    var playerPosition = transform.position;
-                    float minDistance = 10000;
-                    var currentClosestInteraction = _availableInteractions[0];
-                
-                    foreach (var availableInteraction in _availableInteractions)
-                    {
-                        var interactionObjectPosition = availableInteraction.GetCoordinates();
-                        var distance = Vector3.Distance(playerPosition, interactionObjectPosition);
-                        if (distance < minDistance)
-                        {
-                            minDistance = distance;
-                            currentClosestInteraction = availableInteraction;
-                        }
-                    }
-
-                    ChangeClosestInteraction(currentClosestInteraction);
-                }
-                else
-                {
-                    ShowClosestInteraction();
-                }
-            }
-            else if (_closestInteraction != null)
-            {
                 _closestInteraction.HideIndicator();
                 _closestInteraction = null;
+                return;
             }
+
+            var playerPosition = transform.position;
+            float minDistance = 10000;
+            var currentClosestInteraction = _availableInteractions[0];
+                
+            foreach (var interaction in _availableInteractions)
+            {
+                var interactionPosition = interaction.GetCoordinates();
+                var distance = Vector3.Distance(playerPosition, interactionPosition);
+                if (distance > minDistance)
+                {
+                    continue;
+                }
+                minDistance = distance;
+                currentClosestInteraction = interaction;
+            }
+
+            ChangeClosestInteraction(currentClosestInteraction);
         }
 
         private void ChangeClosestInteraction(IInteractable newClosestInteraction)
         {
-            if (newClosestInteraction == _closestInteraction)
+            if (_closestInteraction != null)
             {
-                return;
+                if (_closestInteraction == newClosestInteraction)
+                {
+                    return;
+                }
+                _closestInteraction.HideIndicator();
             }
-            _closestInteraction.HideIndicator();
             _closestInteraction = newClosestInteraction;
-            _closestInteraction.ShowIndicator();
-        }
-
-        private void ShowClosestInteraction()
-        {
             _closestInteraction.ShowIndicator();
         }
 
