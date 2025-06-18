@@ -16,8 +16,9 @@ namespace InteractionSystem.Location
 
         [SerializeField] private GameObject interactionIndicator;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             allGateways.Add(this);
         }
 

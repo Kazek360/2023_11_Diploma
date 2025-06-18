@@ -9,17 +9,16 @@ namespace StorySystems.Dialogues.Trigger
     {
         [Header("Interaction")]
         [SerializeField] private GameObject questMarkerSprite;
-        
-        private FadeInOutObject _interactionKey;
-
         [SerializeField] private bool disabledOnStart;
         
         private bool _disabled;
+        private FadeInOutObject _interactionKey;
         
         protected override void Awake()
         {
             base.Awake();
             _interactionKey = GetComponentInChildren<FadeInOutObject>();
+            _disabled = disabledOnStart;
         }
         
         protected override void OnEnable()
@@ -36,18 +35,10 @@ namespace StorySystems.Dialogues.Trigger
             PathEvents.OnMovementEnded -= EnableTrigger;
         }
 
-        private void Start()
-        {
-            if (disabledOnStart)
-            {
-                DisableTrigger();
-            }
-        }
-
         public override void ChangeCurrentDialogue()
         {
              base.ChangeCurrentDialogue();
-             if (questMarkerSprite == null)
+             if (questMarkerSprite == null || currentDialogue == null)
              {
                  return;
              }
@@ -63,10 +54,11 @@ namespace StorySystems.Dialogues.Trigger
         
         public void TriggerInteraction()
         {
-            if (!_disabled)
+            if (_disabled || currentDialogue == null)
             {
-                StartDialogue();
+                return;
             }
+            StartDialogue();
         }
         
         public Vector3 GetCoordinates()
@@ -76,11 +68,12 @@ namespace StorySystems.Dialogues.Trigger
 
         public void ShowIndicator()
         {
-            if (!_disabled)
+            if (_disabled || currentDialogue == null)
             {
-                StopAllCoroutines();
-                StartCoroutine(_interactionKey.FadeIn());
+                return;
             }
+            StopAllCoroutines();
+            StartCoroutine(_interactionKey.FadeIn());
         }
 
         public void HideIndicator()
@@ -91,6 +84,10 @@ namespace StorySystems.Dialogues.Trigger
         
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (_disabled || currentDialogue == null)
+            {
+                return;
+            }
             if (other.CompareTag("InteractionArea"))
             {
                 InteractionEvents.EnterInteractionArea(this);

@@ -24,6 +24,12 @@ namespace InteractionSystem
         {
             OnInteractionTrigger?.Invoke();
         }
+        
+        public static event Action<string> OnInteractionEntered;
+        public static void EnterInteraction(string interactionName)
+        {
+            OnInteractionEntered?.Invoke(interactionName);
+        }
     }
 }
 

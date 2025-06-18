@@ -41,13 +41,13 @@ namespace StorySystems.Dialogues.Trigger
         {
             foreach (var dialogue in dialogues)
             {
-                if (currentDialogue == null)
-                {
-                    currentDialogue = dialogue;
-                    continue;
-                }
                 if (dialogue.state == Dialogue.State.CanTrigger)
                 {
+                    if (currentDialogue == null)
+                    {
+                        currentDialogue = dialogue;
+                        continue;
+                    }
                     if (dialogue.currentPriority > currentDialogue.currentPriority ||
                         currentDialogue.state == Dialogue.State.CannotTrigger ||
                         currentDialogue.state == Dialogue.State.Finished)
@@ -63,6 +63,10 @@ namespace StorySystems.Dialogues.Trigger
         /// </summary>
         public void StartDialogue()
         {
+            if (currentDialogue == null)
+            {
+                return;
+            }
             DialogueEvent.StartDialogue(currentDialogue.info);
             
             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)

@@ -9,6 +9,10 @@ namespace InteractionSystem.Location
         
         public override void TriggerInteraction()
         {
+            if (disabled)
+            {
+                return;
+            }
             PlayerPosition.instance.playerTransform.position = objectToTeleport.position;
         }
     }
