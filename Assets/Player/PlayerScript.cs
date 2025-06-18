@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     [SerializeField] private GameObject partner;
     [SerializeField] private Sprite playerImage;
     [SerializeField] private int maxPsychePoints;
+    [SerializeField] private bool NeedsPartnerToLive;
     protected IHittable _partner;
 
     [SerializeField] private string entityName;
@@ -214,6 +215,11 @@ public class PlayerScript : MonoBehaviour, IHittable, ITooltippable
     {
         _partner = null;
         _partnerIsKilled = true;
+        if (NeedsPartnerToLive)
+        {
+            PlayerStats.GetInstance().ModifyWitHealth(GetCurrentHealth() * (-1));
+            OnHealthDepleted();
+        }
     }
 
     public void OnPsycheDepleted()

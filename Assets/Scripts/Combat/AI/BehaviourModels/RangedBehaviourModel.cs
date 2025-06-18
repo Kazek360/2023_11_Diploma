@@ -214,6 +214,10 @@ public class RangedBehaviourModel : EnemyBehaviourModel
         {
             var tmp = _environmentManager.FindShortestPathToDistance(entityGrid, targetGrid, _entity.IsMaterial(),
                 reqDistance);
+            if (tmp is null)
+            {
+                return new List<GridObject>();
+            }
             if (tmp.Count - 1 <= _movementLeft)
             {
                 return tmp;
