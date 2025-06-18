@@ -12,16 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428ecba0350fbfb449023d2843f92b7c, type: 3}
   m_Name: father_dinner
   m_EditorClassIdentifier: 
-  itemName: Obiad taty
-  itemDesc: Obiad dla taty
+  itemName: Obiad Taty
+  itemDesc: "Obiad, kt\xF3ry masz przynie\u015B\u0107 tacie"
   itemSprites:
   - {fileID: -281335556201619449, guid: d26c62bee9ebb704f9bfb1894c9aa72b, type: 3}
   maxStackSize: 1
-  itemType: 2
+  itemType: 1
   equip: []
   unequip: []
   equipmentSlotType: 0
   modifiers: []
   imaginationModifiers: []
-  use: []
+  use:
+  - amount: 0
+    effectedStat: 0
+  onUse:
+  - actionType: 3
+    idOfEffect: 0
+    valueOfEffect: father_dinner
   destroyOnUse: 0
