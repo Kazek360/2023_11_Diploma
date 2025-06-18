@@ -16,10 +16,10 @@ MonoBehaviour:
   groups:
   - id: a1e6c572-947b-411a-a9af-a6c560762875
     name: Prologue
-    position: {x: -311, y: -811}
+    position: {x: -310, y: -811}
   - id: fcdd30c9-e86c-43bd-97c8-321d21507074
     name: Main_Quest_1
-    position: {x: 1467, y: -805}
+    position: {x: 1436.0001, y: -758}
   - id: b6ef633a-160c-4e4b-99f0-df1d27341c90
     name: A1S1 - Ale jaja!
     position: {x: 1724, y: 499}
@@ -66,21 +66,9 @@ MonoBehaviour:
     connectedQuestStepNodes:
     - 29fef397-d219-49ce-86f4-a852d27c187c
     position: {x: 4266, y: 561}
-  - id: 33239c93-5981-49e2-af00-4a2e1242110a
-    fileName: Q_1
-    displayName: "K\u0142opoty w m\u0142ynie"
-    category: 0
-    description: Pierwszy quest aktu 1
-    experience: 400
-    rewards: []
-    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
-    connectedQuestNodes: []
-    connectedQuestStepNodes:
-    - 97f53155-3df9-4142-9a16-61188555ff1e
-    position: {x: 1492, y: -746}
   - id: 9bfe11ee-1c1f-4343-b60c-2832466d629b
     fileName: prologue
-    displayName: "Wielki wy\u015Bcig Hryca"
+    displayName: "Jak prawie umar\u0142em"
     category: 0
     description: "Poszed\u0142em pobawi\u0107 si\u0119 w lesie wraz z Hrycem. Co
       mo\u017Ce p\xF3j\u015B\u0107 nie tak..."
@@ -91,7 +79,20 @@ MonoBehaviour:
     - 33239c93-5981-49e2-af00-4a2e1242110a
     connectedQuestStepNodes:
     - b270203a-8c4b-4d05-9703-8731ccc0cb75
-    position: {x: -286, y: -752}
+    position: {x: -285, y: -752}
+  - id: 33239c93-5981-49e2-af00-4a2e1242110a
+    fileName: Q_1
+    displayName: "K\u0142opoty w m\u0142ynie"
+    category: 0
+    description: "Ledwo obudzi\u0142em si\u0119, a juz obowi\u0105zki wzywaj\u0105.
+      Rany..."
+    experience: 400
+    rewards: []
+    groupID: fcdd30c9-e86c-43bd-97c8-321d21507074
+    connectedQuestNodes: []
+    connectedQuestStepNodes:
+    - 97f53155-3df9-4142-9a16-61188555ff1e
+    position: {x: 1461, y: -699}
   questTransitionNodes: []
   questStepNodes:
   - id: 0b4a61b2-960e-42f6-8f7d-aa3cb39b21cf
@@ -211,7 +212,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - c6aeac92-f201-4a7d-b656-bc6388ac54e5
-    position: {x: 679, y: -674}
+    position: {x: 680, y: -674}
   - id: c6aeac92-f201-4a7d-b656-bc6388ac54e5
     fileName: prologue_1_4
     description: " Pod\u0105\u017Caj \u015Bcie\u017Ck\u0105 do wioski"
@@ -221,7 +222,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - a02b0fda-dc1e-46fc-bbc1-e2d880372c83
-    position: {x: 911, y: -674}
+    position: {x: 912, y: -674}
   - id: a02b0fda-dc1e-46fc-bbc1-e2d880372c83
     fileName: prologue_1_5
     description: "Wejd\u017A na skarp\u0119"
@@ -231,16 +232,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 481b873a-02b8-4881-9f8b-605f0494182b
-    position: {x: 1135, y: -674}
-  - id: 6b5a11f6-7cef-4f21-98ae-975ff9ec18fb
-    fileName: prologue_1_1
-    description: pierwszy tutorial
-    isHidden: 1
-    repeatAmount: 0
-    prefab: {fileID: 7677879442404341218, guid: 6019eee20e0662c4db1d2381aae06e43, type: 3}
-    groupID: a1e6c572-947b-411a-a9af-a6c560762875
-    connectedNodes: []
-    position: {x: 229, y: -674}
+    position: {x: 1136, y: -674}
   - id: b270203a-8c4b-4d05-9703-8731ccc0cb75
     fileName: prologue_1_0
     description: Chapter Introduction
@@ -250,7 +242,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 6b5a11f6-7cef-4f21-98ae-975ff9ec18fb
-    position: {x: 6, y: -674}
+    position: {x: 7, y: -674}
   - id: 97f53155-3df9-4142-9a16-61188555ff1e
     fileName: Q1_1
     description: "co\u015B si\u0119 ko\u0144czy co\u015B zaczyna"
@@ -310,7 +302,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 40e25a67-76ff-4479-b37d-4417150b821f
-    position: {x: 1135, y: -358}
+    position: {x: 1136, y: -358}
   - id: 9f125d79-469b-480f-9b3f-754e1bbffcdb
     fileName: prologue_2_3
     description: "Id\u017A do wilk\xF3w XD"
@@ -320,7 +312,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 72797578-2f4a-4b10-aba5-60abb45d6c73
-    position: {x: 911, y: -358}
+    position: {x: 912, y: -358}
   - id: 1e9e762e-0126-475b-9aec-44d6a9fe2002
     fileName: prologue_2_2
     description: "Znajd\u017A wyj\u015Bcie z lasu"
@@ -330,7 +322,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 9f125d79-469b-480f-9b3f-754e1bbffcdb
-    position: {x: 684, y: -358}
+    position: {x: 685, y: -358}
   - id: 8e388794-d88a-4937-b2e0-512c5c28482d
     fileName: prologue_2_1
     description: "Podnie\u015B \u015Bmiecide\u0142ko"
@@ -340,7 +332,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 1e9e762e-0126-475b-9aec-44d6a9fe2002
-    position: {x: 456, y: -358}
+    position: {x: 457, y: -358}
   - id: dba1bad0-0a05-42c6-a4ea-ec57d17abf25
     fileName: prologue_1_7
     description: "Rozejrzyj si\u0119"
@@ -350,7 +342,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 8e388794-d88a-4937-b2e0-512c5c28482d
-    position: {x: 229, y: -358}
+    position: {x: 230, y: -358}
   - id: 481b873a-02b8-4881-9f8b-605f0494182b
     fileName: prologue_1_6
     description: Wit umiera lol
@@ -360,7 +352,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - dba1bad0-0a05-42c6-a4ea-ec57d17abf25
-    position: {x: 6, y: -358}
+    position: {x: 7, y: -358}
   - id: 772da3ab-1395-443f-8056-11af965639f2
     fileName: Q1_8
     description: "Sprawd\u017A, co zatrzymuje mechanizm"
@@ -440,7 +432,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 085b9d11-c734-4de7-81ad-1e63ab09c1d8
-    position: {x: 684, y: -48}
+    position: {x: 685, y: -48}
   - id: 41edfb87-b79a-4866-9c1b-3037aa05f3d9
     fileName: prologue_3_1
     description: ARISE
@@ -450,7 +442,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 47bffa49-a738-4e30-91f2-6935224ff4fa
-    position: {x: 456, y: -48}
+    position: {x: 457, y: -48}
   - id: 40e25a67-76ff-4479-b37d-4417150b821f
     fileName: prologue_2_5
     description: "Tepnij si\u0119 do domu :P"
@@ -460,7 +452,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 2254ddc1-80e3-44aa-b709-20237ed7096e
-    position: {x: 6, y: -48}
+    position: {x: 7, y: -48}
   - id: 085b9d11-c734-4de7-81ad-1e63ab09c1d8
     fileName: prologue_3_3
     description: Teleport behind you
@@ -470,7 +462,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 66d9d239-2051-4144-9ba7-b6261d951a49
-    position: {x: 911, y: -48}
+    position: {x: 912, y: -48}
   - id: 66d9d239-2051-4144-9ba7-b6261d951a49
     fileName: prologue_3_4
     description: part 2
@@ -480,7 +472,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - d294dac7-8739-4697-9264-0a9ea2e8a860
-    position: {x: 1135, y: -48}
+    position: {x: 1136, y: -48}
   - id: d294dac7-8739-4697-9264-0a9ea2e8a860
     fileName: prologue_3_5
     description: "Wr\xF3\u0107 do swojego pokoju"
@@ -489,7 +481,7 @@ MonoBehaviour:
     prefab: {fileID: 6803078109182570621, guid: 8b1631fcec9c73441a38ae5f8b036800, type: 3}
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes: []
-    position: {x: 6, y: 249}
+    position: {x: 7, y: 249}
   - id: 2254ddc1-80e3-44aa-b709-20237ed7096e
     fileName: prologue_2_6
     description: DOM LOL
@@ -499,7 +491,7 @@ MonoBehaviour:
     groupID: a1e6c572-947b-411a-a9af-a6c560762875
     connectedNodes:
     - 41edfb87-b79a-4866-9c1b-3037aa05f3d9
-    position: {x: 229, y: -48}
+    position: {x: 230, y: -48}
   - id: 1edae39b-7359-4369-b1a2-e60213c16eba
     fileName: Q1_13
     description: "m\u0142ynnik pokonany"
@@ -549,6 +541,26 @@ MonoBehaviour:
     connectedNodes:
     - 1edae39b-7359-4369-b1a2-e60213c16eba
     position: {x: 2985, y: -305}
+  - id: 6b5a11f6-7cef-4f21-98ae-975ff9ec18fb
+    fileName: prologue_1_1
+    description: pierwszy tutorial
+    isHidden: 1
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 6019eee20e0662c4db1d2381aae06e43, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 31768846-c129-4081-93ab-15f40f0f477b
+    position: {x: 230, y: -674}
+  - id: 31768846-c129-4081-93ab-15f40f0f477b
+    fileName: prologue_1_2
+    description: Porozmawiaj z Hrycem
+    isHidden: 0
+    repeatAmount: 0
+    prefab: {fileID: 7677879442404341218, guid: 01ec5b95a738c1241bd930abe88c7219, type: 3}
+    groupID: a1e6c572-947b-411a-a9af-a6c560762875
+    connectedNodes:
+    - 13997d8c-85c7-4e44-95bc-58c2d5ab91ae
+    position: {x: 447, y: -674}
   questStepTransitionNodes: []
   oldGroupNames:
   - Prologue
@@ -584,7 +596,6 @@ MonoBehaviour:
       - prologue_1_3
       - prologue_1_4
       - prologue_1_5
-      - prologue_1_1
       - prologue_1_0
       - prologue_2_4
       - prologue_2_3
@@ -599,6 +610,8 @@ MonoBehaviour:
       - prologue_3_4
       - prologue_3_5
       - prologue_2_6
+      - prologue_1_1
+      - prologue_1_2
       - prologue
     - Key: Main_Quest_1
       Value:
