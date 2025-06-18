@@ -303,7 +303,7 @@ namespace InputSystem
                 switch (UserInterfaceManager.Instance.CurrentStateType)
                 {
                     case UserInterfaceState.Exploration or UserInterfaceState.LoadGame or UserInterfaceState.SaveGame 
-                        or UserInterfaceState.Combat:
+                        or UserInterfaceState.Combat or UserInterfaceState.Settings:
                         UserInterfaceManager.Instance.ChangeState(UserInterfaceState.PauseMenu);
                         break;
                     case UserInterfaceState.PauseMenu or UserInterfaceState.Quests or UserInterfaceState.SkillTree 
