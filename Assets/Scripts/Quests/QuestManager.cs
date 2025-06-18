@@ -144,6 +144,12 @@ namespace Quests
                     }
                 }
             }
+
+            if (TrackedQuest.state == QuestState.Finished)
+            {
+                TrackedQuest = null;
+                QuestEvents.StopTrackingQuest();
+            }
         }
 
         private void UpdateQuestStepProgress(string id)
