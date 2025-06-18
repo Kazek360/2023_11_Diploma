@@ -18,7 +18,7 @@ namespace SaveSystem.Data
         public InventoryData inventory;
         public Dictionary<string, Quest> Quests;
         public string trackedQuest;
-        public Dictionary<string, Flag> Flags;
+        public Dictionary<string, bool> Flags;
         public Dictionary<string, Tutorial> tutorials;
         
         public GameData()

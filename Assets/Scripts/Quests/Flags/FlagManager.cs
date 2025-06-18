@@ -12,8 +12,8 @@ namespace Quests.Flags
         private Dictionary<string, Object> _inkVariablesDictionary;
         public Dictionary<string, Object> InkVariablesDictionary => _inkVariablesDictionary;
 
-        private Dictionary<string, Flag> _flagDictionary;
-        public Dictionary<string, Flag> FlagDictionary => _flagDictionary;
+        private Dictionary<string, bool> _flagDictionary;
+        public Dictionary<string, bool> FlagDictionary => _flagDictionary;
 
 
         private Story _globalVariableStory;
@@ -48,8 +48,12 @@ namespace Quests.Flags
             {
                 _inkVariablesDictionary.Remove(name);
                 _inkVariablesDictionary.Add(name, value);
-                var isTriggered = new BoolValue(value);
-                _flagDictionary[name].triggered = isTriggered.value;
+                
+                if (value is BoolValue boolVal)
+                {
+                    var isTriggered = boolVal.value;
+                    _flagDictionary[name] = isTriggered;
+                }
             }
         }
 
@@ -63,18 +67,16 @@ namespace Quests.Flags
 
         public bool IsFlagTriggered(string flagName)
         {
-            Flag flag;
-            FlagDictionary.TryGetValue(flagName, out flag);
-            if (flag is null)
+            if (FlagDictionary.ContainsKey(flagName))
             {
                 Debug.LogWarning($"Ink Variable was not found: {flagName}");
                 return false;
             }
 
-            return flag.triggered;
+            return FlagDictionary[flagName];
         }
         
-        private void SetVariableState(string variableName, Object variableValue)
+        private void SetVariableState(string variableName, BoolValue variableValue)
         {
             if (InkVariablesDictionary.ContainsKey(variableName))
             {
@@ -89,12 +91,12 @@ namespace Quests.Flags
         {
             if (FlagDictionary.ContainsKey(flagName))
             {
-                FlagDictionary[flagName].triggered = true;
+                FlagDictionary[flagName] = true;
                 SetVariableState(flagName, new BoolValue(true));
             }
         }
         
-        public void LoadFlags(Dictionary<string, Flag> flags)
+        public void LoadFlags(Dictionary<string, bool> flags)
         {
             foreach (var pair in flags)
             {
@@ -102,11 +104,8 @@ namespace Quests.Flags
                 {
                     continue;
                 }
-                
-                _flagDictionary[pair.Key].flagName = pair.Value.flagName;
-                _flagDictionary[pair.Key].triggered = pair.Value.triggered;
-                Debug.Log($"{_flagDictionary[pair.Key].flagName}:{_flagDictionary[pair.Key].triggered}");
-                SetVariableState(pair.Value.flagName, new BoolValue(pair.Value.triggered));
+                _flagDictionary[pair.Key] = pair.Value;
+                SetVariableState(pair.Key, new BoolValue(pair.Value));
             }
         }
 
@@ -115,10 +114,10 @@ namespace Quests.Flags
             gameData.Flags = _flagDictionary;
         }
         
-        private Dictionary<string, Flag> CreateFlagDictionary()
+        private Dictionary<string, bool> CreateFlagDictionary()
         {
             var allFlags = Resources.LoadAll<FlagInfo>("Quests/Flags");
-            var idToDictionary = new Dictionary<string, Flag>();
+            var idToDictionary = new Dictionary<string, bool>();
             foreach (var flagInfo in allFlags)
             {
                 if (idToDictionary.ContainsKey(flagInfo.name))
@@ -126,7 +125,7 @@ namespace Quests.Flags
                     Debug.LogWarning($"Found Duplicate ID: {flagInfo.name}");
                 }
 
-                idToDictionary.Add(flagInfo.name, new Flag(flagInfo.name));
+                idToDictionary.Add(flagInfo.name, false);
             }
 
             return idToDictionary;
