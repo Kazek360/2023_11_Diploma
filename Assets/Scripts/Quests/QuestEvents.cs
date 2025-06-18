@@ -45,6 +45,12 @@ namespace Quests
             OnQuestTracking?.Invoke();
         }
         
+        public static event Action OnQuestTrackingStop;
+        public static void StopTrackingQuest()
+        {
+            OnQuestTrackingStop?.Invoke();
+        }
+        
         public static event Action<string> OnQuestStepProgress;
         public static void ProgressQuestStep(string questID)
         {

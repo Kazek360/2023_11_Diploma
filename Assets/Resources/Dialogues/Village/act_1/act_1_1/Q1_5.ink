@@ -46,7 +46,7 @@ Jesteś mały, przeciśniesz się za mechanizm i sprawdzisz co tam się dzieje?
 #speaker:Wit #portrait:wit_confident
 Zrobię co w mojej mocy, tatku.
 
-~removeItem("father_dinner", 1)
+~removeItem("eaten_father_dinner", 1)
 
 -> END
 

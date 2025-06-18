@@ -24,11 +24,13 @@ namespace Quests.UI
         public void OnEnable()
         {
             QuestEvents.OnQuestTracking += SetTrackQuestInfo;
+            QuestEvents.OnQuestTrackingStop += SetTrackQuestInfo;
         }
         
         public void OnDisable()
         {
             QuestEvents.OnQuestTracking -= SetTrackQuestInfo;
+            QuestEvents.OnQuestTrackingStop -= SetTrackQuestInfo;
         }
         
         private void SetTrackQuestInfo()

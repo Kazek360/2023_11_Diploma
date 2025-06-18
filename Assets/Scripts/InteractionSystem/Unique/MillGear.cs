@@ -8,33 +8,16 @@ namespace InteractionSystem.Unique
     {
         [SerializeField] private FadeInOutObject sprite;
         [SerializeField] private FadeInOutObject interactionKey;
-        
+        private SpriteRenderer _spriteRenderer;
         protected bool disabled;
-        
-        public static event Action OnGearFixed;
-
-        public static void InvokeOnGearFixed()
-        {
-            OnGearFixed?.Invoke();
-        }
-
-        private void OnEnable()
-        {
-            OnGearFixed += FixGear;
-        }
-
-        private void OnDisable()
-        {
-            OnGearFixed -= FixGear;
-        }
 
         protected void Awake()
         {
             disabled = true;
-            var spriteRenderer = GetComponent<SpriteRenderer>();
-            var color = spriteRenderer.color;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            var color = _spriteRenderer.color;
             color.a = 0;
-            spriteRenderer.color = color;
+            _spriteRenderer.color = color;
         }
         
         public void TriggerInteraction()
@@ -46,10 +29,12 @@ namespace InteractionSystem.Unique
             InteractionEvents.EnterInteraction(gameObject.name);
         }
         
-        private void FixGear()
+        public void FixGear()
         {
             DisableInteraction();
-            StartCoroutine(sprite.FadeIn());
+            var color = _spriteRenderer.color;
+            color.a = 1;
+            _spriteRenderer.color = color;
         }
         
         public Vector3 GetCoordinates()
