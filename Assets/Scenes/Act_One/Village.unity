@@ -35459,6 +35459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 609996390}
+  - component: {fileID: 609996391}
   m_Layer: 7
   m_Name: miller_player_spot
   m_TagString: Untagged
@@ -35481,6 +35482,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 755656244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &609996391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609996389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: miller
 --- !u!1001 &611467461
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334885,11 +334899,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1462.4
+      value: -1349.2
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 686.5
+      value: 670.9
       objectReference: {fileID: 0}
     - target: {fileID: 3320728884092856837, guid: 65435a9f161533f48b4f1e5a8f6fa7c9, type: 3}
       propertyPath: m_LocalPosition.z
