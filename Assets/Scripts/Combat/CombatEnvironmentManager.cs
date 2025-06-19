@@ -558,7 +558,7 @@ public class GridObject
         }
         else
         {
-            Debug.Log("HIGHLIGHTING_NAWIA");
+            //Debug.Log("HIGHLIGHTING_NAWIA");
             Hex.Find("Highlighted_nawia").gameObject.SetActive(true);
         }
     }

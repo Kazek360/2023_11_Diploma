@@ -18,6 +18,8 @@ public class CombatSummaryScript : MonoBehaviour
     [SerializeField] private GameObject ProceedWin;
     [SerializeField] private GameObject ProceedLoss;
 
+    private bool _resultsDisplayed = false;
+
     /**
     * UI setup for combat summary
     * &lt;param name='IsVictory'&gt;whether the player has won an encounter&lt;/param&gt;
@@ -26,6 +28,13 @@ public class CombatSummaryScript : MonoBehaviour
     */
     public void SetValues(bool IsVictory, List<IHittable> players, List<IHittable> enemies)
     {
+        if (_resultsDisplayed)
+        {
+            return;
+        }
+
+        _resultsDisplayed = true;
+        Debug.Log("DISPLAY RESULTS");
         if (IsVictory)
         {
             WinText.SetActive(true);
