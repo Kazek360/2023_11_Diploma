@@ -33090,6 +33090,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5680651619999013647, guid: 227c998072ef4e44c8fbf0bfddbbb67d, type: 3}
   m_PrefabInstance: {fileID: 194186282}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &194265217 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4949401080307321000, guid: 6a5a1b9c67486fa4cb5089923622c451, type: 3}
+  m_PrefabInstance: {fileID: 474824823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68c8cfae5e9493647a7675ed0a253cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &194676515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3833181860066873149, guid: d658f6217fe467d4f8730fd8728f612c, type: 3}
@@ -87245,7 +87256,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 362952979
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 3583c7a42c626df4c8d0d64543584bcf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -140175,7 +140186,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &797799273
 Transform:
   m_ObjectHideFlags: 0
@@ -260396,6 +260407,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1086168336855428326, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 194265217}
+    - target: {fileID: 1086168336855428326, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DefaultSetting
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090414204273658796, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 194265217}
+    - target: {fileID: 1090414204273658796, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SaveSettings
+      objectReference: {fileID: 0}
     - target: {fileID: 1125461710760835850, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -260419,6 +260446,22 @@ PrefabInstance:
     - target: {fileID: 1373955633739817622, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1773720018593422531, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766682063}
+    - target: {fileID: 1773720018593422531, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetSoundFxVolume
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412006369959077595, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766682063}
+    - target: {fileID: 4412006369959077595, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMusicVolume
       objectReference: {fileID: 0}
     - target: {fileID: 4556414106677817050, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchorMax.y
@@ -260435,6 +260478,10 @@ PrefabInstance:
     - target: {fileID: 4556414106677817050, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5855564491229707441, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: stateToChange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6304117600357215189, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -260571,6 +260618,14 @@ PrefabInstance:
     - target: {fileID: 8607507255213765134, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8874568190271039662, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766682063}
+    - target: {fileID: 8874568190271039662, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetMasterVolume
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -359271,7 +359326,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1084073907
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: -8571259766297989886, guid: eb953f828dc1af34b8333fb8a921ba4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
