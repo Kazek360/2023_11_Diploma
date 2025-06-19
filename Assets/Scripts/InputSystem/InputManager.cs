@@ -229,18 +229,18 @@ namespace InputSystem
 
         public void OnToggleAbilitiesView(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                switch (UserInterfaceManager.Instance.CurrentStateType)
-                {
-                    case UserInterfaceState.Exploration:
-                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Abilities);
-                        break;
-                    case UserInterfaceState.Abilities:
-                        UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
-                        break;
-                }
-            }
+            // if (context.performed)
+            // {
+            //     switch (UserInterfaceManager.Instance.CurrentStateType)
+            //     {
+            //         case UserInterfaceState.Exploration:
+            //             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Abilities);
+            //             break;
+            //         case UserInterfaceState.Abilities:
+            //             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);  
+            //             break;
+            //     }
+            // }
         }
         
         public void OnToggleInventory(InputAction.CallbackContext context)

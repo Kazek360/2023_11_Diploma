@@ -4,8 +4,8 @@
     {
         private void Start()
         {
-            PlayerStats.GetInstance().WitHp = 8;
-            PlayerStats.GetInstance().NestorHp = 8;
+            PlayerStats.GetInstance().WitHp = PlayerStats.GetInstance().GetStat(StatType.WitHealth);
+            PlayerStats.GetInstance().NestorHp = PlayerStats.GetInstance().GetStat(StatType.NestorHealth);;
             FinishAndDelete();
         }
     }
