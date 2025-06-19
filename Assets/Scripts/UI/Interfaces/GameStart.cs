@@ -27,7 +27,7 @@ namespace UI.Interfaces
             GameConfig.abilityLibrary.Load();
             PlayerStats.GetInstance().Load();
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.NewGame;
-            _fadeInOutScreen.StartFadeInOut(() => SceneLoader.InvokeOnSceneChanged(startScene));
+            _fadeInOutScreen.StartFade(() => SceneLoader.InvokeOnSceneChanged(startScene));
         }
         
         public void OnContinueClicked()

@@ -2,7 +2,7 @@
 
 === HrycFlavour1 ===
 
-#speaker:Hryc #portrait:hryc_hello
+#speaker:Hryc #portrait:hryc_neutral
 No co tam?
 
 -> END
