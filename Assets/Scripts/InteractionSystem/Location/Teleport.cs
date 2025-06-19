@@ -1,4 +1,5 @@
 ﻿using Location;
+using Other;
 using UnityEngine;
 
 namespace InteractionSystem.Location
@@ -13,7 +14,8 @@ namespace InteractionSystem.Location
             {
                 return;
             }
-            PlayerPosition.instance.playerTransform.position = objectToTeleport.position;
+            FadeInOutScreen.InvokeOnFadeInOut(() => 
+                PlayerPosition.instance.playerTransform.position = objectToTeleport.position);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace UI.Interfaces
     {
         public override UserInterfaceState State => UserInterfaceState.GameStart;
         
-        [SerializeField] private FadeInOut fadeInOut;
+        [SerializeField] private FadeInOutScreen _fadeInOutScreen;
         [SerializeField] private Button continueButton;
         [SerializeField] private string startScene;
         
@@ -27,7 +27,7 @@ namespace UI.Interfaces
             GameConfig.abilityLibrary.Load();
             PlayerStats.GetInstance().Load();
             DataPersistenceManager.Instance.CurrentLoadMode = LoadMode.NewGame;
-            fadeInOut.StartFadeInOut(() => SceneLoader.InvokeOnSceneChanged(startScene));
+            _fadeInOutScreen.StartFadeInOut(() => SceneLoader.InvokeOnSceneChanged(startScene));
         }
         
         public void OnContinueClicked()
