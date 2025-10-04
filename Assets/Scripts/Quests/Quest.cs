@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Ink.Runtime;
 using Newtonsoft.Json;
 using Quests.QuestSteps;
 using Quests.ScriptableObjects;
@@ -18,6 +19,8 @@ namespace Quests
         [NonSerialized] private BaseQuestStep _currentStep;
         
         [JsonProperty] private int _currentStepIndex;
+        public int CurrentStepIndex => _currentStepIndex;
+
         [JsonProperty] public int currentStepProgress { get; private set; }
         public Quest(QuestInfo info)
         {
@@ -52,6 +55,7 @@ namespace Quests
             ChooseNextStep();
             InstantiateStep(parentTransform);
             _currentStepIndex++;
+            QuestManager.Instance.FlagManager.SetIntVariableState(info.name, new IntValue(_currentStepIndex));
         }
         
         public void InstantiateCurrentStep(Transform parentTransform)

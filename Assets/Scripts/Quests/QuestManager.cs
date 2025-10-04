@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Ink.Runtime;
 using Quests.Flags;
 using Quests.ScriptableObjects;
 using SaveSystem;
@@ -230,6 +231,7 @@ namespace Quests
                 {
                     quest.PassThroughCompletedSteps();
                 }
+                FlagManager.SetIntVariableState(quest.info.name, new IntValue(quest.CurrentStepIndex));
             }
             
             if (!gameData.trackedQuest.Equals(""))
