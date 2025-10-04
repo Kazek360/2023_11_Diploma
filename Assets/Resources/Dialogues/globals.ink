@@ -5,6 +5,12 @@ EXTERNAL changeNestorState(id, isAppearing)
 EXTERNAL startClip()
 EXTERNAL stopClip()
 
+//localization flag
+VAR english = true
+
+//quest progress
+VAR prologue = 0
+
 //First race with Hryc flags
 VAR hryc_race_reward = false
 VAR hryc_race_win = false
