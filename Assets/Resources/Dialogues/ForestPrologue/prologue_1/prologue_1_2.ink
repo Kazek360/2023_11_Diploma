@@ -1,6 +1,12 @@
 INCLUDE ../../globals.ink
 
--> Prologue_1_1
+{prologue == 2:
+    -> Prologue_1_1
+  - else:
+    beka z ciebie typie
+    ->END
+}
+
 
 === Prologue_1_1 ===
 #speaker:Hryc #portrait:hryc_neutral
