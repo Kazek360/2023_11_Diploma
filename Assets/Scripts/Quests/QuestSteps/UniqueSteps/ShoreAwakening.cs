@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Other;
+﻿using Other;
 using Quests.QuestSteps.DialogueSteps;
 using StorySystems.Dialogues;
 using UnityEngine;
@@ -25,9 +24,8 @@ namespace Quests.QuestSteps.UniqueSteps
             AreaEvent.OnAreaEnter -= StartDialogue;
         }
 
-        protected override IEnumerator Start()
+        protected void Start()
         {
-            yield return base.Start();
             Nestor.ChangeNestorState("shore", true);
         }
         
@@ -36,16 +34,8 @@ namespace Quests.QuestSteps.UniqueSteps
             if (areaName.Equals(areaToEnterName))
             {
                 Destroy(_area);
-                DialogueManager.Instance.TriggerDialogue("ShorePrologue");
+                DialogueEvent.TriggerDialogue(triggerName);
             }
-        }
-
-        protected override void FinishStep(DialogueInfo dialogue)
-        {
-            if (dialogueInfo.name == dialogue.name)
-            {
-                FinishAndDelete();
-            } 
         }
     }
 }

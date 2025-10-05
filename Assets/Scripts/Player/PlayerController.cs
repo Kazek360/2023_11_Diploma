@@ -121,7 +121,7 @@ namespace Player
             _animator.Play("Idle");
         }
 
-        private void EnableMovement(DialogueInfo dialogue)
+        private void EnableMovement()
         {
             _canMove = true;
         }

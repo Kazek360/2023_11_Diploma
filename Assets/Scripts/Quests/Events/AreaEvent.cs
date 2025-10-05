@@ -14,4 +14,10 @@ public static class AreaEvent
         OnCorrectAreaEnter?.Invoke(areaName);
     }
     
+    public static event Action<string, string> OnDialogueAreaEnter;
+    public static void EnterDialogueArea(string areaName, string objectName)
+    {
+        OnDialogueAreaEnter?.Invoke(areaName, objectName);
+    }
+    
 }

@@ -5,71 +5,46 @@ using UnityEngine;
 namespace StorySystems.Dialogues.Trigger
 {
     //This class triggers dialogue by interaction
-    public class InteractionDialogueEntity : DialogueEntity, IInteractable
+    public class InteractionDialogueTrigger : MonoBehaviour, IInteractable
     {
         [Header("Interaction")]
         [SerializeField] private GameObject questMarkerSprite;
         [SerializeField] private bool disabledOnStart;
 
-        [Header("Dialogues")] 
+        [Header("Dialogues info")]
+        [SerializeField] private string triggerName;
         [SerializeField] private TextAsset dialogue;
         
         private bool _disabled;
         private FadeInOutObject _interactionKey;
         
-        protected override void Awake()
+        private void Awake()
         {
-            base.Awake();
             _interactionKey = GetComponentInChildren<FadeInOutObject>();
             _disabled = disabledOnStart;
         }
         
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             PathEvents.OnMovementStarted += DisableTrigger;
             PathEvents.OnMovementEnded += EnableTrigger;
         }
         
-        protected override void OnDisable()
+        private void OnDisable()
         {
-            base.OnDisable();
             PathEvents.OnMovementStarted -= DisableTrigger;
             PathEvents.OnMovementEnded -= EnableTrigger;
-        }
-
-        public override void ChangeCurrentDialogue()
-        {
-             base.ChangeCurrentDialogue();
-             if (questMarkerSprite == null || currentDialogue == null)
-             {
-                 return;
-             }
-             if (currentDialogue.info.dialogueType != DialogueInfo.Type.Repeatable)
-             {
-                 questMarkerSprite.SetActive(true);
-             }
-             else
-             {
-                 questMarkerSprite.SetActive(false);
-             }
         }
         
         public void TriggerInteraction()
         {
-            if (_disabled || currentDialogue == null)
+            if (_disabled)
             {
                 return;
             }
-            //InitializeDialogue();
-            TriggerDialogue();
+            DialogueEvent.InitializeDialogue();
+            DialogueEvent.StartDialogue(triggerName, dialogue);
         }
-
-        private void TriggerDialogue()
-        {
-            DialogueEvent.StartDialogue(dialogue);
-        }
-        
         
         public Vector3 GetCoordinates()
         {
@@ -78,7 +53,7 @@ namespace StorySystems.Dialogues.Trigger
 
         public void ShowIndicator()
         {
-            if (_disabled || currentDialogue == null)
+            if (_disabled)
             {
                 return;
             }
@@ -94,7 +69,7 @@ namespace StorySystems.Dialogues.Trigger
         
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (_disabled || currentDialogue == null)
+            if (_disabled)
             {
                 return;
             }
