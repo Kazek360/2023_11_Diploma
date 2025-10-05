@@ -1,6 +1,4 @@
--> HrycFlavour1
-
-=== HrycFlavour1 ===
+=== HrycFlavourPrologue_polish ===
 
 #speaker:Hryc #portrait:hryc_neutral
 No co tam?
