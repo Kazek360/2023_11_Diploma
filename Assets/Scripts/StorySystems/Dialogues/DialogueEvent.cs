@@ -1,19 +1,30 @@
 using System;
 using StorySystems.Dialogues.Trigger;
+using UnityEngine;
 
 namespace StorySystems.Dialogues
 {
     public static class DialogueEvent
     {
-        public static event Action<DialogueInfo> OnDialogueStarted;
-        public static void StartDialogue(DialogueInfo dialogue)
+        public static event Action OnDialogueInitialized;
+        public static void InitializeDialogue()
         {
-            OnDialogueStarted?.Invoke(dialogue);
+            OnDialogueInitialized?.Invoke();
+        }
+        public static event Action<TextAsset> OnDialogueStarted;
+        public static void StartDialogue(TextAsset text)
+        {
+            OnDialogueStarted?.Invoke(text);
         }
         public static event Action<DialogueInfo> OnDialogueFinished;
         public static void FinishDialogue(DialogueInfo dialogue)
         {
             OnDialogueFinished?.Invoke(dialogue);
+        }
+        public static event Action<TextAsset> OnDialogueFinishedd;
+        public static void FinishDialogue(TextAsset text)
+        {
+            OnDialogueFinishedd?.Invoke(text);
         }
         public static event Action OnDialogueContinued;
         public static void ContinueDialogue()

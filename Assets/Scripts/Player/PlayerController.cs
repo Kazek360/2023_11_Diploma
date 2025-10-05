@@ -33,7 +33,7 @@ namespace Player
             InputEvents.OnMovementStop += StopPlayerMovement;
             InputEvents.OnMouseMovement += OnMouseClick;
             
-            DialogueEvent.OnDialogueStarted += StopMovement;
+            DialogueEvent.OnDialogueInitialized += StopMovement;
             CutsceneEvents.OnCutsceneStarted += StopMovement;
             DialogueEvent.OnDialogueFinished += EnableMovement;
             CutsceneEvents.OnCutsceneFinished += EnableMovement;
@@ -46,7 +46,7 @@ namespace Player
             InputEvents.OnMovementStop -= StopPlayerMovement;
             InputEvents.OnMouseMovement -= OnMouseClick;
             
-            DialogueEvent.OnDialogueStarted -= StopMovement;
+            DialogueEvent.OnDialogueInitialized -= StopMovement;
             CutsceneEvents.OnCutsceneStarted -= StopMovement;
             DialogueEvent.OnDialogueFinished -= EnableMovement;
             CutsceneEvents.OnCutsceneFinished -= EnableMovement;
@@ -131,7 +131,7 @@ namespace Player
             _canMove = true;
         }
         
-        private void StopMovement(DialogueInfo dialogue)
+        private void StopMovement()
         {
             _canMove = false;
             StopPlayerMovement();

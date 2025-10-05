@@ -10,6 +10,9 @@ namespace StorySystems.Dialogues.Trigger
         [Header("Interaction")]
         [SerializeField] private GameObject questMarkerSprite;
         [SerializeField] private bool disabledOnStart;
+
+        [Header("Dialogues")] 
+        [SerializeField] private TextAsset dialogue;
         
         private bool _disabled;
         private FadeInOutObject _interactionKey;
@@ -58,8 +61,15 @@ namespace StorySystems.Dialogues.Trigger
             {
                 return;
             }
-            StartDialogue();
+            //InitializeDialogue();
+            TriggerDialogue();
         }
+
+        private void TriggerDialogue()
+        {
+            DialogueEvent.StartDialogue(dialogue);
+        }
+        
         
         public Vector3 GetCoordinates()
         {
