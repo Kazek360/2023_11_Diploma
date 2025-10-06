@@ -87402,7 +87402,6 @@ GameObject:
   m_Component:
   - component: {fileID: 414104966}
   - component: {fileID: 414104968}
-  - component: {fileID: 414104970}
   - component: {fileID: 414104969}
   m_Layer: 0
   m_Name: NearCliffArea
@@ -87471,22 +87470,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 414104965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: CliffPrologue
---- !u!114 &414104970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414104965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  dialogue: {fileID: 4900000, guid: c88050b4e31b4b34884628efd733223e, type: 3}
 --- !u!1001 &414313666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -362636,9 +362624,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1164844590}
-  - component: {fileID: 1164844593}
-  - component: {fileID: 1164844594}
   - component: {fileID: 1164844595}
+  - component: {fileID: 1164844596}
   m_Layer: 0
   m_Name: ShoreArea
   m_TagString: Untagged
@@ -362661,31 +362648,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2530344810131849722}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1164844593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164844589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  triggerName: ShorePrologue
---- !u!114 &1164844594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1164844589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!68 &1164844595
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -362732,6 +362694,20 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1164844596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164844589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: ShorePrologue
+  dialogue: {fileID: 4900000, guid: 2f57cbc8f0516334db111ff80fb1b71f, type: 3}
 --- !u!1001 &1165117428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510005,7 +509981,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: NestorPrologue
 --- !u!114 &1068143324682578626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510031,6 +510006,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: RacePrologue
+  dialogue: {fileID: 4900000, guid: fd5e5e05038ae444384d87e6f488c25b, type: 3}
 --- !u!1 &1417718619527539253
 GameObject:
   m_ObjectHideFlags: 0
@@ -510148,7 +510124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: RunePrologue
 --- !u!114 &2429754632997751108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512119,7 +512094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: WolvesPrologue
 --- !u!114 &5006643425880985857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513072,63 +513046,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4f4cb04f17028a499cdd4536f63712b, type: 3}
---- !u!1001 &7414204733096696117
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 99606692702068029, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_Name
-      value: DialogueManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2142383848149848689, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c16e2420814b5f2489f30188ecfb965f, type: 3}
 --- !u!1001 &7562290588682367643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -513389,10 +513306,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7575106596138300832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Script: {fileID: 11500000, guid: aec4a5dd9353409d9b3f9f06e26f14ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerName: DeathPrologue
+  dialogue: {fileID: 4900000, guid: 8fa10389de3d41b47b6a0ecc4c371c67, type: 3}
 --- !u!224 &8339843887313669840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 726201688436151549, guid: 1bdcdeceb3f0972498dbd0ed97377611, type: 3}
@@ -513577,7 +513495,6 @@ SceneRoots:
   - {fileID: 560043414}
   - {fileID: 4887649541388934534}
   - {fileID: 7989300470802442907}
-  - {fileID: 7414204733096696117}
   - {fileID: 849951910}
   - {fileID: 1538870837}
   - {fileID: 454549372}
