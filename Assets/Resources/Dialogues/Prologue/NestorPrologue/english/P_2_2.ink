@@ -1,8 +1,4 @@
-INCLUDE ../../globals.ink
-
--> Prologue_2_2
-
-=== Prologue_2_2 ===
+=== Prologue_2_2_english ===
 
 ~changeNestorState("forest_prologue", true)
 
@@ -51,14 +47,14 @@ Nestor? To twoje prawdziwe imię, czy ksywa?
 #speaker:Nestor #portrait:nestor_neutral
 ...
 
-->NestorQuestions  
+->NestorQuestions_english
 
-== NestorQuestions ==
+== NestorQuestions_english ==
 
 *[Kim jesteś]
     #speaker:Nestor #portrait:nestor_talking
     Mówiłem ci już, jestem Nestor.
-->NestorQuestions
+->NestorQuestions_english
 
 *[Dlaczego miałbym cię nie widzieć?]
     #speaker:Nestor #portrait:nestor_instruction
@@ -68,7 +64,7 @@ Nestor? To twoje prawdziwe imię, czy ksywa?
 
     #speaker:Nestor #portrait:nestor_neutral
     ...
-->NestorQuestions
+->NestorQuestions_english
 
 *[Co znaczy gorzej?]
     #speaker:Nestor #portrait:nestor_thinking
@@ -81,7 +77,7 @@ Nestor? To twoje prawdziwe imię, czy ksywa?
     Drugiej strony… jeziora?
     #speaker:Nestor #portrait:nestor_talking
     Można tak powiedzieć.
-->NestorQuestions
+->NestorQuestions_english
 *->
 #speaker:Nestor #portrait:nestor_thinking
 Słuchaj Witek, miałeś dużo szczęścia

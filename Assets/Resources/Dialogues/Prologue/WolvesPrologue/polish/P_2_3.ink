@@ -1,8 +1,4 @@
-INCLUDE ../../globals.ink
-
--> Prologue_2_3
-
-=== Prologue_2_3 ===
+=== Prologue_2_3_polish ===
 ~changeNestorState("wolves_prologue", true)
 
 #speaker:Nestor #portrait:nestor_angry

@@ -1,6 +1,4 @@
--> Prologue_2_1
-
-=== Prologue_2_1 ===
+=== Prologue_2_1_polish ===
 #speaker:Wit #portrait:wit_angry
 I tyle!? Dałem się prawie zabić dla jakiegoś kamyka!?
 

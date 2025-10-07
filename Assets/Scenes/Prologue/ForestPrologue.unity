@@ -509792,9 +509792,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1068143324682578623}
-  - component: {fileID: 1068143324682578626}
-  - component: {fileID: 1068143324682578625}
   - component: {fileID: 1068143324682578624}
+  - component: {fileID: 1068143324682578625}
   m_Layer: 0
   m_Name: NestorArea
   m_TagString: Untagged
@@ -509978,21 +509977,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 596134385213519495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1068143324682578626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596134385213519495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  triggerName: NestorPrologue
+  dialogue: {fileID: 4900000, guid: d929b88f81fe4c24c9391894b7473dfe, type: 3}
 --- !u!114 &1192617796519718147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510017,6 +510006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1924053965529010321}
   - component: {fileID: 1924053965529010322}
+  - component: {fileID: 1924053965529010323}
   m_Layer: 0
   m_Name: RuneDialogue
   m_TagString: Collectible
@@ -510124,6 +510114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1924053965529010323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417718619527539253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aec4a5dd9353409d9b3f9f06e26f14ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: RunePrologue
+  dialogue: {fileID: 4900000, guid: 19239de80daba3948a0b7d1a8eaf6fd7, type: 3}
 --- !u!114 &2429754632997751108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512073,8 +512077,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2487686284754940521}
   - component: {fileID: 5006643425880985858}
-  - component: {fileID: 5006643425880985857}
-  - component: {fileID: 5006643425880985856}
+  - component: {fileID: 5006643425880985859}
   m_Layer: 0
   m_Name: WolfArea
   m_TagString: Untagged
@@ -512082,30 +512085,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5006643425880985856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5006643425880985855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5006643425880985857
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5006643425880985855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!68 &5006643425880985858
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -512153,6 +512132,20 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &5006643425880985859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5006643425880985855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerName: WolvesPrologue
+  dialogue: {fileID: 4900000, guid: 49f490189b2dbd043bf7060831287e38, type: 3}
 --- !u!1001 &5057105950516935191
 PrefabInstance:
   m_ObjectHideFlags: 0
