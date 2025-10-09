@@ -3664,9 +3664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3e6813878045958575752deb9639f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: Miller_Spot
   questMarkerSprite: {fileID: 0}
   disabledOnStart: 1
+  triggerName: Miller_Spot
+  dialogue: {fileID: 0}
 --- !u!58 &72601700
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -25371,10 +25372,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 402979883}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Script: {fileID: 11500000, guid: aec4a5dd9353409d9b3f9f06e26f14ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: prologue_part_3_first_dialogue
+  triggerName: PrologueAwakening
+  dialogue: {fileID: 4900000, guid: 4a6b9f953e71ae942831d26eb4261252, type: 3}
 --- !u!1001 &403223312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51707,9 +51709,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3e6813878045958575752deb9639f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: Mill_Feet
   questMarkerSprite: {fileID: 0}
   disabledOnStart: 1
+  triggerName: Mill_Feet
+  dialogue: {fileID: 0}
 --- !u!58 &893478225
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -86981,9 +86984,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3e6813878045958575752deb9639f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: brother_room
   questMarkerSprite: {fileID: 0}
   disabledOnStart: 0
+  triggerName: brother_room
+  dialogue: {fileID: 0}
 --- !u!58 &1482062943
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -244127,9 +244131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3e6813878045958575752deb9639f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: wit_father
   questMarkerSprite: {fileID: 6095384}
   disabledOnStart: 0
+  triggerName: wit_father
+  dialogue: {fileID: 0}
 --- !u!58 &1816019169
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -244387,9 +244392,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1820014784}
-  - component: {fileID: 1820014787}
-  - component: {fileID: 1820014786}
   - component: {fileID: 1820014785}
+  - component: {fileID: 1820014786}
   m_Layer: 0
   m_Name: RoomArea
   m_TagString: Untagged
@@ -244457,22 +244461,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820014783}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf30c142540450caf644d05df44d8d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 458e20a4f732f7d43b6b12b1eadc5258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: nestor_prologue
---- !u!114 &1820014787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820014783}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b48f258934c8540a8ad0b60b67584d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  triggerName: WitRoomPrologue
+  dialogue: {fileID: 4900000, guid: 0d04f3f7f0310f048a41c74fbeba37d7, type: 3}
 --- !u!1001 &1822516573
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -337337,9 +337330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3e6813878045958575752deb9639f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerName: wit_mother
   questMarkerSprite: {fileID: 1133649356}
   disabledOnStart: 0
+  triggerName: WitMother
+  dialogue: {fileID: 4900000, guid: 537b4e0c8107ea04e81198739b4ce312, type: 3}
 --- !u!58 &1952534048
 CircleCollider2D:
   m_ObjectHideFlags: 0

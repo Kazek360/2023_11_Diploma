@@ -1,6 +1,4 @@
--> Prologue_3_2
-
-=== Prologue_3_2 ===
+=== Prologue_3_2_english ===
 #speaker:Wit #portrait:wit_happy
 Mamooo!!!
 

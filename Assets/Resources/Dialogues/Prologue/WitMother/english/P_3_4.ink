@@ -1,6 +1,4 @@
--> Prologue_3_4
-
-=== Prologue_3_4 ===
+=== Prologue_3_4_english ===
 #speaker:Wit #portrait:wit_thinking
 Ostatnie, co pamiętam, to że obudziłem się tutaj w domu.
 

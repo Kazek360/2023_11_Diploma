@@ -1,8 +1,4 @@
-INCLUDE ../../globals.ink
-
--> Prologue_3_1
-
-== Prologue_3_1 ==
+== Prologue_3_1_english ==
 ~changeNestorState("bed_prologue", true)
 
 #speaker:Nestor #portrait:nestor_talking

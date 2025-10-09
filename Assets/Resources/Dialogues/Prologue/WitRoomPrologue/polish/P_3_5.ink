@@ -1,6 +1,4 @@
-->Prologue_3_5
-
-=== Prologue_3_5 ===
+=== Prologue_3_5_polish ===
 #speaker:Nestor #portrait:nestor_talking
 Rozmowa poszła ci lepiej niż zakładałem.
 
