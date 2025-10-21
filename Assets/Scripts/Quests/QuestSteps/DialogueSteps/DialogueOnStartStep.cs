@@ -1,15 +1,12 @@
-﻿using System.Collections;
-using StorySystems.Dialogues;
+﻿using StorySystems.Dialogues;
 
 namespace Quests.QuestSteps.DialogueSteps
 {
     public class DialogueOnStartStep : DialogueStep
     {
-        protected override IEnumerator Start()
+        private void Start()
         {
-            yield return base.Start();
-            
-            DialogueManager.Instance.TriggerDialogue(dialogueInfo.triggerName);
+            DialogueEvent.TriggerDialogue(triggerName);
         }
     }
 }

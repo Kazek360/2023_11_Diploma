@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using StorySystems.Dialogues;
 
@@ -6,32 +5,23 @@ namespace Quests.QuestSteps.DialogueSteps
 {
     public class DialogueStep : BaseQuestStep
     {
-        [SerializeField] protected DialogueInfo dialogueInfo;
+        [SerializeField] protected string triggerName;
     
         protected override void OnEnable()
         {
             base.OnEnable();
-            DialogueEvent.OnDialogueFinished += FinishStep;
-        }
-
-        protected virtual IEnumerator Start()
-        {
-            while (!DialogueManager.isInitialized)
-            {
-                yield return null;
-            }
-            DialogueEvent.UnlockDialogue(dialogueInfo.triggerName, dialogueInfo.name);
+            DialogueEvent.OnQuestDialogueFinished += FinishStep;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            DialogueEvent.OnDialogueFinished -= FinishStep;
+            DialogueEvent.OnQuestDialogueFinished -= FinishStep;
         }
 
-        protected virtual void FinishStep(DialogueInfo dialogue)
+        protected virtual void FinishStep(string finishedDialogueTrigger)
         {
-            if (dialogueInfo.name == dialogue.name)
+            if (triggerName.Equals(finishedDialogueTrigger))
             {
                 FinishAndDelete();
             } 

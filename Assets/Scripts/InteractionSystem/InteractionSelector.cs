@@ -16,7 +16,7 @@ namespace InteractionSystem
             InteractionEvents.OnInteractionAreaExit += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove += RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger += TriggerClosestInteraction;
-            DialogueEvent.OnDialogueStarted += DisableInteraction;
+            DialogueEvent.OnDialogueInitialized += DisableInteraction;
             DialogueEvent.OnDialogueFinished += EnableInteraction;
         }
         private void OnDisable()
@@ -25,7 +25,7 @@ namespace InteractionSystem
             InteractionEvents.OnInteractionAreaExit -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionRemove -= RemoveFromAvailableInteractions;
             InteractionEvents.OnInteractionTrigger -= TriggerClosestInteraction;
-            DialogueEvent.OnDialogueStarted -= DisableInteraction;
+            DialogueEvent.OnDialogueInitialized -= DisableInteraction;
             DialogueEvent.OnDialogueFinished -= EnableInteraction;
         }
 
@@ -105,7 +105,7 @@ namespace InteractionSystem
             _closestInteraction.ShowIndicator();
         }
 
-        private void DisableInteraction(DialogueInfo info)
+        private void DisableInteraction()
         {
             _enabled = false;
             if (_closestInteraction != null)
@@ -114,7 +114,7 @@ namespace InteractionSystem
             }
         }
 
-        private void EnableInteraction(DialogueInfo info)
+        private void EnableInteraction()
         {
             _enabled = true;
         }

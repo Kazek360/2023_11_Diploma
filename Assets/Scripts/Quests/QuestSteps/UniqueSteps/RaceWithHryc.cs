@@ -1,8 +1,6 @@
-using System.Collections;
 using Quests.QuestSteps.DialogueSteps;
 using StorySystems.Dialogues;
 using Tutorials;
-using UI;
 using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
@@ -24,17 +22,15 @@ namespace Quests.QuestSteps.UniqueSteps
             _hrycFinished = false;
         }
 
-        protected override IEnumerator Start()
+        private void Start()
         {
-            yield return base.Start();
-
             TutorialManager.Instance.TriggerTutorial(sprintTutorial);
             PathEvents.StartMovement();
         }
 
-        protected override void AreaEntered(string areaName, string objectName)
+        protected override void AreaEntered(string areaDialogueTrigger, TextAsset dialogue, string objectName)
         {
-            if (areaName.Equals(areaToEnterName) && (objectName.Equals("Player") || objectName.Equals("Hryc")))
+            if (triggerName.Equals(areaDialogueTrigger) && (objectName.Equals("Player") || objectName.Equals("Hryc")))
             {
                 if (objectName.Equals("Player"))
                 {
@@ -57,18 +53,18 @@ namespace Quests.QuestSteps.UniqueSteps
 
                 if (_witFinished && _hrycFinished)
                 {
-                    AreaEvent.EnterCorrectArea(areaToEnterName);
+                    DialogueEvent.InitializeDialogue();
+                    DialogueEvent.StartDialogue(areaDialogueTrigger, dialogue);
                 }
             }
         }
-
-        protected override void FinishStep(DialogueInfo dialogue)
+        protected override void FinishStep(string finishedDialogueTrigger)
         {
-            if (dialogueInfo.name == dialogue.name)
+            if (triggerName.Equals(finishedDialogueTrigger))
             {
                 TutorialManager.Instance.TriggerTutorial(inventoryTutorial);
                 FinishAndDelete();
-            }
+            } 
         }
     }
 }

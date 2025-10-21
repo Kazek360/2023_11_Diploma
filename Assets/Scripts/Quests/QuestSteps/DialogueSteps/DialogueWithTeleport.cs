@@ -22,9 +22,9 @@ namespace Quests.QuestSteps.DialogueSteps
             }
         }
     
-        protected override void FinishStep(DialogueInfo dialogue)
+        protected override void FinishStep(string finishedDialogueTrigger)
         {
-            if (dialogueInfo.name == dialogue.name)
+            if (triggerName.Equals(finishedDialogueTrigger))
             {
                 for (var i = 0; i < objectToTeleportNames.Count; i++)
                 {

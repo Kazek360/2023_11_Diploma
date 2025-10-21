@@ -43,7 +43,7 @@ public class ItemActionContainer
             case ActionType.FIRE_DIALOGUE:
             {
                 Debug.Log("DIALOG ODPALONY: " + valueOfEffect);
-                DialogueManager.Instance.TriggerDialogue(valueOfEffect);
+                DialogueEvent.TriggerDialogue(valueOfEffect);
                 break;
             }
             default:

@@ -1,40 +1,51 @@
 using System;
-using StorySystems.Dialogues.Trigger;
+using UnityEngine;
 
 namespace StorySystems.Dialogues
 {
     public static class DialogueEvent
     {
-        public static event Action<DialogueInfo> OnDialogueStarted;
-        public static void StartDialogue(DialogueInfo dialogue)
+        //Events triggered, when dialogue starts
+        public static event Action OnDialogueInitialized;
+        public static void InitializeDialogue()
         {
-            OnDialogueStarted?.Invoke(dialogue);
+            OnDialogueInitialized?.Invoke();
         }
-        public static event Action<DialogueInfo> OnDialogueFinished;
-        public static void FinishDialogue(DialogueInfo dialogue)
+        public static event Action<string, TextAsset> OnDialogueStarted;
+        public static void StartDialogue(string trigger, TextAsset text)
         {
-            OnDialogueFinished?.Invoke(dialogue);
+            OnDialogueStarted?.Invoke(trigger, text);
         }
+        
+        //Events triggered, when dialogue ends
+        public static event Action OnDialogueFinished;
+        public static void FinishDialogue()
+        {
+            OnDialogueFinished?.Invoke();
+        }
+        public static event Action<string> OnQuestDialogueFinished;
+        public static void FinishQuestDialogue(string trigger)
+        {
+            OnQuestDialogueFinished?.Invoke(trigger);
+        }
+        
+        //Other dialogue events
         public static event Action OnDialogueContinued;
         public static void ContinueDialogue()
         {
             OnDialogueContinued?.Invoke();
         }
-        public static event Action<string, string> OnDialogueUnlocked;
-        public static void UnlockDialogue(string triggerName, string dialogueName)
+        
+        public static event Action<string, TextAsset, string> OnDialogueAreaEnter;
+        public static void EnterDialogueArea(string trigger, TextAsset dialogue, string collisionName)
         {
-            OnDialogueUnlocked?.Invoke(triggerName, dialogueName);
+            OnDialogueAreaEnter?.Invoke(trigger, dialogue, collisionName);
         }
         
-        public static event Action OnManagerPinged;
-        public static void Ping()
+        public static event Action<string> OnDialogueTriggered;
+        public static void TriggerDialogue(string triggerName)
         {
-            OnManagerPinged?.Invoke();
-        }
-        public static event Action<string, DialogueEntity> OnEntitySubscribed;
-        public static void SubscribeToManager(string triggerName, DialogueEntity entity)
-        {
-            OnEntitySubscribed?.Invoke(triggerName, entity);
+            OnDialogueTriggered?.Invoke(triggerName);
         }
     }
 }

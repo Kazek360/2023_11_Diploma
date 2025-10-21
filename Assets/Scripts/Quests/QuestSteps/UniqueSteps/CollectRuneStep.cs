@@ -24,15 +24,7 @@ namespace Quests.QuestSteps.UniqueSteps
         {
             if (itemID == id)
             {
-                DialogueManager.Instance.TriggerDialogue("RunePrologue");       
-            } 
-        }
-
-        protected override void FinishStep(DialogueInfo dialogue)
-        {
-            if (dialogueInfo.name == dialogue.name)
-            {
-                FinishAndDelete();
+                DialogueEvent.TriggerDialogue(triggerName);
             } 
         }
     }

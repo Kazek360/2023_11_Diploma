@@ -8,20 +8,18 @@ namespace Quests.QuestSteps.DialogueSteps
     public class DialogueWithInteractionEnablingStep : DialogueStep
     {
         private GameObject _objectToEnable;
-        private InteractionDialogueEntity _trigger;
+        private InteractionDialogueTrigger _trigger;
         
-        protected override IEnumerator Start()
+        protected void Start()
         {
-            yield return base.Start();
-            
-            _objectToEnable = GameObject.Find(dialogueInfo.triggerName);
-            _trigger  = _objectToEnable.GetComponentInChildren<InteractionDialogueEntity>();
+            _objectToEnable = GameObject.Find(triggerName);
+            _trigger  = _objectToEnable.GetComponentInChildren<InteractionDialogueTrigger>();
             _trigger.EnableTrigger();
         }
         
-        protected override void FinishStep(DialogueInfo dialogue)
+        protected override void FinishStep(string finishedDialogueTrigger)
         {
-            if (dialogueInfo.name == dialogue.name)
+            if (triggerName == finishedDialogueTrigger)
             {
                 _trigger.DisableTrigger();
                 FinishAndDelete();
