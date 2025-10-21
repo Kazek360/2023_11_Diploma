@@ -28,7 +28,10 @@ namespace StorySystems.Dialogues
         [SerializeField] private List<GameObject> choices;
         private List<TextMeshProUGUI> _choicesText;
 
-        private DialogueInfo _currentDialogue;
+        
+        private TextAsset _currentDialogue;
+        private string _currentDialogueTrigger;
+        
         private Story _currentStory;
         private Coroutine _displayLineCoroutine;
         
@@ -82,11 +85,14 @@ namespace StorySystems.Dialogues
             }
         }
         
-        private void StartDialogue(DialogueInfo dialogueInfo)
+        private void StartDialogue(string triggerName, TextAsset dialogue)
         {
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Dialogue);
-            _currentDialogue = dialogueInfo;
-            _currentStory = new Story(_currentDialogue.dialogueText.text);
+
+            _currentDialogueTrigger = triggerName;
+            _currentDialogue = dialogue;
+            _currentStory = new Story(dialogue.text);
+            
             _canContinueToNextLine = true;
             QuestManager.Instance.FlagManager.StartListening(_currentStory);
             _inkExternalFunctions.Bind(_currentStory);
@@ -136,11 +142,9 @@ namespace StorySystems.Dialogues
             UserInterfaceManager.Instance.ChangeState(UserInterfaceState.Exploration);
             QuestManager.Instance.FlagManager.StopListening(_currentStory);
             
-            DialogueEvent.FinishDialogue(_currentDialogue);
-            if (_currentDialogue.questToStart != null)
-            {
-                QuestEvents.StartQuest(_currentDialogue.questToStart.name);
-            }
+            DialogueEvent.FinishDialogue();
+            DialogueEvent.FinishQuestDialogue(_currentDialogueTrigger);
+            
             dialogueText.text = "";
             portraitAnimator.Play("none");
             backgroundAnimator.Play("none");

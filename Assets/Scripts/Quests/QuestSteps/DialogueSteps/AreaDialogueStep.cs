@@ -1,37 +1,29 @@
-using UnityEngine;
 using StorySystems.Dialogues;
+using UnityEngine;
 
 namespace Quests.QuestSteps.DialogueSteps
 {
     public class AreaDialogueStep : DialogueStep
     {
-        [SerializeField] protected string areaToEnterName;
         protected override void OnEnable()
         {
             base.OnEnable();
-            AreaEvent.OnAreaEnter += AreaEntered;
+            DialogueEvent.OnDialogueAreaEnter += AreaEntered;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            AreaEvent.OnAreaEnter -= AreaEntered;
+            DialogueEvent.OnDialogueAreaEnter -= AreaEntered;
         }
     
-        protected virtual void AreaEntered(string areaName, string objectName)
+        protected virtual void AreaEntered(string areaDialogueTrigger, TextAsset dialogue, string collisionName)
         {
-            if (areaName.Equals(areaToEnterName))
+            if (triggerName.Equals(areaDialogueTrigger))
             {
-                DialogueManager.Instance.TriggerDialogue(dialogueInfo.triggerName);
+                DialogueEvent.InitializeDialogue();
+                DialogueEvent.StartDialogue(areaDialogueTrigger, dialogue);
             }
-        }
-    
-        protected override void FinishStep(DialogueInfo dialogue)
-        {
-            if (dialogueInfo.name == dialogue.name)
-            {
-                FinishAndDelete();
-            } 
         }
     }
 }

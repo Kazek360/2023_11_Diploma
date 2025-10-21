@@ -76,7 +76,18 @@ namespace Quests.Flags
             return FlagDictionary[flagName];
         }
         
-        private void SetVariableState(string variableName, BoolValue variableValue)
+        private void SetBoolVariableState(string variableName, BoolValue variableValue)
+        {
+            if (InkVariablesDictionary.ContainsKey(variableName))
+            {
+                var globalStory = new Story(QuestManager.Instance.LoadGlobals.text);
+                StartListening(globalStory);
+                globalStory.variablesState.SetGlobal(variableName, variableValue);
+                StopListening(globalStory);
+            }
+        }
+
+        public void SetIntVariableState(string variableName, IntValue variableValue)
         {
             if (InkVariablesDictionary.ContainsKey(variableName))
             {
@@ -92,7 +103,7 @@ namespace Quests.Flags
             if (FlagDictionary.ContainsKey(flagName))
             {
                 FlagDictionary[flagName] = true;
-                SetVariableState(flagName, new BoolValue(true));
+                SetBoolVariableState(flagName, new BoolValue(true));
             }
         }
         
@@ -105,7 +116,7 @@ namespace Quests.Flags
                     continue;
                 }
                 _flagDictionary[pair.Key] = pair.Value;
-                SetVariableState(pair.Key, new BoolValue(pair.Value));
+                SetBoolVariableState(pair.Key, new BoolValue(pair.Value));
             }
         }
 

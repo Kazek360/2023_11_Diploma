@@ -1,5 +1,4 @@
 using Quests.QuestSteps.DialogueSteps;
-using StorySystems.Dialogues;
 using UnityEngine;
 
 namespace Quests.QuestSteps.UniqueSteps
@@ -16,9 +15,9 @@ namespace Quests.QuestSteps.UniqueSteps
             _playerToTeleport = GameObject.Find("Player");
         }
     
-        protected override void FinishStep(DialogueInfo dialogue)
+        protected override void FinishStep(string finishedDialogueTrigger)
         {
-            if (dialogueInfo.name == dialogue.name)
+            if (triggerName == finishedDialogueTrigger)
             {
                 _playerToTeleport.gameObject.transform.position = _shorePoint.transform.position;
                 FinishAndDelete();
