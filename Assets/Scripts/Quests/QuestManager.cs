@@ -5,6 +5,7 @@ using Quests.ScriptableObjects;
 using SaveSystem;
 using SaveSystem.Data;
 using SaveSystem.Interfaces;
+using Settings;
 using Shared;
 using UnityEngine;
 
@@ -58,6 +59,8 @@ namespace Quests
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
             QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
+            
+            
         }
 
         private void OnDisable()
