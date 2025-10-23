@@ -6,10 +6,14 @@ INCLUDE english/Flavour.ink
 INCLUDE polish/P_1_2.ink
 INCLUDE polish/Flavour.ink
 
-{english:
+{languageIndex:
+  - 0:
     -> English_Dialogues
-  - else:
+  - 1: 
     -> Polish_Dialogues
+  - else:
+    Wrong Language Index
+    ->END
 }
 
 === English_Dialogues ===

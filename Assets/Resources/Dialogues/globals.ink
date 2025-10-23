@@ -7,6 +7,7 @@ EXTERNAL stopClip()
 
 //localization flag
 VAR english = false
+VAR languageIndex = 0
 
 //quest progress
 VAR prologue = 0

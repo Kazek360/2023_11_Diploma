@@ -13523,6 +13523,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7219221851017473668, guid: ad4f859402c542e48830a2f4a5639b03, type: 3}
   m_PrefabInstance: {fileID: 101220111}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &101238756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 101238758}
+  - component: {fileID: 101238757}
+  m_Layer: 0
+  m_Name: BetterSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &101238757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101238756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4773b3f446dd6d4b8ce3e26479cdf82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 1
+--- !u!4 &101238758
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 101238756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1326.8217, y: 778.4669, z: 8.396067}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &101361721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -260894,6 +260939,10 @@ PrefabInstance:
     - target: {fileID: 7583279710459890737, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8035866023177354772, guid: eed506359929e164d92e02b894bc2bce, type: 3}
+      propertyPath: m_text
+      value: English
       objectReference: {fileID: 0}
     - target: {fileID: 8607507255213765134, guid: eed506359929e164d92e02b894bc2bce, type: 3}
       propertyPath: m_AnchorMax.y
@@ -513492,6 +513541,7 @@ SceneRoots:
   - {fileID: 849951910}
   - {fileID: 1538870837}
   - {fileID: 454549372}
+  - {fileID: 101238758}
   - {fileID: 696975014}
   - {fileID: 2530344810131849722}
   - {fileID: 4230355746178131906}

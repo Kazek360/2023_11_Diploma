@@ -12,7 +12,7 @@ namespace Settings
         public static event Action<int> OnGameLocalized;
         public static void LocalizeGame(int languageindex)
         {
-            OnLanguageChanged?.Invoke(languageindex);
+            OnGameLocalized?.Invoke(languageindex);
         }
     }
 }

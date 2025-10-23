@@ -59,8 +59,8 @@ namespace Quests
             QuestEvents.OnQuestStart += StartQuest;
             QuestEvents.OnQuestProgress += ProgressQuest;
             QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
-            
-            
+
+            SettingsEvents.OnGameLocalized += ChangeInkLanguageIndex;
         }
 
         private void OnDisable()
@@ -73,6 +73,8 @@ namespace Quests
             QuestEvents.OnQuestStart -= StartQuest;
             QuestEvents.OnQuestProgress -= ProgressQuest;
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
+            
+            SettingsEvents.OnGameLocalized -= ChangeInkLanguageIndex;
         }
 
         public bool CheckForRequiredFlagsState(List<FlagInfo> flags)
@@ -263,6 +265,11 @@ namespace Quests
             gameData.Quests = _quests;
             gameData.trackedQuest = TrackedQuest.info.name;
             _flagManager.SaveFlags(gameData);
+        }
+
+        private void ChangeInkLanguageIndex(int value)
+        {
+            FlagManager.SetIntVariableState("languageIndex", new IntValue(value));
         }
     }
 }
