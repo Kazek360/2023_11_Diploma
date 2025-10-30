@@ -6,10 +6,14 @@ INCLUDE english/brother_room_2.ink
 INCLUDE polish/brother_room_1.ink
 INCLUDE polish/brother_room_2.ink
 
-{english:
+{languageIndex:
+  - 0:
     -> English_Dialogues
-  - else:
+  - 1: 
     -> Polish_Dialogues
+  - else:
+    Wrong Language Index
+    ->END
 }
 
 === English_Dialogues ===

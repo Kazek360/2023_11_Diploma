@@ -8,10 +8,14 @@ INCLUDE polish/P_3_2.ink
 INCLUDE polish/P_3_4.ink
 INCLUDE polish/Q1_3.ink
 
-{english:
+{languageIndex:
+  - 0:
     -> English_Dialogues
-  - else:
+  - 1: 
     -> Polish_Dialogues
+  - else:
+    Wrong Language Index
+    ->END
 }
 
 === English_Dialogues ===

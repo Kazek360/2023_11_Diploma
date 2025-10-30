@@ -4,10 +4,14 @@ INCLUDE english/P_3_5.ink
 
 INCLUDE polish/P_3_5.ink
 
-{english:
+{languageIndex:
+  - 0:
     -> English_Dialogues
-  - else:
+  - 1: 
     -> Polish_Dialogues
+  - else:
+    Wrong Language Index
+    ->END
 }
 
 === English_Dialogues ===

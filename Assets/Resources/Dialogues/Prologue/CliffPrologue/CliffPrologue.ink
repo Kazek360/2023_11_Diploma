@@ -3,10 +3,14 @@ INCLUDE ../../globals.ink
 INCLUDE english/P_1_4.ink
 INCLUDE polish/P_1_4.ink
 
-{english:
+{languageIndex:
+  - 0:
     -> English_Dialogues
-  - else:
+  - 1: 
     -> Polish_Dialogues
+  - else:
+    Wrong Language Index
+    ->END
 }
 
 === English_Dialogues ===
