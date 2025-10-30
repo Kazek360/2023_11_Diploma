@@ -13,9 +13,24 @@ namespace Settings
             _dropdown.onValueChanged.AddListener(ChangeValue);
         }
 
+        private void OnEnable()
+        {
+            SettingsEvents.OnLanguageLoaded += ChangeValueWithoutNotify;
+        }
+
+        private void OnDisable()
+        {
+            SettingsEvents.OnLanguageLoaded -= ChangeValueWithoutNotify;
+        }
+
         private void ChangeValue(int value)
         {
-            SettingsEvents.ChangeLanguage(value);
+            SettingsEvents.ChangeLanguageIndex(value);
+        }
+
+        private void ChangeValueWithoutNotify(int value)
+        {
+            _dropdown.SetValueWithoutNotify(value);
         }
     }
 }

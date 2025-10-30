@@ -60,7 +60,8 @@ namespace Quests
             QuestEvents.OnQuestProgress += ProgressQuest;
             QuestEvents.OnQuestStepProgress += UpdateQuestStepProgress;
 
-            SettingsEvents.OnGameLocalized += ChangeInkLanguageIndex;
+            SettingsEvents.OnLanguageChanged += ChangeInkLanguageIndex;
+            SettingsEvents.OnLanguageLoaded += ChangeInkLanguageIndex;
         }
 
         private void OnDisable()
@@ -74,7 +75,8 @@ namespace Quests
             QuestEvents.OnQuestProgress -= ProgressQuest;
             QuestEvents.OnQuestStepProgress -= UpdateQuestStepProgress;
             
-            SettingsEvents.OnGameLocalized -= ChangeInkLanguageIndex;
+            SettingsEvents.OnLanguageChanged -= ChangeInkLanguageIndex;
+            SettingsEvents.OnLanguageLoaded -= ChangeInkLanguageIndex;
         }
 
         public bool CheckForRequiredFlagsState(List<FlagInfo> flags)

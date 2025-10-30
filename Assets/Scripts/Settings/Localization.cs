@@ -1,6 +1,4 @@
 
-using UnityEngine;
-
 namespace Settings
 {
     public class Localization
@@ -9,18 +7,28 @@ namespace Settings
 
         public Localization()
         {
-            SettingsEvents.OnLanguageChanged += ChangeLanguageIndex;
+            SettingsEvents.OnLanguageSelected += ChangeLanguageIndex;
+            SettingsEvents.OnSettingLoaded += LoadData;
         }
 
         private void ChangeLanguageIndex(int value)
         {
             _languageIndex = value;
-            SettingsEvents.LocalizeGame(_languageIndex);
+            SettingsEvents.ChangeLanguage(_languageIndex);
+            SettingsManager.Instance.Data.languageIndex = _languageIndex;
+            SettingsEvents.SaveSettings();
         }
 
         public void UnsubscribeEvents()
         {
-            SettingsEvents.OnLanguageChanged -= ChangeLanguageIndex;
+            SettingsEvents.OnLanguageSelected -= ChangeLanguageIndex;
+            SettingsEvents.OnSettingLoaded -= LoadData;
+        }
+
+        private void LoadData(SettingsData data)
+        {
+            _languageIndex = data.languageIndex;
+            SettingsEvents.LoadLanguage(_languageIndex);
         }
     }
 }
