@@ -1,5 +1,6 @@
 using System;
 using InputSystem;
+using Settings;
 using TMPro;
 using UI;
 using UI.Interfaces;
@@ -49,8 +50,17 @@ namespace Tutorials
 
         private void ChangeText(TutorialInfo info)
         {
-            titleText.text = info.title;
-            descriptionText.text = info.description;
+            switch (SettingsManager.Instance.Localization.LanguageIndex)
+            {
+                default:
+                    titleText.text = info.titleEnglish;
+                    descriptionText.text = info.descriptionEnglish;
+                    break;
+                case 1: 
+                    titleText.text = info.titlePolish;
+                    descriptionText.text = info.descriptionPolish;
+                    break;
+            }
         }
     }
 }

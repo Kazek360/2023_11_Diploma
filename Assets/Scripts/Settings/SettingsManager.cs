@@ -8,10 +8,11 @@ namespace Settings
     public class SettingsManager : Singleton<SettingsManager>
     {
         private SettingsFileDataHandler _dataHandler;
+        
         private Localization _localization;
+        public Localization Localization => _localization;
 
         private SettingsData _settingsData;
-
         public SettingsData Data
         {
             get => _settingsData;

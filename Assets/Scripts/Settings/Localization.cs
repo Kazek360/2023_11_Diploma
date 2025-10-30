@@ -5,6 +5,8 @@ namespace Settings
     {
         private int _languageIndex;
 
+        public int LanguageIndex => _languageIndex;
+
         public Localization()
         {
             SettingsEvents.OnLanguageSelected += ChangeLanguageIndex;

@@ -5,7 +5,12 @@ namespace Tutorials
     [CreateAssetMenu(fileName = "Tutorials", menuName = "ScriptableObjects/Tutorials")]
     public class TutorialInfo : ScriptableObject
     {
-        public string title;
-        [TextArea] public string description;
+        [Header("English")]
+        public string titleEnglish;
+        [TextArea] public string descriptionEnglish;
+        
+        [Header("Polish")]
+        public string titlePolish;
+        [TextArea] public string descriptionPolish;
     }
 }
